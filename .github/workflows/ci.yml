@@ -58,6 +58,12 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NVIDIA_API_KEY2: ${{ secrets.NVIDIA_API_KEY2 }}
+          NVIDIA_API_KEY3: ${{ secrets.NVIDIA_API_KEY3 }}
+          NVIDIA_CHAT_MODEL: ${{ secrets.NVIDIA_CHAT_MODEL }}
+          NVIDIA_EMBEDDING_MODEL: ${{ secrets.NVIDIA_EMBEDDING_MODEL }}
+          NVIDIA_BASE_URL: ${{ secrets.NVIDIA_BASE_URL }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

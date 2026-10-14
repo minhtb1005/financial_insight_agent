@@ -4,7 +4,7 @@ Pipeline:
   1. Load golden dataset (evals/golden/golden_dataset.jsonl)
   2. Run the agent per case with tracing enabled; capture trace_id
   3. Extract retrieved contexts from TOOL spans in the trace store
-  4. Score with RAGAS metrics (judge = OpenAI gpt-4o-mini via .env key)
+  4. Score with RAGAS metrics (judge = NVIDIA_CHAT_MODEL via .env key)
   5. Write report.json + report.md under evals/reports/<run_id>/
 
 Usage::
@@ -152,13 +152,22 @@ def score_samples(samples: list[dict], judge_model: str) -> dict:
     from ragas.embeddings import LangchainEmbeddingsWrapper
     from ragas.llms import LangchainLLMWrapper
 
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError("OPENAI_API_KEY missing — cannot run RAGAS judging")
+    judge_kwargs: dict = {"model": judge_model, "temperature": 0, "max_retries": 3}
+    if judge_model.startswith("nvidia/"):
+        from infrastructure.llm.nvidia_key_pool import NvidiaKeyPool
 
-    judge_llm = LangchainLLMWrapper(
-        ChatOpenAI(model=judge_model, temperature=0, api_key=api_key, max_retries=3)
-    )
+        pool = NvidiaKeyPool()
+        if not len(pool):
+            raise RuntimeError("NVIDIA_API_KEY* missing — cannot run RAGAS judging")
+        judge_kwargs["base_url"] = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
+        judge_kwargs["api_key"] = pool.keys[0]
+    else:
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise RuntimeError("OPENAI_API_KEY missing — cannot run RAGAS judging")
+        judge_kwargs["api_key"] = api_key
+
+    judge_llm = LangchainLLMWrapper(ChatOpenAI(**judge_kwargs))
     embeddings = LangchainEmbeddingsWrapper(
         OpenAIEmbeddings(model="text-embedding-3-small")
     )
@@ -268,7 +277,7 @@ def main() -> int:
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET))
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--ids", nargs="*", default=None)
-    parser.add_argument("--judge-model", default=os.getenv("OPENAI_MODEL", "gpt-4o-mini"))
+    parser.add_argument("--judge-model", default=os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b"))
     parser.add_argument("--skip-ragas", action="store_true",
                         help="only run the agent and dump contexts/responses (no LLM judge)")
     args = parser.parse_args()
@@ -286,7 +295,7 @@ def main() -> int:
     init_tracing()
     agent = StockAgent()
     if agent.llm_provider is None:
-        print("[eval] FATAL: LLM unavailable (check OPENAI_API_KEY)")
+        print("[eval] FATAL: LLM unavailable (check NVIDIA_API_KEY*)")
         return 1
 
     samples = []

@@ -62,6 +62,13 @@ GROQ_API_KEY: str | None = os.getenv("GROQ_API_KEY")
 OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_EMBEDDING_MODEL: str = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+# NVIDIA (primary chat + embedding; OpenAI kept as legacy fallback)
+NVIDIA_API_KEYS: list[str] = [k.strip() for k in (
+    os.getenv("NVIDIA_API_KEY"), os.getenv("NVIDIA_API_KEY2"), os.getenv("NVIDIA_API_KEY3"),
+) if k and k.strip()]
+NVIDIA_CHAT_MODEL: str = os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b")
+NVIDIA_EMBEDDING_MODEL: str = os.getenv("NVIDIA_EMBEDDING_MODEL", "nvidia/nemotron-3-embed-1b")
+NVIDIA_BASE_URL: str = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
 HUGGINGFACEHUB_API_TOKEN: str | None = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 
 # Qdrant

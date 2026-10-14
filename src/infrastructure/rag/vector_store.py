@@ -17,7 +17,7 @@ except Exception:
     pass
 
 ALIAS = "finsight_knowledge"
-DEFAULT_DIM = 1536
+DEFAULT_DIM = 2048
 BACKUP_KEEP_DAYS = 7
 
 # Cache for embedded client (file lock can only be held by one instance)

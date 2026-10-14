@@ -26,6 +26,9 @@ _AUTH_ERRORS = frozenset({
 
 logger = get_logger("llm_provider")
 
+NVIDIA_BASE_URL = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
+NVIDIA_CHAT_MODEL = os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b")
+
 _OPENAI_KNOWN_KWARGS = {
     "temperature",
     "max_tokens",
@@ -62,6 +65,82 @@ class ReformulatedQuery(BaseModel):
     rewritten: str
     entities: list[str] = []
     topics: list[str] = []
+
+
+class NVIDIARotatingChat:
+    """ChatOpenAI-compatible wrapper rotating NVIDIA keys per invoke.
+
+    Key is picked at invoke-time (never at bind-time), so
+    `with_structured_output` / `bind_tools` derivatives keep rotating.
+    Each attempt builds a fresh ChatOpenAI with max_retries=0 so the SDK
+    never masks pool rotation by retrying a dead key.
+    """
+
+    def __init__(self, pool, model: str | None = None, base_url: str | None = None,
+                 schema=None, method: str = "json_mode", tools=None):
+        from infrastructure.llm.nvidia_key_pool import get_pool
+
+        self._pool = pool if pool is not None else get_pool()
+        self._model = model or NVIDIA_CHAT_MODEL
+        self._base_url = base_url or NVIDIA_BASE_URL
+        self._schema = schema
+        self._method = method
+        self._tools = tools
+
+    @property
+    def model(self) -> str:
+        return self._model
+
+    def with_structured_output(self, pydantic_object, method: str = "json_mode"):
+        return NVIDIARotatingChat(self._pool, self._model, self._base_url,
+                                  schema=pydantic_object, method=method, tools=self._tools)
+
+    def bind_tools(self, tools, **kwargs):  # noqa: ARG002
+        return NVIDIARotatingChat(self._pool, self._model, self._base_url,
+                                  schema=self._schema, method=self._method, tools=tools)
+
+    def _build(self, api_key: str):
+        llm = ChatOpenAI(base_url=self._base_url, api_key=api_key, model=self._model,
+                         temperature=0, max_tokens=4096, max_retries=0)
+        if self._schema is not None:
+            llm = llm.with_structured_output(self._schema, method=self._method)
+        if self._tools is not None:
+            llm = llm.bind_tools(self._tools)
+        return llm
+
+    @staticmethod
+    def _status_of(error: Exception) -> int | None:
+        for attr in ("status_code", "status"):
+            v = getattr(error, attr, None)
+            if isinstance(v, int):
+                return v
+        resp = getattr(error, "response", None)
+        v = getattr(resp, "status_code", None)
+        return v if isinstance(v, int) else None
+
+    def invoke(self, messages, **kwargs):
+        keys = self._pool.keys
+        if not keys:
+            raise LLMUnavailableError("No NVIDIA API keys configured")
+        last_error: Exception | None = None
+        for _ in range(len(keys)):
+            key = self._pool.get_next()
+            if key is None:
+                break
+            try:
+                result = self._build(key).invoke(messages, **kwargs)
+                self._pool.report_success(key)
+                return result
+            except Exception as e:
+                category = LLMChain._classify_error(e)
+                if category in ("retryable", "auth"):
+                    self._pool.report_failure(key, self._status_of(e))
+                    last_error = e
+                    continue
+                raise
+        if last_error is not None:
+            raise last_error
+        raise LLMUnavailableError("All NVIDIA keys cooling down")
 
 
 class LLMChain:
@@ -166,7 +245,7 @@ class LLMChain:
         if last_error:
             raise last_error
         raise LLMUnavailableError(
-            "No LLM providers available: both OpenAI and Groq are unreachable"
+            "No LLM providers available: both NVIDIA and Groq are unreachable"
         )
 
 
@@ -178,7 +257,13 @@ class LLMProvider:
         openai_api_key = os.getenv("OPENAI_API_KEY")
         groq_api_key = os.getenv("GROQ_API_KEY")
 
-        if openai_api_key:
+        from infrastructure.llm.nvidia_key_pool import NvidiaKeyPool
+
+        self._pool = NvidiaKeyPool()
+        if len(self._pool):
+            self._primary = NVIDIARotatingChat(self._pool)
+        elif openai_api_key:
+            logger.warning("No NVIDIA keys — falling back to legacy OpenAI primary")
             self._primary = ChatOpenAI(
                 model="gpt-4o-mini",
                 temperature=0,
@@ -186,7 +271,7 @@ class LLMProvider:
                 max_retries=3,
             )
         else:
-            logger.warning("OPENAI_API_KEY not set — skipping primary LLM")
+            logger.warning("NVIDIA_API_KEY* not set — skipping primary LLM")
             self._primary = None
 
         if groq_api_key:
@@ -212,7 +297,7 @@ class LLMProvider:
 
         if self._primary is None and self._fallback is None:
             raise LLMUnavailableError(
-                "No LLM providers available: both OPENAI_API_KEY and GROQ_API_KEY are missing"
+                "No LLM providers available: NVIDIA/OpenAI and GROQ keys are all missing"
             )
 
         chain = self._make_chain(self._primary, self._fallback, "invoke")
@@ -241,7 +326,7 @@ class LLMProvider:
     ):
         if self._primary is None and self._fallback is None:
             raise LLMUnavailableError(
-                "No LLM providers available: both OPENAI_API_KEY and GROQ_API_KEY are missing"
+                "No LLM providers available: NVIDIA/OpenAI and GROQ keys are all missing"
             )
 
         primary = (
@@ -261,7 +346,7 @@ class LLMProvider:
             if primary:
                 return primary
             raise LLMUnavailableError(
-                "No LLM providers available: both OPENAI_API_KEY and GROQ_API_KEY are missing"
+                "No LLM providers available: NVIDIA/OpenAI and GROQ keys are all missing"
             )
 
         return self._make_chain(primary, fallback_llm, "structured")
@@ -269,7 +354,7 @@ class LLMProvider:
     def get_tool_calling_llm(self, tools, **kwargs):  # noqa: ARG002 — API-compat passthrough
         if self._primary is None and self._fallback is None:
             raise LLMUnavailableError(
-                "No LLM providers available: both OPENAI_API_KEY and GROQ_API_KEY are missing"
+                "No LLM providers available: NVIDIA/OpenAI and GROQ keys are all missing"
             )
 
         primary = self._primary.bind_tools(tools) if self._primary else None
@@ -277,7 +362,7 @@ class LLMProvider:
 
         if not fallback_llm and primary is None:
             raise LLMUnavailableError(
-                "No LLM providers available: both OpenAI and Groq are unreachable"
+                "No LLM providers available: both NVIDIA and Groq are unreachable"
             )
 
         return self._make_chain(primary, fallback_llm, "tool-calling")

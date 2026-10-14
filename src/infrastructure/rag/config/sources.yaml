@@ -84,6 +84,6 @@ settings:
     host: "${QDRANT_HOST:-qdrant}"
     port: 6333
     alias: "finsight_knowledge"
-    embedding_model: "text-embedding-3-small"
-    embedding_dim: 1536
+    embedding_model: "nvidia/nemotron-3-embed-1b"
+    embedding_dim: 2048
     backup_keep_days: 7

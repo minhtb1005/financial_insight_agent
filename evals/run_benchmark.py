@@ -3,7 +3,7 @@
 Combines two metric families into one report (and one regression baseline):
 
 1. RAGAS quality metrics   — faithfulness, answer relevancy, context
-   precision/recall (judge = OpenAI gpt-4o-mini, key from .env).
+   precision/recall (judge = NVIDIA_CHAT_MODEL, key from .env).
 2. Deterministic metrics   — computed from traces and responses at zero LLM
    cost: tool-selection precision/recall vs ``expected_tools``, citation-format
    rate, numeric ground-truth match (fixed-date cases), edge-case behavior,
@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import contextlib
 import json
+import os
 import re
 import statistics
 import sys
@@ -47,6 +48,7 @@ from run_ragas_eval import (  # noqa: E402
     run_case,
     score_samples,
 )
+from metrics_duplicates import duplicate_rates  # noqa: E402
 
 BASELINES_DIR = ROOT / "evals" / "baselines"
 BASELINE_NAME = "baseline-v1.json"
@@ -160,6 +162,10 @@ def score_case_deterministic(case: dict, sample: dict, trace_detail: dict | None
 
     result["edge_ok"] = edge_behavior_ok(qtype, response)
 
+    dup = duplicate_rates(trace_detail)
+    result["retry_rate"] = dup["retry_rate"]
+    result["wasteful_duplicate_rate"] = dup["wasteful_duplicate_rate"]
+
     meta = sample.get("meta", {})
     result["latency_ms"] = meta.get("latency_ms")
     total_tokens = None
@@ -193,6 +199,8 @@ def aggregate_deterministic(rows: list[dict]) -> dict[str, object]:
     return {
         "tool_precision": mean_of("tool_precision"),
         "tool_recall": mean_of("tool_recall"),
+        "retry_rate": mean_of("retry_rate"),
+        "wasteful_duplicate_rate": mean_of("wasteful_duplicate_rate"),
         "citation_rate": (
             round(sum(1 for r in citations if r["citation"]) / len(citations), 4)
             if citations else None
@@ -219,7 +227,8 @@ def aggregate_deterministic(rows: list[dict]) -> dict[str, object]:
 
 _RAGAS_KEYS = ("faithfulness", "answer_relevancy", "context_precision", "context_recall")
 _DET_KEYS = (
-    "tool_precision", "tool_recall", "citation_rate", "numeric_match_rate",
+    "tool_precision", "tool_recall", "retry_rate", "wasteful_duplicate_rate",
+    "citation_rate", "numeric_match_rate",
     "edge_pass_rate", "latency_p50_ms", "latency_p95_ms", "avg_tokens_per_case",
 )
 
@@ -257,13 +266,14 @@ def write_benchmark_report(run_dir: Path, results: dict, det_rows: list[dict]) -
         "",
         "## Per-case (deterministic)",
         "",
-        "| Case | Type | ToolP | ToolR | Cite | NumMatch | Edge | Latency ms | Tokens |",
-        "|---|---|---|---|---|---|---|---|---|",
+        "| Case | Type | ToolP | ToolR | Retry | Waste | Cite | NumMatch | Edge | Latency ms | Tokens |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for r in det_rows:
         lines.append(
             f"| {r['id']} | {r['query_type']} | {fmt(_round(r['tool_precision']))} "
-            f"| {fmt(_round(r['tool_recall']))} | {fmt(_bool(r['citation']))} "
+            f"| {fmt(_round(r['tool_recall']))} | {fmt(_round(r.get('retry_rate')))} "
+            f"| {fmt(_round(r.get('wasteful_duplicate_rate')))} | {fmt(_bool(r['citation']))} "
             f"| {fmt(_tri(r['numeric_match']))} | {fmt(_tri(r['edge_ok']))} "
             f"| {fmt(r['latency_ms'])} | {fmt(r['total_tokens'])} |"
         )
@@ -292,7 +302,7 @@ def main() -> int:
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET))
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--ids", nargs="*", default=None)
-    parser.add_argument("--judge-model", default="gpt-4o-mini")
+    parser.add_argument("--judge-model", default=os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b"))
     parser.add_argument("--skip-ragas", action="store_true")
     parser.add_argument("--resume-from", default=None,
                         help="path to partial.json from an interrupted run; "
@@ -360,7 +370,7 @@ def main() -> int:
     else:
         agent = StockAgent()
         if agent.llm_provider is None:
-            print("[bench] FATAL: LLM unavailable (check OPENAI_API_KEY)")
+            print("[bench] FATAL: LLM unavailable (check NVIDIA_API_KEY*)")
             return 1
 
     if args.samples_from:

@@ -18,17 +18,21 @@ services:
       - QDRANT_HOST=${QDRANT_HOST:-qdrant}
       - QDRANT_PORT=${QDRANT_PORT:-6333}
       - QDRANT_API_KEY=${QDRANT_API_KEY:-}
+      # Force the qdrant service (code priority PATH > URL > HOST/PORT).
+      - QDRANT_PATH=
+      - QDRANT_URL=
       - LOG_LEVEL=${LOG_LEVEL:-DEBUG}
     volumes:
       - ./src:/app/src:cached
       - /app/src/__pycache__
+      - app_data_dev:/app/data
     command: python -m mcp_server.server --transport streamable-http --host 0.0.0.0 --port 8001
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8001/mcp"]
+      test: ["CMD-SHELL", "curl -sf -m 10 -X POST http://localhost:8001/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":\"hc\",\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-03-26\",\"capabilities\":{},\"clientInfo\":{\"name\":\"hc\",\"version\":\"0\"}}}'"]
       interval: 30s
-      timeout: 10s
+      timeout: 15s
       retries: 5
-      start_period: 20s
+      start_period: 180s
     depends_on:
       qdrant:
         condition: service_started
@@ -93,6 +97,12 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - GROQ_API_KEY=${GROQ_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY:-}
+      - NVIDIA_API_KEY2=${NVIDIA_API_KEY2:-}
+      - NVIDIA_API_KEY3=${NVIDIA_API_KEY3:-}
+      - NVIDIA_CHAT_MODEL=${NVIDIA_CHAT_MODEL:-nvidia/nemotron-3-ultra-550b-a55b}
+      - NVIDIA_EMBEDDING_MODEL=${NVIDIA_EMBEDDING_MODEL:-nvidia/nemotron-3-embed-1b}
+      - NVIDIA_BASE_URL=${NVIDIA_BASE_URL:-https://integrate.api.nvidia.com/v1}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:3001}
       - ENABLE_RAG_SCHEDULER=${ENABLE_RAG_SCHEDULER:-true}
       - ADMIN_API_KEY=${ADMIN_API_KEY:-}
@@ -102,6 +112,9 @@ services:
       - QDRANT_HOST=${QDRANT_HOST:-qdrant}
       - QDRANT_PORT=${QDRANT_PORT:-6333}
       - QDRANT_API_KEY=${QDRANT_API_KEY:-}
+      - QDRANT_PATH=
+      - QDRANT_URL=
+      - ENABLE_MARKET_SCHEDULER=${ENABLE_MARKET_SCHEDULER:-false}
       - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-finsight}:${POSTGRES_PASSWORD:-finsight}@postgres:5432/${POSTGRES_DB:-finsight}
       - DATABASE_SYNC_URL=postgresql://${POSTGRES_USER:-finsight}:${POSTGRES_PASSWORD:-finsight}@postgres:5432/${POSTGRES_DB:-finsight}
       - JWT_SECRET=${JWT_SECRET:-}
@@ -114,16 +127,17 @@ services:
       - REDIS_PORT=6379
     volumes:
       - ./src:/app/src:cached
-      - ./frontend:/app/frontend:cached
       - ./alembic:/app/alembic:cached
       - ./alembic.ini:/app/alembic.ini:cached
+      - app_data_dev:/app/data
       - /app/src/__pycache__
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT:-8000}/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      # Cold boot imports torch/sentence-transformers — can exceed 2 minutes.
+      start_period: 240s
     depends_on:
       postgres:
         condition: service_healthy
@@ -169,12 +183,8 @@ services:
       - qdrant_storage_dev:/qdrant/storage
     networks:
       - finsight-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
+    # NOTE: no healthcheck — qdrant image has no curl/wget (verified
+    # 10/09/2026); nothing gates on qdrant health (service_started only).
 
 networks:
   finsight-network:
@@ -184,3 +194,4 @@ volumes:
   qdrant_storage_dev:
   postgres_storage_dev:
   redis_storage_dev:
+  app_data_dev:

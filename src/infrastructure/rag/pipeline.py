@@ -34,7 +34,8 @@ def _week_label() -> str:
     return week_label()
 
 
-def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path | str | None = None) -> dict[str, Any]:
+def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path | str | None = None,
+                     collection_suffix: str = "") -> dict[str, Any]:
     week = week or _week_label()
     sources, settings = _load_sources()
     delay = float(settings.get("rate_limit", {}).get("default_delay_seconds", 1.5))
@@ -46,9 +47,11 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
     processed_dir.mkdir(parents=True, exist_ok=True)
 
     embed_model = settings.get("vector_store", {}).get("embedding_model", "text-embedding-3-small")
-    # collection for this week (unique per run to avoid collision if rerun same week)
+    # collection for this week (unique per run to avoid collision if rerun same week).
+    # collection_suffix (e.g. "_nvidia2048") keeps the new-dim collection separate
+    # from the old one so the alias backup is never deleted mid-migration.
     base_collection = collection_name_for_week(week)
-    collection = base_collection
+    collection = base_collection + collection_suffix
     # if exists and not force, add suffix
 
     # create run entry
@@ -105,14 +108,14 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
         embedder = None  # type: ignore
         try:
             embedder = Embedder(model=embed_model)
-            dim = embedder.dim  # type: ignore
             texts = [c["text"] for c in chunks]
             vectors = embedder.embed(texts)  # type: ignore
+            dim = len(vectors[0]) if vectors else embedder.dim  # type: ignore
         except Exception as ee:
             logger.warning("Embedding failed, will save filesystem only: %s", ee)
             vector_ok = False
             embed_error = str(ee)
-            dim = 1536  # type: ignore
+            dim = 0  # type: ignore
 
         # ensure we have manifest even in degraded mode
         manifest = {
