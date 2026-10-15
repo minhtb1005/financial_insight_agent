@@ -1,0 +1,333 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M6L3",
+  "module_id": "M6",
+  "module_title": "Thuế thu nhập cá nhân & nghĩa vụ tài chính",
+  "title": "Quyết toán thuế và giữ chứng từ",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M6L3",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 110,
+    "estimate_sec": 108.8,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Cuối năm công ty nhắc: nhớ quyết toán thuế nhé.\" — \"Quyết toán là gì?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 9.5,
+      "visual": {
+        "description": "Lan nhận email nhắc quyết toán, ngơ ngác",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cuối năm, Lan nhận email nhắc quyết toán thuế. Lan chưa biết bắt đầu từ đâu, và cũng không chắc quyết toán nghĩa là gì.",
+        "word_count": 25,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quyết toán là gì?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Cân hai đĩa: thuế đã trừ và thuế phải nộp",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quyết toán là tổng kết cả năm: so thuế đã bị khấu trừ với thuế thực phải nộp. Thiếu thì nộp thêm, thừa thì được xử lý theo quy định.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đã trừ vs phải nộp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Lịch cả năm, mỗi tháng một dấu trừ nhỏ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trong năm, công ty thường tạm trừ thuế mỗi tháng theo ước tính. Đến cuối năm mới có số thật. Vì vậy phần chênh có thể xảy ra.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tạm trừ hằng tháng → số thật cuối năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Hai lối: tự quyết toán hoặc ủy quyền",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có trường hợp bạn ủy quyền cho công ty làm hộ, có trường hợp phải tự làm. Cần xem điều kiện của mình thuộc nhóm nào.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tự làm hay ủy quyền: [[TRA NGUỒN: điều kiện ủy quyền]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Thư mục đựng bốn loại giấy tờ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy giữ bốn loại giấy tờ. Chứng từ khấu trừ thuế. Hợp đồng lao động. Giấy tờ người phụ thuộc. Và biên lai đóng bảo hiểm.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giữ 4 loại chứng từ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 8.5,
+      "visual": {
+        "description": "Dấu cảnh báo và dòng chữ phạt",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kê khai sai hoặc thiếu có thể bị truy thu và xử phạt. Đừng chờ đến ngày cuối mới tìm giấy tờ.",
+        "word_count": 22,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Xử phạt: [[TRA NGUỒN: mức phạt hiện hành]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V2"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Lan quét giấy tờ vào máy, đặt tên tệp theo năm",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mẹo nhỏ: chụp hoặc quét giấy tờ ngay khi nhận, và đặt tên theo năm. Một tệp mất ba mươi giây, nhưng khi cần sẽ cứu bạn cả buổi tìm kiếm.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chụp ngay · Đặt tên theo năm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chụp ngay",
+            "Đặt tên theo năm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.0,
+      "visual": {
+        "description": "Ba thư mục năm xếp gọn trên kệ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: quyết toán là tổng kết cả năm. Biết mình thuộc nhóm ủy quyền hay tự làm. Giữ đủ bốn loại chứng từ và lưu theo từng năm. Làm đều đặn thì cuối năm chỉ mất vài phút, thay vì cả buổi tìm giấy tờ. Có thắc mắc riêng thì hỏi cơ quan thuế hoặc đơn vị trả lương.",
+        "word_count": 60,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tổng kết năm · 4 chứng từ · Mỗi năm một thư mục",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tổng kết năm",
+            "4 chứng từ",
+            "Mỗi năm một thư mục"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 12.4,
+      "visual": {
+        "description": "Trâu Tí cho Lan một thư mục theo năm",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí",
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một thư mục cho mỗi năm. Khi cần, bạn sẽ thấy khác hẳn. Có thắc mắc cụ thể về trường hợp của mình thì hỏi cơ quan thuế hoặc đơn vị trả lương.",
+        "word_count": 33,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mỗi năm một thư mục",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập hồ sơ chứng từ thuế cá nhân theo năm",
+    "button_label": "Tạo hồ sơ chứng từ",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Khi nào phải tự quyết toán thuế thu nhập cá nhân?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "điều kiện ủy quyền, thời hạn, và mức xử phạt. Không đưa lời khuyên thuế cho cá nhân; chỉ nói quy định chung và gợi ý liên hệ cơ quan thuế hoặc đơn vị trả lương.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S4"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: điều kiện ủy quyền]]"
+    },
+    {
+      "id": "V2",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S6"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: mức phạt hiện hành]]"
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

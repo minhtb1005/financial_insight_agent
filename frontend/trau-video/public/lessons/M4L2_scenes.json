@@ -1,0 +1,326 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M4L2",
+  "module_id": "M4",
+  "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
+  "title": "Lãi suất thực: tiền có thật sự lớn lên?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L2",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 114.7,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Gửi 100 triệu, năm sau có 105 triệu. Vậy mình giàu thêm 5 triệu, đúng không?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Lan gửi 100 triệu, màn hình hiện 105 triệu",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan gửi một trăm triệu, lãi năm phần trăm một năm. Cuối năm nhận một trăm lẻ năm triệu. Lan thấy mình giàu thêm năm triệu. Nhưng thật vậy không?",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "100tr → 105tr (lãi 5%/năm, giả định)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Bát phở 100 nghìn đổi thành 104 nghìn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cùng lúc đó, giá cả cũng tăng. Giả sử bốn phần trăm một năm. Bát phở một trăm nghìn năm ngoái, giờ là một trăm lẻ bốn nghìn.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giá tăng 4%/năm (giả định)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Hai thanh: 5% trừ 4% còn 1%",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lãi thực xấp xỉ lãi danh nghĩa trừ lạm phát. Năm trừ bốn còn khoảng một phần trăm. Đó mới là phần tiền thật sự lớn lên.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi thực ≈ lãi danh nghĩa − lạm phát",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Thanh lãi 3% thấp hơn thanh lạm phát 4%, ra số âm",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu lãi chỉ ba phần trăm mà giá tăng bốn, số tiền của bạn nhiều lên nhưng mua được ít đi. Lãi thực lúc này là âm một phần trăm.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3% − 4% = −1%",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Đường cong tăng dần: 100 → 127,6 triệu sau 5 năm",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Còn lãi kép là lãi sinh ra lãi. Một trăm triệu, lãi năm phần trăm, sau năm năm thành khoảng một trăm hai mươi bảy phẩy sáu triệu.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "100tr × 1,05⁵ ≈ 127,6tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Cùng 100 triệu co lại còn 82 triệu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhưng nếu giá tăng bốn phần trăm mỗi năm, sức mua của một trăm triệu hôm nay chỉ còn khoảng tám mươi hai triệu sau năm năm.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "100tr ÷ 1,04⁵ ≈ 82tr sức mua",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí cầm hai thanh đặt cạnh nhau",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Vì vậy, khi nhìn lãi suất, hãy đặt nó cạnh lạm phát. Phép trừ này chỉ là ước tính nhanh, còn số chính xác thì nên tính bằng công cụ.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi suất luôn đi cùng lạm phát",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 23.1,
+      "visual": {
+        "description": "Ba biểu tượng hiện lần lượt: lãi thực, lãi kép, sức mua",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại ba ý. Một, lãi thực xấp xỉ lãi danh nghĩa trừ lạm phát. Hai, lãi kép giúp tiền lớn lên theo thời gian. Ba, lạm phát làm sức mua co lại theo thời gian. Nhìn tiền chỉ bằng con số trên tài khoản thì dễ thấy mình giàu hơn thực tế. Hãy luôn hỏi: số tiền này mua được bao nhiêu?",
+        "word_count": 63,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi thực · Lãi kép · Sức mua",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lãi thực",
+            "Lãi kép",
+            "Sức mua"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Trâu Tí đưa ra máy tính",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy thử tính sức mua của một trăm triệu sau năm năm với mức lạm phát bạn chọn. Con số cụ thể sẽ cho bạn cảm giác rõ hơn mọi lời giải thích.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính sức mua của 100 triệu sau 5 năm ở mức lạm phát giả định",
+    "button_label": "Tính lãi thực",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "mọi tỷ lệ trong video là giả định, màn hình phải hiện \"Số liệu minh họa\". Nếu muốn nêu lạm phát thực tế: [[TRA NGUỒN: chỉ số giá tiêu dùng gần nhất, Tổng cục Thống kê]]. Tự kiểm lại hai phép tính 127,6 và 82 bằng công cụ.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: chỉ số giá tiêu dùng gần nhất, Tổng cục Thống kê]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

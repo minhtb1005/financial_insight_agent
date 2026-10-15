@@ -1,0 +1,354 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M5L2",
+  "module_id": "M5",
+  "module_title": "Bảo hiểm",
+  "title": "Cần thật sự hay bán thêm?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M5L2",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 120,
+    "estimate_sec": 121.6,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "think",
+    "wave"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Nhân viên cười tươi: \"Gói bảo hiểm đi kèm khoản vay chỉ thêm 500 nghìn mỗi tháng thôi.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Lan ngồi trước bàn tư vấn, một xấp giấy đẩy về phía cô",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan đang vay mua xe. Nhân viên cười tươi và đề nghị mua thêm một gói bảo hiểm, chỉ năm trăm nghìn mỗi tháng. Nghe nhỏ, nhưng nhân mười hai tháng thì là sáu triệu mỗi năm.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "500k × 12 = 6tr/năm (minh họa)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Trâu Tí đặt hai câu hỏi đầu lên bàn",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước khi ký, hỏi bốn câu. Câu một: rủi ro này có thật với mình không? Câu hai: nếu nó xảy ra, mình có tự chịu nổi không? Nếu tự chịu nổi, nhu cầu mua có thể thấp hơn.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Rủi ro thật? · Tự chịu nổi?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Rủi ro thật?",
+            "Tự chịu nổi?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Trâu Tí đặt hai câu hỏi sau lên bàn",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu ba: có ai sống nhờ thu nhập của mình không? Câu bốn: quyền lợi này có trùng với thứ mình đã có không? Nếu trùng, bạn đang trả tiền hai lần cho cùng một thứ.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Có người phụ thuộc? · Có trùng?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Có người phụ thuộc?",
+            "Có trùng?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Ba cờ đỏ cắm lên bàn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có những dấu hiệu nên cẩn thận. Gói bị gắn chặt vào khoản vay. Bị giục ký ngay. Hoặc nghe cụm ưu đãi chỉ hôm nay.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gắn vào khoản vay · Ép ký ngay · Ưu đãi chỉ hôm nay",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Gắn vào khoản vay",
+            "Ép ký ngay",
+            "Ưu đãi chỉ hôm nay"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Hai cờ đỏ nữa cắm lên bàn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cờ đỏ tiếp theo: quyền lợi nói mập mờ, không đưa văn bản cho bạn xem. Và gọi bảo hiểm là tiết kiệm, trong khi hai thứ này khác nhau.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mập mờ · Gọi bảo hiểm là tiết kiệm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mập mờ",
+            "Gọi bảo hiểm là tiết kiệm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Lan gấp xấp giấy, nụ cười điềm tĩnh",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bạn có quyền hỏi kỹ, mang về đọc, so sánh, và từ chối phần mình không cần. Cần thêm thời gian không phải là điều bất lịch sự.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quyền hỏi kỹ · Quyền mang về đọc",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Quyền hỏi kỹ",
+            "Quyền mang về đọc"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Lan cầm giấy đứng dậy, Trâu Tí vẫy tay",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí",
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có thể đây là một gói tốt, có thể không. Điều quan trọng là bạn tự quyết định sau khi hiểu rõ, chứ không phải vì áp lực của buổi gặp.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hiểu rõ rồi mới quyết",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.0,
+      "visual": {
+        "description": "Bốn câu hỏi xếp cạnh ba lá cờ đỏ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: bốn câu hỏi trước khi ký, và quyền được mang về đọc. Rủi ro có thật không, mình có tự chịu nổi không, có người phụ thuộc không, có trùng quyền lợi không. Gói gắn với khoản vay hoặc bị giục ký ngay là lúc nên chậm lại. Một quyết định mua bảo hiểm tốt không cần vội.",
+        "word_count": 60,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "4 câu hỏi · Quyền mang về đọc",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "4 câu hỏi",
+            "Quyền mang về đọc"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí vẫy tay",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bảo hiểm tốt là bảo hiểm bạn hiểu rõ và thật sự cần. Hôm nay, hãy thử phân tích một tình huống mua bảo hiểm bằng bốn câu hỏi này.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "phân tích một tình huống bị tư vấn mua gói bảo hiểm đi kèm khoản vay",
+    "button_label": "Phân tích tình huống",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "quy định về việc bán bảo hiểm gắn với khoản vay và quyền của người mua: [[TRA NGUỒN: quy định hiện hành về bán chéo và quyền từ chối]]. Không khẳng định điều gì là \"bất hợp pháp\" nếu chưa kiểm chứng.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định hiện hành về bán chéo và quyền từ chối]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

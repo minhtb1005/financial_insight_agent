@@ -1,0 +1,314 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M2L1",
+  "module_id": "M2",
+  "module_title": "Quỹ khẩn cấp & thói quen tiết kiệm",
+  "title": "Quỹ khẩn cấp: khoản tiền không ai muốn dùng",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M2L1",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 130,
+    "estimate_sec": 130.9,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hùng",
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "sáng thứ Hai, email công ty: \"Thông báo cắt giảm nhân sự.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Lan và Hùng cùng đọc email, mặt tái đi",
+        "mascot_pose": null,
+        "characters": [
+          "Lan",
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sáng thứ Hai, cả Lan và Hùng cùng nhận email: công ty cắt giảm nhân sự, và vị trí của cả hai nằm trong danh sách. Hai người cùng lương, cùng hoàn cảnh. Nhưng chuyện xảy ra sau đó rất khác nhau.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mất việc bất ngờ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Màn hình chia đôi: Hùng gọi vay gấp, Lan pha trà và mở CV",
+        "mascot_pose": null,
+        "characters": [
+          "Lan",
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hùng không có khoản dự phòng nào, nên lập tức đi hỏi vay gấp, chấp nhận cả lãi cao. Lan thì có một khoản để dành riêng. Lan bình tĩnh pha trà, cập nhật hồ sơ xin việc, và có thời gian để chọn công việc phù hợp.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Có dự phòng ≠ không có",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Trâu Tí cầm chiếc đèn pin nhỏ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khoản mà Lan có được gọi là quỹ khẩn cấp. Đó là tiền để dành riêng cho những việc bất ngờ, như mất việc, ốm đau, hay hỏng xe. Nó không dành cho du lịch hay mua sắm, dù món đồ đang giảm giá rất sâu.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quỹ khẩn cấp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Thanh trượt: chi phí thiết yếu 7 triệu, nhân 3 tháng và 6 tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cần bao nhiêu là đủ? Thường người ta khuyên ba đến sáu tháng chi phí thiết yếu. Nếu mỗi tháng bạn cần bảy triệu cho nhà ở, ăn uống, đi lại, thì ba tháng là hai mươi mốt triệu, sáu tháng là bốn mươi hai triệu.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "7tr × 3 = 21tr · 7tr × 6 = 42tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "7tr × 3 = 21tr",
+            "7tr × 6 = 42tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Cân hai đĩa: thu nhập ổn định ít tháng, thu nhập không đều nhiều tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Số tháng phụ thuộc vào hoàn cảnh. Lương cố định, công việc ổn định thì có thể chọn gần ba tháng. Làm tự do, thu nhập thất thường, hoặc nuôi người thân thì nên nghiêng về sáu tháng hoặc hơn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ổn định → ít tháng hơn · Thất thường → nhiều tháng hơn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ổn định → ít tháng hơn",
+            "Thất thường → nhiều tháng hơn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Ba tấm thẻ: dễ rút, ít rủi ro, tách riêng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giữ quỹ này ở đâu? Có ba tiêu chí. Dễ rút khi cần gấp. Ít rủi ro, vì bạn không muốn quỹ cứu hộ bị mất giá đúng lúc cần. Và tách riêng khỏi tài khoản chi tiêu hằng ngày, để khỏi lỡ tay dùng.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dễ rút · Ít rủi ro · Tách riêng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Dễ rút",
+            "Ít rủi ro",
+            "Tách riêng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Thanh tiến độ đầy dần: một tháng, hai tháng, ba tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Con số hai mươi mốt triệu nghe có vẻ xa vời. Đừng nhìn cả quãng đường. Hãy đặt mục tiêu đầu tiên là một tháng chi phí, rồi hai tháng, rồi ba. Mỗi mốc nhỏ đạt được sẽ giúp bạn có thêm động lực.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mốc đầu: 1 tháng chi phí",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Trâu Tí đặt chiếc đèn pin vào tay người xem",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Việc của bạn hôm nay: tính ra chi phí thiết yếu hàng tháng của mình, nhân lên ba, rồi nhìn xem con số đó. Bắt đầu từ một tháng cũng đã là bắt đầu.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính quỹ khẩn cấp mục tiêu và lộ trình đạt được",
+    "button_label": "Tính quỹ khẩn cấp",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Thu nhập freelance thì cần quỹ bao nhiêu tháng?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "\"3–6 tháng\" là khuyến nghị phổ biến, không phải quy định. Nếu trích tỷ lệ người Việt không có quỹ dự phòng thì phải có nguồn: [[TRA NGUỒN: khảo sát, năm, tỷ lệ]].",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: khảo sát, năm, tỷ lệ]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S8"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M2L4",
+  "module_id": "M2",
+  "module_title": "Quỹ khẩn cấp & thói quen tiết kiệm",
+  "title": "Tiết kiệm khi thu nhập thấp",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M2L4",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 115.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Mai",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Lương có bao nhiêu đâu mà để dành?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Chị Mai, thu nhập 6 triệu, nhìn hóa đơn",
+        "mascot_pose": null,
+        "characters": [
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu thu nhập của bạn thấp, câu không đủ tiêu thì lấy gì để dành là rất thật. Video này không để phán xét. Nó chỉ nói về những bước nhỏ mà ai cũng có thể thử.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu nhập thấp vẫn có thể để dành",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Một đồng xu bỏ vào lọ mỗi ngày, lọ đầy dần",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điều quan trọng nhất là thói quen, không phải số tiền. Mười nghìn mỗi ngày là ba trăm nghìn mỗi tháng. Khoản này đủ nhỏ để không làm bạn đau, nhưng đủ để bạn bắt đầu quen với việc để dành.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "10.000 × 30 = 300.000",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Chị Mai nhìn danh sách chi cố định",
+        "mascot_pose": null,
+        "characters": [
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước tiếp theo là tìm một khoản chi lặp lại có thể cắt. Một gói đăng ký ít dùng, hoặc bớt một bữa ăn ngoài mỗi tuần. Chỉ cần một khoản thôi, đừng cố cắt tất cả cùng lúc.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cắt một khoản lặp lại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Chị Mai gạch một gói đăng ký, số tiền chạy vào lọ",
+        "mascot_pose": null,
+        "characters": [
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử gói đăng ký là chín mươi nghìn mỗi tháng. Cắt đi, chị Mai có thêm chín mươi nghìn mà cuộc sống gần như không đổi. Nhỏ thôi, nhưng cộng lại cả năm là hơn một triệu.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "90.000 × 12 = 1.080.000 (minh họa)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Chị Mai nhận việc nhỏ cuối tuần",
+        "mascot_pose": null,
+        "characters": [
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu có thể, thêm một nguồn thu nhỏ, dù chỉ vài trăm nghìn mỗi tháng. Điều quan trọng là khoản thu thêm này đi thẳng vào lọ để dành, không chạy qua ví chi tiêu.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu nhập phụ → thẳng vào lọ để dành",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Biển cấm: không vay để tiết kiệm, không chạy theo lãi cao",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một điều cần tránh: đừng vay tiền chỉ để có khoản để dành, và đừng gửi tiền vào chỗ hứa lãi cao bất thường. Với số tiền ít, an toàn quan trọng hơn lãi.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đừng vay để tiết kiệm · Cẩn thận lãi quá cao",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Đừng vay để tiết kiệm",
+            "Cẩn thận lãi quá cao"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Tờ lịch 30 ngày, mỗi ngày một dấu tích",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy thử thách mình ba mươi ngày. Chọn một khoản nhỏ để dành mỗi ngày, ghi vào lịch, và đánh dấu mỗi ngày làm được. Khi đủ ba mươi ngày, bạn đã có cả tiền lẫn thói quen bước đầu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thử thách 30 ngày",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí đứng trước cái lọ đầy hơn, mỉm cười",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đừng chờ có thu nhập cao mới để dành. Thói quen hình thành ở mức thu nhập thấp sẽ đi cùng bạn khi thu nhập tăng. Bắt đầu từ hôm nay, bằng đúng số tiền bạn có.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bắt đầu nhỏ, giữ đều",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "thử thách tiết kiệm 30 ngày với một mục tiêu nhỏ",
+    "button_label": "Bắt đầu thử thách",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "không có số pháp lý. Câu \"ba mươi ngày thành thói quen\" chỉ nên nói là gợi ý, không phải kết quả khoa học đã chứng minh.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,359 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M5L3",
+  "module_id": "M5",
+  "module_title": "Bảo hiểm",
+  "title": "Đọc hợp đồng bảo hiểm trong 5 phút",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M5L3",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 120,
+    "estimate_sec": 118.9,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hùng",
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Hùng nằm viện, nhận thư: \"Rất tiếc, khoản này nằm ngoài phạm vi bảo hiểm.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Hùng cầm thư từ chối chi trả, ngơ ngác",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hùng mua bảo hiểm đã hai năm. Lúc nằm viện, anh nhận được thư: khoản này nằm ngoài phạm vi bảo hiểm. Lúc cần mới biết thì đã muộn.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ký rồi mới biết",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Hợp đồng mẫu, ba đoạn được tô ba màu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi đọc hợp đồng, tìm ba mục. Quyền lợi: được chi trả những gì và tối đa bao nhiêu. Loại trừ: những trường hợp không chi trả. Thời gian chờ: bao lâu sau khi ký mới được hưởng.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quyền lợi · Loại trừ · Thời gian chờ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Quyền lợi",
+            "Loại trừ",
+            "Thời gian chờ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí chỉ vào mục quyền lợi",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với quyền lợi, đừng chỉ nhìn con số lớn nhất. Hãy xem giới hạn chi trả theo từng loại chi phí, và có mức tối đa mỗi năm hay mỗi lần không.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giới hạn mỗi loại · Tối đa mỗi năm?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Giới hạn mỗi loại",
+            "Tối đa mỗi năm?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí chỉ vào mục loại trừ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mục loại trừ hay bị bỏ qua nhất. Ví dụ bệnh đã có từ trước thường nằm ở đây, hoặc bị áp thời gian chờ. Đọc phần này kỹ nhất.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đọc kỹ mục loại trừ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Lịch với một vòng khoanh quanh vài ngày",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều hợp đồng cho thời gian cân nhắc để hủy sau khi ký. Hãy hỏi rõ số ngày và điều kiện, và ghi lại ngày bạn nhận hợp đồng.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thời gian cân nhắc: [[TRA NGUỒN: số ngày, điều kiện]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Lan ghi câu hỏi vào lề giấy",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi có chỗ chưa hiểu, ghi câu hỏi ra lề giấy. Rồi hỏi lại bằng văn bản, để sau này có bằng chứng về điều đã được trả lời.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi câu hỏi · Hỏi bằng văn bản",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ghi câu hỏi",
+            "Hỏi bằng văn bản"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Ba bút màu tô ba mục trên hợp đồng mẫu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách làm trong năm phút: tô ba mục này bằng ba màu, đọc từng mục một, và đánh dấu mọi chỗ bạn chưa chắc chắn. Chỉ cần vậy là bạn đã đọc kỹ hơn phần lớn mọi người.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tô 3 mục · Đánh dấu chỗ chưa chắc",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tô 3 mục",
+            "Đánh dấu chỗ chưa chắc"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 20.6,
+      "visual": {
+        "description": "Ba mục tô màu được đóng khung",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại ba mục cần tô màu: quyền lợi, loại trừ và thời gian chờ. Ghi câu hỏi ra lề, và hỏi lại bằng văn bản. Hỏi rõ thời gian cân nhắc để hủy. Năm phút đọc kỹ trước khi ký có thể giúp bạn tránh nhiều ngày bực mình khi cần dùng đến bảo hiểm.",
+        "word_count": 56,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quyền lợi · Loại trừ · Thời gian chờ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Quyền lợi",
+            "Loại trừ",
+            "Thời gian chờ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Trâu Tí cười",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Năm phút đọc hôm nay, đỡ nhiều ngày bực mình về sau. Hãy thử với hợp đồng mẫu trước, rồi mới áp dụng với hợp đồng của bạn.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "đánh dấu quyền lợi, loại trừ và thời gian chờ trên một hợp đồng mẫu",
+    "button_label": "Thử đọc hợp đồng mẫu",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "dùng hợp đồng mẫu tự soạn, không dùng hợp đồng thật của công ty nào. Quyền hủy trong thời gian cân nhắc và các điều khoản loại trừ phổ biến phải tra từ luật và quy tắc sản phẩm: [[TRA NGUỒN: Luật Kinh doanh bảo hiểm và hướng dẫn hiện hành]].",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S5"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: số ngày, điều kiện]]"
+    },
+    {
+      "id": "V2",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: Luật Kinh doanh bảo hiểm và hướng dẫn hiện hành]]"
+    },
+    {
+      "id": "V3",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V4",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

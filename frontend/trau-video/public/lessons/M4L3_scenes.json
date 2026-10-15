@@ -1,0 +1,343 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M4L3",
+  "module_id": "M4",
+  "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
+  "title": "Những khoản phí ngân hàng bạn không để ý",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L3",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 115.5,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Tháng nào cũng mất vài chục nghìn mà không biết vì sao.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Lan phóng to một dòng phí nhỏ trên sao kê",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan đọc sao kê và thấy một dòng phí nhỏ lặp lại mỗi tháng. Nhỏ, nhưng đều đặn. Lan chưa bao giờ nhớ mình đã đồng ý với khoản này.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí nhỏ, mỗi tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Bốn ô hiện lần lượt: thường niên, thông báo số dư, chuyển khoản, rút ATM",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Những phí hay gặp gồm bốn nhóm. Phí thường niên. Phí thông báo số dư. Phí chuyển khoản. Và phí rút tiền khác hệ thống. Mỗi ngân hàng một khác, nên cần kiểm tra của chính bạn.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí hay gặp (tùy ngân hàng)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Dấu trừ tiền tự động chạy qua màn hình",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khó thấy vì chúng thường tự động trừ, mỗi lần một ít. Không có thông báo lớn, nên rất dễ lẫn vào những khoản chi khác.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tự động trừ → dễ bỏ qua",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Lan lật một tờ biểu phí",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách kiểm tra: tìm biểu phí công khai của ngân hàng trong ứng dụng hoặc trên trang chính thức. Đọc phần dành cho tài khoản bạn đang dùng.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tìm biểu phí công khai",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Trâu Tí gạch bỏ hai ô phí đầu",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách tránh thứ nhất: dùng gói miễn phí nếu bạn đủ điều kiện. Cách thứ hai: chọn kênh chuyển tiền miễn phí thay vì kênh có phí.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gói miễn phí · Kênh chuyển tiền miễn phí",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Gói miễn phí",
+            "Kênh chuyển tiền miễn phí"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Trâu Tí gạch bỏ hai ô phí sau",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách thứ ba: rút tiền đúng máy cùng hệ thống. Cách thứ tư: tắt những dịch vụ bạn không còn dùng, như thông báo số dư không cần thiết.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Rút đúng máy · Tắt dịch vụ không dùng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Rút đúng máy",
+            "Tắt dịch vụ không dùng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Phép tính 20.000 × 12 = 240.000, rồi × 5 năm",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hai mươi nghìn mỗi tháng là hai trăm bốn mươi nghìn mỗi năm. Qua năm năm là một triệu hai trăm nghìn. Đủ cho cả chuyến đi chơi nhỏ, chỉ vì không để ý.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "20.000đ × 12 = 240.000đ · × 5 năm = 1.200.000đ (minh họa)",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "20.000đ × 12 = 240.000đ",
+            "× 5 năm = 1.200.000đ (minh họa)"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 21.7,
+      "visual": {
+        "description": "Bốn ô phí lần lượt được tích xanh",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại bốn việc. Tìm biểu phí công khai. Gạch từng dòng phí trên sao kê. Tắt dịch vụ không dùng. Chọn kênh và gói ít phí. Mỗi khoản phí nhỏ nghe không đáng kể, nhưng lặp lại mỗi tháng thì thành một khoản đáng kể. Rà soát một lần mỗi quý cũng đủ để không bị bất ngờ.",
+        "word_count": 59,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "4 việc: tìm · gạch · tắt · chọn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "4 việc: tìm",
+            "gạch",
+            "tắt",
+            "chọn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí cầm kính lúp soi sao kê",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy mở sao kê của một tháng gần nhất và gạch chân mọi dòng phí. Chỉ cần mười phút, bạn có thể tìm ra một khoản đáng cắt.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "rà soát biểu phí của tài khoản đang dùng",
+    "button_label": "Rà soát phí",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "loại phí và mức phí thay đổi theo ngân hàng nên video chỉ nêu nhóm phí, không nêu con số thật: [[TRA NGUỒN: biểu phí công bố của ngân hàng, nếu muốn lấy ví dụ thật]].",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: biểu phí công bố của ngân hàng, nếu muốn lấy ví dụ thật]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

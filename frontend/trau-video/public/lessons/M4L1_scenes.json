@@ -1,0 +1,335 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M4L1",
+  "module_id": "M4",
+  "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
+  "title": "Tài khoản thanh toán hay tiết kiệm?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L1",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 126.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate",
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Hai tài khoản, hai việc khác nhau. Lương của bạn đang nằm ở đâu?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Lan mở app, thấy toàn bộ lương và tiền để dành nằm chung một chỗ",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan mở ứng dụng và thấy cả lương lẫn tiền để dành nằm chung một chỗ. Tiền để dành cứ lặng lẽ bị tiêu dần mà Lan không để ý. Vấn đề không nằm ở ý chí, mà ở cách chia chỗ để tiền.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Một tài khoản cho tất cả?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí mở ví thứ nhất, tiền ra vào liên tục",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tài khoản thanh toán dùng cho tiền ra vào hằng ngày. Nhận lương, trả tiền chợ, chuyển khoản, quẹt thẻ. Rút và chuyển rất dễ, nhưng lãi thường rất thấp.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thanh toán: dễ dùng, lãi thấp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí mở ví thứ hai, tiền nằm yên, có ổ khóa",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tài khoản tiết kiệm dành cho tiền chưa cần dùng ngay. Lãi thường cao hơn. Nhưng nếu gửi có kỳ hạn mà rút sớm, bạn có thể bị mất phần lớn lãi.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiết kiệm: lãi cao hơn, có ràng buộc",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Bảng hai cột: Để dùng và Để giữ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nói đơn giản: một bên để dùng, một bên để giữ. Để dùng thì cần dễ rút. Để giữ thì cần khó bị tiêu nhầm và ưu tiên lãi cao hơn.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Để dùng ↔ Để giữ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Mũi tên: lương vào ví một, phần dành riêng chạy sang ví hai",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách đơn giản: lương vào tài khoản thanh toán, rồi phần quỹ khẩn cấp và mục tiêu được chuyển sang tài khoản tách riêng ngay sau đó.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lương → thanh toán · Để dành → tách riêng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lương → thanh toán",
+            "Để dành → tách riêng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Lịch mười hai tháng, mỗi tháng một ô tiền chạy sang ví hai",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử Lan chuyển một triệu mỗi tháng sang tài khoản để dành. Sau mười hai tháng, Lan có mười hai triệu, chưa tính lãi, và không còn lẫn trong tiền tiêu hằng ngày.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1tr × 12 = 12tr (chưa tính lãi)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí lắc đầu với biển Chạy theo lãi cao nhất",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đừng vội đuổi theo lãi suất. Với số tiền nhỏ, chênh lệch lãi giữa các nơi thường chỉ vài chục nghìn. Thói quen tách tiền theo mục đích quan trọng hơn. Chỉ cần đọc kỹ điều kiện rút trước hạn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tách theo mục đích trước, so lãi sau",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.4,
+      "visual": {
+        "description": "Hai ví đứng cạnh nhau, nhãn Để dùng và Để giữ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: tài khoản thanh toán để dùng hằng ngày, tài khoản tiết kiệm để giữ. Tách tiền theo mục đích trước, so lãi suất sau. Khi tách riêng, bạn nhìn thấy rõ mình có bao nhiêu để tiêu và bao nhiêu đang chờ cho mục tiêu. Hãy chuyển một khoản nhỏ ngay khi nhận lương, và để nó nằm yên.",
+        "word_count": 61,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Để dùng · Để giữ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Để dùng",
+            "Để giữ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Trâu Tí gật đầu",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn một mục tiêu và thử so sánh hai loại tài khoản cho mục tiêu đó. Biết tiền nằm ở đâu, bạn mới biết mình đang đi đâu.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng so sánh hai loại tài khoản cho cùng một mục tiêu",
+    "button_label": "So sánh hai loại tài khoản",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "lãi suất không kỳ hạn và quy định rút trước hạn: [[TRA NGUỒN: biểu lãi suất và điều kiện tiền gửi hiện hành]]. Không nêu tên ngân hàng hay sản phẩm cụ thể.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: biểu lãi suất và điều kiện tiền gửi hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

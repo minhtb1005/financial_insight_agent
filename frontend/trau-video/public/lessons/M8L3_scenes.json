@@ -1,0 +1,339 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L3",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính dài hạn (không đầu tư)",
+  "title": "Chuẩn bị cho những khoản chi lớn",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M8L3",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 140,
+    "estimate_sec": 118.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Cưới, sinh con, lo cho cha mẹ: những khoản lớn không báo trước.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Ba tấm thiệp tiệc cưới, ảnh siêu âm, ảnh cha mẹ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cưới hỏi, sinh con, chăm sóc cha mẹ. Ba việc ý nghĩa, và cũng là ba khoản chi lớn. Những khoản này thường không báo trước, nhưng ta hoàn toàn có thể chuẩn bị.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3 sự kiện lớn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Bảng đặt trần ngân sách cưới",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với đám cưới, hãy đặt trần ngân sách trước khi đặt cọc bất kỳ thứ gì. Khi đã có trần, mỗi lựa chọn về tiệc hay trang phục đều dễ quyết hơn.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trần ngân sách trước khi đặt cọc",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Bốn ngăn: trước sinh, sinh, sau sinh, giáo dục",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sinh con không chỉ là viện phí. Còn có giai đoạn trước sinh, sau sinh, và chi phí nuôi dạy nhiều năm. Hãy chia thành từng ngăn để dễ hình dung.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trước sinh · Sinh · Sau sinh · Giáo dục: [[TRA NGUỒN: chế độ thai sản]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Trước sinh",
+            "Sinh",
+            "Sau sinh",
+            "Giáo dục: [[TRA NGUỒN: chế độ thai sản]]"
+          ],
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Lan ngồi nói chuyện với bố mẹ, trên bàn có tờ giấy",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với cha mẹ, hãy nói chuyện sớm và ghi thành con số: chi phí y tế, sinh hoạt, và ai giúp phần nào. Nói rõ từ đầu giúp cả nhà tránh căng thẳng khi sự việc xảy ra.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nói sớm · Ghi thành số",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Nói sớm",
+            "Ghi thành số"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Công thức: tổng mục tiêu chia số tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách tính chung cho mọi khoản: lấy tổng số tiền cần, chia cho số tháng còn lại, ra số phải dành mỗi tháng. Nếu con số quá lớn, kéo dài thời gian hoặc giảm quy mô.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mục tiêu ÷ số tháng = dành mỗi tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 8.8,
+      "visual": {
+        "description": "Lan đặt khoản này vào quỹ riêng có tên",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy tạo một quỹ riêng và đặt tên cho từng sự kiện. Tiền có tên thường khó bị tiêu nhầm vào việc khác.",
+        "word_count": 23,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mỗi sự kiện một quỹ có tên",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 9.5,
+      "visual": {
+        "description": "Trâu Tí nhắc quỹ khẩn cấp đứng đầu hàng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một lưu ý: quỹ khẩn cấp luôn đi trước. Nếu chưa có, ưu tiên lập quỹ này, rồi mới dành cho các sự kiện lớn.",
+        "word_count": 25,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quỹ khẩn cấp đi trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.4,
+      "visual": {
+        "description": "Ba quỹ có tên xếp sau quỹ khẩn cấp, mỗi quỹ có dòng mục tiêu chia số tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: đám cưới cần trần ngân sách trước khi đặt cọc. Sinh con gồm nhiều giai đoạn. Cha mẹ cần cuộc trò chuyện sớm, ghi thành số. Cả ba đều theo một công thức: tổng mục tiêu chia số tháng, vào quỹ riêng có tên, sau khi đã có quỹ khẩn cấp. Bạn không cần làm cả ba cùng lúc.",
+        "word_count": 61,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mục tiêu ÷ số tháng · Quỹ có tên",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mục tiêu ÷ số tháng",
+            "Quỹ có tên"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Trâu Tí đưa ba tờ giấy trống",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, chọn một sự kiện, lập ngân sách và nguồn tiền cho nó. Chỉ cần một tờ giấy, bạn đã đi trước phần lớn mọi người.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập ngân sách sự kiện và nguồn tiền cho một sự kiện bạn chọn",
+    "button_label": "Lập ngân sách sự kiện",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "chế độ thai sản và các hỗ trợ của nhà nước phải tra từ văn bản hiện hành. Không nêu chi phí thực của đám cưới hay sinh con nếu chưa có nguồn. [[TRA NGUỒN: chế độ thai sản]]",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S3"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: chế độ thai sản]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

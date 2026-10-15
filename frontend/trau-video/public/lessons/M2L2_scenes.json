@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M2L2",
+  "module_id": "M2",
+  "module_title": "Quỹ khẩn cấp & thói quen tiết kiệm",
+  "title": "Ba lọ tiền theo kỳ hạn",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M2L2",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 130,
+    "estimate_sec": 129.6,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Một tài khoản cho mọi mục tiêu: tại sao hết sạch?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Lan nhìn một lọ tiền dán ba nhãn: du lịch, cưới, mua nhà; tiền bị lấy dần",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan để dành tiền cho ba việc: một chuyến du lịch, đám cưới, và căn nhà tương lai. Nhưng tất cả đều nằm chung một chỗ. Mỗi lần cần gì, Lan lại lấy ra một ít, và đến cuối năm, mục tiêu nào cũng chưa đủ.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Một lọ cho tất cả?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Trâu Tí chia lọ thành ba lọ: ngắn, trung, dài",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giải pháp là chia theo thời gian. Lọ ngắn hạn: dưới một năm, như du lịch hay sửa xe. Lọ trung hạn: từ một đến năm năm, như cưới hỏi hay sửa nhà. Lọ dài hạn: trên năm năm, như mua nhà hay hưu trí.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ngắn <1 năm · Trung 1–5 năm · Dài >5 năm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ngắn <1 năm",
+            "Trung 1–5 năm",
+            "Dài >5 năm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Phép chia hiện trên màn hình",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mỗi lọ cần có một con số và một hạn. Muốn có mười hai triệu đi du lịch trong tám tháng thì mỗi tháng cần dành một phẩy năm triệu. Chia ra như vậy, mục tiêu lớn bỗng trở thành khoản nhỏ làm được.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12tr ÷ 8 tháng = 1,5tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Bảng ba mục tiêu có dòng tổng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giờ cộng cả ba lọ lại. Giả sử lọ du lịch cần một phẩy năm triệu, lọ cưới cần ba triệu, và lọ nhà cần hai triệu mỗi tháng. Tổng là sáu phẩy năm triệu. Với lương mười hai triệu, đó là hơn một nửa, nghĩa là chưa khả thi.",
+        "word_count": 50,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1,5 + 3 + 2 = 6,5tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Lan kéo dài một mốc thời gian ra",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi tổng quá lớn, bạn có hai lựa chọn: kéo dài thời hạn, hoặc giảm quy mô mục tiêu. Lan quyết định lùi đám cưới thêm một năm, và nhà thì tính sau. Không phải mục tiêu nào cũng cần làm cùng lúc.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Kéo dài hạn hoặc giảm quy mô",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Lọ dài hạn được khóa trong hộp, lọ ngắn hạn để trên bàn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lọ dài hạn nên để xa tầm tay, để không bị lấy cho việc ngắn hạn. Còn lọ ngắn hạn cần để dễ lấy, vì sắp dùng. Cách giữ khác nhau giúp mỗi lọ làm đúng việc của nó.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dài hạn: xa tầm tay · Ngắn hạn: dễ lấy",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Dài hạn: xa tầm tay",
+            "Ngắn hạn: dễ lấy"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Quỹ khẩn cấp đứng đầu hàng, các lọ xếp phía sau",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một lưu ý: quỹ khẩn cấp luôn đứng trước các lọ này. Nếu chưa có quỹ khẩn cấp, chỉ cần một việc bất ngờ là các lọ du lịch hay cưới sẽ bị rút để chữa cháy.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quỹ khẩn cấp đi trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí đưa ra tờ giấy kẻ bảng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Việc của bạn: lập bảng ba mục tiêu, mỗi mục tiêu có số tiền, hạn chót và số tiền cần dành mỗi tháng. Nhìn con số cụ thể, bạn sẽ biết mình nên bắt đầu từ đâu.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng ba mục tiêu với số tiền, thời hạn và tiền dành mỗi tháng",
+    "button_label": "Lập bảng mục tiêu",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "ranh giới 1 năm và 5 năm là quy ước để dễ nhớ. Video không nêu lãi suất hay nơi gửi cụ thể.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S8"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

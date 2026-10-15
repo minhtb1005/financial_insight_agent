@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L1",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính dài hạn (không đầu tư)",
+  "title": "Mục tiêu tài chính theo từng giai đoạn đời",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M8L1",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 127.3,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Ở tuổi 25 và tuổi 45, tiền phải làm những việc rất khác nhau.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Dòng thời gian ba mốc, Lan lớn dần qua từng mốc",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ở tuổi hai mươi lăm và ở tuổi bốn mươi lăm, tiền phải làm những việc rất khác nhau. Cuộc đời chia thành nhiều giai đoạn, và mỗi giai đoạn có ưu tiên riêng.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "20–30 · 30–40 · 40+",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "20–30",
+            "30–40",
+            "40+"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Lan ở tuổi 25, đặt nền móng",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Từ hai mươi đến ba mươi: xây nền. Lập quỹ khẩn cấp, trả những khoản nợ xấu, và tập thói quen ghi chi tiêu. Nền chắc thì những giai đoạn sau mới đỡ chao đảo.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nền tảng: quỹ, nợ, thói quen",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Lan ở tuổi 35 cùng gia đình nhỏ",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Từ ba mươi đến bốn mươi: gia đình và nơi ở. Chi phí tăng lên, rủi ro nhiều hơn, và bảo hiểm trở nên quan trọng hơn. Đây cũng là giai đoạn nhiều người tính chuyện chỗ ở.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gia đình · Nơi ở · Bảo hiểm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Gia đình",
+            "Nơi ở",
+            "Bảo hiểm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Lan ở tuổi 45, nhìn bố mẹ và con",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trên bốn mươi: vừa lo cho cha mẹ, vừa lo cho con, vừa bắt đầu chuẩn bị cho tuổi nghỉ hưu. Sức khỏe cũng trở thành một khoản cần tính.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cha mẹ · Con · Hưu trí · Sức khỏe",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Cha mẹ",
+            "Con",
+            "Hưu trí",
+            "Sức khỏe"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Dòng mốc mờ, một người đi lệch nhịp",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đây chỉ là gợi ý. Có người lập gia đình sớm, có người muộn, có người không lập. Không ai bắt buộc phải theo đúng một lịch. Ranh giới giữa các giai đoạn là mềm.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ranh giới mềm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí chỉ vào giai đoạn hiện tại của người xem",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điều quan trọng là biết mình đang ở đâu. Hãy tự hỏi: ưu tiên lớn nhất của mình trong ba năm tới là gì, và tiền đang đi đúng hướng đó chưa?",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mình đang ở giai đoạn nào?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí vẽ một đường kẻ dài mười năm",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy vẽ lộ trình mười năm của riêng bạn. Đánh dấu vài cột mốc lớn, như quỹ khẩn cấp đủ đầy, trả hết nợ, hay chuẩn bị cho một sự kiện lớn.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Vài cột mốc đủ rồi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 24.2,
+      "visual": {
+        "description": "Dòng thời gian ba giai đoạn sáng lên, một dấu chấm đánh dấu vị trí hiện tại",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: mỗi giai đoạn đời có ưu tiên riêng. Giai đoạn đầu là nền móng, tiếp theo là gia đình và nơi ở, sau đó là cha mẹ, hưu trí và sức khỏe. Mốc tuổi chỉ là gợi ý, bạn không cần theo đúng lịch của ai. Điều cần làm là biết mình đang ở đâu, và đặt vài cột mốc cho mười năm tới.",
+        "word_count": 66,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Biết mình ở đâu · Đặt vài cột mốc",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Biết mình ở đâu",
+            "Đặt vài cột mốc"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Lan đặt cây bút xuống, nhìn đường kẻ",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lộ trình không cần hoàn hảo. Nó chỉ cần đủ rõ để bạn biết bước tiếp theo. Hôm nay, hãy vẽ lộ trình mười năm của bạn với ba cột mốc.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "vẽ lộ trình tài chính mười năm với các cột mốc",
+    "button_label": "Vẽ lộ trình 10 năm",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "mốc tuổi là quy ước minh họa, không phải chuẩn. Không có số pháp lý.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

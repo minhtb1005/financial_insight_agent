@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L4",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Thẻ tín dụng không phải tiền miễn phí",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L4",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 116.9,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hùng",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Quẹt thẻ đi, tháng sau trả.\" — Hùng, tháng thứ ba liên tiếp.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Hùng quẹt thẻ liên tục, mặt tươi",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hùng quẹt thẻ vui vẻ, vì tháng sau mới phải trả. Nhưng thẻ tín dụng là tiền vay, không phải tiền của Hùng. Đến hạn là phải trả lại.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thẻ tín dụng = tiền vay",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 12.4,
+      "visual": {
+        "description": "Nhãn kỳ miễn lãi hiện lên cạnh lịch",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có hai khái niệm cần nhớ. Thứ nhất là kỳ miễn lãi: nếu bạn trả đủ toàn bộ đúng hạn thì không tốn lãi. Điều kiện cụ thể mỗi ngân hàng mỗi khác.",
+        "word_count": 33,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trả đủ đúng hạn → không tốn lãi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Nhãn thanh toán tối thiểu hiện lên, thanh nợ chỉ nhích rất ít",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khái niệm thứ hai là thanh toán tối thiểu. Đây chỉ là mức để bạn không bị trễ hạn, không phải trả xong nợ. Phần còn lại vẫn nằm đó và bị tính lãi.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trả đủ đúng hạn ≠ trả tối thiểu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 8.8,
+      "visual": {
+        "description": "Nợ 10 triệu, lãi 30%/năm → lãi mỗi tháng ~250 nghìn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ví dụ giả định, nợ mười triệu, lãi ba mươi phần trăm một năm. Mỗi tháng lãi khoảng hai trăm năm mươi nghìn.",
+        "word_count": 23,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "10tr × 30% ÷ 12 ≈ 250k/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Lịch chạy qua mười hai tháng, ô lãi cộng dồn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu dư nợ không giảm mấy, sau mười hai tháng riêng tiền lãi đã là khoảng ba triệu. Một khoản tiêu nhẹ nhàng giờ trở thành khoản nợ nặng.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "250k × 12 = 3tr (nếu dư nợ không đổi)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Sao kê mẫu, bốn dòng được khoanh",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy đọc sao kê: tìm bốn dòng. Tổng dư nợ, số tiền tối thiểu, ngày đến hạn, và lãi phí. Chỉ cần ba mươi giây mỗi tháng là bạn biết mình đang ở đâu.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dư nợ · Tối thiểu · Hạn · Lãi/phí",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Dư nợ",
+            "Tối thiểu",
+            "Hạn",
+            "Lãi/phí"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí đặt chuông nhắc ngày đến hạn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ba thói quen giúp bạn tránh bẫy: đặt nhắc trước ngày đến hạn, trả đủ chứ không trả tối thiểu, và theo dõi khoản quẹt trong ngân sách hằng tháng.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhắc hạn · Trả đủ · Theo dõi",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Nhắc hạn",
+            "Trả đủ",
+            "Theo dõi"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 23.8,
+      "visual": {
+        "description": "Hùng mở sao kê, tay chỉ vào bốn dòng được khoanh",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: thẻ tín dụng là công cụ tiện, không phải nguồn tiền miễn phí. Trả đủ đúng hạn thì không tốn lãi. Trả tối thiểu thì nợ vẫn còn và lãi vẫn chạy. Mỗi tháng hãy mở sao kê, nhìn bốn dòng quan trọng, và chỉ quẹt những gì bạn chắc chắn trả đủ khi đến hạn. Ba mươi giây mỗi tháng là đủ.",
+        "word_count": 65,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trả đủ · Đúng hạn · Xem sao kê",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Trả đủ",
+            "Đúng hạn",
+            "Xem sao kê"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Trâu Tí đứng cạnh thẻ, Hùng gật đầu",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí",
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quy tắc đơn giản: chỉ quẹt những khoản đã có trong ngân sách, và trả đủ khi đến hạn. Thẻ là công cụ, nếu dùng đúng cách.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chi trong ngân sách · Trả đủ đúng hạn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chi trong ngân sách",
+            "Trả đủ đúng hạn"
+          ]
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "đọc một sao kê mẫu và tính chi phí nếu chỉ trả mức tối thiểu",
+    "button_label": "Đọc sao kê mẫu",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "lãi 30%/năm là giả định. Thời gian miễn lãi, cách tính lãi và phí khác nhau theo từng ngân hàng: [[TRA NGUỒN: quy định thẻ tín dụng hiện hành]].",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định thẻ tín dụng hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

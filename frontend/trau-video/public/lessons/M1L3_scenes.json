@@ -1,0 +1,290 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L3",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Tiền đi đâu? Ghi lại 14 ngày",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M1L3",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 117.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Bạn có biết tháng rồi mình chi bao nhiêu cho trà sữa không?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Lan lướt sao kê, mặt ngơ ngác",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cuối tháng, Lan mở sao kê và không nhớ nổi mình đã tiêu gì. Ví trống mà Lan chẳng mua gì lớn. Có một điều lạ: những khoản nhỏ rất khó nhớ, nhưng cộng lại thì không hề nhỏ.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiêu gì rồi nhỉ?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Năm biểu tượng danh mục hiện ra",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách giải quyết là ghi lại chi tiêu. Bắt đầu bằng năm ngăn: ăn uống, nhà ở, di chuyển, giải trí, và khác. Chỉ năm ngăn thôi. Chia nhỏ quá thì bạn sẽ bỏ cuộc sau ba ngày.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ăn uống · Nhà ở · Di chuyển · Giải trí · Khác",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ăn uống",
+            "Nhà ở",
+            "Di chuyển",
+            "Giải trí",
+            "Khác"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Bốn cách ghi: sổ tay, bảng tính, ứng dụng, sao kê",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ghi bằng gì cũng được: sổ tay, bảng tính, ứng dụng, hoặc đọc lại sao kê ngân hàng. Cách tốt nhất là cách bạn không thấy phiền. Quan trọng hơn cả là ghi đủ, không bỏ sót, trong mười bốn ngày liên tục.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi đủ 14 ngày",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Lan vừa trả tiền vừa ghi vào điện thoại",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mẹo nhỏ: ghi ngay lúc trả tiền, đừng để tối mới ghi. Để đến tối, bạn sẽ quên ly trà sữa buổi chiều và gói bánh mua vội. Mười giây lúc trả tiền đỡ mười phút đoán mò cuối ngày.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi ngay, đừng để tối",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Biểu đồ cột sau 14 ngày, một cột nhỏ bỗng cao bất ngờ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sau hai tuần, nhìn vào biểu đồ. Thường có một khoản nhỏ lặp lại mỗi ngày mà cộng lại khá lớn. Ví dụ ba mươi lăm nghìn mỗi ngày cho đồ uống, nhân mười bốn ngày, là bốn trăm chín mươi nghìn.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "35.000đ × 14 = 490.000đ (minh họa)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Trâu Tí chỉ vào cột cao nhất, nghiêng đầu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đừng tự trách khi thấy con số đó. Mục đích không phải để thấy tội lỗi. Mục đích là biết chuyện gì đang xảy ra, rồi tự quyết định có giữ khoản đó hay không.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Biết trước, quyết định sau",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Lan khoanh tròn một khoản trong bảng",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan khoanh tròn một khoản mà mình thấy không đáng. Không cần cắt hết. Chỉ cần giảm một khoản, ví dụ từ mỗi ngày xuống ba ngày một lần, là tháng sau đã có thêm một chút tiền để dành.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chọn một khoản để giảm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Trâu Tí giơ cuốn sổ nhỏ có năm ngăn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thử ngay hôm nay. Mở ghi chú trên điện thoại, kẻ năm ngăn và bắt đầu ghi. Mười bốn ngày nữa, bạn sẽ biết tiền của mình đi đâu.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bắt đầu nhật ký 14 ngày",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "theo dõi chi tiêu 14 ngày rồi tổng hợp theo danh mục",
+    "button_label": "Bắt đầu nhật ký 14 ngày",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "không có số liệu. Không nêu tên ứng dụng hay ngân hàng cụ thể trong lời đọc.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

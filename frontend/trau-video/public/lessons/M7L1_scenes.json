@@ -1,0 +1,330 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M7L1",
+  "module_id": "M7",
+  "module_title": "Tâm lý học tiền bạc & hành vi tiêu dùng",
+  "title": "Vì sao ta chi tiêu bốc đồng?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M7L1",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 135,
+    "estimate_sec": 133.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hùng",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Mình vào chỉ để xem thôi.\" — Hùng, tay xách ba túi đồ.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Hùng lướt app mua sắm, giỏ hàng đầy dần",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hùng mở ứng dụng mua sắm chỉ để xem. Mười phút sau, giỏ hàng đã đầy. Anh tự hỏi mình đã bấm từ lúc nào. Nghe quen không? Đó không phải vì Hùng thiếu ý chí.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "\"Xem thôi mà…\"",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Não của Hùng là một cái cân, niềm vui hôm nay nặng hơn lợi ích sau này",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Con người hay ưu tiên niềm vui bây giờ hơn lợi ích ở tương lai. Một ly trà sữa ngay lúc này luôn hấp dẫn hơn một khoản tiết kiệm xa xôi. Đó không phải lỗi của riêng ai.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ưu tiên hiện tại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Hùng cáu kỉnh, món hàng bay vào giỏ",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều lần ta mua vì buồn, vì căng thẳng, hoặc vì chán. Mua để dẹp cảm xúc, chứ không phải vì cần. Món hàng đến tay thì cảm giác dễ chịu cũng qua nhanh.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mua theo cảm xúc",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 12.4,
+      "visual": {
+        "description": "Giá gạch 1.000.000 thành 499.000",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Rồi còn giá gạch ngang. Một triệu bị gạch, còn bốn trăm chín mươi chín nghìn. Con số cũ làm món đồ trông rất rẻ, dù trước đó bạn chưa từng định mua.",
+        "word_count": 33,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hiệu ứng neo giá",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Trâu Tí giơ ra hai nút: Cần và Muốn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước khi bấm mua, hãy phân biệt hai chuyện. Món này mình cần, hay chỉ đang muốn vì giá giảm hoặc vì tâm trạng? Câu hỏi đơn giản này đã chặn được nhiều lần mua vội.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cần hay chỉ muốn?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí đứng giữa giỏ hàng, hỏi nhẹ",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mẹo nhỏ: trước khi thanh toán, tự hỏi mình đang cảm thấy gì. Chán, buồn, hay hào hứng? Chỉ cần gọi tên cảm xúc, nhiều khi cơn muốn mua đã dịu đi.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "\"Mình đang cảm thấy gì?\"",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Hùng mỉm cười, bỏ bớt đồ ra khỏi giỏ",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hùng thử lại. Anh gọi tên cảm xúc, bỏ bớt đồ khỏi giỏ, và chỉ giữ lại những thứ thật sự cần. Không cần nghiêm khắc với bản thân, chỉ cần chậm lại một nhịp.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chậm lại một nhịp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 23.5,
+      "visual": {
+        "description": "Ba bóng đèn: Ước muốn hiện tại, Cảm xúc, Giá gạch ngang",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: mua sắm bốc đồng không phải lỗi nhân cách. Ta ưu tiên niềm vui hiện tại, mua theo cảm xúc, và bị giá gạch ngang đánh lừa. Giải pháp không phải là cấm bản thân, mà là chậm lại một nhịp. Hỏi mình đang cảm thấy gì, cần hay muốn, rồi mới quyết định. Tập vài lần, bạn sẽ thấy dễ hơn.",
+        "word_count": 64,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chậm lại một nhịp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Trâu Tí đưa cuốn nhật ký nhỏ cho người xem",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy nhớ lại năm lần mua sắm gần nhất. Mỗi lần ghi ngắn gọn: mình mua gì, lúc đó cảm thấy gì, và có thật sự cần không. Sau năm dòng, bạn sẽ thấy quy luật của riêng mình.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "viết nhật ký cảm xúc cho năm lần mua sắm gần nhất",
+    "button_label": "Viết nhật ký mua sắm",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "các khái niệm (ưu tiên hiện tại, hiệu ứng neo giá) là khái niệm phổ biến của kinh tế hành vi. Không nêu tỷ lệ phần trăm hay tên nghiên cứu nếu chưa có nguồn: [[TRA NGUỒN nếu trích nghiên cứu]].",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN nếu trích nghiên cứu]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

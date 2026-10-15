@@ -1,0 +1,328 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M4L4",
+  "module_id": "M4",
+  "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
+  "title": "Chuyển tiền và ví điện tử an toàn",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L4",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 113.7,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Một mã OTP, và tiền biến mất.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Điện thoại Lan rung, người lạ tự xưng nhân viên ngân hàng",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan nhận cuộc gọi từ người xưng là nhân viên ngân hàng. Giọng rất lịch sự, nói tài khoản của Lan có vấn đề, và đòi mã OTP để xử lý ngay.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cuộc gọi lạ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 9.5,
+      "visual": {
+        "description": "Trâu Tí giơ tấm biển lớn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quy tắc vàng: không bao giờ đọc mã OTP, mã PIN hay mật khẩu cho bất kỳ ai. Kể cả người xưng là ngân hàng.",
+        "word_count": 25,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Không đọc OTP, PIN, mật khẩu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Đồng hồ đếm ngược xuất hiện sau lưng người gọi",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Những kẻ lừa đảo thường tạo cảm giác gấp gáp để bạn không kịp suy nghĩ. Khi bị thúc ép làm ngay, đó chính là lúc cần chậm lại.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gấp gáp = dấu hiệu cần chậm lại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Màn hình chuyển tiền, ba ô được khoanh",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước khi bấm chuyển tiền, kiểm tra ba thứ. Tên người nhận. Số tài khoản. Và số tiền. Một con số sai thôi cũng có thể mất công lấy lại.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tên · Số tài khoản · Số tiền",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tên",
+            "Số tài khoản",
+            "Số tiền"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Ba biểu tượng: khóa, vân tay, hạn mức",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy bật khóa ứng dụng hoặc sinh trắc học, và đặt hạn mức giao dịch phù hợp. Dù ai đó có cầm được điện thoại, họ cũng khó làm hại bạn hơn.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khóa app · Sinh trắc học · Hạn mức",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Khóa app",
+            "Sinh trắc học",
+            "Hạn mức"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Hai biểu tượng: cửa hàng ứng dụng và đường link bị gạch chéo",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chỉ tải ứng dụng từ cửa hàng chính thức. Và đừng bấm vào đường link lạ gửi qua tin nhắn, dù nó giống như của ngân hàng.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chỉ tải từ nguồn chính thức · Không bấm link lạ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chỉ tải từ nguồn chính thức",
+            "Không bấm link lạ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Lan cúp máy, tự mở app gọi tổng đài chính thức",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu nghi ngờ, hãy cúp máy rồi tự gọi tổng đài in trên thẻ hoặc trong ứng dụng. Đừng gọi lại số vừa gọi cho bạn.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cúp máy → tự gọi lại số chính thức",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 24.2,
+      "visual": {
+        "description": "Danh sách năm dòng, từng dòng được tích",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại năm thói quen. Không đọc OTP cho bất kỳ ai. Kiểm tra tên, số tài khoản và số tiền trước khi chuyển. Bật khóa ứng dụng và đặt hạn mức. Chỉ tải ứng dụng từ cửa hàng chính thức. Nghi ngờ thì cúp máy và tự gọi tổng đài. Bạn không cần nhớ hết ngay, chỉ cần bắt đầu từ quy tắc đầu tiên.",
+        "word_count": 66,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5 thói quen an toàn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Trâu Tí cầm danh sách có dấu tích",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy lập một danh sách bảo vệ cho chính bạn. Mỗi dấu tích là một cánh cửa được khóa lại trước khi kẻ xấu kịp gõ.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Checklist bảo mật của bạn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập checklist bảo mật cho tài khoản và ví cá nhân",
+    "button_label": "Tạo checklist bảo mật",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "kênh báo cáo chính thức và hướng dẫn xử lý khi bị lừa: [[TRA NGUỒN: khuyến cáo của ngân hàng và cơ quan chức năng hiện hành]]. Không nêu tên ví hay ứng dụng cụ thể.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: khuyến cáo của ngân hàng và cơ quan chức năng hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

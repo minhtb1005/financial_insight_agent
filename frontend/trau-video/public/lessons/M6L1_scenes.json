@@ -1,0 +1,354 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M6L1",
+  "module_id": "M6",
+  "module_title": "Thuế thu nhập cá nhân & nghĩa vụ tài chính",
+  "title": "Từ lương gộp đến lương thực nhận",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M6L1",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 116.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Lương trên hợp đồng một con số, về tài khoản một con số. Phần chênh đi đâu?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Lan so phiếu lương với số dư tài khoản",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan thấy lương trên hợp đồng cao hơn số tiền vào tài khoản. Không ai trộm tiền của Lan cả. Phần chênh đó có tên, và hôm nay ta sẽ gọi tên từng phần.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lương gộp ≠ lương thực nhận",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí đứng cạnh một tờ phiếu lương, chỉ vào từng dòng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trên phiếu lương, ngoài lương cơ bản còn có các khoản khấu trừ. Có khoản đóng bảo hiểm bắt buộc, có khoản thuế thu nhập cá nhân nếu thu nhập đủ mức.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lương gộp → khấu trừ → thực nhận",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Ba bậc thang: thu nhập chịu thuế, trừ giảm trừ, thu nhập tính thuế",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thuế không đánh trên toàn bộ lương. Đầu tiên xác định thu nhập chịu thuế, sau đó trừ các khoản được giảm trừ, phần còn lại là thu nhập tính thuế.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chịu thuế − giảm trừ = tính thuế",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 8.8,
+      "visual": {
+        "description": "Hai hộ chiếu: cư trú và không cư trú",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Người cư trú và người không cư trú tính thuế khác nhau. Vì vậy câu hỏi đầu tiên là bạn thuộc nhóm nào.",
+        "word_count": 23,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cư trú · Không cư trú: [[TRA NGUỒN: tiêu chí cư trú]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Cư trú",
+            "Không cư trú: [[TRA NGUỒN: tiêu chí cư trú]]"
+          ],
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Biểu thuế hiện dần từng bậc",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thuế được tính theo từng bậc. Phần thu nhập càng cao nằm ở bậc càng cao, và chỉ phần vượt qua mới bị tính ở mức cao hơn.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Biểu thuế lũy tiến: [[TRA NGUỒN: biểu thuế hiện hành]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V2"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Một ví dụ tính từng dòng trên giấy",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với một mức lương mẫu, hãy tính từng dòng ra giấy: lương gộp, các khoản trừ, thu nhập tính thuế, rồi thuế theo từng bậc. Sau đó đối chiếu với công cụ.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "[[TÍNH BẰNG CÔNG CỤ: lương mẫu theo quy định hiện hành]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V3"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Lan đặt phiếu lương lên cạnh bảng tính",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hiểu cách tính giúp bạn kiểm tra phiếu lương của chính mình. Nếu có điểm không khớp, bạn biết nên hỏi bộ phận nhân sự về dòng nào.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Kiểm tra từng dòng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 24.2,
+      "visual": {
+        "description": "Phiếu lương biến thành bản báo cáo có từng dòng sáng lên",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: lương gộp trừ các khoản khấu trừ ra lương thực nhận. Thuế tính trên thu nhập tính thuế, không phải toàn bộ lương, và tính theo từng bậc. Mỗi năm quy định có thể thay đổi, nên hãy luôn kiểm tra năm áp dụng. Khi hiểu cách tính, bạn đọc phiếu lương như đọc một bản báo cáo, không còn thấy nó bí ẩn.",
+        "word_count": 66,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gộp → khấu trừ → thực nhận",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Trâu Tí vỗ vai Lan",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí",
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy thử tính thuế cho ba mức lương mẫu để thấy thuế thay đổi thế nào khi thu nhập tăng. Nhớ ghi rõ năm áp dụng.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa · Ghi rõ năm áp dụng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Số liệu minh họa",
+            "Ghi rõ năm áp dụng"
+          ]
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính thuế cho ba mức lương mẫu",
+    "button_label": "Máy tính thuế",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Thu nhập tính thuế được xác định thế nào?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "toàn bộ: biểu thuế, mức giảm trừ, tiêu chí cư trú và các khoản được tính vào thu nhập chịu thuế. Phải ghi rõ năm áp dụng trên màn hình.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S4"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: tiêu chí cư trú]]"
+    },
+    {
+      "id": "V2",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S5"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: biểu thuế hiện hành]]"
+    },
+    {
+      "id": "V3",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S6"
+      ],
+      "text": "Điền hoặc xác nhận: [[TÍNH BẰNG CÔNG CỤ: lương mẫu theo quy định hiện hành]]"
+    },
+    {
+      "id": "V4",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V5",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V6",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

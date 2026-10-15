@@ -1,0 +1,334 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L2",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính dài hạn (không đầu tư)",
+  "title": "Về hưu cần bao nhiêu mỗi tháng?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M8L2",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 125.3,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Mai",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Về hưu cần bao nhiêu mỗi tháng? Đa số chưa từng thử tính.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Lan 30 tuổi hỏi chị Mai bên tách trà",
+        "mascot_pose": null,
+        "characters": [
+          "Lan",
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan hỏi chị Mai: về hưu cần bao nhiêu mỗi tháng? Chị Mai cười: chị cũng chưa tính bao giờ. Hóa ra đa số chúng ta đều chưa thử tính. Hôm nay ta thử, bằng bốn bước đơn giản.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chưa ai tính",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Bước một hiện trên bảng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước một: chi phí thiết yếu mỗi tháng hôm nay. Ví dụ, mười triệu cho ăn ở, đi lại và những thứ cần thiết. Đây là điểm xuất phát.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bước 1: chi phí hiện tại = 10tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Đồng hồ cát chạy ba mươi năm",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước hai: giá cả sẽ tăng sau ba mươi năm. Ta thử ba kịch bản lạm phát: ba phần trăm, bốn phần trăm, và năm phần trăm mỗi năm.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bước 2: lạm phát 3% · 4% · 5%",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Bước 2: lạm phát 3%",
+            "4%",
+            "5%"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Ba cột cao dần: 24,3 – 32,4 – 43,2 triệu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với ba kịch bản, mười triệu hôm nay sẽ cần khoảng hai mươi bốn, ba mươi hai, và bốn mươi ba triệu sau ba mươi năm. Chênh nhau khá xa, chỉ vì vài phần trăm mỗi năm.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3%: ~24,3tr · 4%: ~32,4tr · 5%: ~43,2tr (sau 30 năm)",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "3%: ~24,3tr",
+            "4%: ~32,4tr",
+            "5%: ~43,2tr (sau 30 năm)"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Biểu tượng y tế tăng dần",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước ba: chi phí y tế thường tăng khi lớn tuổi. Nên dự trù thêm một phần cho việc này, thay vì chỉ tính chi phí sinh hoạt hằng ngày.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bước 3: thêm phần y tế",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Thanh thời gian: số năm phải chi sau khi nghỉ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước bốn: hỏi mình có thể sống thêm bao nhiêu năm sau khi nghỉ. Càng dài, càng cần nhiều. Không ai biết chính xác, nên hãy tính theo khoảng thay vì một con số duy nhất.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bước 4: số năm sau nghỉ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Trâu Tí đứng trước ba cột, nói nhẹ",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ba con số khác nhau cho thấy kết quả phụ thuộc vào giả định. Vì vậy hãy xem đây là một khoảng, không phải một con số chắc chắn.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Một khoảng, không phải một con số",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 24.2,
+      "visual": {
+        "description": "Bốn bước xếp thành một dãy, kết quả hiện dưới dạng một khoảng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại bốn bước. Chi phí thiết yếu hôm nay, nhân lên theo lạm phát giả định, thêm phần y tế, rồi nghĩ đến số năm sau khi nghỉ. Kết quả là một khoảng ước tính, không phải lời hứa. Nó giúp bạn nhận ra mình đang ở đâu, từ đó mới bàn tiếp chuyện cần làm gì. Video này không khuyến nghị sản phẩm nào.",
+        "word_count": 66,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "4 bước → một khoảng ước tính",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí đưa máy tính cho người xem",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đây là ước tính để bạn biết mình đang đứng ở đâu, chưa phải lời khuyên nên để tiền vào đâu. Hôm nay, hãy thử tính với chi phí thật của bạn.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính chi phí hàng tháng khi về hưu theo ba giả định lạm phát",
+    "button_label": "Tính chi phí hưu trí",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Làm sao ước tính chi phí sống khi về hưu?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "ba con số 24,3, 32,4 và 43,2 được tính từ 10 triệu nhân (1+lạm phát) mũ 30; tự kiểm lại bằng công cụ trước khi dựng. Nếu nói về lương hưu: [[TRA NGUỒN: điều kiện và cách tính lương hưu hiện hành]]. Video không khuyến nghị sản phẩm đầu tư hay tích lũy cụ thể.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: điều kiện và cách tính lương hưu hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L1",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Ba cách chia lương",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M1L1",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 130,
+    "estimate_sec": 132.5,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Lan nhìn số dư: \"Lương về hôm qua, sao hôm nay còn một nửa?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Lan cầm điện thoại, số dư giảm dần",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lương mười hai triệu về hôm qua. Sáng nay Lan mở ứng dụng và thấy đã bay gần một nửa. Lan đâu có mua gì to tát, chỉ là cà phê, bữa ăn, vài đơn mua mạng. Bạn có từng như Lan chưa?",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lương về → tiền đi đâu?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí nhảy vào, tung ba chiếc hộp",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Vấn đề không nằm ở chỗ Lan tiêu quá tay. Vấn đề là tiền chưa được giao việc. Hôm nay mình có ba cách chia tiền. Bạn không cần dùng cả ba, chỉ cần chọn một cách hợp với mình.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3 cách chia tiền",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 20.2,
+      "visual": {
+        "description": "Biểu đồ tròn 50/30/20 trên mức 12 triệu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách một: năm mươi, ba mươi, hai mươi. Năm mươi phần trăm cho nhu cầu như nhà ở, ăn uống, đi lại. Ba mươi phần trăm cho mong muốn. Hai mươi phần trăm để dành hoặc trả nợ. Với mười hai triệu, đó là sáu triệu, ba phẩy sáu triệu và hai phẩy bốn triệu.",
+        "word_count": 55,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "50% nhu cầu = 6tr · 30% mong muốn = 3,6tr · 20% để dành/trả nợ = 2,4tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "50% nhu cầu = 6tr",
+            "30% mong muốn = 3,6tr",
+            "20% để dành/trả nợ = 2,4tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Bảng giá thuê nhà cao, thanh nhu cầu phình ra lấn sang phần mong muốn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhưng quy tắc này chỉ là ước lượng. Nếu tiền nhà ở thành phố lớn đã chiếm gần nửa lương, thanh nhu cầu sẽ phình ra. Khi đó bạn có thể chỉnh thành sáu mươi, hai mươi lăm, mười lăm. Điều quan trọng là vẫn giữ một phần để dành.",
+        "word_count": 50,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chỉnh theo hoàn cảnh, đừng bỏ phần để dành",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Bảng các dòng tiền, dòng cuối bằng 0",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách hai: ngân sách từ không. Mỗi đồng đều được giao một việc, cho đến khi thu trừ chi bằng không. Nghĩa là tiền để dành cũng là một dòng chi, có tên hẳn hoi. Cách này hợp với người thích kiểm soát chi tiết.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu − chi (kể cả tiết kiệm) = 0",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Ba phong bì ghi ăn uống, đi lại, giải trí; một phong bì hết sạch",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách ba: phong bì. Mỗi khoản chi có một phong bì riêng, có bao nhiêu thì chỉ tiêu bấy nhiêu. Hết phong bì giải trí thì nghỉ giải trí đến tháng sau. Bạn có thể dùng ví ảo hoặc bảng tính thay cho tiền mặt.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hết phong bì = dừng chi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ba hộp xếp thành hàng, mỗi hộp một nhãn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Vậy chọn cách nào? Mới bắt đầu thì năm mươi, ba mươi, hai mươi là gọn nhất. Muốn kiểm soát từng đồng thì dùng ngân sách từ không. Hay chi quá tay ở vài khoản thì phong bì sẽ giúp bạn.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mới bắt đầu → 50/30/20 · Muốn chi tiết → từ không · Hay chi quá tay → phong bì",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mới bắt đầu → 50/30/20",
+            "Muốn chi tiết → từ không",
+            "Hay chi quá tay → phong bì"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí đứng cạnh Lan, ba hộp đặt thẳng hàng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí",
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách nào cũng được, miễn bạn dùng đều. Tuần này, hãy thử một cách với đúng mức lương của bạn. Một tháng sau, nhìn lại xem tiền đã đi đâu.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập ngân sách tháng này bằng cả ba cách, rồi chọn một",
+    "button_label": "Mở mẫu ngân sách",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Lương của mình nên chia 50/30/20 thế nào?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "không có số pháp lý. Nói rõ 50/30/20 là quy tắc ước lượng, không phải chuẩn bắt buộc, và có thể lệch khi tiền nhà ở cao.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S8"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

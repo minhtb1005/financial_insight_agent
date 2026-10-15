@@ -1,0 +1,334 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M5L1",
+  "module_id": "M5",
+  "module_title": "Bảo hiểm",
+  "title": "Bản đồ các loại bảo hiểm",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M5L1",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 135,
+    "estimate_sec": 136.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Mai",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Bảo hiểm nào cũng có người bán. Vậy mình thật sự cần cái nào?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Chị Mai ngồi giữa bàn, nhiều tờ rơi bảo hiểm xếp quanh",
+        "mascot_pose": null,
+        "characters": [
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bảo hiểm nào cũng có người bán, tờ rơi nào cũng nói rất hay. Chị Mai hoang mang: vậy mình thật sự cần cái nào? Câu trả lời không bắt đầu từ sản phẩm, mà bắt đầu từ rủi ro.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bắt đầu từ rủi ro",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Chị Mai xếp năm tấm thẻ: ốm đau, tai nạn, mất người kiếm tiền, hỏng xe, cháy nhà",
+        "mascot_pose": null,
+        "characters": [
+          "Mai"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chị Mai liệt kê năm rủi ro có thể xảy ra với gia đình mình. Ốm đau. Tai nạn. Người kiếm tiền chính gặp chuyện. Xe hỏng hoặc va chạm. Và nhà gặp sự cố. Mỗi rủi ro đều có thể tốn một khoản lớn.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5 rủi ro",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Hai cột: bảo hiểm theo quy định và bảo hiểm thương mại",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có hai nhóm bảo hiểm. Nhóm thứ nhất là bảo hiểm theo quy định, như y tế và xã hội. Nhóm thứ hai là bảo hiểm thương mại, như sức khỏe, tai nạn, nhân thọ, xe và nhà.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Theo quy định · Thương mại",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Theo quy định",
+            "Thương mại"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí nối từng thẻ rủi ro với một loại bảo hiểm bằng dây",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Việc của bạn là ghép từng rủi ro với một loại bảo hiểm, rồi xem cái nào mình đã có sẵn. Có rủi ro đã được che một phần, có rủi ro còn để trống hoàn toàn.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghép rủi ro → loại bảo hiểm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Hai bảng nhỏ, một bên ghi Đã có, một bên ghi Còn thiếu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bảo hiểm y tế thường chỉ chi trả trong phạm vi quy định. Phần còn thiếu mới là chỗ để cân nhắc bảo hiểm thương mại. Biết mình thiếu gì, bạn mới hỏi đúng câu.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đã có · Còn thiếu",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Đã có",
+            "Còn thiếu"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Hai hoàn cảnh cạnh nhau: người độc thân và người nuôi cả nhà",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cùng một rủi ro, nhưng mức độ nghiêm trọng khác nhau. Người độc thân và người nuôi cả gia đình sẽ ưu tiên khác nhau. Không có danh sách chung cho tất cả mọi người.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mỗi hoàn cảnh một khác",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Trâu Tí chắn tờ rơi bằng một tấm bảng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi nhân viên tư vấn mời mua, hãy hỏi lại: rủi ro nào mình đang muốn che? Nếu họ không trả lời được rõ ràng, bạn không cần vội quyết định.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Rủi ro nào cần che?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 23.5,
+      "visual": {
+        "description": "Ba bước hiện thành ba bậc thang",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại ba bước. Liệt kê rủi ro của riêng bạn. Xem phần bảo hiểm theo quy định đã che được những gì. Phần còn lại mới cân nhắc bảo hiểm thương mại. Thứ tự này giúp bạn quyết định theo nhu cầu, không theo lời mời. Mỗi hoàn cảnh sẽ cho một danh sách khác nhau, và điều đó hoàn toàn bình thường.",
+        "word_count": 64,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Rủi ro → Đã có → Còn thiếu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 12.4,
+      "visual": {
+        "description": "Trâu Tí giơ ngón tay",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy viết ra rủi ro của chính bạn và ghi bên cạnh những gì bạn đã có. Bắt đầu từ rủi ro của bạn, đừng bắt đầu từ lời mời bán.",
+        "word_count": 33,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập ma trận rủi ro với loại bảo hiểm phù hợp",
+    "button_label": "Lập ma trận rủi ro",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Bảo hiểm y tế khác bảo hiểm sức khỏe thương mại thế nào?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "đối tượng và phạm vi của bảo hiểm bắt buộc (y tế, xã hội, trách nhiệm dân sự xe cơ giới): [[TRA NGUỒN: văn bản hiện hành]]. Không nêu tên công ty hay sản phẩm cụ thể.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: văn bản hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

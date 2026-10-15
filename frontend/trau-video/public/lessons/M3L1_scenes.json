@@ -1,0 +1,304 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L1",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Nợ tốt, nợ xấu",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L1",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 120,
+    "estimate_sec": 120.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Nợ có phải lúc nào cũng xấu không?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Hai hóa đơn: học nghề và điện thoại đời mới trả góp",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan có hai người bạn. Một người vay tiền học nghề, một người vay tiền mua chiếc điện thoại mới nhất. Cả hai đều phải trả mỗi tháng. Nhưng liệu hai khoản nợ này có giống nhau không?",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hai khoản nợ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Trâu Tí đặt hai nhãn Nợ tốt và Nợ xấu lên rồi gỡ xuống",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Người ta hay nói nợ tốt và nợ xấu. Đó chỉ là cách nói quen miệng, không phải thuật ngữ chính thức. Quan trọng hơn là đặt đúng câu hỏi trước khi ký, thay vì dán nhãn sau khi đã vay.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhãn chỉ là cách nói quen miệng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Trâu Tí đặt câu hỏi thứ nhất lên màn hình",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu hỏi thứ nhất: khoản nợ này có giúp thu nhập hoặc giá trị của mình tăng về sau không? Học một nghề có thể mở ra công việc tốt hơn. Chiếc điện thoại thì thường mất giá ngay khi mở hộp.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Có làm tăng giá trị không?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Trâu Tí đặt câu hỏi thứ hai, thanh lãi suất nhích lên",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu hỏi thứ hai: lãi có hợp lý so với khả năng trả không? Lãi quá cao thì dù mục đích tốt, gánh nặng vẫn đè lên mỗi tháng của bạn.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi có hợp lý không?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí đặt câu hỏi thứ ba, Lan kiểm tra ví sau khi trả nợ",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí",
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu hỏi thứ ba: trả xong có còn đủ cho nhu cầu cơ bản không? Nếu sau khi trả nợ mà không còn đủ tiền ăn ở, thì khoản vay đã quá sức, dù mục đích có tốt đến đâu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trả xong còn đủ sống không?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Thanh đo: trả nợ hàng tháng chia thu nhập",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Còn một con số dễ theo dõi: tiền trả nợ mỗi tháng chia cho thu nhập. Lan trả ba triệu trên thu nhập mười hai triệu, tức là hai mươi lăm phần trăm. Con số này cho bạn thấy nợ đang chiếm bao nhiêu phần của tháng.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3tr ÷ 12tr = 25%",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Vạch cảnh báo trên thanh đo, Trâu Tí nghiêng đầu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều người lấy khoảng một phần ba thu nhập làm mốc cảnh báo. Với mười hai triệu thì khoảng bốn triệu. Đây chỉ là gợi ý để tham khảo, không phải luật, và mỗi hoàn cảnh mỗi khác.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mốc tham khảo ~1/3 thu nhập (12tr ÷ 3 = 4tr)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí đặt ba câu hỏi lại cạnh nhau",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nợ tốt mà quá sức vẫn có thể thành nợ xấu. Hôm nay, hãy liệt kê các khoản nợ của bạn, trả lời ba câu hỏi cho từng khoản, rồi tính tỷ lệ nợ trên thu nhập.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "phân loại danh sách khoản nợ giả định và tính tỷ lệ nợ trên thu nhập",
+    "button_label": "Phân loại nợ của bạn",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "mốc \"một phần ba\" phải có nguồn nếu nêu cụ thể hơn: [[TRA NGUỒN: ngưỡng tỷ lệ trả nợ/thu nhập ngân hàng thường dùng]]. \"Nợ tốt, nợ xấu\" là cách nói phổ biến, không phải thuật ngữ pháp lý.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: ngưỡng tỷ lệ trả nợ/thu nhập ngân hàng thường dùng]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S8"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

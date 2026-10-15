@@ -1,0 +1,343 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M6L2",
+  "module_id": "M6",
+  "module_title": "Thuế thu nhập cá nhân & nghĩa vụ tài chính",
+  "title": "Giảm trừ và miễn thuế: có con thì khác gì?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M6L2",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 114.9,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Cùng mức lương, nhưng thuế của hai người lại khác nhau. Tại sao?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Hai hộ: một người độc thân, một gia đình hai con và bố mẹ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Anh A độc thân. Chị B nuôi hai con và bố mẹ già. Cùng mức lương, nhưng hoàn cảnh rất khác. Và thuế phải nộp của hai người cũng khác nhau.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cùng lương, khác hoàn cảnh",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Hai khung giảm trừ hiện ra",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Luật cho trừ một khoản cho bản thân, và một khoản cho mỗi người phụ thuộc đủ điều kiện. Càng có nhiều người phụ thuộc đủ điều kiện, phần bị tính thuế càng thấp.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giảm trừ bản thân · Người phụ thuộc: [[TRA NGUỒN: mức hiện hành]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Giảm trừ bản thân",
+            "Người phụ thuộc: [[TRA NGUỒN: mức hiện hành]]"
+          ],
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Tờ hồ sơ đăng ký người phụ thuộc, dấu tích",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Người phụ thuộc phải đủ điều kiện và được đăng ký. Không đăng ký thì không được trừ. Cần xem quy định để biết ai thuộc diện này.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Điều kiện và hồ sơ: [[TRA NGUỒN]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V2"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.0,
+      "visual": {
+        "description": "Trâu Tí cầm hồ sơ, đếm từng giấy tờ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hồ sơ thường cần giấy tờ chứng minh quan hệ. Hãy chuẩn bị sớm, vì thiếu giấy tờ là lý do hay gặp khiến việc đăng ký bị chậm.",
+        "word_count": 29,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chuẩn bị giấy tờ sớm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 10.2,
+      "visual": {
+        "description": "Biểu tượng bảo hiểm bắt buộc trừ vào lương",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Các khoản đóng bảo hiểm bắt buộc cũng được trừ khi tính thuế theo quy định. Hãy xem trên phiếu lương xem khoản nào thuộc nhóm này.",
+        "word_count": 27,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bảo hiểm bắt buộc → trừ được: [[TRA NGUỒN]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V2"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Danh sách ngắn khoản thu nhập được miễn",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một số khoản thu nhập được miễn thuế. Bạn nên biết mình có khoản nào thuộc nhóm này không, thay vì tự nghĩ là phải nộp.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Danh mục miễn thuế: [[TRA NGUỒN]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V2"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Hai bảng tính cạnh nhau cho anh A và chị B",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi cộng các khoản giảm trừ vào, bảng của chị B có phần tính thuế thấp hơn rõ rệt so với anh A. Đây là cách luật phản ánh gánh nặng của người nuôi gia đình.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giảm trừ nhiều hơn → tính thuế ít hơn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 23.5,
+      "visual": {
+        "description": "Ba khung giảm trừ sáng lên trên bảng của chị B",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: giảm trừ phụ thuộc vào hoàn cảnh và hồ sơ. Bản thân được trừ, người phụ thuộc đủ điều kiện và đã đăng ký cũng được trừ, bảo hiểm bắt buộc cũng được trừ. Một số thu nhập được miễn thuế. Chuẩn bị giấy tờ sớm, kiểm tra quy định hiện hành, và hỏi đơn vị trả lương khi chưa chắc chắn.",
+        "word_count": 64,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bản thân · Phụ thuộc · Bảo hiểm · Miễn thuế",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Bản thân",
+            "Phụ thuộc",
+            "Bảo hiểm",
+            "Miễn thuế"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 8.8,
+      "visual": {
+        "description": "Trâu Tí đưa hai tờ giấy cho hai nhân vật",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy thử xác định giảm trừ cho hai hộ gia đình giả định, rồi xem kết quả thay đổi thế nào.",
+        "word_count": 23,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "xác định giảm trừ cho hai hộ gia đình giả định",
+    "button_label": "Xác định giảm trừ",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "mức giảm trừ, điều kiện và hồ sơ người phụ thuộc, danh mục khoản miễn thuế, đều phải lấy từ văn bản hiện hành.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S2"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: mức hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S3",
+        "S5",
+        "S6"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN]]"
+    },
+    {
+      "id": "V3",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V4",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

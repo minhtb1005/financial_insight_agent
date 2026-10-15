@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M7L4",
+  "module_id": "M7",
+  "module_title": "Tâm lý học tiền bạc & hành vi tiêu dùng",
+  "title": "Nhận diện lừa đảo tài chính",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M7L4",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 130,
+    "estimate_sec": 132.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Tin nhắn: \"Cho vay không cần thế chấp, giải ngân trong năm phút.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Lan nhận tin nhắn lạ lúc nửa đêm",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan đang cần tiền gấp thì nhận được tin nhắn: cho vay không cần thế chấp, giải ngân trong năm phút. Nghe quá dễ. Và đúng lúc khó khăn, điều gì dễ quá thường đáng để dừng lại.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Vay nhanh, không thế chấp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Dấu hiệu một: hứa lợi nhuận cao, chắc chắn, kéo thêm người",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu một: hứa lợi nhuận cao, chắc chắn không rủi ro, và khuyến khích kéo thêm người tham gia. Đầu tư nào cũng có rủi ro, nên lời hứa chắc chắn là một tín hiệu đáng ngờ.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lợi cao + chắc chắn + kéo người",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Dấu hiệu hai: ứng dụng vay đòi truy cập danh bạ, thu phí trước",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu hai: ứng dụng vay nói lãi bằng không nhưng phí rất cao, đòi thu phí trước, hoặc xin quyền truy cập danh bạ và ảnh. Hãy đọc kỹ những quyền mà ứng dụng xin.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí trước · Đòi quyền danh bạ: [[TRA NGUỒN: cảnh báo cơ quan chức năng]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Phí trước",
+            "Đòi quyền danh bạ: [[TRA NGUỒN: cảnh báo cơ quan chức năng]]"
+          ],
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Dấu hiệu ba: người giả danh, giục giã, đòi OTP",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu ba: giả danh ngân hàng hoặc cơ quan nhà nước, giục giã phải làm ngay, và đòi mã OTP. Một tổ chức thật sẽ không bắt bạn quyết định trong vài phút.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giả danh + giục giã + đòi OTP",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Trâu Tí giơ ba câu hỏi lên màn hình",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tự hỏi ba câu. Ai đang cam kết với mình, và có giấy tờ rõ ràng không? Có đòi tiền hay mã trước không? Có giục mình quyết định nhanh không?",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ai cam kết? · Đòi tiền/mã trước? · Có giục không?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ai cam kết?",
+            "Đòi tiền/mã trước?",
+            "Có giục không?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Lan xóa tin nhắn, mỉm cười",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu cả ba câu đều trả lời là có, hãy dừng lại và hỏi một người bạn tin tưởng. Không có khoản vay nào gấp đến mức không thể chờ mười phút để hỏi.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dừng lại · Hỏi người tin tưởng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Dừng lại",
+            "Hỏi người tin tưởng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Trâu Tí cầm điện thoại, chỉ vào nút báo cáo",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu nghi ngờ mình vừa gặp lừa đảo, đừng xấu hổ. Hãy giữ lại bằng chứng như tin nhắn và số tài khoản, rồi báo cho ngân hàng hoặc cơ quan chức năng theo hướng dẫn chính thức.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giữ bằng chứng · Báo cáo đúng kênh",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Giữ bằng chứng",
+            "Báo cáo đúng kênh"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 23.1,
+      "visual": {
+        "description": "Ba dấu hiệu và ba câu hỏi hiện cạnh nhau",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại ba dấu hiệu: hứa lợi cao chắc chắn, đòi phí hoặc quyền truy cập trước, và giả danh kèm giục giã. Ba câu hỏi: ai cam kết, có đòi tiền hay mã trước không, có giục mình không. Dừng lại, hỏi người tin tưởng, giữ bằng chứng và báo đúng kênh. Chậm lại vài phút là cách bảo vệ rẻ nhất.",
+        "word_count": 63,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3 dấu hiệu · 3 câu hỏi",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "3 dấu hiệu",
+            "3 câu hỏi"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Trâu Tí giơ mười tấm thẻ tình huống",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy thử phân loại mười tình huống giả lập: an toàn, đáng ngờ, hay lừa đảo, và nói rõ dấu hiệu mà bạn dựa vào. Càng luyện, bạn càng nhanh nhận ra.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "phân loại mười tình huống thành an toàn, đáng ngờ hoặc lừa đảo và nêu dấu hiệu",
+    "button_label": "Thử phân loại",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Dấu hiệu nhận biết ứng dụng vay tiền lừa đảo?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "dùng tình huống giả lập, không nêu tên ứng dụng hay công ty thật. Kênh báo cáo và cảnh báo chính thức: [[TRA NGUỒN: cơ quan chức năng, ngân hàng]]. Không kết luận một tổ chức là lừa đảo khi chưa có kết luận của cơ quan thẩm quyền.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S3"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: cảnh báo cơ quan chức năng]]"
+    },
+    {
+      "id": "V2",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: cơ quan chức năng, ngân hàng]]"
+    },
+    {
+      "id": "V3",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V4",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

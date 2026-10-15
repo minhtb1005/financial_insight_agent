@@ -1,0 +1,329 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M7L3",
+  "module_id": "M7",
+  "module_title": "Tâm lý học tiền bạc & hành vi tiêu dùng",
+  "title": "Đặt mục tiêu tài chính và giữ kỷ luật",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M7L3",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 123.3,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Năm nào cũng 'năm nay sẽ tiết kiệm'. Rồi sao nữa?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Lan dán giấy tiết kiệm nhiều hơn, giấy rơi xuống",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đầu năm nào Lan cũng dán một tờ giấy: năm nay sẽ tiết kiệm nhiều hơn. Nhưng nhiều là bao nhiêu, và đến khi nào? Không ai biết, kể cả Lan. Đến tháng ba, tờ giấy rơi xuống.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mục tiêu mơ hồ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Năm chữ cái S, M, A, R, T sáng lên",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một mục tiêu tốt có năm đặc điểm. Cụ thể. Đo được. Khả thi. Liên quan đến điều bạn thật sự quan tâm. Và có thời hạn. Chữ cái đầu của năm đặc điểm này ghép thành từ SMART.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cụ thể · Đo được · Khả thi · Liên quan · Có hạn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Cụ thể",
+            "Đo được",
+            "Khả thi",
+            "Liên quan",
+            "Có hạn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Giấy ghi: 18 triệu cho quỹ khẩn cấp trong 6 tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan viết lại mục tiêu: dành mười tám triệu cho quỹ khẩn cấp trong sáu tháng. Chia ra, mỗi tháng ba triệu. Rõ ràng, đo được, và có hạn chót.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "18tr ÷ 6 = 3tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Lan kiểm tra thu nhập, thấy ba triệu là khả thi",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy kiểm tra tính khả thi. Với thu nhập của mình, ba triệu mỗi tháng có làm được không? Nếu quá sức, hãy kéo dài thời hạn thay vì bỏ cuộc.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khả thi? Nếu không, kéo dài hạn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Thanh tiến độ đầy dần, một phần thưởng nhỏ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Theo dõi tiến độ mỗi tháng. Đạt mốc thì tự thưởng một thứ nhỏ, không tốn kém, như một buổi cà phê với bạn. Phần thưởng nhỏ giúp bạn muốn tiếp tục.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Theo dõi + thưởng nhỏ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Lan trượt một tháng, bấm nút quay lại",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có tháng Lan chi vượt mức và không dành được đủ. Điều đó không phải thất bại. Tháng sau, cứ quay lại kế hoạch, và có thể bù thêm một chút nếu làm được.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trượt ≠ thất bại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí dán mục tiêu lên chỗ dễ thấy",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy đặt mục tiêu ở nơi bạn nhìn thấy mỗi ngày, như hình nền điện thoại hay cạnh gương. Nhìn thấy thường xuyên giúp mục tiêu không bị lãng quên.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đặt ở nơi dễ thấy",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.0,
+      "visual": {
+        "description": "Tờ giấy mục tiêu dán ở gương, tháng được đánh dấu tích",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: một mục tiêu tốt cụ thể, đo được, khả thi, liên quan và có hạn. Chia nhỏ thành số tiền mỗi tháng, theo dõi tiến độ, và thưởng nhỏ khi đạt mốc. Trượt một tháng thì quay lại. Khung này chỉ là gợi ý. Điều quan trọng là bạn viết ra, nhìn thấy mỗi ngày, và tiếp tục.",
+        "word_count": 60,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Viết ra · Nhìn mỗi ngày · Tiếp tục",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Viết ra",
+            "Nhìn mỗi ngày",
+            "Tiếp tục"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Trâu Tí đưa ba mảnh giấy trống",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy viết ba mục tiêu của riêng bạn, theo đúng năm đặc điểm đó. Chỉ cần ba dòng, và bạn đã đi nhanh hơn năm ngoái.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "viết ba mục tiêu SMART và cách theo dõi",
+    "button_label": "Viết mục tiêu SMART",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "không có số pháp lý. SMART là khung phổ biến, nói rõ đây là gợi ý.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

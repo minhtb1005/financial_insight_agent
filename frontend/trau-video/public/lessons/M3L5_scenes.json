@@ -1,0 +1,343 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L5",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Hồ sơ tín dụng và CIC",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L5",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 130,
+    "estimate_sec": 129.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Trước khi cho bạn vay, người ta nhìn vào đâu?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Nhân viên ngân hàng nhìn màn hình hồ sơ của Lan",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi Lan xin vay mua nhà, ngân hàng chưa hỏi lương ngay. Họ nhìn lịch sử vay trả trước. Vì quá khứ trả nợ nói lên nhiều điều về cách bạn xử lý tiền.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lịch sử vay trả",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Biểu tượng tổ chức tổng hợp thông tin tín dụng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ở Việt Nam, thông tin tín dụng được tổng hợp bởi trung tâm thông tin tín dụng quốc gia, gọi tắt là CIC. Ngân hàng thường tham khảo dữ liệu này khi xét hồ sơ.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "CIC: [[TRA NGUỒN: vai trò CIC, cách cá nhân tra cứu]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Hai ô đầu đổ sáng: trả đúng hạn, dùng ít hạn mức",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có nhiều thứ ảnh hưởng đến hồ sơ. Đầu tiên là trả đúng hạn. Tiếp theo là bạn dùng bao nhiêu phần hạn mức. Dùng gần hết hạn mức liên tục thường là tín hiệu không tốt.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đúng hạn · Dùng ít hạn mức",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Đúng hạn",
+            "Dùng ít hạn mức"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Hai ô sau đổ sáng: ít nơi xin vay, lịch sử dài",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thứ ba là xin vay bao nhiêu nơi cùng lúc. Thứ tư là bạn có lịch sử vay trả bao lâu. Lịch sử dài và đều đặn giúp ngân hàng dễ đánh giá hơn.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ít nơi xin vay · Lịch sử dài",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ít nơi xin vay",
+            "Lịch sử dài"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Bảng các nhóm nợ chuyển màu từ xanh đến đỏ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trả trễ lâu có thể bị xếp vào nhóm nợ xấu, gây khó khăn khi vay về sau. Cách phân nhóm và thời gian lưu thông tin được quy định cụ thể.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhóm nợ: [[TRA NGUỒN: phân loại nhóm nợ, thời gian lưu]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V2"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Lan lật giấy tờ, kiểm tra từng khoản nợ cũ",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một điều dễ bỏ qua: một khoản nhỏ quên trả, như tiền thẻ hay một khoản vay cũ, cũng có thể để lại dấu vết. Hãy nhớ lại xem bạn có khoản nào đang treo không.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khoản nhỏ vẫn có dấu vết",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Trâu Tí đẩy một lịch 6 tháng lên màn hình",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách cải thiện: trả đúng hạn mỗi tháng, không xin vay nhiều nơi cùng lúc, dùng ít hơn hạn mức, và thỉnh thoảng kiểm tra hồ sơ của mình. Sáu tháng đều đặn là một khởi đầu tốt.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lịch cải thiện 6 tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.7,
+      "visual": {
+        "description": "Từng viên gạch nhỏ xếp thành bức tường hồ sơ",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại, hồ sơ tín dụng được xây từ những thói quen nhỏ lặp lại. Trả đúng hạn, không xin vay dồn dập, dùng vừa phải hạn mức. Một lịch sử chưa tốt cần thời gian để cải thiện, nhưng mỗi tháng đúng hạn là thêm một dòng tốt. Hãy coi đây là việc đường dài, và kiên nhẫn với chính mình.",
+        "word_count": 62,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thói quen nhỏ, đều đặn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Trâu Tí đánh dấu tích vào tháng đầu tiên",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn một việc để làm trong tháng này, rồi viết ra kế hoạch sáu tháng. Hồ sơ tín dụng được xây từng ngày, không phải trong một đêm.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập kế hoạch 6 tháng cải thiện hồ sơ tín dụng",
+    "button_label": "Lập kế hoạch 6 tháng",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "mọi nội dung về CIC, nhóm nợ, thời gian lưu thông tin và cách tra cứu phải lấy từ văn bản hiện hành và trang chính thức của CIC trước khi dựng.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S2"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: vai trò CIC, cách cá nhân tra cứu]]"
+    },
+    {
+      "id": "V2",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S5"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: phân loại nhóm nợ, thời gian lưu]]"
+    },
+    {
+      "id": "V3",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V4",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M7L2",
+  "module_id": "M7",
+  "module_title": "Tâm lý học tiền bạc & hành vi tiêu dùng",
+  "title": "Livestream, KOL và áp lực so sánh",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M7L2",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 120,
+    "estimate_sec": 121.9,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Livestream đếm ngược: \"Còn ba phút, chỉ còn năm sản phẩm!\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Lan xem livestream, đồng hồ đếm ngược trên màn hình",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan chưa nghĩ đến chuyện mua gì. Nhưng trên màn hình, đồng hồ đang đếm ngược, và người dẫn nói chỉ còn năm sản phẩm. Tim Lan bắt đầu đập nhanh hơn một chút.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Còn 3:00 · Còn 5 sản phẩm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Còn 3:00",
+            "Còn 5 sản phẩm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Bốn chiêu hiện lên như bốn quả bóng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đó là những chiêu quen thuộc. Khan hiếm. Đếm ngược. Người nổi tiếng khen. Và câu ai cũng mua. Bốn chiêu này đều nhằm một việc: khiến bạn quyết định trước khi kịp suy nghĩ.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khan hiếm · Đếm ngược · Người nổi tiếng · Ai cũng mua",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Khan hiếm",
+            "Đếm ngược",
+            "Người nổi tiếng",
+            "Ai cũng mua"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Lan lướt ảnh đẹp của người khác, nhìn lại căn phòng nhỏ",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mạng xã hội chỉ hiện phần đẹp của đời sống. Lan nhìn những căn phòng hoàn hảo, rồi nhìn căn phòng của mình. So sánh như vậy, ta dễ muốn chi nhiều hơn mức mình cần.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chỉ thấy phần đẹp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Thanh trả sau làm tiền biến mất phần trả",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Còn có kiểu mua trước, trả sau. Nó làm ta cảm thấy chưa tốn đồng nào. Nhưng thật ra đó vẫn là một khoản nợ, và đến hạn vẫn phải trả.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trả sau = nợ: [[TRA NGUỒN nếu nói về phí]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí đặt đồng hồ cát lên bàn, số 48 hiện lớn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thử quy tắc chờ bốn mươi tám giờ. Bỏ món đồ vào giỏ, rồi đợi hai ngày. Sau hai ngày, nếu vẫn muốn, hãy xem nó có nằm trong ngân sách không.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chờ 48 giờ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Giỏ hàng còn lại hai món sau hai ngày",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều người thử xong sẽ thấy một điều: sau hai ngày, cơn muốn đã nguội, và giỏ hàng gọn hơn hẳn. Phần còn lại thì mua một cách tỉnh táo.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Sau 2 ngày: còn lại thứ thật sự cần",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Lan đặt điện thoại xuống, mỉm cười",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bạn không cần ghét livestream hay mạng xã hội. Chỉ cần biết chúng được thiết kế để giữ bạn lại, và bạn có quyền chậm lại.",
+        "word_count": 26,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bạn có quyền chậm lại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 22.7,
+      "visual": {
+        "description": "Đồng hồ đếm ngược dừng lại, đồng hồ cát 48 giờ bắt đầu chạy",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại: livestream và mạng xã hội dùng khan hiếm, đếm ngược, người nổi tiếng và đám đông để rút ngắn thời gian bạn suy nghĩ. Trả sau vẫn là nợ. Còn quy tắc chờ bốn mươi tám giờ trả thời gian suy nghĩ về cho bạn. Đây là mẹo gợi ý, không phải luật, hãy điều chỉnh cho hợp với mình.",
+        "word_count": 62,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chờ 48 giờ · Trả sau = nợ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chờ 48 giờ",
+            "Trả sau = nợ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí gật đầu",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy thử quy tắc bốn mươi tám giờ cho mọi khoản mua không thiết yếu trong hai tuần. Sau hai tuần, bạn sẽ thấy mình kiểm soát được nhiều hơn mình nghĩ.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "áp dụng quy tắc chờ 48 giờ cho mọi khoản mua không thiết yếu trong hai tuần",
+    "button_label": "Thử thách 48 giờ",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "\"48 giờ\" là mẹo gợi ý, không phải quy chuẩn. Không nêu tên nền tảng hay người nổi tiếng cụ thể.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S4"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN nếu nói về phí]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

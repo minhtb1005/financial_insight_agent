@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# standalone Remotion package (React 18, not part of Next build)
+trau-video/node_modules/
+trau-video/out/

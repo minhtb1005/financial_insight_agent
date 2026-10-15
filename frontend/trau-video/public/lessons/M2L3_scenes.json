@@ -1,0 +1,295 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M2L3",
+  "module_id": "M2",
+  "module_title": "Quỹ khẩn cấp & thói quen tiết kiệm",
+  "title": "Trả lương cho mình trước",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M2L3",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 115,
+    "estimate_sec": 113.7,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Cuối tháng còn bao nhiêu thì để dành?\" — \"Thường là không còn gì.\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Ví của Lan trống rỗng cuối tháng",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giữa tháng, Lan tự nhủ: cuối tháng còn bao nhiêu sẽ để dành. Đến cuối tháng, ví chẳng còn gì. Tháng sau Lan lại tự nhủ y như vậy. Nghe quen không? Đó là lý do cách này gần như không bao giờ hiệu quả.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dành cuối tháng = không dành được",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Trâu Tí đảo ngược hai mũi tên",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy đảo thứ tự: để dành trước, chi tiêu sau. Ngay khi lương về, một phần được tách ra trước khi bạn kịp nghĩ đến việc tiêu. Cách này gọi là trả lương cho mình trước.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Để dành trước → chi sau",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Lệnh chuyển khoản định kỳ vào ngày nhận lương",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đừng dựa vào ý chí, vì ý chí có lúc yếu. Nếu ngân hàng của bạn có tính năng này, hãy cài lệnh chuyển tiền tự động vào đúng ngày nhận lương, từ tài khoản chi tiêu sang tài khoản để dành.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chuyển tự động ngày nhận lương",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Thanh tỷ lệ: 5% của 12 triệu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bắt đầu nhỏ cũng được. Năm phần trăm của mười hai triệu là sáu trăm nghìn mỗi tháng. Nghe ít, nhưng sau mười hai tháng, bạn đã có bảy phẩy hai triệu mà chưa cần tăng thu nhập.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5% × 12tr = 600k · × 12 tháng = 7,2tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "5% × 12tr = 600k",
+            "× 12 tháng = 7,2tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Lan kéo thanh tỷ lệ từ 5% lên 10%",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sau vài tháng, khi đã quen, hãy tăng dần lên mười phần trăm. Sau đó có thể tăng tiếp mỗi khi lương nhích lên. Nâng từ từ như vậy, bạn gần như không cảm thấy mình bị thiếu.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tăng dần: 5% → 10%",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Ví chi tiêu nhỏ lại, Lan vẫn sống thoải mái",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điều thú vị là chỉ sau một hai tháng, bạn quen với mức chi tiêu mới. Số tiền đã được tách đi rồi thì mắt không thấy, tay không tiêu. Phần còn lại tự điều chỉnh.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mắt không thấy, tay không tiêu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 12.4,
+      "visual": {
+        "description": "Hai tài khoản được dán nhãn Quỹ khẩn cấp và Chuyến đi",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một mẹo nhỏ: đặt tên cho khoản để dành, như quỹ khẩn cấp hay chuyến đi Đà Lạt. Khoản tiền có tên thường khó bị lấy ra hơn một khoản tiền vô danh.",
+        "word_count": 33,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đặt tên cho khoản để dành",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Trâu Tí bấm một nút lớn",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy cài một lệnh chuyển định kỳ, hoặc nếu chưa làm được, hãy mô phỏng trên bảng tính. Một lệnh, cài một lần, chạy cả năm.",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa (chưa tính lãi)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "cài lệnh chuyển định kỳ hoặc mô phỏng trên bảng tính",
+    "button_label": "Mô phỏng tiết kiệm tự động",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "tính năng chuyển định kỳ khác nhau giữa các ngân hàng, không nêu tên ngân hàng.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S8"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L2",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Nhu cầu hay mong muốn?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M1L2",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 124.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hùng",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Hùng ôm hộp giày thứ năm: \"Cần mà! Giày chạy bộ!\" (Hùng chưa chạy lần nào.)",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Hùng đứng giữa đống hộp giày",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hùng ôm hộp giày thứ năm trong năm nay và nói chắc nịch: đây là nhu cầu, giày chạy bộ mà. Nhưng Hùng chưa chạy bộ lần nào. Nghe quen không? Ai trong chúng ta cũng từng gọi một món muốn mua là một món cần mua.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "\"Cần mà!\"",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Trâu Tí hiện lên câu hỏi thứ nhất",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trâu Tí có một cách kiểm tra rất nhanh. Câu một: nếu không có món này, việc ăn, ở, đi làm hoặc sức khỏe của mình có bị ảnh hưởng không? Nếu không, rất có thể đó là mong muốn.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Không có thì sao?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Hai câu hỏi tiếp theo hiện dần",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu hai: có cách rẻ hơn mà vẫn đạt mục đích không? Giày năm trăm nghìn và giày hiệu hai triệu rưỡi đều đưa bạn đi bộ được. Câu ba: mình mua hôm nay hay chờ được vài tuần?",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Có cách rẻ hơn? · Chờ được không?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Có cách rẻ hơn?",
+            "Chờ được không?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Vùng xám: điện thoại, ăn ngoài, gói đăng ký",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có những khoản nằm ở giữa. Điện thoại để làm việc là nhu cầu, nhưng bản đắt nhất thì chưa chắc. Ăn trưa là nhu cầu, nhưng ăn ngoài mỗi ngày thay vì mang cơm có thể là mong muốn. Gói xem phim cũng vậy.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Vùng xám",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Một hóa đơn tách đôi",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mẹo hay là tách khoản chi làm hai phần: phần cần dùng và phần nâng cấp. Phần cần dùng thuộc về nhu cầu. Phần nâng cấp mới là mong muốn, và bạn có thể quyết định riêng xem có trả cho phần đó không.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cần dùng / Nâng cấp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Hùng nhìn đôi giày cũ, gật đầu",
+        "mascot_pose": null,
+        "characters": [
+          "Hùng"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quay lại với Hùng. Sau ba câu hỏi, Hùng nhận ra đôi giày cũ vẫn dùng tốt. Hùng không cấm mình mua giày. Hùng chỉ đưa đôi mới vào danh sách mong muốn và xếp nó vào phần ba mươi phần trăm của tháng.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đưa vào danh sách mong muốn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Hai cột nhãn, nhu cầu và mong muốn, cân bằng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mong muốn không xấu. Cuộc sống không chỉ có nhu cầu. Điều cần làm là biết rõ khoản nào thuộc nhóm nào, để khi tiền ít, bạn cắt đúng chỗ, không cắt nhầm khoản cần thiết.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Biết khoản nào thuộc nhóm nào",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Trâu Tí giơ ngón tay",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Việc của bạn tuần này: lấy hai mươi khoản chi gần nhất, gắn nhãn nhu cầu hay mong muốn. Chỉ mất khoảng mười phút, và bạn sẽ ngạc nhiên về kết quả.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "20 khoản chi gần nhất",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "gắn nhãn \"nhu cầu\" hoặc \"mong muốn\" cho 20 khoản chi gần nhất",
+    "button_label": "Gắn nhãn chi tiêu",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "không có số liệu. Nhấn mạnh nhãn phụ thuộc hoàn cảnh từng người.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

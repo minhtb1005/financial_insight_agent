@@ -1,0 +1,294 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L4",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Khi thu nhập thay đổi",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M1L4",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 127.1,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "point",
+    "wave"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Lương tăng hai mươi phần trăm. Tin vui, hay là cái bẫy?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Lan nhận thông báo tăng lương, nhảy cẫng",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lương của Lan tăng từ mười hai lên mười bốn phẩy bốn triệu, tức là tăng hai mươi phần trăm. Lan mừng đến nhảy cẫng lên và lập tức nghĩ đến chiếc điện thoại mới.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12tr → 14,4tr (+20%)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 19.2,
+      "visual": {
+        "description": "Chi tiêu dâng theo như bóng, tiền để dành vẫn trống",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ba tháng sau, chi tiêu của Lan cũng tăng theo gần đúng chừng đó. Ăn ngoài nhiều hơn, thuê nhà đẹp hơn. Tiền để dành thì vẫn y nguyên. Hiện tượng này gọi là lạm phát lối sống: thu nhập tăng nhưng mức sống tăng theo, nên chẳng dư thêm đồng nào.",
+        "word_count": 52,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lạm phát lối sống",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Trâu Tí chia phần lương tăng làm hai",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có một cách thử: lấy phần lương tăng thêm và chia đôi. Phần tăng của Lan là hai phẩy bốn triệu. Một phẩy hai triệu để sống tốt hơn, một phẩy hai triệu để dành. Lan vẫn có niềm vui, và tiền dành dụm cũng lớn lên.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "+2,4tr: 1,2tr sống · 1,2tr để dành",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "+2,4tr: 1,2tr sống",
+            "1,2tr để dành"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Lan nhận tin thu nhập giảm, nét mặt chùng xuống",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bây giờ nhìn chiều ngược lại. Giả sử thu nhập của Lan giảm ba mươi phần trăm, từ mười hai xuống tám phẩy bốn triệu. Đây chính là lúc ngân sách giúp bạn bình tĩnh.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12tr → 8,4tr (−30%)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Các khoản bị gạch dần theo thứ tự",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy cắt theo thứ tự. Trước hết là những khoản mong muốn. Rồi đến phần nâng cấp trong các khoản nhu cầu, như gói điện thoại cao cấp. Cuối cùng mới đụng tới nhu cầu cốt lõi: nhà ở, ăn uống cơ bản, đi lại để đi làm.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cắt: mong muốn → nâng cấp → nhu cầu cốt lõi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Lịch thu nhập thất thường, đường mức nền nằm ngang",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Còn nếu thu nhập của bạn không đều, như làm tự do hay bán hàng theo mùa? Hãy lấy tháng thấp nhất trong sáu tháng gần đây làm mức nền để lập ngân sách. Chi tiêu cố định không vượt quá mức nền đó.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mức nền = tháng thấp nhất trong 6 tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Phần dư của tháng cao chảy vào một quỹ đệm, rồi bù tháng thấp",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Những tháng thu nhập cao hơn mức nền, phần dư không nên tiêu hết. Hãy cho vào một quỹ đệm. Đến tháng thấp, bạn lấy từ quỹ này để bù, và cuộc sống không bị xáo trộn.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tháng cao → quỹ đệm → bù tháng thấp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Trâu Tí vẫy tay",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Việc cần làm: lập hai kịch bản cho mình, một khi lương tăng hai mươi phần trăm, một khi thu nhập mất ba mươi phần trăm. Chuẩn bị trước thì khi chuyện đến, bạn không hoảng.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập hai kịch bản, lương tăng 20% và mất 30% thu nhập, trên mẫu ngân sách",
+    "button_label": "Thử kịch bản",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "không có số pháp lý. Cách chia đôi phần lương tăng và quy tắc \"tháng thấp nhất\" là gợi ý, không phải chuẩn.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S8"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,335 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L2",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Snowball hay Avalanche?",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L2",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 125,
+    "estimate_sec": 126.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "celebrate",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Lan có ba khoản nợ và không biết trả khoản nào trước.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 10.6,
+      "visual": {
+        "description": "Ba tờ giấy nợ: A 5tr lãi 30%/năm; B 20tr lãi 12%/năm; C 2tr lãi 18%/năm",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan nợ ba nơi: năm triệu lãi cao, hai mươi triệu lãi thấp, hai triệu lãi vừa. Thêm một ít tiền dư mỗi tháng, nhưng dồn vào đâu?",
+        "word_count": 28,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "A 5tr · 30% · B 20tr · 12% · C 2tr · 18%",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "A 5tr",
+            "30%",
+            "B 20tr",
+            "12%",
+            "C 2tr",
+            "18%"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí đặt một quy tắc chung lên bảng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quy tắc chung: luôn trả đủ mức tối thiểu cho mọi khoản, rồi dồn phần dư vào một khoản. Bỏ lỡ mức tối thiểu thường kéo theo phí trễ hạn, nên đây là việc không được quên.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tối thiểu cho tất cả, phần dư dồn vào một khoản",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Cục tuyết lăn: C → A → B",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách một, quả cầu tuyết. Trả khoản nhỏ nhất trước, xong rồi dồn sang khoản tiếp theo. Với Lan, thứ tự là khoản hai triệu, rồi năm triệu, rồi hai mươi triệu.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Snowball: nhỏ nhất trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Tờ nợ nhỏ nhất tan biến, quả cầu to dần",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khoản nhỏ nhất biến mất đầu tiên, và số tiền bạn từng trả cho nó được dồn sang khoản kế tiếp. Thấy nợ giảm nhanh, nhiều người có thêm động lực để đi tiếp.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thắng sớm → có động lực",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Thanh trượt xuống dốc: A → C → B",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách hai, tuyết lở. Trả khoản lãi cao nhất trước. Với Lan, đó là khoản năm triệu lãi ba mươi phần trăm, rồi đến khoản lãi mười tám, và cuối cùng là khoản lãi mười hai.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Avalanche: lãi cao nhất trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Biểu tượng tiền lãi co lại sau mỗi lần chạm",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lãi cao là khoản đang ngốn tiền nhanh nhất, nên dập nó trước thường tốn ít tiền lãi hơn. Lưu ý, khoản lãi cao nhất không phải lúc nào cũng là khoản nhỏ nhất.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thường tốn ít lãi hơn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Hai cột so sánh: động lực vs tổng lãi",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Snowball cho cảm giác thắng nhanh. Avalanche thường tiết kiệm lãi. Chênh nhau bao nhiêu thì còn tùy số tiền dư mỗi tháng. Con số chính xác thì chạy trên công cụ, đừng đoán.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tổng lãi hai cách: [[TÍNH BẰNG CÔNG CỤ]]",
+          "position": "auto",
+          "appear": "scene_start",
+          "blocked_by": "V1"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 21.7,
+      "visual": {
+        "description": "Ba tờ nợ xếp lại, hai mũi tên Snowball và Avalanche chạy song song",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhắc lại ngắn gọn. Luôn trả đủ mức tối thiểu cho mọi khoản. Snowball trả khoản nhỏ nhất trước, cho động lực. Avalanche trả khoản lãi cao nhất trước, thường tiết kiệm lãi. Không có cách nào đúng cho tất cả mọi người. Hãy chọn cách hợp với tính cách và hoàn cảnh của bạn, rồi giữ vững nó.",
+        "word_count": 59,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tối thiểu · Snowball · Avalanche",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tối thiểu",
+            "Snowball",
+            "Avalanche"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Trâu Tí vỗ vai Lan",
+        "mascot_pose": "celebrate",
+        "characters": [
+          "Trâu Tí",
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách tốt nhất là cách bạn theo đủ lâu để trả hết. Hôm nay, hãy liệt kê các khoản nợ của bạn và thử mô phỏng cả hai cách để xem cách nào hợp với mình.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "mô phỏng ba khoản nợ bằng cả hai chiến lược",
+    "button_label": "Mô phỏng trả nợ",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "số tiền lãi tiết kiệm được phải lấy từ công cụ mô phỏng đã kiểm tra, không ước bằng miệng. Phần [[TÍNH BẰNG CÔNG CỤ]] phải điền trước khi dựng.",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "S7"
+      ],
+      "text": "Điền hoặc xác nhận: [[TÍNH BẰNG CÔNG CỤ]]"
+    },
+    {
+      "id": "V2",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V3",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

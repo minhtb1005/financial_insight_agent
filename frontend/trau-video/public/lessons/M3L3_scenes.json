@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L3",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Đọc lãi suất, phí, kỳ hạn",
+  "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L3",
+  "status": "draft_blocked_pending_verification",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": 135,
+    "estimate_sec": 136.7,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "idle",
+    "point"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "\"Lãi một phần trăm mỗi tháng. Nghe có vẻ rẻ nhỉ?\"",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Lan cầm tờ rơi quảng cáo vay 100 triệu, 12 tháng",
+        "mascot_pose": null,
+        "characters": [
+          "Lan"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan thấy quảng cáo vay một trăm triệu, mười hai tháng, lãi một phần trăm mỗi tháng. Nghe có vẻ rẻ. Nhưng một phần trăm đó được tính trên cái gì mới là điều quan trọng.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Vay 100tr · 12 tháng · 1%/tháng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Vay 100tr",
+            "12 tháng",
+            "1%/tháng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Hai cách tính hiện song song",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có hai cách tính. Cách một, lãi tính trên số tiền vay ban đầu, cho đến khi hết kỳ hạn. Cách hai, lãi tính trên số dư nợ còn lại, giảm dần theo từng tháng.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dư nợ ban đầu vs dư nợ giảm dần",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Cách một: cột lãi cao đều nhau mỗi tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với cách một, mỗi tháng lãi là một phần trăm của một trăm triệu, tức là một triệu. Nhân mười hai tháng, tổng lãi là mười hai triệu, dù bạn đã trả bớt gốc từ lâu.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1% × 100tr = 1tr/tháng · × 12 = 12tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "1% × 100tr = 1tr/tháng",
+            "× 12 = 12tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Cách hai: cột lãi thấp dần theo từng tháng",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với cách hai, mỗi tháng bạn trả bớt gốc nên số dư giảm, lãi cũng giảm theo. Nếu trả gốc đều mỗi tháng, tổng lãi chỉ khoảng sáu phẩy năm triệu.",
+        "word_count": 31,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi giảm dần theo dư nợ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Hai cột tổng lãi: 12 triệu và khoảng 6,5 triệu",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cùng một phần trăm mỗi tháng, cách một cho tổng lãi mười hai triệu. Cách hai chỉ khoảng sáu phẩy năm triệu. Chênh nhau gần gấp đôi. Đây là lý do cần hỏi lãi tính trên gì.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12tr vs ~6,5tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí đổi đơn vị từ tháng sang năm",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một lưu ý nữa: lãi theo tháng và lãi theo năm dễ gây nhầm. Một phần trăm mỗi tháng nghe nhỏ, nhưng quy ra cả năm là khoảng mười hai phần trăm. Hãy so sánh trên cùng một đơn vị.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1%/tháng ≈ 12%/năm (tính gần đúng)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Ba món phí hiện như ba con dấu: trả nợ trước hạn, chậm trả, bảo hiểm khoản vay",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đừng chỉ nhìn lãi. Hỏi thêm về phí trả nợ trước hạn, phí chậm trả, và bảo hiểm đi kèm khoản vay. Những khoản này có thể làm tổng chi phí cao hơn bạn tưởng.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí trả trước hạn · Phí chậm trả · Bảo hiểm đi kèm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Phí trả trước hạn",
+            "Phí chậm trả",
+            "Bảo hiểm đi kèm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 27.0,
+      "visual": {
+        "description": "Hai tờ quảng cáo cạnh nhau, dòng tổng tiền phải trả được khoanh",
+        "mascot_pose": null,
+        "characters": [],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tóm lại về khoản vay: hãy so sánh trên cùng một đơn vị, hỏi lãi tính trên dư nợ ban đầu hay dư nợ giảm dần, và cộng cả phí vào tổng chi phí. Hai khoản vay có cùng con số lãi quảng cáo vẫn có thể rất khác nhau về tổng tiền phải trả. Con số cần so sánh là tổng tiền bạn bỏ ra, không phải con số lãi nghe nhỏ nhất.",
+        "word_count": 74,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "So tổng tiền phải trả",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Trâu Tí giơ ba ngón tay",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước khi ký, hỏi ba câu: tổng số tiền phải trả là bao nhiêu, lãi tính trên gì, và ngoài lãi còn phí nào. Có ba câu trả lời rõ ràng, bạn mới nên ký.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tổng phải trả? · Lãi tính trên gì? · Phí nào khác?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tổng phải trả?",
+            "Lãi tính trên gì?",
+            "Phí nào khác?"
+          ]
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "so sánh tổng chi phí của hai phương án vay mua xe",
+    "button_label": "So sánh hai khoản vay",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
+    "chatbot_prompt": "Lãi tính trên dư nợ gốc khác dư nợ giảm dần như thế nào?"
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": "số 12 triệu và 6,5 triệu là số minh họa, kiểm lại bằng công cụ trước khi dựng. Quy định công khai lãi suất, phí cho vay tiêu dùng: [[TRA NGUỒN: quy định hiện hành]].",
+  "verification": [
+    {
+      "id": "V1",
+      "type": "placeholder",
+      "status": "open",
+      "blocks": [
+        "see verify_note"
+      ],
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định hiện hành]]"
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}
