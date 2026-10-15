@@ -146,3 +146,5 @@ LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
 # Agent
 AGENT_MAX_ITERATIONS: int = _get_int("AGENT_MAX_ITERATIONS", 10)
 AGENT_TIMEOUT_SECONDS: int = _get_int("AGENT_TIMEOUT_SECONDS", 120)
+# UX-mode switch: "full" (default, all tools) or "tutor" (education tools only).
+AGENT_MODE: str = os.getenv("AGENT_MODE", "full").strip().lower() or "full"

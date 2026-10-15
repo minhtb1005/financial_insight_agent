@@ -78,7 +78,7 @@ HybridSplitter → agent_node ⇄ tools_node (loop) → final_answer → END
 
 - **HybridSplitter**: Tách câu hỏi đa intent thành các sub-query độc lập (rule-based + LLM fallback).
 - **agent_node**: LLM (OpenAI GPT-4o-mini, fallback Groq Llama) tự động quyết định tool cần gọi.
-- **tools_node**: LangGraph `ToolNode` chứa 14 `@tool` functions.
+- **tools_node**: LangGraph `ToolNode` chứa 18 `@tool` functions.
 - **final_answer_node**: Output guardrails + sanitization.
 
 ### Tool Types
@@ -101,6 +101,12 @@ Agent tự động chọn tool phù hợp dựa trên ý định câu hỏi. B�
 | `analyze_sector` | Phân tích hiệu suất ngành (`banking`, `real_estate`, `technology`, `energy`, …) theo metric `performance`/`volume` trong `1w`/`1m`. Gợi ý các mã đại diện ngành. | "Phân tích tình hình ngành ngân hàng theo dữ liệu trước 30/06/2024." |
 | `search_knowledge` | Tra cứu kho tri thức RAG về pháp luật/giáo dục chứng khoán Việt Nam (Luật Chứng khoán, TT96, TT135, HNX/HOSE, SSI). Trả về trích dẫn `[Nguồn: Tên - Điều - URL]` theo độ ưu tiên VBPL > Thông tư > HNX/HOSE > SSI > quốc tế. Chỉ dùng cho khái niệm/quy định, không dùng cho giá live. Chỉ phục vụ giáo dục, không phải tư vấn được cấp phép. | "Điều kiện chào bán cổ phiếu lần đầu ra công chúng theo Luật Chứng khoán là gì?" |
 | `generate_chart_spec` | Sinh JSON chart-spec để vẽ dashboard bên ngoài khung chat với 10 loại biểu đồ: `candlestick`, `line`, `bar`, `area`, `pie`, `donut`, `treemap`, `heatmap`, `waterfall`, `scatter`. Chỉ gọi khi user yêu cầu vẽ/so sánh trực quan/xem xu hướng/tỷ trọng/tương quan; không gọi khi chỉ hỏi con số/text. Nếu thiếu mã cần vẽ thì hỏi lại, không đoán bừa. Số liệu lấy từ vnstock thật, qua validator rule-based. | "Vẽ biểu đồ nến VCB 6 tháng gần nhất." |
+| `calculate_loan_schedule` | Tính lịch trả nợ (dư nợ giảm dần) + so sánh snowball vs avalanche. Chỉ giáo dục, không khuyến nghị sản phẩm vay cụ thể. | "Vay 200 triệu 10%/năm 2 năm, mỗi tháng trả bao nhiêu?" |
+| `calculate_future_value` | Tính lãi kép (danh nghĩa + thực sau lạm phát) và chi phí sống khi về hưu theo 3 kịch bản lạm phát. Chỉ giáo dục. | "100 triệu sau 5 năm lãi 6% còn sức mua bao nhiêu?" |
+| `calculate_pit` | Tính thuế TNCN từ tiền lương theo biểu hiện hành (Luật 109/2025, kỳ 2026); output luôn kèm nguồn + ngày hiệu lực + câu đối chiếu văn bản. | "Lương 30 triệu, 1 người phụ thuộc thì đóng thuế bao nhiêu?" |
+| `budget_template` | Lập ngân sách 50/30/20 + zero-based từ thu nhập ròng; gợi ý vẽ pie/donut qua `generate_chart_spec`. | "Lương 12 triệu lập ngân sách 50/30/20 thế nào?" |
+
+> **Chế độ tutor:** đặt `AGENT_MODE=tutor` để agent chỉ expose 4 tools giáo dục trên + `search_knowledge` + `generate_chart_spec` (mặc định `full` giữ nguyên 18 tools). Đây là UX-mode, không phải security boundary. Kho `search_knowledge` đã bổ sung nguồn TNCN (Luật 109/2025), KDBH (Luật 08/2022), BHXH/BHYT/BHTN 2026, nhóm nợ CIC, cảnh báo lừa đảo (tinnhiemmang.vn), lãi suất điều hành SBV.
 
 ### Reliability & Observability
 

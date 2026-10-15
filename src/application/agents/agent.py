@@ -48,6 +48,36 @@ logger = get_logger("agent.StockAgent")
 MAX_ITERATIONS = parse_int_env("AGENT_MAX_ITERATIONS", 10)
 AGENT_TIMEOUT_SECONDS = parse_int_env("AGENT_TIMEOUT_SECONDS", 120)
 
+# Tutor allowlist — 4 education tools + knowledge + chart (pie/donut ngân sách).
+# NOTE: UX-mode only, not a security boundary (client could still call MCP directly).
+TUTOR_TOOL_ALLOWLIST = frozenset({
+    "calculate_loan_schedule",
+    "calculate_future_value",
+    "calculate_pit",
+    "budget_template",
+    "search_knowledge",
+    "generate_chart_spec",
+})
+
+TUTOR_ADDENDUM = (
+    "Bạn đang trong chế độ giáo dục tài chính cá nhân. Giải thích khái niệm, "
+    "đưa ví dụ số liệu giả định rõ ràng, không khuyến nghị sản phẩm cụ thể "
+    "(TT 135/2025/TT-BTC), trích dẫn nguồn khi dùng kiến thức pháp lý. "
+    "Mọi con số thuế/lãi suất phải kèm nguồn + ngày hiệu lực từ tool output "
+    "và nhắc user đối chiếu văn bản hiện hành."
+)
+
+
+def _apply_agent_mode_filter(tools: list) -> list:
+    """Filter tools to tutor allowlist when AGENT_MODE=tutor (default full)."""
+    import os
+
+    if os.getenv("AGENT_MODE", "full").strip().lower() != "tutor":
+        return tools
+    kept = [t for t in tools if getattr(t, "name", None) in TUTOR_TOOL_ALLOWLIST]
+    logger.info("Tutor mode: %d/%d tools kept", len(kept), len(tools))
+    return kept
+
 
 class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], add_messages]
@@ -111,6 +141,8 @@ class StockAgent:
                 logger.error("Fallback also failed: %s", e2)
                 self.tools = []
 
+        # Tutor filter right after load, before ToolNode + LLM binding.
+        self.tools = _apply_agent_mode_filter(self.tools)
         self.tool_node = CustomToolNode(self.tools) if self.tools else CustomToolNode([])
         try:
             self.llm_provider = LLMProvider()
@@ -267,6 +299,10 @@ class StockAgent:
                 dynamic_parts.append(f"Context from past interactions:\n{memory_context}")
             dynamic_msg = SystemMessage(content="\n\n".join(dynamic_parts))
             messages = [static_msg, dynamic_msg, *messages]
+            import os as _os
+
+            if _os.getenv("AGENT_MODE", "full").strip().lower() == "tutor":
+                messages = [messages[0], SystemMessage(content=TUTOR_ADDENDUM), *messages[1:]]
         return messages
 
     def _invoke_llm(self, node_logger, messages: list, rid: str) -> tuple:

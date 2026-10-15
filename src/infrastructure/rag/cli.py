@@ -16,13 +16,14 @@ def main() -> None:
     run_p = sub.add_parser("run", help="Run full refresh")
     run_p.add_argument("--force", action="store_true")
     run_p.add_argument("--week", type=str, default=None)
+    run_p.add_argument("--suffix", type=str, default="")
     sub.add_parser("status", help="Show last runs")
     diff_p = sub.add_parser("diff", help="Diff manifests")
     diff_p.add_argument("--week", type=str, required=True)
 
     args = p.parse_args()
     if args.cmd == "run":
-        res = run_full_refresh(force=args.force, week=args.week)
+        res = run_full_refresh(force=args.force, week=args.week, collection_suffix=args.suffix)
         print(json.dumps(res, ensure_ascii=False, indent=2))
     elif args.cmd == "status":
         runs = get_last_runs(limit=10)

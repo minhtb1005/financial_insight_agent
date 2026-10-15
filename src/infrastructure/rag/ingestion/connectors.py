@@ -15,6 +15,13 @@ from ..processing.cleaner import clean_text
 
 logger = get_logger("rag.connectors")
 
+# Markers for WAF/bot-block pages returned with HTTP 200 (content is junk).
+_BLOCKED_MARKERS = ("Just a moment", "challenges.cloudflare", "Request Rejected")
+
+
+def _is_blocked_page(text: str) -> bool:
+    return any(m in text for m in _BLOCKED_MARKERS)
+
 
 SEED_TEXTS: dict[str, str] = {
     "vbpl_24_2025": """Văn bản hợp nhất 24/VBHN-VPQH — Luật Chứng khoán 54/2019/QH14 sửa đổi bởi Luật 56/2024/QH15 (hiệu lực tham chiếu 02/2025).
@@ -57,6 +64,38 @@ Trang https://www.hnx.vn/vi-vn/huong-dan.html cung cấp hướng dẫn niêm y�
 Chủ đề: đa dạng hóa danh mục, chứng quyền, đọc BCTC, phân tích kỹ thuật/cơ bản, quản trị rủi ro, tâm lý đầu tư.
 Nguồn https://www.ssi.com.vn/khach-hang-ca-nhan/trung-tam-kien-thuc — an toàn hơn blog cá nhân, dùng tham khảo giáo dục.
 """,
+    # --- Education batch (Phase B, 14/10/2026): mọi số đã verify qua websearch ---
+    "pit_law_109": """Luật Thuế TNCN 2025 số 109/2025/QH15 (Quốc hội thông qua 10/12/2025, hiệu lực 01/07/2026; quy định về tiền lương/tiền công áp dụng từ kỳ tính thuế năm 2026).
+
+Biểu thuế lũy tiến từng phần với thu nhập từ tiền lương, tiền công (Điều 9) — 5 bậc/tháng: đến 10 triệu 5%; trên 10 đến 30 triệu 10%; trên 30 đến 60 triệu 20%; trên 60 đến 100 triệu 30%; trên 100 triệu 35%.
+Giảm trừ gia cảnh (NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP, áp dụng kỳ 2026): bản thân 15,5 triệu/tháng; mỗi người phụ thuộc 6,2 triệu/tháng. Thu nhập tính thuế = thu nhập chịu thuế − giảm trừ − bảo hiểm bắt buộc.
+Hộ/cá nhân kinh doanh: ngưỡng doanh thu không nộp thuế 500 triệu/năm. Đối chiếu NĐ 253/2026 + TT 87/2026/TT-BTC trước khi quyết toán.
+""",
+    "kdbh_law_08": """Luật Kinh doanh bảo hiểm số 08/2022/QH15 (thông qua 16/06/2022, hiệu lực 01/01/2023; sửa đổi bởi Luật 139/2025/QH15 hiệu lực 01/01/2026; VBHN 31/VBHN-VPQH 2026).
+
+Điều 35 — Thời gian cân nhắc: với hợp đồng bảo hiểm thời hạn trên 01 năm, trong 21 ngày kể từ ngày nhận hợp đồng, bên mua được từ chối tiếp tục tham gia.
+Luật quy định 05 loại hợp đồng bảo hiểm; không áp dụng với BHXH, BHYT, bảo hiểm tiền gửi. Văn bản hướng dẫn: NĐ 46/2023/NĐ-CP, NĐ 21/2023/NĐ-CP (bảo hiểm vi mô), TT 67/2023/TT-BTC.
+""",
+    "bhxh_2026_rates": """Mức đóng BHXH, BHYT, BHTN năm 2026 (giữ ổn định, tổng 32% tiền lương làm căn cứ đóng).
+
+Người lao động đóng 10,5%: BHXH 8%, BHYT 1,5%, BHTN 1%. Người sử dụng lao động đóng 21,5%: BHXH 17,5% (hưu trí-tử tuất 14%, ốm đau-thai sản 3%, TNLĐ-BNN 0,5%), BHYT 3%, BHTN 1%.
+Căn cứ: Luật BHXH 2024, NĐ 188/2025/NĐ-CP (BHYT 4,5%), Luật Việc làm 2025 (BHTN). Từ 01/07/2026 lương cơ sở 2.530.000 đồng (NĐ 161/2026/NĐ-CP); trần đóng BHXH/BHYT 20 lần lương cơ sở = 50.600.000 đồng.
+""",
+    "cic_debt_groups": """CIC — Trung tâm Thông tin Tín dụng Quốc gia Việt Nam (thuộc Ngân hàng Nhà nước): thu thập, lưu trữ, cung cấp lịch sử tín dụng cá nhân/tổ chức; ngân hàng tra cứu khi xét duyệt vay, thẻ tín dụng.
+
+Phân loại 5 nhóm nợ theo Điều 10 Thông tư 11/2021/TT-NHNN (phương pháp định lượng): Nhóm 1 nợ đủ tiêu chuẩn (trong hạn hoặc quá hạn dưới 10 ngày); Nhóm 2 nợ cần chú ý (quá hạn đến 90 ngày); Nhóm 3 nợ dưới tiêu chuẩn (quá hạn 91–180 ngày); Nhóm 4 nợ nghi ngờ (quá hạn 181–360 ngày); Nhóm 5 nợ có khả năng mất vốn (quá hạn trên 360 ngày).
+Nợ xấu = nhóm 3, 4, 5 (khoản 8 Điều 3 TT 11/2021; khoản 5 Điều 3 TT 31/2024/TT-NHNN). Rơi vào nợ xấu gây khó vay mới, khó mở thẻ, uy tín tín dụng giảm nhiều năm.
+""",
+    "scam_tinnhiemmang": """Cảnh báo lừa đảo tài chính — dấu hiệu chung (Cục An toàn thông tin, tinnhiemmang.vn).
+
+Dấu hiệu: cam kết lợi nhuận cao/bảo đảm không rủi ro; giả mạo ngân hàng, cơ quan nhà nước, sàn đầu tư; giục chuyển tiền, cung cấp OTP/mã xác thực; app vay yêu cầu phí trước, lãi cắt cổ (tín dụng đen); link lạ, số lạ xưng công an/thuế/ngân hàng.
+Tự bảo vệ: không chia sẻ OTP/mật khẩu; kiểm chứng qua kênh chính thức; tra cứu cảnh báo tại https://tinnhiemmang.vn. Chỉ giáo dục nhận diện, không thay thế tư vấn pháp lý.
+""",
+    "sbv_policy_rates": """Lãi suất điều hành của Ngân hàng Nhà nước (tĩnh, tra cứu định kỳ — lãi suất liên ngân hàng công bố hằng ngày trên trang SBV là follow-up riêng).
+
+Đang áp dụng: tái cấp vốn 4,5%/năm; tái chiết khấu 3,0%/năm; cho vay qua đêm/bù đắp thiếu hụt thanh toán 5,0%/năm — theo QĐ 1123/QĐ-NHNN, hiệu lực từ 19/06/2023.
+NHNN thay đổi linh hoạt theo từng thời kỳ; ngân hàng thương mại điều chỉnh huy động/cho vay theo đó. Đối chiếu trang SBV trước khi dùng số.
+""",
 }
 
 
@@ -97,8 +136,8 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
             if fr.status == "ok":
                 # check if content is actual pdf/text (not Cloudflare challenge)
                 content_preview = str(fr.content[:2000]) if isinstance(fr.content, (bytes, bytearray)) else str(fr.content)[:2000]
-                if "Just a moment" in content_preview or "challenges.cloudflare" in content_preview:
-                    logger.warning("pdf fetch got Cloudflare challenge for %s — using seed", u)
+                if _is_blocked_page(content_preview):
+                    logger.warning("pdf fetch got block page for %s — using seed", u)
                     continue
                 fetched = fr
                 fetched.source_id = sid
@@ -149,15 +188,15 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
                 return docs
             return [{"source_id": sid, "url": url, "text": "", "error": fr.error, "priority": cfg.get("priority", 5)}]
         html = fr.content if isinstance(fr.content, str) else fr.content.decode("utf-8", errors="ignore")
-        if "Just a moment" in html or "challenges.cloudflare" in html:
+        if _is_blocked_page(html):
             if sid in SEED_TEXTS:
-                logger.warning("HTML got Cloudflare challenge for %s — using seed", sid)
+                logger.warning("HTML got block page for %s — using seed", sid)
                 docs.append(_seed_doc(sid, cfg))
                 return docs
-            return [{"source_id": sid, "url": url, "text": "", "error": "cloudflare_blocked", "priority": cfg.get("priority", 5)}]
+            return [{"source_id": sid, "url": url, "text": "", "error": "blocked_page", "priority": cfg.get("priority", 5)}]
         text = clean_text(html_to_text(html))
         if len(text) < 200 and sid in SEED_TEXTS:
-            text = text + "\n" + SEED_TEXTS[sid]
+            text = SEED_TEXTS[sid]  # trang chặn/fetch rỗng: dùng seed thay vì rác tiền tố
             text = clean_text(text)
         docs.append({"source_id": sid, "url": fr.url, "text": text, "priority": cfg.get("priority", 5), "title": cfg.get("name", sid), "sha256": fr.sha256, "etag": fr.etag})
 

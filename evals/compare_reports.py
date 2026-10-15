@@ -42,6 +42,11 @@ def main() -> int:
         if b is None or c is None:
             print(f"{metric:<22} {b!s:>10} {c!s:>10} {'—':>9}  (missing)")
             continue
+        if isinstance(b, bool) or isinstance(c, bool) or not isinstance(
+            b, (int, float)
+        ) or not isinstance(c, (int, float)):
+            print(f"{metric:<22} {str(b)[:10]:>10} {str(c)[:10]:>10} {'—':>9}  (non-numeric, skipped)")
+            continue
         delta = round(c - b, 4)
         rel = (c - b) / b if b else 0
         if rel < -args.threshold:

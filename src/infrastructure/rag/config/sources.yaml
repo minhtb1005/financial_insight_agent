@@ -70,6 +70,64 @@ sources:
     enabled: false  # bật khi có bản dịch chính thức
     parser: generic_html
 
+  # --- Education batch (Phase B, 14/10/2026): spike fetch đã verify từng nguồn ---
+  - id: pit_law_109
+    name: "Luật Thuế TNCN 2025 số 109/2025/QH15 (kỳ tính thuế 2026)"
+    url: "https://luatvietnam.vn/thue/luat-thue-thu-nhap-ca-nhan-2025-so-109-2025-qh15-422733-d1.html"
+    type: html
+    priority: 2
+    enabled: true
+    parser: generic_html
+    description: "Biểu 5 bậc + giảm trừ 15.5M/6.2M; spike: fetch OK 626KB/87K text"
+
+  - id: kdbh_law_08
+    name: "Luật Kinh doanh bảo hiểm 08/2022/QH15 (+ sửa đổi 139/2025)"
+    url: "https://luatvietnam.vn/bao-hiem/luat-kinh-doanh-bao-hiem-2022-so-08-2022-qh15-224108-d1.html"
+    type: html
+    priority: 3
+    enabled: true
+    parser: generic_html
+    description: "Điều 35 thời gian cân nhắc 21 ngày; spike: fetch OK 2MB/310K text"
+
+  - id: bhxh_2026_rates
+    name: "Mức đóng BHXH/BHYT/BHTN 2026 (NLĐ 10.5%, NSDLĐ 21.5%)"
+    url: "https://luatvietnam.vn/bao-hiem/tu-2026-muc-dong-bhxh-bhyt-bhtn-cua-nld-va-nsdld-duoc-tinh-nhu-the-nao-563-106906-article.html"
+    type: html
+    priority: 3
+    enabled: true
+    parser: generic_html
+    description: "Luật BHXH 2024 + NĐ 188/2025 + Luật Việc làm 2025; spike: fetch OK 17.8K text"
+
+  - id: cic_debt_groups
+    name: "CIC — 5 nhóm nợ TT 11/2021 (CIC site chặn bot, dùng seed đã verify)"
+    url: "https://www.cic.org.vn/"
+    type: html
+    priority: 3
+    enabled: true
+    parser: generic_html
+    description: "Spike: cic.org.vn DNS/403 fail; seed Điều 10 TT 11/2021 + nợ xấu TT 31/2024"
+
+  - id: scam_tinnhiemmang
+    name: "Cảnh báo lừa đảo — tinnhiemmang.vn (Cục ATTT)"
+    url: "https://tinnhiemmang.vn/"
+    type: html_crawl
+    priority: 4
+    enabled: true
+    parser: generic_html
+    crawl:
+      max_pages: 10
+      delay_seconds: 0.5
+    description: "Spike: homepage OK 78KB (JS nhiều, crawl bổ sung + seed fallback)"
+
+  - id: sbv_policy_rates
+    name: "Lãi suất điều hành SBV (tĩnh; liên NH daily là follow-up)"
+    url: "https://luatvietnam.vn/linh-vuc-khac/lai-suat-dieu-hanh-la-gi-883-96788-article.html"
+    type: html
+    priority: 4
+    enabled: true
+    parser: generic_html
+    description: "Spike: sbv.gov.vn WAF-block; dùng bài tổng hợp (4.5/3.0/5.0, QĐ 1123, HL 19/06/2023) + seed"
+
 settings:
   rate_limit:
     default_delay_seconds: 0.5

@@ -1,0 +1,487 @@
+{
+  "schema_version": "1.0",
+  "curriculum": {
+    "id": "finsight-personal-finance-vn",
+    "title": "Tài chính cá nhân cho người Việt — không đầu tư",
+    "language": "vi",
+    "audience": ["sinh viên", "người mới đi làm", "hộ gia đình trẻ"],
+    "prerequisites": "Không yêu cầu kiến thức tài chính; biết 4 phép tính và dùng được điện thoại/ngân hàng số",
+    "total_hours_estimate": 34,
+    "scope_note": "Chỉ giáo dục. Không khuyến nghị mua/bán sản phẩm tài chính cụ thể (TT 135/2025/TT-BTC). Mọi con số pháp lý/lãi suất/thuế phải tra nguồn hiện hành trước khi xuất bản.",
+    "design_principles": [
+      "Mỗi bài có 1 hoạt động làm ra sản phẩm cụ thể (bảng tính, checklist, kế hoạch)",
+      "Ví dụ và bài tập đặt trong bối cảnh Việt Nam (ví điện tử, tín dụng đen, bảo hiểm y tế, TNCN)",
+      "Agent trả lời có trích dẫn nguồn [Nguồn: ...] và kèm disclaimer giáo dục"
+    ],
+    "reference_structures": [
+      {"source": "Yale Financial Markets (Coursera)", "borrowed_idea": "Chia theo tuần, mỗi tuần một chủ đề lớn + tài liệu đọc + bài kiểm tra"},
+      {"source": "Wharton Intro to Corporate Finance (Coursera)", "borrowed_idea": "Đi từ giá trị thời gian của tiền → lãi suất → phân tích dòng tiền"},
+      {"source": "CFA Investment Foundations", "borrowed_idea": "Có module đạo đức & quy định, và module kiểm soát rủi ro"},
+      {"source": "Khan Academy Financial Literacy", "borrowed_idea": "Học tự chọn thứ tự theo đơn vị độc lập"}
+    ],
+    "levels": {
+      "basic": "Nền tảng, học trước",
+      "intermediate": "Cần hiểu lãi suất và ngân sách",
+      "advanced": "Cần hoàn thành ngân sách, quỹ khẩn cấp và nợ"
+    },
+    "modules": [
+      {
+        "id": "M1",
+        "order": 1,
+        "level": "basic",
+        "title": "Quản lý ngân sách & theo dõi chi tiêu",
+        "hours": 5,
+        "outcomes": [
+          "Lập được ngân sách tháng bằng ít nhất một phương pháp",
+          "Phân loại chi tiêu thành nhu cầu và mong muốn",
+          "Điều chỉnh ngân sách khi thu nhập tăng hoặc giảm"
+        ],
+        "lessons": [
+          {
+            "id": "M1L1",
+            "title": "Ba phương pháp lập ngân sách",
+            "topics": ["Quy tắc 50/30/20", "Zero-based budgeting", "Envelope system (phong bì/ví ảo)"],
+            "activity": "Lập ngân sách tháng cho cùng một mức thu nhập bằng cả ba phương pháp, chọn một phương pháp và giải thích vì sao",
+            "agent_questions": ["Quy tắc 50/30/20 là gì và áp dụng với lương 12 triệu thế nào?"]
+          },
+          {
+            "id": "M1L2",
+            "title": "Nhu cầu và mong muốn",
+            "topics": ["Tiêu chí phân biệt", "Vùng xám (điện thoại, ăn ngoài, gói đăng ký)"],
+            "activity": "Gắn nhãn 20 khoản chi gần nhất là nhu cầu hay mong muốn",
+            "agent_questions": ["Làm sao phân biệt nhu cầu và mong muốn khi chi tiêu?"]
+          },
+          {
+            "id": "M1L3",
+            "title": "Theo dõi chi tiêu theo danh mục",
+            "topics": ["Danh mục: ăn uống, nhà ở, di chuyển, giải trí, khác", "Công cụ: bảng tính, app, sao kê ngân hàng"],
+            "activity": "Theo dõi chi tiêu 14 ngày và tổng hợp theo danh mục",
+            "agent_questions": ["Nên chia danh mục chi tiêu thế nào cho người mới?"]
+          },
+          {
+            "id": "M1L4",
+            "title": "Điều chỉnh khi thu nhập thay đổi",
+            "topics": ["Thu nhập tăng: tránh lạm phát lối sống", "Thu nhập giảm: cắt theo thứ tự ưu tiên", "Thu nhập không đều (freelance)"],
+            "activity": "Lập 2 kịch bản: lương tăng 20% và mất 30% thu nhập",
+            "agent_questions": ["Thu nhập không đều thì lập ngân sách thế nào?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 15,
+          "project": "Ngân sách 3 tháng kèm nhật ký chi tiêu",
+          "rubric": [
+            {"criterion": "Đầy đủ danh mục", "weight": 0.3},
+            {"criterion": "Hợp lý so với thu nhập, có dự phòng", "weight": 0.3},
+            {"criterion": "Dùng công cụ, trình bày rõ", "weight": 0.2},
+            {"criterion": "Giải thích lựa chọn", "weight": 0.2}
+          ]
+        },
+        "product_mapping": {
+          "agent_tools": [],
+          "rag": ["search_knowledge"],
+          "gaps": ["Chưa có tool ngân sách cá nhân; cần calculator hoặc bảng tính mẫu"]
+        }
+      },
+      {
+        "id": "M2",
+        "order": 2,
+        "level": "basic",
+        "title": "Quỹ khẩn cấp & thói quen tiết kiệm",
+        "hours": 4,
+        "outcomes": [
+          "Tính được quy mô quỹ khẩn cấp theo chi phí sống của mình",
+          "Phân mục tiêu tiết kiệm theo ngắn/trung/dài hạn",
+          "Thiết lập tiết kiệm tự động"
+        ],
+        "lessons": [
+          {
+            "id": "M2L1",
+            "title": "Vì sao cần quỹ khẩn cấp",
+            "topics": ["Mức 3–6 tháng chi phí", "Điều chỉnh theo độ ổn định thu nhập", "Nơi giữ quỹ: thanh khoản cao, an toàn"],
+            "activity": "Tính con số quỹ khẩn cấp mục tiêu và lộ trình đạt được",
+            "agent_questions": ["Quỹ khẩn cấp cần bao nhiêu tháng chi phí và để ở đâu?"]
+          },
+          {
+            "id": "M2L2",
+            "title": "Mục tiêu tiết kiệm theo kỳ hạn",
+            "topics": ["Ngắn hạn: mua xe, du lịch", "Trung hạn: cưới hỏi, sửa nhà", "Dài hạn: mua nhà, hưu trí"],
+            "activity": "Lập bảng 3 mục tiêu với số tiền, thời hạn, số tiền tiết kiệm mỗi tháng",
+            "agent_questions": ["Cách chia nhỏ mục tiêu tiết kiệm theo kỳ hạn?"]
+          },
+          {
+            "id": "M2L3",
+            "title": "Trả lương cho bản thân trước",
+            "topics": ["Pay yourself first", "Chuyển khoản tự động ngay ngày nhận lương"],
+            "activity": "Cài lệnh chuyển tiền định kỳ hoặc mô phỏng trên bảng tính",
+            "agent_questions": ["Pay yourself first là gì?"]
+          },
+          {
+            "id": "M2L4",
+            "title": "Tiết kiệm khi thu nhập thấp",
+            "topics": ["Bắt đầu bằng khoản nhỏ", "Cắt chi phí lặp lại", "Tăng thu nhập phụ"],
+            "activity": "Thử thách tiết kiệm 30 ngày với mục tiêu nhỏ",
+            "agent_questions": ["Thu nhập thấp có nên tiết kiệm không và bắt đầu thế nào?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 12,
+          "project": "Kế hoạch quỹ khẩn cấp 6 tháng",
+          "rubric": [
+            {"criterion": "Tính đúng chi phí sống", "weight": 0.4},
+            {"criterion": "Lộ trình thực tế", "weight": 0.4},
+            {"criterion": "Trình bày", "weight": 0.2}
+          ]
+        },
+        "product_mapping": {"agent_tools": [], "rag": ["search_knowledge"], "gaps": ["Cần nguồn lãi suất tiết kiệm cập nhật nếu muốn so sánh"]}
+      },
+      {
+        "id": "M3",
+        "order": 3,
+        "level": "intermediate",
+        "title": "Quản lý nợ & tín dụng",
+        "hours": 5,
+        "outcomes": [
+          "Phân biệt nợ tốt/nợ xấu bằng tiêu chí rõ ràng",
+          "So sánh phương án trả nợ snowball và avalanche",
+          "Đọc và so sánh lãi suất, phí phạt, kỳ hạn",
+          "Dùng thẻ tín dụng không phát sinh lãi",
+          "Hiểu điểm tín dụng và cách cải thiện"
+        ],
+        "lessons": [
+          {
+            "id": "M3L1",
+            "title": "Nợ tốt và nợ xấu",
+            "topics": ["Tiêu chí: tạo giá trị lâu dài, lãi suất so với khả năng trả", "Tỷ lệ nợ trên thu nhập"],
+            "activity": "Phân loại danh sách khoản nợ giả định và tính tỷ lệ nợ/thu nhập",
+            "agent_questions": ["Nợ tốt và nợ xấu khác nhau thế nào?"]
+          },
+          {
+            "id": "M3L2",
+            "title": "Chiến lược trả nợ: snowball vs avalanche",
+            "topics": ["Snowball: trả khoản nhỏ trước", "Avalanche: trả lãi cao trước", "Đánh đổi tâm lý và chi phí"],
+            "activity": "Mô phỏng 3 khoản nợ bằng cả hai chiến lược trên bảng tính",
+            "agent_questions": ["Snowball và avalanche khác nhau thế nào?"]
+          },
+          {
+            "id": "M3L3",
+            "title": "Đọc lãi suất, phí phạt, kỳ hạn",
+            "topics": ["Lãi suất danh nghĩa vs chi phí vay thực tế", "Lãi suất tính trên dư nợ gốc ban đầu vs dư nợ giảm dần", "Phí trả nợ trước hạn, phí phạt chậm trả"],
+            "activity": "So sánh tổng chi phí hai phương án vay mua xe",
+            "agent_questions": ["Lãi suất vay tính trên dư nợ ban đầu khác dư nợ giảm dần thế nào?"]
+          },
+          {
+            "id": "M3L4",
+            "title": "Thẻ tín dụng đúng cách",
+            "topics": ["Thẻ tín dụng không phải tiền miễn phí", "Kỳ miễn lãi, thanh toán tối thiểu, lãi trên số dư", "Đọc sao kê"],
+            "activity": "Đọc một sao kê mẫu và tính chi phí nếu chỉ trả mức tối thiểu",
+            "agent_questions": ["Trả tối thiểu thẻ tín dụng có hậu quả gì?"]
+          },
+          {
+            "id": "M3L5",
+            "title": "Điểm tín dụng và CIC",
+            "topics": ["Điểm tín dụng là gì, yếu tố ảnh hưởng", "Nhóm nợ", "Cách cải thiện"],
+            "activity": "Lập kế hoạch 6 tháng cải thiện hồ sơ tín dụng",
+            "agent_questions": ["Điểm tín dụng được hình thành từ đâu?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 20,
+          "project": "Kế hoạch thoát nợ cho tình huống giả định 3 khoản nợ",
+          "rubric": [
+            {"criterion": "Tính lãi chính xác", "weight": 0.4},
+            {"criterion": "Chọn và giải thích chiến lược", "weight": 0.3},
+            {"criterion": "Đánh giá rủi ro", "weight": 0.2},
+            {"criterion": "Trình bày", "weight": 0.1}
+          ]
+        },
+        "product_mapping": {
+          "agent_tools": [],
+          "rag": ["search_knowledge"],
+          "gaps": ["Thiếu máy tính lãi vay/amortization", "Thiếu nguồn CIC/quy định tín dụng trong RAG"]
+        }
+      },
+      {
+        "id": "M4",
+        "order": 4,
+        "level": "basic",
+        "title": "Ngân hàng & sản phẩm tài chính cơ bản",
+        "hours": 4,
+        "outcomes": [
+          "Phân biệt tài khoản thanh toán và tiết kiệm",
+          "Tính lãi suất thực sau lạm phát",
+          "Nhận diện và tránh phí ngân hàng thường gặp",
+          "Chuyển tiền và dùng ví điện tử an toàn"
+        ],
+        "lessons": [
+          {
+            "id": "M4L1",
+            "title": "Tài khoản thanh toán vs tiết kiệm",
+            "topics": ["Mục đích, lãi suất, thanh khoản", "Tiền gửi có kỳ hạn vs không kỳ hạn"],
+            "activity": "Bảng so sánh hai loại tài khoản cho cùng một mục tiêu",
+            "agent_questions": ["Khi nào dùng tài khoản thanh toán, khi nào dùng tiết kiệm?"]
+          },
+          {
+            "id": "M4L2",
+            "title": "Lãi suất danh nghĩa và lãi suất thực",
+            "topics": ["Lãi suất thực ≈ danh nghĩa trừ lạm phát", "Lãi kép và giá trị thời gian của tiền"],
+            "activity": "Tính sức mua của 100 triệu sau 5 năm ở mức lạm phát giả định",
+            "agent_questions": ["Lãi suất thực khác danh nghĩa như thế nào?"]
+          },
+          {
+            "id": "M4L3",
+            "title": "Phí ngân hàng thường gặp",
+            "topics": ["Phí thường niên, SMS, chuyển khoản, rút ATM", "Cách kiểm tra biểu phí và tránh phí"],
+            "activity": "Rà soát biểu phí của tài khoản mình đang dùng",
+            "agent_questions": ["Có những loại phí ngân hàng nào thường gặp?"]
+          },
+          {
+            "id": "M4L4",
+            "title": "Chuyển tiền, thanh toán, ví điện tử an toàn",
+            "topics": ["Xác thực sinh trắc học, OTP", "Dấu hiệu giao dịch giả mạo", "Hạn mức và bảo mật ví"],
+            "activity": "Checklist bảo mật tài khoản và ví cá nhân",
+            "agent_questions": ["Làm sao dùng ví điện tử an toàn?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 12,
+          "project": "Bảng so sánh sản phẩm ngân hàng + checklist bảo mật",
+          "rubric": [
+            {"criterion": "So sánh đúng và đủ tiêu chí", "weight": 0.5},
+            {"criterion": "Checklist khả thi", "weight": 0.3},
+            {"criterion": "Trình bày", "weight": 0.2}
+          ]
+        },
+        "product_mapping": {"agent_tools": [], "rag": ["search_knowledge"], "gaps": ["Cần nguồn dữ liệu lãi suất ngân hàng (SBV/ngân hàng) cập nhật"]}
+      },
+      {
+        "id": "M5",
+        "order": 5,
+        "level": "intermediate",
+        "title": "Bảo hiểm",
+        "hours": 4,
+        "outcomes": [
+          "Phân biệt các loại bảo hiểm cá nhân",
+          "Nhận ra bảo hiểm cần thiết và sản phẩm bán kèm",
+          "Đọc hợp đồng: quyền lợi, loại trừ, thời gian chờ"
+        ],
+        "lessons": [
+          {
+            "id": "M5L1",
+            "title": "Bản đồ các loại bảo hiểm",
+            "topics": ["Sức khỏe, tai nạn, nhân thọ", "Xe, nhà", "Bảo hiểm xã hội/y tế bắt buộc vs thương mại"],
+            "activity": "Lập ma trận rủi ro → loại bảo hiểm phù hợp",
+            "agent_questions": ["Bảo hiểm y tế khác bảo hiểm sức khỏe thương mại thế nào?"]
+          },
+          {
+            "id": "M5L2",
+            "title": "Cần thật sự và bán thêm",
+            "topics": ["Câu hỏi sàng lọc: rủi ro, người phụ thuộc, khả năng tự chịu", "Dấu hiệu bán chéo"],
+            "activity": "Phân tích một tình huống bị tư vấn mua gói bảo hiểm đi kèm khoản vay",
+            "agent_questions": ["Làm sao biết một gói bảo hiểm có thật sự cần?"]
+          },
+          {
+            "id": "M5L3",
+            "title": "Đọc hợp đồng bảo hiểm cơ bản",
+            "topics": ["Quyền lợi bảo hiểm", "Điều khoản loại trừ", "Thời gian chờ", "Quyền hủy trong thời gian cân nhắc"],
+            "activity": "Đánh dấu quyền lợi, loại trừ và thời gian chờ trên một hợp đồng mẫu",
+            "agent_questions": ["Điều khoản loại trừ là gì, ví dụ ra sao?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 12,
+          "project": "Bảng phân tích nhu cầu bảo hiểm cho một hộ gia đình giả định",
+          "rubric": [
+            {"criterion": "Nhận diện rủi ro", "weight": 0.4},
+            {"criterion": "Đọc hợp đồng chính xác", "weight": 0.4},
+            {"criterion": "Trình bày", "weight": 0.2}
+          ]
+        },
+        "product_mapping": {"agent_tools": [], "rag": ["search_knowledge"], "gaps": ["Cần thêm nguồn Luật Kinh doanh bảo hiểm và hợp đồng mẫu vào RAG"]}
+      },
+      {
+        "id": "M6",
+        "order": 6,
+        "level": "advanced",
+        "title": "Thuế thu nhập cá nhân & nghĩa vụ tài chính",
+        "hours": 4,
+        "outcomes": [
+          "Xác định ai thuộc diện nộp thuế TNCN",
+          "Tính thuế cơ bản và lương thực nhận",
+          "Biết các khoản giảm trừ/miễn thuế thường gặp",
+          "Biết cách kê khai và lưu chứng từ"
+        ],
+        "lessons": [
+          {
+            "id": "M6L1",
+            "title": "Đối tượng và cách tính thuế cơ bản",
+            "topics": ["Cư trú/không cư trú", "Thu nhập chịu thuế", "Thu nhập tính thuế = thu nhập chịu thuế − giảm trừ"],
+            "activity": "Tính thuế cho 3 mức lương mẫu (số liệu theo quy định hiện hành)",
+            "agent_questions": ["Thu nhập tính thuế được xác định thế nào?"]
+          },
+          {
+            "id": "M6L2",
+            "title": "Giảm trừ và miễn thuế thường gặp",
+            "topics": ["Giảm trừ bản thân, người phụ thuộc", "Các khoản đóng bảo hiểm bắt buộc", "Khoản miễn thuế phổ biến"],
+            "activity": "Xác định giảm trừ cho 2 hộ gia đình giả định",
+            "agent_questions": ["Người phụ thuộc được giảm trừ khi nào?"]
+          },
+          {
+            "id": "M6L3",
+            "title": "Kê khai và lưu trữ chứng từ",
+            "topics": ["Quyết toán thuế", "Chứng từ khấu trừ", "Hậu quả kê khai sai"],
+            "activity": "Lập hồ sơ chứng từ thuế cá nhân theo năm",
+            "agent_questions": ["Khi nào phải tự quyết toán thuế TNCN?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 12,
+          "project": "Bảng tính thuế và lương thực nhận cho 3 kịch bản",
+          "rubric": [
+            {"criterion": "Tính đúng theo quy định áp dụng", "weight": 0.5},
+            {"criterion": "Giải thích từng bước", "weight": 0.3},
+            {"criterion": "Trình bày", "weight": 0.2}
+          ]
+        },
+        "product_mapping": {
+          "agent_tools": [],
+          "rag": ["search_knowledge"],
+          "gaps": ["Cần nạp văn bản Luật Thuế TNCN và hướng dẫn mới nhất vào RAG", "Cần calculator thuế; con số phải xác minh trước khi đưa vào bài"],
+          "verify_before_publish": true
+        }
+      },
+      {
+        "id": "M7",
+        "order": 7,
+        "level": "intermediate",
+        "title": "Tâm lý học tiền bạc & hành vi tiêu dùng",
+        "hours": 4,
+        "outcomes": [
+          "Giải thích được các thiên kiến gây chi tiêu bốc đồng",
+          "Nhận diện tác động của quảng cáo và mạng xã hội",
+          "Đặt mục tiêu tài chính SMART và duy trì kỷ luật",
+          "Nhận biết các chiêu lừa đảo tài chính phổ biến"
+        ],
+        "lessons": [
+          {
+            "id": "M7L1",
+            "title": "Vì sao ta chi tiêu bốc đồng",
+            "topics": ["Thiên kiến hiện tại", "Chi tiêu cảm xúc", "Hiệu ứng neo giá và giảm giá"],
+            "activity": "Nhật ký cảm xúc cho 5 lần mua sắm gần nhất",
+            "agent_questions": ["Vì sao dễ mua sắm bốc đồng khi có khuyến mãi?"]
+          },
+          {
+            "id": "M7L2",
+            "title": "Quảng cáo, mạng xã hội và áp lực so sánh",
+            "topics": ["FOMO, KOL/livestream", "Mua trước trả sau", "Cách tạo độ trễ trước khi mua"],
+            "activity": "Áp dụng quy tắc chờ 48 giờ cho mọi khoản mua không thiết yếu trong 2 tuần",
+            "agent_questions": ["Làm sao giảm ảnh hưởng của quảng cáo mạng xã hội lên chi tiêu?"]
+          },
+          {
+            "id": "M7L3",
+            "title": "Mục tiêu tài chính và kỷ luật",
+            "topics": ["Mục tiêu SMART", "Theo dõi tiến độ, thưởng nhỏ", "Xử lý khi vi phạm kế hoạch"],
+            "activity": "Viết 3 mục tiêu SMART và cơ chế theo dõi",
+            "agent_questions": ["Đặt mục tiêu tài chính SMART thế nào?"]
+          },
+          {
+            "id": "M7L4",
+            "title": "Nhận diện lừa đảo tài chính",
+            "topics": ["Cam kết lợi nhuận cao, đa cấp", "Ứng dụng vay lãi cao/tín dụng đen", "Giả mạo ngân hàng/cơ quan, đánh cắp OTP"],
+            "activity": "Phân loại 10 tình huống thành an toàn / đáng ngờ / lừa đảo và nêu dấu hiệu",
+            "agent_questions": ["Dấu hiệu nhận biết app vay tiền lừa đảo?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 15,
+          "project": "Nhật ký hành vi 2 tuần + kế hoạch cải thiện",
+          "rubric": [
+            {"criterion": "Nhận diện đúng thiên kiến", "weight": 0.4},
+            {"criterion": "Giải pháp thực tế", "weight": 0.4},
+            {"criterion": "Phản tư", "weight": 0.2}
+          ]
+        },
+        "product_mapping": {"agent_tools": [], "rag": ["search_knowledge"], "gaps": ["Cần nguồn cảnh báo lừa đảo của cơ quan quản lý/ngân hàng"]}
+      },
+      {
+        "id": "M8",
+        "order": 8,
+        "level": "advanced",
+        "title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+        "hours": 4,
+        "outcomes": [
+          "Đặt mục tiêu tài chính theo giai đoạn đời",
+          "Ước tính chi phí sống khi về hưu bằng giá trị tương lai",
+          "Lập kế hoạch tài chính cho các sự kiện lớn"
+        ],
+        "lessons": [
+          {
+            "id": "M8L1",
+            "title": "Mục tiêu theo giai đoạn đời",
+            "topics": ["20–30: nền tảng, quỹ khẩn cấp, trả nợ", "30–40: gia đình, nhà ở", "40+: hưu trí, hỗ trợ cha mẹ"],
+            "activity": "Vẽ lộ trình tài chính 10 năm với các cột mốc",
+            "agent_questions": ["Ưu tiên tài chính khác nhau ở từng độ tuổi thế nào?"]
+          },
+          {
+            "id": "M8L2",
+            "title": "Ước tính chi phí sống khi về hưu",
+            "topics": ["Chi phí hiện tại điều chỉnh theo lạm phát", "Thay đổi chi phí y tế", "Số năm sống sau hưu"],
+            "activity": "Tính chi phí hàng tháng khi về hưu theo 3 giả định lạm phát (chưa chọn sản phẩm đầu tư)",
+            "agent_questions": ["Làm sao ước tính chi phí sống khi về hưu?"]
+          },
+          {
+            "id": "M8L3",
+            "title": "Chuẩn bị cho sự kiện lớn",
+            "topics": ["Cưới hỏi", "Sinh con và giáo dục", "Chăm sóc cha mẹ"],
+            "activity": "Lập ngân sách sự kiện và nguồn tiền cho một sự kiện bạn chọn",
+            "agent_questions": ["Chi phí sinh con nên dự trù những khoản nào?"]
+          }
+        ],
+        "assessment": {
+          "quiz_questions": 10,
+          "project": "Kế hoạch tài chính cá nhân 10 năm (capstone)",
+          "rubric": [
+            {"criterion": "Mục tiêu cụ thể, đo lường được", "weight": 0.25},
+            {"criterion": "Tính toán đúng", "weight": 0.35},
+            {"criterion": "Tích hợp ngân sách, quỹ khẩn cấp, nợ, bảo hiểm, thuế", "weight": 0.3},
+            {"criterion": "Trình bày", "weight": 0.1}
+          ]
+        },
+        "product_mapping": {"agent_tools": [], "rag": ["search_knowledge"], "gaps": ["Cần calculator giá trị tương lai/lạm phát; cần nguồn BHXH/lương hưu"]}
+      }
+    ],
+    "learning_paths": [
+      {"id": "fast_start", "title": "Khởi động nhanh", "modules": ["M1", "M2", "M4"], "hours": 13},
+      {"id": "debt_free", "title": "Thoát nợ", "modules": ["M1", "M3", "M7"], "hours": 14},
+      {"id": "full", "title": "Trọn khóa", "modules": ["M1", "M2", "M4", "M3", "M5", "M7", "M6", "M8"], "hours": 34}
+    ],
+    "agent_integration": {
+      "mode": "tutor",
+      "system_prompt_addendum": "Bạn đang trong chế độ giáo dục tài chính cá nhân. Giải thích khái niệm, đưa ví dụ số liệu giả định rõ ràng, không khuyến nghị sản phẩm cụ thể, trích dẫn nguồn khi dùng kiến thức pháp lý.",
+      "tools_used": ["search_knowledge"],
+      "tools_unused_in_this_curriculum": [
+        "get_stock_price", "calculate_technical_indicator", "compare_stocks", "rank_stocks",
+        "aggregate_prices", "get_financial_ratios", "get_company_info", "get_news_and_sentiment",
+        "manage_portfolio", "check_price_alert", "forecast_stock_price", "analyze_sector", "generate_chart_spec"
+      ],
+      "suggested_new_components": [
+        "calculate_loan_schedule (lịch trả nợ, so sánh snowball/avalanche)",
+        "calculate_future_value (lãi kép, lạm phát, quỹ hưu)",
+        "calculate_pit (thuế TNCN theo quy định hiện hành)",
+        "budget_template (bảng ngân sách 50/30/20, zero-based)",
+        "generate_chart_spec dùng lại cho biểu đồ ngân sách (pie/donut) và tiến độ tiết kiệm (line/area)"
+      ],
+      "rag_sources_to_add": [
+        "Luật Thuế TNCN và văn bản hướng dẫn",
+        "Luật Kinh doanh bảo hiểm, bảo hiểm y tế/xã hội",
+        "Quy định tín dụng tiêu dùng, CIC",
+        "Cảnh báo lừa đảo của cơ quan quản lý và ngân hàng",
+        "Lãi suất tiền gửi (nguồn chính thức, cập nhật định kỳ)"
+      ]
+    },
+    "quality_gates": [
+      "Mọi con số về thuế, lãi suất, mức đóng bảo hiểm phải kèm nguồn và ngày hiệu lực",
+      "Không dùng nội dung sao chép từ khóa học thương mại; chỉ tham khảo cấu trúc",
+      "Chạy lại eval (golden dataset + dashboard eval) sau khi thêm tool/RAG mới"
+    ]
+  }
+}
