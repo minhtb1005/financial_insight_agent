@@ -128,3 +128,25 @@ class TestTracesApi:
         assert bad.status_code == 422
         bad_dir = http.get("/traces", params={"sort_dir": "sideways"})
         assert bad_dir.status_code == 422
+
+class TestFeedbackApi:
+    def test_post_get_roundtrip(self, client):
+        http, _store = client
+        tid = http.get("/traces").json()["traces"][0]["trace_id"]
+        assert http.get(f"/traces/{tid}/feedback").json()["feedback"] == []
+        r = http.post(f"/traces/{tid}/feedback", json={"score": 5, "comment": "good"})
+        assert r.status_code == 200
+        body = r.json()
+        assert body["score"] == 5 and body["author"] == "admin@test.local"
+        listed = http.get(f"/traces/{tid}/feedback").json()["feedback"]
+        assert len(listed) == 1 and listed[0]["comment"] == "good"
+
+    def test_score_out_of_range_rejected(self, client):
+        http, _store = client
+        tid = http.get("/traces").json()["traces"][0]["trace_id"]
+        assert http.post(f"/traces/{tid}/feedback", json={"score": 0}).status_code == 422
+        assert http.post(f"/traces/{tid}/feedback", json={"score": 6}).status_code == 422
+
+    def test_feedback_404_unknown_trace(self, client):
+        http, _store = client
+        assert http.post("/traces/nope/feedback", json={"score": 3}).status_code == 404

@@ -6,12 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SpanIODetail, { JsonBlock } from "./SpanIODetail";
 import TraceWaterfall, { type Span } from "./TraceWaterfall";
+import FeedbackTab, { type FeedbackItem } from "./FeedbackTab";
 
-// 4 tabs: Tong quan / Chunks / Memory / Raw. RAGAS la eval offline, khong bao
+// 5 tabs: Tong quan / Chunks / Memory / Danh gia / Raw. RAGAS la eval offline, khong bao
 // gio co per-trace nen gop thanh banner-note trong Tong quan (theo debate).
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function TraceDetailTabs({ trace }: { trace: Record<string, any> }) {
+export default function TraceDetailTabs({ trace, token, initialFeedback }: { trace: Record<string, any>; token?: string; initialFeedback?: FeedbackItem[] }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const spans = (trace.spans ?? []) as Record<string, any>[];
   const [selected, setSelected] = useState<Span | null>(null);
@@ -24,6 +25,7 @@ export default function TraceDetailTabs({ trace }: { trace: Record<string, any> 
         <TabsTrigger value="overview">Tổng quan</TabsTrigger>
         <TabsTrigger value="chunks">Chunks ({toolSpans.length})</TabsTrigger>
         <TabsTrigger value="memory">Memory</TabsTrigger>
+        <TabsTrigger value="feedback">Đánh giá</TabsTrigger>
         <TabsTrigger value="raw">Raw</TabsTrigger>
       </TabsList>
 
@@ -82,6 +84,10 @@ export default function TraceDetailTabs({ trace }: { trace: Record<string, any> 
 
       <TabsContent value="raw">
         <JsonBlock value={trace} />
+      </TabsContent>
+
+      <TabsContent value="feedback">
+        <FeedbackTab traceId={String(trace.trace_id ?? "")} token={token} initial={initialFeedback ?? []} />
       </TabsContent>
     </Tabs>
   );

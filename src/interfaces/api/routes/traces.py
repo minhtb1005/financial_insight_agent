@@ -42,6 +42,22 @@ class TraceDetailResponse(BaseModel):
     trace: dict[str, Any]
 
 
+class FeedbackIn(BaseModel):
+    score: int = Field(..., ge=1, le=5, description="Điểm chấm tay 1–5")
+    comment: str = Field("", max_length=2000)
+    span_id: Optional[str] = Field(None, description="Null = chấm cả trace")
+
+
+class FeedbackOut(BaseModel):
+    id: int
+    trace_id: str
+    span_id: Optional[str] = None
+    score: int
+    comment: str = ""
+    author: str = ""
+    created_at: str = ""
+
+
 def _get_store():
     tracer = get_tracer()
     if not tracer.enabled or tracer.store is None:
@@ -116,3 +132,38 @@ async def get_trace(trace_id: str, _admin: User = Depends(get_current_admin_user
     if trace is None:
         raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
     return TraceDetailResponse(enabled=True, trace=trace)
+
+
+@router.post(
+    "/{trace_id}/feedback",
+    response_model=FeedbackOut,
+    summary="Chấm tay một trace (admin)",
+    description="Human score 1–5 cạnh RAGAS auto. author = admin username.",
+)
+async def post_feedback(
+    trace_id: str, body: FeedbackIn, admin: User = Depends(get_current_admin_user)
+):
+    store, _tracer = _get_store()
+    if store is None:
+        raise HTTPException(status_code=503, detail="Tracing is disabled")
+    if store.get_trace(trace_id) is None:
+        raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
+    try:
+        row = store.add_feedback(
+            trace_id, body.score, body.comment, author=admin.email or admin.name or "admin",
+            span_id=body.span_id,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Feedback write failed: {exc}") from exc
+    return FeedbackOut(**{k: row.get(k) for k in FeedbackOut.model_fields})
+
+
+@router.get(
+    "/{trace_id}/feedback",
+    summary="Danh sách chấm tay của trace (admin)",
+)
+async def get_feedback(trace_id: str, _admin: User = Depends(get_current_admin_user)):
+    store, _tracer = _get_store()
+    if store is None:
+        raise HTTPException(status_code=503, detail="Tracing is disabled")
+    return {"trace_id": trace_id, "feedback": store.list_feedback(trace_id)}

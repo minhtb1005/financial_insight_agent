@@ -52,6 +52,16 @@ CREATE TABLE IF NOT EXISTS spans (
 );
 CREATE INDEX IF NOT EXISTS idx_spans_trace ON spans(trace_id);
 CREATE INDEX IF NOT EXISTS idx_traces_started ON traces(started_at DESC);
+CREATE TABLE IF NOT EXISTS feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    trace_id TEXT NOT NULL,
+    span_id TEXT,
+    score INTEGER NOT NULL CHECK (score BETWEEN 1 AND 5),
+    comment TEXT DEFAULT '',
+    author TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_feedback_trace ON feedback(trace_id);
 """
 
 
@@ -298,6 +308,42 @@ class TraceStore:
         trace = dict(trow)
         trace["spans"] = [self._row_to_span(r) for r in srows]
         return trace
+
+    # ------------------------------------------------------------------
+    # human feedback (admin-only via API)
+    # ------------------------------------------------------------------
+
+    def add_feedback(
+        self,
+        trace_id: str,
+        score: int,
+        comment: str = "",
+        author: str = "",
+        span_id: str | None = None,
+    ) -> dict[str, Any]:
+        """Chấm tay 1–5 sao cho trace (span_id NULL = cả trace). CHECK ở schema chặn score ngoài range."""
+        from datetime import datetime, timezone as _tz
+
+        with self._lock:
+            cur = self._conn.execute(
+                "INSERT INTO feedback (trace_id, span_id, score, comment, author, created_at)"
+                " VALUES (?,?,?,?,?,?)",
+                (trace_id, span_id, int(score), comment or "", author,
+                 datetime.now(_tz.utc).isoformat()),
+            )
+            self._conn.commit()
+            row = self._conn.execute(
+                "SELECT * FROM feedback WHERE id=?", (cur.lastrowid,)
+            ).fetchone()
+        return dict(row)
+
+    def list_feedback(self, trace_id: str) -> list[dict[str, Any]]:
+        with self._lock:
+            rows = self._conn.execute(
+                "SELECT * FROM feedback WHERE trace_id=? ORDER BY id ASC",
+                (trace_id,),
+            ).fetchall()
+        return [dict(r) for r in rows]
 
 
 class JSONLExporter:

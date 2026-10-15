@@ -31,6 +31,14 @@ export default async function TraceDetailPage({ params }: { params: Promise<{ id
   const { id } = await params
   const token = (session as unknown as { accessToken?: string })?.accessToken || (session.user as unknown as { accessToken?: string })?.accessToken
   const { ok, data } = await fetchTrace(id, token)
+  let initialFeedback: { id: number; score: number; comment: string; author: string; created_at: string }[] = []
+  try {
+    const fr = await fetch(`${getBackendUrl()}/api/v1/traces/${encodeURIComponent(id)}/feedback`, {
+      cache: "no-store",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+    if (fr.ok) initialFeedback = (await fr.json()).feedback ?? []
+  } catch { /* giu list rong, client tu nap sau submit */ }
 
   return (
     <div className="container mx-auto p-4 md:p-6 space-y-6">
@@ -38,7 +46,7 @@ export default async function TraceDetailPage({ params }: { params: Promise<{ id
       {!ok ? (
         <Card><CardContent className="p-6 text-sm text-destructive">{data.detail ?? "Không tìm thấy trace"}</CardContent></Card>
       ) : (
-        <TraceDetailTabs trace={data.trace ?? data} />
+        <TraceDetailTabs trace={data.trace ?? data} token={token} initialFeedback={initialFeedback} />
       )}
     </div>
   )
