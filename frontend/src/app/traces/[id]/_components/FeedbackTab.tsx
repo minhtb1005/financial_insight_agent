@@ -22,6 +22,10 @@ export default function FeedbackTab({ traceId, token, initial }: { traceId: stri
   const [score, setScore] = useState(5);
   const [comment, setComment] = useState("");
   const [msg, setMsg] = useState("");
+  // Batch 2: comments per node (span_id optional, null = ca trace)
+  const [comments, setComments] = useState<{ id: number; span_id: string | null; author: string; comment: string; created_at: string }[]>([]);
+  const [cText, setCText] = useState("");
+  const [cSpan, setCSpan] = useState("");
 
   // Nap lai sau hanh dong tuong minh (submit) — khong fetch trong effect
   // (eslint react-hooks/set-state-in-effect), initial do server shell nap.
@@ -101,6 +105,69 @@ export default function FeedbackTab({ traceId, token, initial }: { traceId: stri
           </Card>
         ))}
       </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Comments per node</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          <div className="flex flex-wrap gap-2">
+            <input
+              className="w-40 rounded border px-2 py-1 font-mono text-xs"
+              placeholder="span_id (trống = cả trace)"
+              value={cSpan}
+              onChange={(e) => setCSpan(e.target.value)}
+            />
+            <input
+              className="min-w-0 flex-1 rounded border px-2 py-1"
+              placeholder="Nhận xét node…"
+              value={cText}
+              maxLength={2000}
+              onChange={(e) => setCText(e.target.value)}
+            />
+            <Button
+              size="sm"
+              onClick={async () => {
+                if (!cText.trim()) return;
+                const res = await fetch(`${getBackendUrl()}/api/v1/traces/${encodeURIComponent(traceId)}/comments`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+                  body: JSON.stringify({ comment: cText, span_id: cSpan.trim() || null }),
+                });
+                if (res.ok) {
+                  setCText("");
+                  const lr = await fetch(`${getBackendUrl()}/api/v1/traces/${encodeURIComponent(traceId)}/comments`, {
+                    cache: "no-store",
+                    headers: token ? { Authorization: `Bearer ${token}` } : {},
+                  });
+                  if (lr.ok) setComments((await lr.json()).comments ?? []);
+                }
+              }}
+            >
+              Gửi comment
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={async () => {
+                const lr = await fetch(`${getBackendUrl()}/api/v1/traces/${encodeURIComponent(traceId)}/comments`, {
+                  cache: "no-store",
+                  headers: token ? { Authorization: `Bearer ${token}` } : {},
+                });
+                if (lr.ok) setComments((await lr.json()).comments ?? []);
+              }}
+            >
+              Tải comments
+            </Button>
+          </div>
+          {comments.map((c) => (
+            <div key={c.id} className="rounded border p-2 text-xs">
+              <span className="font-mono">{c.span_id ?? "trace"}</span>{" "}
+              <span className="text-muted-foreground">{c.author} · {c.created_at}</span>
+              <p className="text-sm">{c.comment}</p>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 }

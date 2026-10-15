@@ -84,6 +84,9 @@ export default function TracesTable({
   const [page, setPage] = useState(0);
   const [limit] = useState(50);
   const [copied, setCopied] = useState<string | null>(null);
+  // Batch 2: row selection (không virtualized — chỉ code khi đo >10k rows;
+  // hiện tại <1k nên div + pagination Batch 1 là đủ, YAGNI).
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const [cols, setCols] = useState<Col[]>(() => {
     try {
       if (typeof window === "undefined") return [...ALL_COLS];
@@ -194,6 +197,24 @@ export default function TracesTable({
         <Button onClick={applyFilter} disabled={loading}>
           {loading ? "Đang tải…" : "Lọc"}
         </Button>
+        {selected.size > 0 && (
+          <Button
+            variant="destructive"
+            onClick={async () => {
+              if (!window.confirm(`Xóa ${selected.size} trace đã chọn? Không thể hoàn tác.`)) return;
+              for (const id of selected) {
+                await fetch(`${getBackendUrl()}/api/v1/traces/${id}`, {
+                  method: "DELETE",
+                  headers: token ? { Authorization: `Bearer ${token}` } : {},
+                });
+              }
+              setSelected(new Set());
+              load({ p: page, sb: sortBy, sd: sortDir, q: search, st: status, from: fromDate, to: toDate });
+            }}
+          >
+            Xóa ({selected.size})
+          </Button>
+        )}
         <div className="flex flex-wrap items-center gap-1 text-xs">
           {ALL_COLS.map((c) => (
             <label key={c} className="flex items-center gap-1 rounded border px-1.5 py-0.5">
@@ -207,6 +228,17 @@ export default function TracesTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-8">
+              <input
+                type="checkbox"
+                aria-label="Chọn tất cả"
+                checked={traces.length > 0 && traces.every((t) => selected.has(t.trace_id))}
+                onChange={(e) => {
+                  if (e.target.checked) setSelected(new Set(traces.map((t) => t.trace_id)));
+                  else setSelected(new Set());
+                }}
+              />
+            </TableHead>
             {show("trace_id") && <TableHead>trace_id</TableHead>}
             {show("root_name") && <TableHead>root</TableHead>}
             {show("status") && <TableHead>status</TableHead>}
@@ -235,6 +267,21 @@ export default function TracesTable({
         <TableBody>
           {traces.map((t) => (
             <TableRow key={t.trace_id}>
+              <TableCell>
+                <input
+                  type="checkbox"
+                  aria-label={`Chọn ${t.trace_id}`}
+                  checked={selected.has(t.trace_id)}
+                  onChange={(e) => {
+                    setSelected((prev) => {
+                      const next = new Set(prev);
+                      if (e.target.checked) next.add(t.trace_id);
+                      else next.delete(t.trace_id);
+                      return next;
+                    });
+                  }}
+                />
+              </TableCell>
               {show("trace_id") && (
                 <TableCell className="font-mono text-xs">
                   <Link href={`/traces/${t.trace_id}`} className="underline">

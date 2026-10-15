@@ -150,3 +150,34 @@ class TestFeedbackApi:
     def test_feedback_404_unknown_trace(self, client):
         http, _store = client
         assert http.post("/traces/nope/feedback", json={"score": 3}).status_code == 404
+
+
+class TestBatch2Api:
+    def test_nullable_cols_default_null_backward_compat(self, client):
+        http, _store = client
+        row = http.get("/traces").json()["traces"][0]
+        for col in ("session_id", "user_id", "version", "env", "cost", "scores", "tags"):
+            assert col in row and row[col] is None
+
+    def test_meta_patch_roundtrip(self, client):
+        http, _store = client
+        tid = http.get("/traces").json()["traces"][0]["trace_id"]
+        r = http.patch(f"/traces/{tid}/meta", json={"session_id": "s1", "cost": 0.5, "tags": "a,b"})
+        assert r.status_code == 200
+        row = http.get("/traces").json()["traces"][0]
+        assert row["session_id"] == "s1" and row["cost"] == 0.5
+
+    def test_comments_roundtrip(self, client):
+        http, _store = client
+        tid = http.get("/traces").json()["traces"][0]["trace_id"]
+        assert http.get(f"/traces/{tid}/comments").json()["comments"] == []
+        r = http.post(f"/traces/{tid}/comments", json={"comment": "xem lai span"})
+        assert r.status_code == 200 and r.json()["author"] == "admin@test.local"
+        assert len(http.get(f"/traces/{tid}/comments").json()["comments"]) == 1
+
+    def test_delete_last(self, client):
+        http, _store = client
+        tid = http.get("/traces").json()["traces"][0]["trace_id"]
+        assert http.delete(f"/traces/{tid}").status_code == 200
+        assert http.get("/traces").json()["total"] == 0
+        assert http.delete(f"/traces/{tid}").status_code == 404

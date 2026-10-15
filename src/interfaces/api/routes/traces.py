@@ -28,6 +28,14 @@ class TraceSummary(BaseModel):
     total_tokens: int = 0
     llm_call_count: int = 0
     tool_call_count: int = 0
+    # Batch 2 nullable (extra columns, backfill null)
+    session_id: Optional[str] = None
+    user_id: Optional[str] = None
+    version: Optional[str] = None
+    env: Optional[str] = None
+    cost: Optional[float] = None
+    scores: Optional[str] = None
+    tags: Optional[str] = None
 
 
 class TraceListResponse(BaseModel):
@@ -167,3 +175,67 @@ async def get_feedback(trace_id: str, _admin: User = Depends(get_current_admin_u
     if store is None:
         raise HTTPException(status_code=503, detail="Tracing is disabled")
     return {"trace_id": trace_id, "feedback": store.list_feedback(trace_id)}
+
+
+class CommentIn(BaseModel):
+    comment: str = Field(..., min_length=1, max_length=2000)
+    span_id: Optional[str] = None
+
+
+class MetaPatch(BaseModel):
+    session_id: Optional[str] = Field(None, max_length=100)
+    user_id: Optional[str] = Field(None, max_length=100)
+    version: Optional[str] = Field(None, max_length=50)
+    env: Optional[str] = Field(None, max_length=50)
+    cost: Optional[float] = Field(None, ge=0)
+    scores: Optional[str] = Field(None, max_length=2000)
+    tags: Optional[str] = Field(None, max_length=1000)
+
+
+@router.post("/{trace_id}/comments", summary="Thêm comment per node (admin)")
+async def post_comment(
+    trace_id: str, body: CommentIn, admin: User = Depends(get_current_admin_user)
+):
+    store, _tracer = _get_store()
+    if store is None:
+        raise HTTPException(status_code=503, detail="Tracing is disabled")
+    if store.get_trace(trace_id) is None:
+        raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
+    row = store.add_comment(
+        trace_id, body.comment, author=admin.email or admin.name or "admin",
+        span_id=body.span_id,
+    )
+    return row
+
+
+@router.get("/{trace_id}/comments", summary="Danh sách comments (admin)")
+async def get_comments(trace_id: str, _admin: User = Depends(get_current_admin_user)):
+    store, _tracer = _get_store()
+    if store is None:
+        raise HTTPException(status_code=503, detail="Tracing is disabled")
+    return {"trace_id": trace_id, "comments": store.list_comments(trace_id)}
+
+
+@router.patch("/{trace_id}/meta", summary="Cập nhật cột nullable Batch 2 (admin)")
+async def patch_meta(
+    trace_id: str, body: MetaPatch, _admin: User = Depends(get_current_admin_user)
+):
+    store, _tracer = _get_store()
+    if store is None:
+        raise HTTPException(status_code=503, detail="Tracing is disabled")
+    if store.get_trace(trace_id) is None:
+        raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
+    store.update_trace_meta(
+        trace_id, {k: v for k, v in body.model_dump().items() if v is not None}
+    )
+    return {"trace_id": trace_id, "updated": True}
+
+
+@router.delete("/{trace_id}", summary="Xóa trace (admin, confirm ở UI)")
+async def delete_trace(trace_id: str, _admin: User = Depends(get_current_admin_user)):
+    store, _tracer = _get_store()
+    if store is None:
+        raise HTTPException(status_code=503, detail="Tracing is disabled")
+    if not store.delete_trace(trace_id):
+        raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
+    return {"trace_id": trace_id, "deleted": True}

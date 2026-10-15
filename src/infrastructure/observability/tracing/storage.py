@@ -62,7 +62,27 @@ CREATE TABLE IF NOT EXISTS feedback (
     created_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_feedback_trace ON feedback(trace_id);
+CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    trace_id TEXT NOT NULL,
+    span_id TEXT,
+    author TEXT NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_comments_trace ON comments(trace_id);
 """
+
+# Batch 2 nullable columns (SQLite ALTER ADD COLUMN, backward-compat, no alembic).
+_EXTRA_TRACE_COLS: list[tuple[str, str]] = [
+    ("session_id", "TEXT"),
+    ("user_id", "TEXT"),
+    ("version", "TEXT"),
+    ("env", "TEXT"),
+    ("cost", "REAL"),
+    ("scores", "TEXT"),
+    ("tags", "TEXT"),
+]
 
 
 class TraceStore:
@@ -79,7 +99,15 @@ class TraceStore:
         with self._lock:
             self._conn.execute("PRAGMA journal_mode=WAL")
             self._conn.executescript(_SCHEMA)
+            self._ensure_extra_cols()
             self._conn.commit()
+
+    def _ensure_extra_cols(self) -> None:
+        """Thêm cột nullable Batch 2 nếu DB cũ chưa có (idempotent)."""
+        existing = {r[1] for r in self._conn.execute("PRAGMA table_info(traces)").fetchall()}
+        for col, typ in _EXTRA_TRACE_COLS:
+            if col not in existing:
+                self._conn.execute(f"ALTER TABLE traces ADD COLUMN {col} {typ}")
 
     # ------------------------------------------------------------------
     # Writes
@@ -344,6 +372,59 @@ class TraceStore:
                 (trace_id,),
             ).fetchall()
         return [dict(r) for r in rows]
+
+    # -- Batch 2: comments per node + meta nullable + DELETE --
+    def add_comment(
+        self, trace_id: str, comment: str, author: str = "",
+        span_id: str | None = None,
+    ) -> dict[str, Any]:
+        from datetime import datetime, timezone as _tz
+
+        with self._lock:
+            cur = self._conn.execute(
+                "INSERT INTO comments (trace_id, span_id, author, comment, created_at)"
+                " VALUES (?,?,?,?,?)",
+                (trace_id, span_id, author, comment,
+                 datetime.now(_tz.utc).isoformat()),
+            )
+            self._conn.commit()
+            row = self._conn.execute(
+                "SELECT * FROM comments WHERE id=?", (cur.lastrowid,)
+            ).fetchone()
+        return dict(row)
+
+    def list_comments(self, trace_id: str) -> list[dict[str, Any]]:
+        with self._lock:
+            rows = self._conn.execute(
+                "SELECT * FROM comments WHERE trace_id=? ORDER BY id ASC",
+                (trace_id,),
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def update_trace_meta(self, trace_id: str, fields: dict[str, Any]) -> None:
+        allowed = {c for c, _ in _EXTRA_TRACE_COLS}
+        sets = {k: v for k, v in fields.items() if k in allowed}
+        if not sets:
+            return
+        with self._lock:
+            self._conn.execute(
+                f"UPDATE traces SET {', '.join(f'{k}=?' for k in sets)} WHERE trace_id=?",
+                (*sets.values(), trace_id),
+            )
+            self._conn.commit()
+
+    def delete_trace(self, trace_id: str) -> bool:
+        """Xóa trace + spans + feedback + comments. Trả True nếu có xóa."""
+        with self._lock:
+            cur = self._conn.execute("SELECT 1 FROM traces WHERE trace_id=?", (trace_id,)).fetchone()
+            if cur is None:
+                return False
+            for tbl in ("spans", "feedback", "comments", "traces"):
+                self._conn.execute(
+                    f"DELETE FROM {tbl} WHERE trace_id=?", (trace_id,)
+                )
+            self._conn.commit()
+        return True
 
 
 class JSONLExporter:
