@@ -140,3 +140,34 @@ def test_adapter_empty_deposit_stale_true():
     out = RatesCachedAdapter(_mem_store()).get("deposit", bank="VCB")
     assert out["data"] == [] and out["stale"] is True
     assert out["data_as_of"] is None
+
+
+def test_r1_minimums_all_groups_seed():
+    from infrastructure.rates_store.ingest import ingest_all_r1
+
+    s = _mem_store()
+    out = ingest_all_r1(s)
+    assert out["deposit"]["rows"] >= 12  # 4 NH x 4 ky (>=3x4)
+    assert out["lending"]["rows"] >= 3
+    assert out["avg"]["rows"] >= 1
+    assert out["vnibor"]["rows"] >= 5
+    assert out["banks"]["rows"] >= 5
+    # acceptance hien thi: deposit du 4 NH x 4 ky
+    deps = s.get_deposit()
+    banks = {r["bank"] for r in deps}
+    assert len(banks) >= 3 and all(
+        len([r for r in deps if r["bank"] == b]) >= 4 for b in list(banks)[:3]
+    )
+    assert all(r["source"].startswith("seed:") for r in deps)
+    # rerun -> skipped (hash)
+    out2 = ingest_all_r1(s)
+    assert all(v["skipped"] is True for v in out2.values())
+    # get_rates verify tung nhom
+    from infrastructure.rates_store.cached_adapter import RatesCachedAdapter
+
+    a = RatesCachedAdapter(s)
+    for g in ("deposit", "lending", "avg", "vnibor", "banks"):
+        r = a.get(g)
+        assert r["data"], g
+        assert r["data_as_of"]
+    s.close()

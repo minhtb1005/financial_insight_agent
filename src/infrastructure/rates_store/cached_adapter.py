@@ -76,7 +76,7 @@ class RatesCachedAdapter:
     def _shape(
         group: str, rows: list[dict[str, Any]], source: str, stale: bool = False
     ) -> dict[str, Any]:
-        stamps = [r.get("crawled_at") for r in rows if r.get("crawled_at")]
+        stamps = [r.get("crawled_at") or r.get("updated_at") for r in rows if r.get("crawled_at") or r.get("updated_at")]
         return {
             "group": group,
             "data": rows,
