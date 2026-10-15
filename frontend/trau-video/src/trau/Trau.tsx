@@ -27,8 +27,11 @@ const Book: React.FC<{x: number; y: number; rot?: number}> = ({x, y, rot = -8}) 
   </g>
 );
 
-export const Trau: React.FC<{pose?: TrauPose}> = ({pose = 'idle'}) => {
+export const Trau: React.FC<{pose?: TrauPose; mouthOpen?: number}> = ({pose = 'idle', mouthOpen = 0}) => {
   const p: TrauPose = pose === 'celebrate' ? 'happy' : pose === 'shrug' ? 'idle' : pose;
+  const open = Math.min(1, Math.max(0, mouthOpen));
+  const talk = Math.min(1, open * 2.5); // 0 = pose mouth, 1 = fully talking
+  const smile = p === 'wave' || p === 'point' || p === 'idle';
   const happyEyes = p === 'happy' || p === 'wave';
   const holdBook = p !== 'happy';
   return (
@@ -68,10 +71,11 @@ export const Trau: React.FC<{pose?: TrauPose}> = ({pose = 'idle'}) => {
       {/* muzzle */}
       <ellipse cx={0} cy={-30} rx={52} ry={36} fill={T.muzzle} stroke={T.ink} strokeWidth={OUT - 1} />
       <ellipse cx={-18} cy={-34} rx={5} ry={7} fill={T.ink} /><ellipse cx={18} cy={-34} rx={5} ry={7} fill={T.ink} />
-      {p === 'happy' && (<><path d="M -22 -18 Q 0 14 22 -18 Z" fill="#7A2E22" stroke={T.ink} strokeWidth={4} strokeLinejoin="round" /><path d="M -10 -4 Q 0 6 10 -4 Q 0 -1 -10 -4Z" fill="#E87F7A" /></>)}
-      {(p === 'wave' || p === 'point') && <path d="M -22 -18 Q 0 6 22 -18" fill="none" stroke={T.ink} strokeWidth={6} strokeLinecap="round" />}
-      {p === 'idle' && <path d="M -18 -18 Q 0 -4 18 -18" fill="none" stroke={T.ink} strokeWidth={6} strokeLinecap="round" />}
-      {p === 'think' && <path d="M -14 -16 Q -4 -22 4 -16 T 20 -16" fill="none" stroke={T.ink} strokeWidth={6} strokeLinecap="round" />}
+      {p === 'happy' && (<><path d={`M -22 -18 Q 0 ${14 + 22 * open} 22 -18 Z`} fill="#7A2E22" stroke={T.ink} strokeWidth={4} strokeLinejoin="round" /><path d="M -10 -4 Q 0 6 10 -4 Q 0 -1 -10 -4Z" fill="#E87F7A" /></>)}
+      {smile && <path d={p === 'idle' ? 'M -18 -18 Q 0 -4 18 -18' : 'M -22 -18 Q 0 6 22 -18'} fill="none" stroke={T.ink} strokeWidth={6} strokeLinecap="round" opacity={1 - talk} />}
+      {smile && talk > 0 && (<><ellipse cx={0} cy={-12} rx={16 + 6 * open} ry={4 + 16 * open} fill="#7A2E22" stroke={T.ink} strokeWidth={4} opacity={talk} />{open > 0.5 && <ellipse cx={0} cy={-4} rx={8} ry={5} fill="#E87F7A" opacity={talk} />}</>)}
+      {p === 'think' && <path d="M -14 -16 Q -4 -22 4 -16 T 20 -16" fill="none" stroke={T.ink} strokeWidth={6} strokeLinecap="round" opacity={1 - talk} />}
+      {p === 'think' && talk > 0 && <ellipse cx={3} cy={-16} rx={10 + 4 * open} ry={2 + 7 * open} fill="#7A2E22" stroke={T.ink} strokeWidth={4} opacity={talk} />}
       {/* glasses */}
       <circle cx={-40} cy={-80} r={30} fill="#fff" fillOpacity={0.35} stroke={T.glass} strokeWidth={8} />
       <circle cx={40} cy={-80} r={30} fill="#fff" fillOpacity={0.35} stroke={T.glass} strokeWidth={8} />
@@ -101,8 +105,8 @@ export const Trau: React.FC<{pose?: TrauPose}> = ({pose = 'idle'}) => {
   );
 };
 
-export const TrauSvg: React.FC<{pose?: TrauPose; size?: number}> = ({pose = 'idle', size = 400}) => (
+export const TrauSvg: React.FC<{pose?: TrauPose; size?: number; mouthOpen?: number}> = ({pose = 'idle', size = 400, mouthOpen = 0}) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox={TRAU_VIEWBOX} width={size * (520 / 450)} height={size}>
-    <Trau pose={pose} />
+    <Trau pose={pose} mouthOpen={mouthOpen} />
   </svg>
 );
