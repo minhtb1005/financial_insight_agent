@@ -78,7 +78,7 @@ HybridSplitter → agent_node ⇄ tools_node (loop) → final_answer → END
 
 - **HybridSplitter**: Tách câu hỏi đa intent thành các sub-query độc lập (rule-based + LLM fallback).
 - **agent_node**: LLM (OpenAI GPT-4o-mini, fallback Groq Llama) tự động quyết định tool cần gọi.
-- **tools_node**: LangGraph `ToolNode` chứa 18 `@tool` functions.
+- **tools_node**: LangGraph `ToolNode` chứa 19 `@tool` functions.
 - **final_answer_node**: Output guardrails + sanitization.
 
 ### Tool Types
@@ -105,6 +105,7 @@ Agent tự động chọn tool phù hợp dựa trên ý định câu hỏi. B�
 | `calculate_future_value` | Tính lãi kép (danh nghĩa + thực sau lạm phát) và chi phí sống khi về hưu theo 3 kịch bản lạm phát. Chỉ giáo dục. | "100 triệu sau 5 năm lãi 6% còn sức mua bao nhiêu?" |
 | `calculate_pit` | Tính thuế TNCN từ tiền lương theo biểu hiện hành (Luật 109/2025, kỳ 2026); output luôn kèm nguồn + ngày hiệu lực + câu đối chiếu văn bản. | "Lương 30 triệu, 1 người phụ thuộc thì đóng thuế bao nhiêu?" |
 | `budget_template` | Lập ngân sách 50/30/20 + zero-based từ thu nhập ròng; gợi ý vẽ pie/donut qua `generate_chart_spec`. | "Lương 12 triệu lập ngân sách 50/30/20 thế nào?" |
+| `get_rates` | Tra cứu lãi suất từ kho SQL (policy SBV QĐ 1123, huy động/cho vay niêm yết, bình quân, VNIBOR). SQL-first kèm `data_as_of` + `source` + `stale`. Chỉ giáo dục. | "Lãi suất điều hành SBV hiện tại bao nhiêu?" |
 
 > **Chế độ tutor:** đặt `AGENT_MODE=tutor` để agent chỉ expose 4 tools giáo dục trên + `search_knowledge` + `generate_chart_spec` (mặc định `full` giữ nguyên 18 tools). Đây là UX-mode, không phải security boundary. Kho `search_knowledge` đã bổ sung nguồn TNCN (Luật 109/2025), KDBH (Luật 08/2022), BHXH/BHYT/BHTN 2026, nhóm nợ CIC, cảnh báo lừa đảo (tinnhiemmang.vn), lãi suất điều hành SBV.
 

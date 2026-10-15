@@ -10,7 +10,7 @@ from mcp_server.instance import mcp
 def test_mcp_has_18_tools_including_education():
     from mcp_server.tools import education  # noqa: F401
 
-    assert len(mcp._tool_manager._tools) == 18
+    assert len(mcp._tool_manager._tools) == 19
     for name in ("calculate_loan_schedule", "calculate_future_value", "calculate_pit", "budget_template"):
         assert name in mcp._tool_manager._tools
 
