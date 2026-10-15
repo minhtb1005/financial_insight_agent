@@ -17,11 +17,17 @@ def client(tmp_path, monkeypatch):
             pass
 
     import interfaces.api.routes.traces as traces_module
+    from infrastructure.auth.dependencies import get_current_admin_user
+    from infrastructure.db.models.user import User
 
     monkeypatch.setattr(traces_module, "get_tracer", lambda: tracer)
 
     app = FastAPI()
     app.include_router(traces_module.router)
+    # Router requires admin auth; tests run without credentials.
+    app.dependency_overrides[get_current_admin_user] = lambda: User(
+        email="admin@test.local", hashed_password="x", name="t", role="admin"
+    )
     return TestClient(app), store
 
 
@@ -64,8 +70,14 @@ class TestTracesApi:
         import interfaces.api.routes.traces as traces_module
 
         monkeypatch.setattr(traces_module, "get_tracer", lambda: disabled)
+        from infrastructure.auth.dependencies import get_current_admin_user
+        from infrastructure.db.models.user import User
+
         app = FastAPI()
         app.include_router(router := traces_module.router)
+        app.dependency_overrides[get_current_admin_user] = lambda: User(
+            email="admin@test.local", hashed_password="x", name="t", role="admin"
+        )
 
         http = TestClient(app)
         resp = http.get("/traces/some-id")
@@ -77,3 +89,42 @@ class TestTracesApi:
         http, _store = client
         resp = http.get("/traces", params={"limit": 999})
         assert resp.status_code == 422
+
+    def test_list_includes_total_backward_compat(self, client):
+        http, _store = client
+        body = http.get("/traces").json()
+        assert body["total"] == 1
+        assert body["count"] == 1
+
+    def test_search_by_trace_id(self, client):
+        http, _store = client
+        listed = http.get("/traces").json()["traces"][0]
+        tid = listed["trace_id"]
+        hit = http.get("/traces", params={"trace_id_search": tid[:8]}).json()
+        assert hit["total"] == 1
+        miss = http.get("/traces", params={"trace_id_search": "zzz-no-such-trace"}).json()
+        assert miss["total"] == 0
+
+    def test_search_escapes_like_wildcards(self, client):
+        http, _store = client
+        body = http.get("/traces", params={"trace_id_search": "%_"}).json()
+        assert body["total"] == 0
+
+    def test_date_filter_from_to(self, client):
+        http, _store = client
+        listed = http.get("/traces").json()["traces"][0]
+        ts = listed["started_at"]
+        assert ts is not None
+        inside = http.get("/traces", params={"from_ts": ts - 10, "to_ts": ts + 10}).json()
+        assert inside["total"] == 1
+        outside = http.get("/traces", params={"from_ts": ts + 10000}).json()
+        assert outside["total"] == 0
+
+    def test_sort_params_and_whitelist_reject(self, client):
+        http, _store = client
+        ok = http.get("/traces", params={"sort_by": "num_spans", "sort_dir": "asc"})
+        assert ok.status_code == 200
+        bad = http.get("/traces", params={"sort_by": "trace_id"})
+        assert bad.status_code == 422
+        bad_dir = http.get("/traces", params={"sort_dir": "sideways"})
+        assert bad_dir.status_code == 422

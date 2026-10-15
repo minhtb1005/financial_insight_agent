@@ -1,22 +1,22 @@
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { authOptions } from "@/auth"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { getBackendUrl } from "@/lib/backend"
+import TracesTable from "./_components/TracesTable"
 
 async function fetchTraces(token?: string) {
   try {
-    const res = await fetch(`${getBackendUrl()}/api/v1/traces?limit=20`, {
+    const res = await fetch(`${getBackendUrl()}/api/v1/traces?limit=50`, {
       cache: "no-store",
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
-    if (res.status === 401) return { forbidden: false, unauthorized: true, enabled: true, traces: [] }
-    if (res.status === 403) return { forbidden: true, enabled: true, traces: [] }
-    if (!res.ok) return { enabled: false, traces: [] }
+    if (res.status === 401) return { forbidden: false, unauthorized: true, enabled: true, traces: [], total: 0 }
+    if (res.status === 403) return { forbidden: true, enabled: true, traces: [], total: 0 }
+    if (!res.ok) return { enabled: false, traces: [], total: 0 }
     return await res.json()
-  } catch { return { enabled: false, traces: [] } }
+  } catch { return { enabled: false, traces: [], total: 0 } }
 }
 
 export default async function TracesPage() {
@@ -50,27 +50,7 @@ export default async function TracesPage() {
       {!data.enabled ? (
         <Card><CardContent className="p-6 text-sm text-muted-foreground">Tracing chưa bật hoặc backend chưa sẵn sàng.</CardContent></Card>
       ) : (
-        <div className="grid gap-3">
-          {(data.traces ?? []).length === 0 ? (
-            <Card><CardContent className="p-6 text-sm text-muted-foreground">Chưa có trace nào.</CardContent></Card>
-          ) : (
-            (data.traces as Array<{ trace_id: string; root_name?: string; status: string; duration_ms?: number; num_spans: number }>).map((t) => (
-              <Link key={t.trace_id} href={`/traces/${t.trace_id}`}>
-                <Card className="hover:bg-accent/50 transition-colors">
-                  <CardHeader className="py-3">
-                    <CardTitle className="text-sm font-mono">{t.trace_id.slice(0, 12)}…</CardTitle>
-                    <CardDescription className="flex items-center gap-2">
-                      <Badge variant={t.status === "ok" ? "default" : t.status === "error" ? "destructive" : "secondary"}>{t.status}</Badge>
-                      {t.root_name && <span>{t.root_name}</span>}
-                      {t.duration_ms && <span>{t.duration_ms.toFixed(0)} ms</span>}
-                      <span>{t.num_spans} spans</span>
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
-            ))
-          )}
-        </div>
+        <TracesTable token={token} initialTraces={data.traces ?? []} initialTotal={data.total ?? data.count ?? 0} />
       )}
     </div>
   )

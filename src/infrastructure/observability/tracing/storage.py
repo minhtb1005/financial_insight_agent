@@ -195,6 +195,69 @@ class TraceStore:
                     d[key] = json.loads(raw)
         return d
 
+    _SORTABLE = ("started_at", "duration_ms", "num_spans", "total_tokens")
+
+    @staticmethod
+    def _escape_like(s: str) -> str:
+        return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+    def _where_clause(
+        self,
+        status: str | None,
+        min_duration_ms: float | None,
+        name_filter: str | None,
+        trace_id_search: str | None,
+        from_ts: float | None,
+        to_ts: float | None,
+    ) -> tuple[str, list[Any]]:
+        where = " WHERE 1=1"
+        params: list[Any] = []
+        if status:
+            where += " AND status = ?"
+            params.append(status)
+        if min_duration_ms is not None:
+            where += " AND duration_ms >= ?"
+            params.append(min_duration_ms)
+        if name_filter:
+            where += " AND root_name LIKE ? ESCAPE '\\'"
+            params.append(f"%{self._escape_like(name_filter)}%")
+        if trace_id_search:
+            where += " AND trace_id LIKE ? ESCAPE '\\'"
+            params.append(f"%{self._escape_like(trace_id_search)}%")
+        if from_ts is not None:
+            where += " AND started_at >= ?"
+            params.append(from_ts)
+        if to_ts is not None:
+            where += " AND started_at <= ?"
+            params.append(to_ts)
+        return where, params
+
+    @staticmethod
+    def _order_clause(sort_by: str, sort_dir: str) -> str:
+        direction = "ASC" if sort_dir == "asc" else "DESC"
+        if sort_by == "duration_ms":
+            # NULL-cuoi cho trace running (duration_ms NULL)
+            return f" ORDER BY duration_ms IS NULL ASC, duration_ms {direction}"
+        return f" ORDER BY {sort_by} {direction}"
+
+    def count_traces(
+        self,
+        status: str | None = None,
+        min_duration_ms: float | None = None,
+        name_filter: str | None = None,
+        trace_id_search: str | None = None,
+        from_ts: float | None = None,
+        to_ts: float | None = None,
+    ) -> int:
+        where, params = self._where_clause(
+            status, min_duration_ms, name_filter, trace_id_search, from_ts, to_ts
+        )
+        with self._lock:
+            row = self._conn.execute(
+                f"SELECT COUNT(*) AS n FROM traces{where}", params
+            ).fetchone()
+        return int(row["n"]) if row else 0
+
     def list_traces(
         self,
         limit: int = 50,
@@ -202,19 +265,20 @@ class TraceStore:
         status: str | None = None,
         min_duration_ms: float | None = None,
         name_filter: str | None = None,
+        trace_id_search: str | None = None,
+        from_ts: float | None = None,
+        to_ts: float | None = None,
+        sort_by: str = "started_at",
+        sort_dir: str = "desc",
     ) -> list[dict[str, Any]]:
-        query = "SELECT * FROM traces WHERE 1=1"
-        params: list[Any] = []
-        if status:
-            query += " AND status = ?"
-            params.append(status)
-        if min_duration_ms is not None:
-            query += " AND duration_ms >= ?"
-            params.append(min_duration_ms)
-        if name_filter:
-            query += " AND root_name LIKE ?"
-            params.append(f"%{name_filter}%")
-        query += " ORDER BY started_at DESC LIMIT ? OFFSET ?"
+        if sort_by not in self._SORTABLE:
+            sort_by = "started_at"
+        if sort_dir not in ("asc", "desc"):
+            sort_dir = "desc"
+        where, params = self._where_clause(
+            status, min_duration_ms, name_filter, trace_id_search, from_ts, to_ts
+        )
+        query = f"SELECT * FROM traces{where}{self._order_clause(sort_by, sort_dir)} LIMIT ? OFFSET ?"
         params.extend([limit, offset])
         with self._lock:
             rows = self._conn.execute(query, params).fetchall()

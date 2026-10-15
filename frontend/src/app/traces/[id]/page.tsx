@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation"
 import { authOptions } from "@/auth"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { getBackendUrl } from "@/lib/backend"
 import Link from "next/link"
+import TraceDetailTabs from "./_components/TraceDetailTabs"
 
 async function fetchTrace(id: string, token?: string) {
   try {
@@ -37,12 +38,7 @@ export default async function TraceDetailPage({ params }: { params: Promise<{ id
       {!ok ? (
         <Card><CardContent className="p-6 text-sm text-destructive">{data.detail ?? "Không tìm thấy trace"}</CardContent></Card>
       ) : (
-        <Card>
-          <CardHeader><CardTitle>Chi tiết spans</CardTitle></CardHeader>
-          <CardContent>
-            <pre className="overflow-auto rounded bg-muted p-4 text-xs">{JSON.stringify(data.trace ?? data, null, 2)}</pre>
-          </CardContent>
-        </Card>
+        <TraceDetailTabs trace={data.trace ?? data} />
       )}
     </div>
   )

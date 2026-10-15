@@ -33,6 +33,7 @@ class TraceSummary(BaseModel):
 class TraceListResponse(BaseModel):
     enabled: bool = True
     count: int = 0
+    total: int = 0
     traces: list[TraceSummary] = Field(default_factory=list)
 
 
@@ -60,11 +61,16 @@ async def list_traces(
     status: Optional[Literal["ok", "error", "running"]] = None,
     min_duration_ms: Optional[float] = Query(None, ge=0),
     name_filter: Optional[str] = Query(None, max_length=100),
+    trace_id_search: Optional[str] = Query(None, max_length=100),
+    from_ts: Optional[float] = Query(None, ge=0),
+    to_ts: Optional[float] = Query(None, ge=0),
+    sort_by: Literal["started_at", "duration_ms", "num_spans", "total_tokens"] = Query("started_at"),
+    sort_dir: Literal["asc", "desc"] = Query("desc"),
     _admin: User = Depends(get_current_admin_user),
 ):
     store, _tracer = _get_store()
     if store is None:
-        return TraceListResponse(enabled=False, count=0, traces=[])
+        return TraceListResponse(enabled=False, count=0, total=0, traces=[])
     try:
         rows = store.list_traces(
             limit=limit,
@@ -72,12 +78,26 @@ async def list_traces(
             status=status,
             min_duration_ms=min_duration_ms,
             name_filter=name_filter,
+            trace_id_search=trace_id_search,
+            from_ts=from_ts,
+            to_ts=to_ts,
+            sort_by=sort_by,
+            sort_dir=sort_dir,
+        )
+        total = store.count_traces(
+            status=status,
+            min_duration_ms=min_duration_ms,
+            name_filter=name_filter,
+            trace_id_search=trace_id_search,
+            from_ts=from_ts,
+            to_ts=to_ts,
         )
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Trace store read failed: {exc}") from exc
     return TraceListResponse(
         enabled=True,
         count=len(rows),
+        total=total,
         traces=[TraceSummary(**row) for row in rows],
     )
 
