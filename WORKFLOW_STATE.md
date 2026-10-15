@@ -675,6 +675,7 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 ## Current Status 8 (tiếp — IMPLEMENT 15-16/10/2026)
 - R1 DONE (6/6 nhóm đạt tối thiểu, get_rates verify 6 nhóm). R2 DONE (6 mục: nullable cols + comments + selection + DAG SVG + virtualized-conditional + DELETE cuối). R3 BLOCKED (no docker binary). R4a+b DONE (VN30 30/30 + intraday pilot 5/5, caveat resolution); R4c + HOSE/HNX full để sau. R5 DONE local (mp4 27.5MB, V3 chờ duyệt).
 - Push nhịp sau khi reviewer duyệt (working tree đúng scope Plan 8: 11 modified + universe.py mới; artifacts cố ý để lại: report-gpt41.json, frontend.dev.log, trau-video audio).
+- **PUSH DONE 16/10/2026:** `8c75304..fac5dd4 main -> main`, không force/amend — `8dc7e24` rates R1, `e82e6a2` traces Batch 2, `fac5dd4` pipeline R4a/b + WORKFLOW_STATE. Untracked còn lại để nguyên (artifact/log/audio-build).
 
 ## Next Agent
 - reviewer (review R1+R2+R4a/b+R5: rates seed-snapshot + traces Batch2 + universe/intraday + M1L1 mp4 local; gate số bên trên; R3 smoke + R4c/HOSE-full + V3 là việc người/nhịp sau)
