@@ -192,6 +192,44 @@ class SerializationManager:
 
         return result
 
+    def get_compression_ratio(
+        self, data: Any, format: SerializationFormat | None = None
+    ) -> float:
+        """Size ratio of ``format`` serialization vs plain JSON (>= 0).
+
+        Returns 1.0 when both byte sizes are equal (e.g. JSON vs JSON) or
+        when either side is empty.
+        """
+        target_format = format or self.default_format
+        try:
+            raw = self._serialize_json(data)
+            other = self.serialize(data, target_format)
+            if isinstance(other, dict):
+                other = self._serialize_json(other)
+            if not raw or not other:
+                return 1.0
+            return round(len(other) / len(raw), 3)
+        except Exception as e:
+            logger.error(f"Compression ratio computation failed: {e}")
+            return 1.0
+
+    def get_format_stats(self, data: Any) -> dict[str, dict[str, Any]]:
+        """Per-format ``{compression, size}`` stats for observability/debugging."""
+        stats: dict[str, dict[str, Any]] = {}
+        for fmt in SerializationFormat:
+            try:
+                payload = self.serialize(data, fmt)
+                if isinstance(payload, dict):
+                    payload = self._serialize_json(payload)
+                stats[fmt.value] = {
+                    "compression": self.get_compression_ratio(data, fmt),
+                    "size": len(payload or ""),
+                }
+            except Exception as e:
+                logger.error(f"Format stats failed for {fmt}: {e}")
+                stats[fmt.value] = {"compression": 1.0, "size": 0}
+        return stats
+
     def _detect_format(self, data: str | dict[str, str]) -> SerializationFormat:
         if isinstance(data, dict):
             return SerializationFormat.REDIS_HASH

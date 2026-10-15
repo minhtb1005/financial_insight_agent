@@ -107,7 +107,7 @@ class ForecastService(BaseService):
             "sma_20": round(sma_20, 2),
             "data_points": n,
             "timeframe": timeframe,
-        }
+        } | self._freshness_of(result)
 
         if cache:
             cache.set(cache_key, forecast, ttl_hours=FORECAST_TTL_HOURS)

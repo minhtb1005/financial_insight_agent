@@ -55,7 +55,7 @@ class AggregateService(BaseService):
                     "start_date": start_date,
                     "end_date": end_date,
                 },
-            }
+            } | self._freshness_of(*all_data.values())
 
         except Exception as e:
             self.logger.error(f"Aggregation failed: {e}")

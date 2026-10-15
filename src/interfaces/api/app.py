@@ -212,8 +212,22 @@ async def lifespan(_app: FastAPI):
     except Exception as e:
         _request_logger.warning("RAG scheduler init failed: %s", e)
 
+    # Market-data refresh scheduler (Phase 4a pilot, opt-in via ENABLE_MARKET_SCHEDULER)
+    try:
+        from infrastructure.market_store.scheduler import start_market_scheduler
+
+        start_market_scheduler()
+    except Exception as e:
+        _request_logger.warning("Market scheduler init failed: %s", e)
+
     yield
 
+    try:
+        from infrastructure.market_store.scheduler import stop_market_scheduler
+
+        stop_market_scheduler()
+    except Exception:
+        pass
     try:
         from infrastructure.rag.scheduler import stop_scheduler
 

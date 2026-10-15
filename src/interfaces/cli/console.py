@@ -48,7 +48,7 @@ class ConsoleApp:
         except Exception as e:
             print(f"Failed to initialize agent: {e}")
             print("   Check your API keys and network connection.")
-            return
+            raise SystemExit(1)
         try:
             self.guardrail_pipeline = GuardrailPipeline()
         except Exception:
@@ -151,7 +151,9 @@ class ConsoleApp:
                         print(f"\n📊 Kết quả:\n\n{response}\n")
 
                 except SystemExit:
-                    break
+                    # /exit must propagate (callers/tests rely on it);
+                    # cleanup still runs via finally.
+                    raise
                 except EOFError:
                     print("\nBye!")
                     break

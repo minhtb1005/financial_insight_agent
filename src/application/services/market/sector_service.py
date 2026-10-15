@@ -64,7 +64,9 @@ class SectorService(BaseService):
             last = float(data[-1]["close"])
             perf_pct = ((last - first) / first) * 100 if first else 0.0
             avg_volume = mean([int(r["volume"]) for r in data]) if data else 0
-            return {"ticker": ticker, "first_price": first, "last_price": last, "performance_pct": round(perf_pct, 2), "avg_volume": int(avg_volume)}
+            perf = {"ticker": ticker, "first_price": first, "last_price": last, "performance_pct": round(perf_pct, 2), "avg_volume": int(avg_volume)}
+            perf.update(BaseService._freshness_of(result))
+            return perf
         except Exception:
             return None
 
@@ -89,7 +91,7 @@ class SectorService(BaseService):
                 performances.sort(key=lambda x: x.get("avg_volume", 0), reverse=True)
             else:
                 performances.sort(key=lambda x: x.get("performance_pct", 0), reverse=True)
-            ranked = [{"rank": i + 1, "ticker": p["ticker"], "performance_pct": p.get("performance_pct"), "avg_volume": p.get("avg_volume")} for i, p in enumerate(performances)]
+            ranked = [{"rank": i + 1, "ticker": p["ticker"], "performance_pct": p.get("performance_pct"), "avg_volume": p.get("avg_volume"), "data_as_of": p.get("data_as_of")} for i, p in enumerate(performances)]
             result = {"sector": sector, "metric": metric, "timeframe": timeframe, "ranked_tickers": ranked, "total_tickers": len(performances)}
             self._cache.set(cache_key, result, ttl_hours=SECTOR_TTL_HOURS)
             return result

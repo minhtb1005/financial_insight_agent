@@ -83,6 +83,9 @@ class CircuitBreaker:
         with self._lock:
             self.total_successes += 1
             if self.state == CircuitState.CLOSED:
+                # A success clears the consecutive-failure streak so old
+                # failures cannot trip the breaker long after recovery.
+                self.failure_count = 0
                 return
             if self.state == CircuitState.HALF_OPEN:
                 self.half_open_requests -= 1

@@ -83,7 +83,7 @@ class AlertService(BaseService):
             "threshold": threshold,
             "condition": condition,
             "triggered": triggered,
-        }
+        } | self._freshness_of(result)
 
 def handle_alert_query(tickers: list[str],
     threshold: float,

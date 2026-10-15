@@ -133,7 +133,7 @@ def test_run_agent_exception(mock_gr, mock_agent, capsys):
         with pytest.raises(SystemExit):
             app.run()
     captured = capsys.readouterr()
-    assert "Error" in captured.out
+    assert "Lỗi" in captured.out
 
 
 @patch("interfaces.cli.console.StockAgent")

@@ -7,41 +7,80 @@ import tempfile
 
 from application.services.portfolio.portfolio_service import PortfolioService
 from application.services.portfolio.news_sentiment_service import NewsSentimentService
+from shared.ports.market_data_port import MarketDataPort
+from shared.ports.news_port import NewsPort
+from shared.service_registry import set_service
+
+
+class FakeCache:
+    def __init__(self, store=None):
+        self._store = store or {}
+
+    def get(self, key): return self._store.get(key)
+    def set(self, key, value, ttl_hours=1.0): self._store[key] = value
+    def delete(self, key): self._store.pop(key, None)
+
+
+class FakeMarketData(MarketDataPort):
+    def __init__(self, rows):
+        self._rows = rows
+
+    def get_price_data(self, ticker, start_date, end_date, interval="1d"):
+        return {
+            "ticker": ticker,
+            "data": self._rows,
+            "start_date": start_date,
+            "end_date": end_date,
+            "data_as_of": "2026-03-10T00:00:00+00:00",
+            "source": "db",
+        }
+
+
+class FakeNewsPort(NewsPort):
+    def __init__(self, articles):
+        self._articles = articles
+
+    def fetch_news(self, ticker):
+        return self._articles
+
+
+def _price_rows(closes):
+    return [
+        {
+            "date": f"2026-03-{10 + i:02d}",
+            "open": c - 1.0,
+            "high": c + 1.0,
+            "low": c - 1.0,
+            "close": c,
+            "volume": 1000,
+        }
+        for i, c in enumerate(closes)
+    ]
 
 # -- handle_news_sentiment_query ------------------------------------------
 
 
-@__import__('pytest').mark.skip(reason='legacy strict DI')
 def test_news_sentiment_empty_tickers_returns_error():
-    from application.services.portfolio.news_sentiment_service import handle_news_sentiment_query
+    svc = NewsSentimentService(cache=FakeCache(), news_port=FakeNewsPort([]))
 
-    result = handle_news_sentiment_query(tickers=[], field="news")
+    result = svc.handle_query(tickers=[], field="news")
     assert "error" in result
 
 
-@patch("application.services.portfolio.news_sentiment_service.get_cache_manager")
-@patch("application.services.portfolio.news_sentiment_service.Company")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_news_sentiment_valid_ticker(mock_company, mock_cache):
-    mock_cache.return_value = None
-    mock_news = MagicMock()
-    mock_news.news.return_value = __import__("pandas").DataFrame(
-        [
-            {
-                "news_title": "VCB kinh doanh kỷ lục",
-                "news_short_content": "Lợi nhuận tăng mạnh",
-                "news_source": "VnEconomy",
-                "news_source_link": "https://example.com",
-                "public_date": "2026-03-01",
-                "ticker": "VCB",
-            }
-        ]
+def test_news_sentiment_valid_ticker():
+    svc = NewsSentimentService(
+        cache=FakeCache(),
+        news_port=FakeNewsPort([{
+            "title": "VCB kinh doanh kỷ lục",
+            "content": "Lợi nhuận tăng mạnh",
+            "source": "VnEconomy",
+            "url": "https://example.com",
+            "date": "2026-03-01",
+            "ticker": "VCB",
+        }]),
     )
-    mock_company.return_value = mock_news
 
-    from application.services.portfolio.news_sentiment_service import handle_news_sentiment_query
-
-    result = handle_news_sentiment_query(tickers=["VCB"], field="news")
+    result = svc.handle_query(tickers=["VCB"], field="news")
     assert "news" in result
     assert len(result["news"]["VCB"]) == 1
     assert result["news"]["VCB"][0]["title"] == "VCB kinh doanh kỷ lục"
@@ -154,62 +193,50 @@ def test_portfolio_manager_thread_lock_present():
 # -- PortfolioService._fetch_price -----------------------------------------
 
 
-def _make_portfolio_service():
-    svc = PortfolioService.__new__(PortfolioService)
-    svc.logger = MagicMock()
-    return svc
+def _make_portfolio_service(cache=None, rows=None):
+    return PortfolioService(
+        cache=cache if cache is not None else FakeCache(),
+        market_data=FakeMarketData(rows if rows is not None else []),
+        company_port=MagicMock(),
+    )
 
 
-@patch("shared.base_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_price_cache_hit(mock_cache):
-    mock_cache.return_value.get.return_value = 105.0
-    svc = _make_portfolio_service()
+def test_fetch_price_cache_hit():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = 105.0
+    svc = _make_portfolio_service(cache=mock_cache)
     result = svc._fetch_price("VCB", 10, "2026-03-10")
     assert result["ticker"] == "VCB"
     assert result["current_price"] == 105.0
     assert result["value"] == 1050.0
-    mock_cache.return_value.set.assert_not_called()
+    mock_cache.set.assert_not_called()
 
 
-@patch("application.services.portfolio.portfolio_service.VNStockClient")
-@patch("shared.base_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_price_cache_miss(mock_cache, mock_client):
-    mock_cache.return_value.get.return_value = None
-    mock_instance = MagicMock()
-    mock_instance.fetch_trading_data.return_value = __import__("pandas").DataFrame(
-        {"close": [100.0, 102.0]}
-    )
-    mock_client.return_value = mock_instance
-    svc = _make_portfolio_service()
+def test_fetch_price_cache_miss():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = None
+    svc = _make_portfolio_service(cache=mock_cache, rows=_price_rows([100.0, 102.0]))
     result = svc._fetch_price("VCB", 5, "2026-03-10")
     assert result["ticker"] == "VCB"
     assert result["current_price"] == 102.0
     assert result["value"] == 510.0
-    mock_cache.return_value.set.assert_called_once()
+    mock_cache.set.assert_called_once()
 
 
-@patch("application.services.portfolio.portfolio_service.VNStockClient")
-@patch("application.services.portfolio.portfolio_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_price_empty_data(mock_cache, mock_client):
-    mock_cache.return_value.get.return_value = None
-    mock_instance = MagicMock()
-    mock_instance.fetch_trading_data.return_value = __import__("pandas").DataFrame()
-    mock_client.return_value = mock_instance
-    svc = _make_portfolio_service()
+def test_fetch_price_empty_data():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = None
+    svc = _make_portfolio_service(cache=mock_cache, rows=[])
     result = svc._fetch_price("VCB", 5, "2026-03-10")
     assert "error" in result
 
 
-@patch("application.services.portfolio.portfolio_service.VNStockClient")
-@patch("application.services.portfolio.portfolio_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_price_client_exception(mock_cache, mock_client):
-    mock_cache.return_value.get.return_value = None
-    mock_client.return_value.fetch_trading_data.side_effect = ValueError("API error")
-    svc = _make_portfolio_service()
+def test_fetch_price_client_exception():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = None
+    mock_md = MagicMock(spec=MarketDataPort)
+    mock_md.get_price_data.side_effect = ValueError("API error")
+    svc = PortfolioService(cache=mock_cache, market_data=mock_md, company_port=MagicMock())
     result = svc._fetch_price("VCB", 5, "2026-03-10")
     assert "error" in result
 
@@ -217,36 +244,19 @@ def test_fetch_price_client_exception(mock_cache, mock_client):
 # -- PortfolioService._fetch_sector_and_price -------------------------------
 
 
-@patch("application.services.portfolio.portfolio_service.VNStockClient")
-@patch("shared.base_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_sector_and_price_cache_hit(mock_cache, mock_client):
-    mock_cache.return_value.get.return_value = 105.0
-    svc = _make_portfolio_service()
+def test_fetch_sector_and_price_cache_hit():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = 105.0
+    svc = _make_portfolio_service(cache=mock_cache)
     result = svc._fetch_sector_and_price("VCB", 10, "2026-03-10")
     assert result["ticker"] == "VCB"
     assert result["value"] == 1050.0
 
 
-@patch("application.services.portfolio.portfolio_service.VNStockClient")
-@patch("application.services.portfolio.portfolio_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_sector_and_price_missing_sector(mock_cache, mock_client):
-    def get_side_effect(key, *_a, **_kw):
-        if "sector" in key:
-            return None
-        return None
-
-    mock_cache.return_value.get.side_effect = get_side_effect
-    mock_instance = MagicMock()
-    mock_instance.company.overview.return_value = __import__("pandas").DataFrame(
-        {"ticker": ["VCB"]}
-    )
-    mock_instance.fetch_trading_data.return_value = __import__("pandas").DataFrame(
-        {"close": [100.0]}
-    )
-    mock_client.return_value = mock_instance
-    svc = _make_portfolio_service()
+def test_fetch_sector_and_price_missing_sector():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = None
+    svc = _make_portfolio_service(cache=mock_cache, rows=_price_rows([100.0]))
     result = svc._fetch_sector_and_price("VCB", 10, "2026-03-10")
     assert result["ticker"] == "VCB"
     assert result["sector"] == "Unknown"
@@ -484,12 +494,13 @@ def test_handle_portfolio_query_module(mock_h):
 # -- NewsSentimentService internal methods ---------------------------------
 
 
-def _make_news_service():
+def _make_news_service(articles=None, cache=None):
     from application.services.portfolio.news_sentiment_service import NewsSentimentService
 
-    svc = NewsSentimentService.__new__(NewsSentimentService)
-    svc.logger = MagicMock()
-    return svc
+    return NewsSentimentService(
+        cache=cache if cache is not None else FakeCache(),
+        news_port=FakeNewsPort(articles if articles is not None else []),
+    )
 
 
 def test_filter_articles_by_days():
@@ -532,22 +543,18 @@ def test_filter_articles_empty_date():
     assert len(result) == 1
 
 
-@patch("shared.base_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_single_news_cache_hit(mock_cache):
-    mock_cache.return_value.get.return_value = [{"title": "cached news"}]
-    svc = _make_news_service()
+def test_fetch_single_news_cache_hit():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = [{"title": "cached news"}]
+    svc = _make_news_service(cache=mock_cache)
     result = svc._fetch_single_news("VCB")
     assert result[0]["title"] == "cached news"
 
 
-@patch("application.services.portfolio.news_sentiment_service._fetch_news_from_vnstock")
-@patch("application.services.portfolio.news_sentiment_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_fetch_single_news_fetch_empty(mock_cache, mock_fetch):
-    mock_cache.return_value.get.return_value = None
-    mock_fetch.return_value = []
-    svc = _make_news_service()
+def test_fetch_single_news_fetch_empty():
+    mock_cache = MagicMock()
+    mock_cache.get.return_value = None
+    svc = _make_news_service(cache=mock_cache, articles=[])
     result = svc._fetch_single_news("VCB")
     assert result == []
 
@@ -593,16 +600,17 @@ def test_analyze_news_sentiment_empty_tickers():
     assert "error" in result
 
 
-@patch("application.services.portfolio.news_sentiment_service._calc_sentiment_from_articles")
+@patch("application.services.portfolio.news_sentiment_service._score_articles")
 @patch.object(NewsSentimentService, "get_news_data")
-def test_analyze_news_sentiment_combines(mock_news, mock_sentiment):
+def test_analyze_news_sentiment_combines(mock_news, mock_score):
     mock_news.return_value = {"news": {"VCB": [{"title": "a"}]}}
-    mock_sentiment.return_value = 0.5
+    mock_score.return_value = (0.5, {"label": "pos", "score": 0.5, "engine": "hf", "articles": []})
     svc = _make_news_service()
     result = svc.analyze_news_sentiment({"tickers": ["VCB"]})
     assert "VCB" in result
     assert result["VCB"]["sentiment"] == 0.5
     assert result["VCB"]["social_volume"] == 1
+    assert result["VCB"]["sentiment_detail"]["label"] == "pos"
 
 
 def test_compare_news_sentiment_no_tickers():
@@ -626,9 +634,10 @@ def test_compare_news_sentiment_basic(mock_sent):
 
 
 @patch.object(NewsSentimentService, "get_news_data")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
 def test_dispatch_news(mock_news):
     mock_news.return_value = {"news": {"VCB": []}}
+    svc = _make_news_service()
+    set_service("news", svc)
     from application.services.portfolio.news_sentiment_service import (
         handle_news_sentiment_query,
     )
@@ -637,10 +646,22 @@ def test_dispatch_news(mock_news):
     assert "news" in result
 
 
+def test_dispatch_news_real_path():
+    svc = _make_news_service(articles=[{"title": "VCB lãi lớn", "content": "lợi nhuận tăng"}])
+    set_service("news", svc)
+    from application.services.portfolio.news_sentiment_service import (
+        handle_news_sentiment_query,
+    )
+
+    result = handle_news_sentiment_query(tickers=["VCB"], field="news")
+    assert len(result["news"]["VCB"]) == 1
+
+
 @patch.object(NewsSentimentService, "get_sentiment_data")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
 def test_dispatch_sentiment(mock_sent):
     mock_sent.return_value = {"sentiment": {"VCB": 0.0}}
+    svc = _make_news_service()
+    set_service("news", svc)
     from application.services.portfolio.news_sentiment_service import (
         handle_news_sentiment_query,
     )
@@ -649,10 +670,13 @@ def test_dispatch_sentiment(mock_sent):
     assert "sentiment" in result
 
 
+@patch("application.services.portfolio.news_sentiment_service._score_articles")
 @patch.object(NewsSentimentService, "get_news_data")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_dispatch_fallback_to_analyze(mock_news):
+def test_dispatch_fallback_to_analyze(mock_news, mock_score):
     mock_news.return_value = {"news": {"VCB": [{"title": "a"}]}}
+    mock_score.return_value = (0.0, {"label": "neu", "score": 0.0, "engine": "hf", "articles": []})
+    svc = _make_news_service()
+    set_service("news", svc)
     from application.services.portfolio.news_sentiment_service import (
         handle_news_sentiment_query,
     )
@@ -661,7 +685,6 @@ def test_dispatch_fallback_to_analyze(mock_news):
     assert "VCB" in result
 
 
-@__import__('pytest').mark.skip(reason='legacy strict DI')
 def test_dispatch_compare_sentiment_only():
     from application.services.portfolio.news_sentiment_service import (
         handle_news_sentiment_query,
@@ -674,9 +697,10 @@ def test_dispatch_compare_sentiment_only():
 
 
 @patch.object(NewsSentimentService, "compare_news_sentiment")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
 def test_dispatch_compare_valid(mock_compare):
     mock_compare.return_value = {"VCB": 0.5, "VNM": -0.2}
+    svc = _make_news_service()
+    set_service("news", svc)
     from application.services.portfolio.news_sentiment_service import (
         handle_news_sentiment_query,
     )

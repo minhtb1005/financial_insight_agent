@@ -1,162 +1,158 @@
-"""Unit tests for sector_service — SectorService and helpers."""
+"""Unit tests for sector_service — SectorService (strict DI, FakePorts).
 
-from unittest.mock import patch
+No network: company listing and market data are faked.
+"""
+
 import pandas as pd
 
-# -- module-level handle_sector_query -------------------------------------
+from shared.ports.cache_port import CachePort
+from shared.ports.company_port import CompanyPort
+from shared.ports.market_data_port import MarketDataPort
+from shared.utils.cache_keys import make_cache_key
 
 
-@__import__('pytest').mark.skip(reason='legacy strict DI')
+class FakeCache(CachePort):
+    def __init__(self, store=None):
+        self._store = store or {}
+
+    def get(self, key): return self._store.get(key)
+    def set(self, key, value, ttl_hours=1.0): self._store[key] = value
+    def delete(self, key): self._store.pop(key, None)
+
+
+class FakeCompanyPort(CompanyPort):
+    def __init__(self, df):
+        self._df = df
+
+    def get_overview(self, index="VNINDEX"):
+        return self._df
+
+    def list_companies(self, *args, **kwargs):
+        return []
+
+
+class FakeMarketData(MarketDataPort):
+    def __init__(self, rows):
+        self._rows = rows
+
+    def get_price_data(self, ticker, start_date, end_date, interval="1d"):
+        return {
+            "ticker": ticker,
+            "data": self._rows,
+            "start_date": start_date,
+            "end_date": end_date,
+            "data_as_of": "2026-03-10T00:00:00+00:00",
+            "source": "db",
+        }
+
+
+def _overview(rows):
+    return pd.DataFrame(rows)
+
+
+def _prices(closes):
+    return [
+        {
+            "date": f"2026-03-{1 + i:02d}",
+            "open": c - 1.0,
+            "high": c + 1.0,
+            "low": c - 1.0,
+            "close": c,
+            "volume": 1000 + i * 100,
+        }
+        for i, c in enumerate(closes)
+    ]
+
+
+def _make_service(df=None, rows=None, cache=None):
+    from application.services.market.sector_service import SectorService
+
+    return SectorService(
+        cache=cache if cache is not None else FakeCache(),
+        company_port=FakeCompanyPort(df if df is not None else _overview([])),
+        market_data=FakeMarketData(rows if rows is not None else []),
+    )
+
+
+# -- handle_query validation ----------------------------------------------
+
+
 def test_sector_empty_returns_error():
-    from application.services.market.sector_service import handle_sector_query
-
-    result = handle_sector_query(sector="")
-    assert "error" in result
+    svc = _make_service()
+    assert "error" in svc.handle_query(sector="")
 
 
-@patch("application.services.market.sector_service.get_cache_manager")
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_sector_valid(mock_client, mock_cache):
-    mock_cache.return_value = None
-    mock_client.return_value.fetch_trading_data.return_value = pd.DataFrame(
-        {
-            "time": ["2026-03-01", "2026-03-08"],
-            "close": [100.0, 102.0],
-            "volume": [1000, 1100],
-            "open": [99.0, 101.0],
-            "high": [101.0, 103.0],
-            "low": [98.0, 100.0],
-        }
+def test_sector_valid():
+    svc = _make_service(
+        df=_overview([
+            {"ticker": "VCB", "sector": "banking"},
+            {"ticker": "VNM", "sector": "banking"},
+        ]),
+        rows=_prices([100.0, 102.0]),
     )
-    mock_client.return_value.company.overview.return_value = pd.DataFrame(
-        {
-            "ticker": ["VCB", "VNM"],
-            "sector": ["banking", "banking"],
-        }
-    )
-
-    from application.services.market.sector_service import handle_sector_query
-
-    result = handle_sector_query(sector="banking")
+    result = svc.handle_query(sector="banking")
     assert "error" not in result
     assert "ranked_tickers" in result
+    assert result["total_tickers"] == 2
+    assert result["ranked_tickers"][0]["data_as_of"] == "2026-03-10T00:00:00+00:00"
 
 
 # -- SectorService._get_tickers_in_sector ---------------------------------
 
 
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_get_tickers_in_sector_matches(mock_client):
-    mock_client.return_value.company.overview.return_value = pd.DataFrame(
-        {
-            "ticker": ["VCB", "VNM", "HPG"],
-            "sector": ["banking", "banking", "steel"],
-        }
-    )
-    from application.services.market.sector_service import _get_tickers_in_sector
-
-    result = _get_tickers_in_sector("banking")
+def test_get_tickers_in_sector_matches():
+    svc = _make_service(df=_overview([
+        {"ticker": "VCB", "sector": "banking"},
+        {"ticker": "VNM", "sector": "banking"},
+        {"ticker": "HPG", "sector": "steel"},
+    ]))
+    result = svc._get_tickers_in_sector("banking")
     assert "VCB" in result
     assert "VNM" in result
     assert "HPG" not in result
 
 
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_get_tickers_in_sector_no_match(mock_client):
-    mock_client.return_value.company.overview.return_value = pd.DataFrame(
-        {
-            "ticker": ["VCB"],
-            "sector": ["banking"],
-        }
-    )
-    from application.services.market.sector_service import _get_tickers_in_sector
-
-    result = _get_tickers_in_sector("real_estate")
-    assert result == []
+def test_get_tickers_in_sector_no_match():
+    svc = _make_service(df=_overview([{"ticker": "VCB", "sector": "banking"}]))
+    assert svc._get_tickers_in_sector("real_estate") == []
 
 
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_get_tickers_in_sector_missing_columns(mock_client):
-    mock_client.return_value.company.overview.return_value = pd.DataFrame({"ticker": ["VCB"]})
-    from application.services.market.sector_service import _get_tickers_in_sector
-
-    result = _get_tickers_in_sector("banking")
-    assert result == []
+def test_get_tickers_in_sector_missing_columns():
+    svc = _make_service(df=_overview([{"ticker": "VCB"}]))
+    assert svc._get_tickers_in_sector("banking") == []
 
 
 # -- _get_performance -----------------------------------------------------
 
 
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_get_performance_normal(mock_client):
-    mock_client.return_value.fetch_trading_data.return_value = pd.DataFrame(
-        {
-            "time": ["2026-03-01", "2026-03-08"],
-            "close": [100.0, 105.0],
-            "volume": [1000, 1200],
-            "open": [99.0, 104.0],
-            "high": [101.0, 106.0],
-            "low": [98.0, 103.0],
-        }
-    )
-    from application.services.market.sector_service import _get_performance
-
-    result = _get_performance("VCB", "2026-03-01", "2026-03-08")
+def test_get_performance_normal():
+    svc = _make_service(rows=_prices([100.0, 105.0]))
+    result = svc._get_performance("VCB", "2026-03-01", "2026-03-08")
     assert result is not None
     assert result["ticker"] == "VCB"
     assert result["performance_pct"] == 5.0
+    assert result["data_as_of"] == "2026-03-10T00:00:00+00:00"
 
 
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_get_performance_insufficient_data(mock_client):
-    mock_client.return_value.fetch_trading_data.return_value = pd.DataFrame(
-        {
-            "time": ["2026-03-01"],
-            "close": [100.0],
-            "volume": [1000],
-            "open": [99.0],
-            "high": [101.0],
-            "low": [98.0],
-        }
-    )
-    from application.services.market.sector_service import _get_performance
-
-    result = _get_performance("VCB", "2026-03-01", "2026-03-08")
-    assert result is None
+def test_get_performance_insufficient_data():
+    svc = _make_service(rows=_prices([100.0]))
+    assert svc._get_performance("VCB", "2026-03-01", "2026-03-08") is None
 
 
-@patch("application.services.market.sector_service.VNStockClient")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_get_performance_empty_data(mock_client):
-    mock_client.return_value.fetch_trading_data.return_value = pd.DataFrame()
-    from application.services.market.sector_service import _get_performance
-
-    result = _get_performance("VCB", "2026-03-01", "2026-03-08")
-    assert result is None
+def test_get_performance_empty_data():
+    svc = _make_service(rows=[])
+    assert svc._get_performance("VCB", "2026-03-01", "2026-03-08") is None
 
 
 # -- handle_query ---------------------------------------------------------
 
 
-@__import__('pytest').mark.skip(reason='legacy strict DI')
 def test_handle_query_empty_sector():
-    from application.services.market.sector_service import handle_sector_query
-
-    result = handle_sector_query(sector="")
-    assert "error" in result
+    svc = _make_service()
+    assert "error" in svc.handle_query(sector="")
 
 
-@patch("application.services.market.sector_service.get_cache_manager")
-@__import__('pytest').mark.skip(reason='legacy strict DI')
-def test_handle_query_cache_hit(mock_cache):
-    mock_cache.return_value.get.return_value = {"cached": "result"}
-    from application.services.market.sector_service import handle_sector_query
-
-    result = handle_sector_query(sector="banking")
-    assert result == {"cached": "result"}
+def test_handle_query_cache_hit():
+    key = make_cache_key("sector", "banking", "performance", "1w")
+    svc = _make_service(cache=FakeCache({key: {"cached": "result"}}))
+    assert svc.handle_query(sector="banking") == {"cached": "result"}

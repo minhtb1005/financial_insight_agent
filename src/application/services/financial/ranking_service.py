@@ -50,7 +50,7 @@ class RankingService(BaseService):
                 "requested_field": field,
                 "aggregate": aggregate,
                 "time_range": {"start_date": start_date, "end_date": end_date},
-            }
+            } | self._freshness_of(*all_data.values())
         except Exception as e:
             self.logger.error(f"Ranking query failed: {e}")
             return {"error": str(e)}

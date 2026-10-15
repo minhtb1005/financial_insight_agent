@@ -134,14 +134,17 @@ class Dependencies:
             (self.llm_provider, "LLMProvider"),
         ]
 
+        # NOTE: duck-typing (hasattr), not isinstance(Protocol): runtime
+        # Protocol checks fail for duck-typed components (and plain mocks),
+        # which silently skipped real shutdown work (leaked background tasks).
         for comp, name in _stop_components:
             if comp is None:
                 continue
             try:
-                if isinstance(comp, Stoppable):
-                    comp.stop()
-                elif hasattr(comp, "stop_background_tasks"):
+                if hasattr(comp, "stop_background_tasks"):
                     comp.stop_background_tasks()
+                elif hasattr(comp, "stop"):
+                    comp.stop()
             except Exception:
                 logger.exception("Error stopping %s", name)
 
@@ -149,7 +152,7 @@ class Dependencies:
             if comp is None:
                 continue
             try:
-                if isinstance(comp, Closable):
+                if hasattr(comp, "close"):
                     comp.close()
             except Exception:
                 logger.exception("Error closing %s", name)
@@ -312,9 +315,35 @@ class Dependencies:
                 logger.warning("CachePort unavailable — no cache_manager/memory_cache")
 
             self.market_data_port = VNStockAdapter()  # type: ignore
+            try:
+                # Phase 4a: sqlite snapshot read-through (never worse than live).
+                from infrastructure.market_store.cached_adapter import (
+                    CachedMarketDataAdapter,
+                )
+
+                self.market_data_port = CachedMarketDataAdapter(  # type: ignore
+                    inner=self.market_data_port  # type: ignore
+                )
+                logger.debug("MarketDataPort wrapped with sqlite snapshot cache")
+            except Exception as e:
+                logger.warning("Market snapshot cache unavailable, using live port: %s", e)
             self.company_port = CompanyAdapter()  # type: ignore
             self.financial_port = FinancialAdapter()  # type: ignore
             self.news_port = NewsAdapter()  # type: ignore
+            try:
+                # Phase 3: fixed VCI source (coverage) + pure-RSS excerpts.
+                from infrastructure.adapters.rss_news_adapter import (
+                    CombinedNewsAdapter,
+                    RssNewsAdapter,
+                )
+
+                self.news_port = CombinedNewsAdapter(  # type: ignore
+                    primary=self.news_port,  # type: ignore
+                    secondary=RssNewsAdapter(),
+                )
+                logger.debug("NewsPort combined VCI+RSS initialised")
+            except Exception as e:
+                logger.warning("Combined news adapter unavailable, using legacy port: %s", e)
             self.knowledge_port = QdrantKnowledgeAdapter()  # type: ignore
             logger.debug("Ports initialised (strict)")
         except Exception as e:
@@ -349,7 +378,13 @@ class Dependencies:
                 set_service("ranking", RankingService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
                 set_service("aggregate", AggregateService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
                 set_service("company", CompanyService(cache=self.cache_port, company_port=self.company_port))  # type: ignore
-                set_service("financial_ratio", FinancialRatioService(cache=self.cache_port, financial_port=self.financial_port))  # type: ignore
+                try:
+                    from infrastructure.market_store.store import MarketStore
+
+                    _ratio_store = MarketStore()
+                except Exception:
+                    _ratio_store = None
+                set_service("financial_ratio", FinancialRatioService(cache=self.cache_port, financial_port=self.financial_port, store=_ratio_store))  # type: ignore
                 set_service("portfolio", PortfolioService(cache=self.cache_port, market_data=self.market_data_port, company_port=self.company_port))  # type: ignore
                 set_service("news", NewsSentimentService(cache=self.cache_port, news_port=self.news_port))  # type: ignore
                 logger.debug("Services initialised (strict)")

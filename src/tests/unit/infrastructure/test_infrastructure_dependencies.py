@@ -42,9 +42,11 @@ class TestDependencies:
 
     def test_shutdown_calls_stop_on_manager(self):
         deps = Dependencies()
-        deps.memory_manager = MagicMock()
-        deps.alert_manager = MagicMock()
-        deps.metrics_collector = MagicMock()
+        # Specs mirror the real components (plain MagicMocks expose every
+        # attr, which no hasattr/isinstance dispatch can distinguish).
+        deps.memory_manager = MagicMock(spec=["stop_background_tasks"])
+        deps.alert_manager = MagicMock(spec=["stop"])
+        deps.metrics_collector = MagicMock(spec=["stop"])
         deps.shutdown()
         deps.memory_manager.stop_background_tasks.assert_called_once()
         deps.alert_manager.stop.assert_called_once()

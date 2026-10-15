@@ -90,7 +90,7 @@ class PriceService(BaseService):
                 data=records,
                 start_date=start_date,
                 end_date=end_date,
-            ).model_dump()
+            ).model_dump() | self._freshness_of(raw)
 
         except Exception as e:
             self.logger.error(f"Failed to fetch price for {ticker}: {e}")

@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime, timedelta, timezone
 from typing import Any
@@ -7,6 +8,32 @@ from shared.constants import NEWS_TTL_HOURS
 from shared.ports.cache_port import CachePort
 from shared.ports.news_port import NewsPort
 from shared.utils.cache_keys import make_cache_key
+
+# Default sentiment engine: "hf" (PhoBERT, free/CPU/offline, F1 0.907 within
+# ~7% of LLM 0.978 on the 45-label golden set) — override via env for evals.
+# Keyword lexicon is the ultimate fallback (no model/key needed).
+SENTIMENT_ENGINE = os.getenv("SENTIMENT_ENGINE", "hf")
+
+
+def _score_articles(articles: list[dict], engine: str = SENTIMENT_ENGINE) -> tuple[float, dict[str, Any]]:
+    """Score articles with an engine; returns (avg_float, detail dict).
+
+    Never raises for a single article — engines fall back to keyword.
+    """
+    from infrastructure.sentiment.engines import classify_article
+
+    details = []
+    scores = []
+    for a in articles or []:
+        title = a.get("title", "")
+        content = a.get("content", "")
+        kw_score = _classify_sentiment(f"{title} {content}")
+        verdict = classify_article(title, content, engine=engine, keyword_score=kw_score)
+        details.append({"title": title, "label": verdict["label"], "score": verdict["score"], "rationale": verdict["rationale"], "engine": verdict["engine"]})
+        scores.append(float(verdict["score"]))
+    avg = round(sum(scores) / len(scores), 4) if scores else 0.0
+    label = "pos" if avg > 0 else ("neg" if avg < 0 else "neu")
+    return avg, {"label": label, "score": avg, "engine": engine, "articles": details}
 
 _NEGATION_WORDS = frozenset({"không", "chẳng", "chưa", "đừng", "không phải", "không có", "not", "no", "never", "neither", "nor"})
 _WORD_SPLIT = re.compile(r"\w+|[^\w\s]")
@@ -142,10 +169,12 @@ class NewsSentimentService(BaseService):
             return {"sentiment": {}, "note": "No tickers provided"}
         news_result = self.get_news_data(query)
         news_by_ticker = news_result.get("news", {})
+        engine = os.getenv("SENTIMENT_ENGINE", SENTIMENT_ENGINE)
         sentiment = {}
         for ticker in tickers:
             articles = news_by_ticker.get(ticker, [])
-            sentiment[ticker] = _calc_sentiment_from_articles(articles)
+            avg, _ = _score_articles(articles, engine=engine)
+            sentiment[ticker] = avg
         return {"sentiment": sentiment}
 
     def analyze_news_sentiment(self, query: dict) -> dict[str, Any]:
@@ -156,10 +185,12 @@ class NewsSentimentService(BaseService):
         try:
             news_data = self.get_news_data(query)
             news_by_ticker = news_data.get("news", {})
+            engine = os.getenv("SENTIMENT_ENGINE", SENTIMENT_ENGINE)
             result = {}
             for ticker in tickers:
                 articles = news_by_ticker.get(ticker, [])
-                result[ticker] = {"news": articles, "sentiment": _calc_sentiment_from_articles(articles), "social_volume": len(articles)}
+                avg, detail = _score_articles(articles, engine=engine)
+                result[ticker] = {"news": articles, "sentiment": avg, "social_volume": len(articles), "sentiment_detail": detail}
             return result
         except Exception as e:
             self.logger.error("Error analyzing news sentiment for %s: %s", tickers, e, exc_info=True)

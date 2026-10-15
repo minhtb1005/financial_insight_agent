@@ -116,6 +116,31 @@ class BaseService:
     def _get_cache_manager(self) -> CachePort:
         return self._cache
 
+    @staticmethod
+    def _freshness_of(*raws: Any) -> dict[str, Any]:
+        """Aggregate freshness across raw MarketDataPort payloads.
+
+        Returns additive ``{"data_as_of": max_iso_or_None, "data_source": ...}``
+        where source is ``"db"`` | ``"vnstock"`` | ``"mixed"`` (or None when
+        no raw carries freshness info, e.g. legacy/error payloads).
+        """
+        stamps = [
+            r.get("data_as_of") for r in raws
+            if isinstance(r, dict) and r.get("data_as_of")
+        ]
+        sources = {
+            r.get("source") for r in raws
+            if isinstance(r, dict) and r.get("source")
+        }
+        if not stamps and not sources:
+            return {}
+        out: dict[str, Any] = {}
+        if stamps:
+            out["data_as_of"] = max(stamps)
+        if sources:
+            out["data_source"] = next(iter(sources)) if len(sources) == 1 else "mixed"
+        return out
+
     def _fetch_single(self, ticker: str, start_date: str, end_date: str) -> dict[str, Any]:
         """Fetch price data via MarketDataPort — strict, no infrastructure fallback."""
         if self._market_data is None:

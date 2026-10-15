@@ -140,8 +140,10 @@ def test_flush_namespace(cache, mock_redis_client):
 
 
 def test_flush_all(cache, mock_redis_client):
+    # Namespace-less flush is refused for safety (would wipe a shared DB).
     mock_redis_client.flushdb.return_value = True
-    assert cache.flush() is True
+    assert cache.flush() is False
+    mock_redis_client.flushdb.assert_not_called()
 
 
 # -- list operations ------------------------------------------------------

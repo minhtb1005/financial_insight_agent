@@ -117,6 +117,8 @@ class IndicatorService(BaseService):
 
             if cache:
                 cache.set(cache_key, ticker_results, ttl_hours=INDICATOR_TTL_HOURS)
+            if isinstance(ticker_results, dict):
+                ticker_results.update(self._freshness_of(result))
             return ticker_results
 
         except Exception as e:

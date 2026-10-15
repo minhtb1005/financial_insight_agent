@@ -16,15 +16,21 @@ class NewsAdapter(NewsPort):
             df = company.news()
             if df is None or getattr(df, "empty", False):
                 return []
-            # Normalize DataFrame rows to dicts with expected keys
+            # Normalize VCI DataFrame rows to dicts with expected keys.
+            # NOTE: VCI column names are news_title/news_short_content/
+            # news_full_content/news_source(_link)/public_date — mapping the
+            # wrong keys here used to yield 50 blank articles (root cause of
+            # "empty news" in benchmarks).
             out: list[dict[str, Any]] = []
             for _, row in df.iterrows():
+                get = row.get if hasattr(row, "get") else lambda k, d="": row[k] if k in row else d
+                content = get("news_short_content", "") or get("news_full_content", "")
                 out.append({
-                    "title": str(row.get("title", "")),
-                    "content": str(row.get("content", row.get("title", ""))),
-                    "source": str(row.get("source", "VCI")),
-                    "url": str(row.get("url", "")),
-                    "date": str(row.get("date", row.get("publish_date", ""))),
+                    "title": str(get("news_title", "") or ""),
+                    "content": str(content or get("news_title", "") or ""),
+                    "source": str(get("news_source", "") or "VCI"),
+                    "url": str(get("news_source_link", "") or ""),
+                    "date": str(get("public_date", "") or ""),
                     "ticker": ticker,
                 })
             return out

@@ -16,9 +16,10 @@ def _ensure_float(v, default: float = 0.0) -> float:
 
 
 class FinancialRatioService(BaseService):
-    def __init__(self, cache: CachePort, financial_port: FinancialPort) -> None:
+    def __init__(self, cache: CachePort, financial_port: FinancialPort, store: Any | None = None) -> None:
         super().__init__("financial_ratio_service", cache)
         self._financial = financial_port
+        self._store = store
 
     def handle_query(
         self,
@@ -40,14 +41,57 @@ class FinancialRatioService(BaseService):
 
         return self.for_each_ticker(tickers, lambda t: self._fetch_single(t, field))
 
+    def _store_or_none(self) -> Any | None:
+        # No lazy default: the store is wired explicitly in production
+        # (dependencies.py) so unit tests with FakePorts can never
+        # side-effect the real data/market_store.db via write-back.
+        return self._store
+
     def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:
-        return self._cached_fetch(
+        # DB-first: snapshot read-through (quarterly cadence, never worse
+        # than live — miss falls through to the port + cache path below).
+        store = self._store_or_none()
+        if store is not None:
+            try:
+                snap = store.get_ratios(ticker)
+                if snap and field in snap:
+                    freshness = {}
+                    if snap.get("_fetched_at"):
+                        freshness = {
+                            "data_as_of": snap["_fetched_at"],
+                            "data_source": snap.get("_source", "db"),
+                        }
+                    entry = _snapshot_entry(field, float(snap[field]), snap.get("_period"), freshness)
+                    if entry:
+                        return entry
+            except Exception:
+                pass
+        result = self._cached_fetch(
             "financial_ratio",
             ticker,
             lambda: get_financial_ratios(self._financial, ticker, field, {"requested_field": field}, cache=self._cache),
             ttl_hours=RATIO_TTL_HOURS,
             ratio_type=field,
         )
+        # Best-effort write-back of computed canonical values.
+        if store is not None and isinstance(result, dict) and "error" not in result:
+            try:
+                payload = {
+                    name: entry.get("value")
+                    for name, entry in result.items()
+                    if isinstance(entry, dict) and entry.get("value") is not None
+                    and not str(name).startswith("data_")
+                }
+                period = next(
+                    (e.get("time_range") for e in result.values()
+                     if isinstance(e, dict) and e.get("time_range")),
+                    None,
+                )
+                if payload:
+                    store.save_ratios(ticker, payload, period=period, source="vnstock")
+            except Exception:
+                pass
+        return result
 
 
 
@@ -267,6 +311,89 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
 }
 
 
+_RATIO_FRAME_ALIASES: dict[str, list[str]] = {
+    "pe": ["price to earning", "price_to_earning", "p/e", "pricetoearning"],
+    "pb": ["price to book", "price_to_book", "p/b", "pricetobook"],
+    "roe": ["return on equity", "return_on_equity", "roe"],
+    "eps": ["earning per share", "earning_per_share", "eps"],
+    "current_ratio": ["current ratio", "current_ratio", "thanh toan hien hanh"],
+    "debt_to_equity": ["debt to equity", "debt_to_equity", "debt equity", "d/e"],
+    "profit_margin": ["net profit margin", "profit margin", "profit_margin", "bien loi nhuan"],
+    "quick_ratio": ["quick ratio", "quick_ratio"],
+    "asset_turnover": ["asset turnover", "asset_turnover", "vong quay tai san"],
+    "dividend_yield": ["dividend yield", "dividend_yield", "ty suat co tuc"],
+}
+
+_INTERPRET: dict[str, Any] = {
+    "pe": get_pe_interpretation,
+    "pb": get_pb_interpretation,
+    "roe": get_roe_interpretation,
+    "eps": get_eps_interpretation,
+    "current_ratio": get_current_ratio_interpretation,
+    "debt_to_equity": get_debt_to_equity_interpretation,
+    "profit_margin": get_profit_margin_interpretation,
+    "quick_ratio": get_quick_ratio_interpretation,
+    "asset_turnover": get_asset_turnover_interpretation,
+    "dividend_yield": get_dividend_yield_interpretation,
+}
+
+_FRAME_META_COLS = {"item", "item_en", "item_id", "unit", "levels", "row_number", "ticker", "quarter", "year"}
+
+
+def parse_ratio_frame(frame: Any) -> tuple[dict[str, float], str | None]:
+    """Parse a Finance.ratio() frame (KBS item-rows shape) to canonical fields.
+
+    Returns (values, latest_period). Unknown shapes yield ({}, None) so
+    callers fall back to the legacy balance-sheet compute path.
+    """
+    try:
+        if frame is None or getattr(frame, "empty", False):
+            return {}, None
+        columns = [str(c) for c in getattr(frame, "columns", [])]
+        if not columns:
+            return {}, None
+        item_cols = [c for c in ("item", "item_en", "item_id") if c in columns]
+        period_cols = [c for c in columns if c not in _FRAME_META_COLS]
+        if not item_cols or not period_cols:
+            return {}, None
+        latest = sorted(period_cols)[-1]
+        values: dict[str, float] = {}
+        for _, row in frame.iterrows():
+            try:
+                text = " ".join(str(row.get(c, "")) for c in item_cols).lower().replace("_", " ")
+            except Exception:
+                continue
+            for field, aliases in _RATIO_FRAME_ALIASES.items():
+                if field in values:
+                    continue
+                if any(a in text for a in aliases):
+                    try:
+                        v = float(row.get(latest))
+                    except (TypeError, ValueError):
+                        continue
+                    if v == v:  # skip NaN
+                        values[field] = v
+        return values, latest
+    except Exception:
+        return {}, None
+
+
+def _snapshot_entry(field: str, value: float, period: str | None, freshness: dict[str, Any]) -> dict[str, Any]:
+    interpret = _INTERPRET.get(field)
+    if interpret is None:
+        return {}
+    out = {
+        field: {
+            "value": value,
+            "interpretation": interpret(value),
+            "time_range": period or "Latest",
+            "source": "db",
+        },
+    }
+    out.update(freshness)
+    return out
+
+
 def get_financial_ratios(
     port: FinancialPort, ticker: str, ratio_type: str | None = None, parsed: dict[str, Any] | None = None, cache: CachePort | None = None
 ) -> dict[str, Any]:
@@ -275,6 +402,22 @@ def get_financial_ratios(
         financial_data = port.get_financial_statement(ticker)
         if financial_data is None or getattr(financial_data, "empty", False):
             return {"error": "No financial data available"}
+        # New path: Finance.ratio() frame already carries computed ratios.
+        frame_vals, frame_period = parse_ratio_frame(financial_data)
+        if frame_vals:
+            wanted = [ratio_type] if ratio_type else list(frame_vals)
+            ratios: dict[str, Any] = {}
+            for name in wanted:
+                if name in frame_vals and name in _INTERPRET:
+                    ratios[name] = {
+                        "value": frame_vals[name],
+                        "interpretation": _INTERPRET[name](frame_vals[name]),
+                        "time_range": frame_period or "Latest",
+                        "source": "vnstock",
+                    }
+            if ratios:
+                return ratios
+            return {"error": "No ratios calculated"}
         market_data = port.get_market_data(ticker)
 
         ratios = {}

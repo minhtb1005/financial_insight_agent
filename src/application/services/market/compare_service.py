@@ -58,7 +58,7 @@ class CompareService(BaseService):
                     "start_date": start_date,
                     "end_date": end_date,
                 },
-            }
+            } | self._freshness_of(*main_data.values(), *compare_data.values())
 
         except Exception as e:
             self.logger.error(f"Compare query failed: {e}")

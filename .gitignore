@@ -34,6 +34,7 @@ src/financial_insight_agent.egg-info/
 .claude/
 .kilo/
 .opencode/
+.impeccable/
 # Tracing storage & eval artifacts
 data/
 evals/reports/
