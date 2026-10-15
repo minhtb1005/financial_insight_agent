@@ -552,6 +552,29 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 
 ## Current Status 7
 - Debate DONE 15/10/2026 — verdict REVISE (xem Debate Notes 7). Plan 7 + Files 7 đã sửa Approved theo toàn bộ điểm debate (thematic commits + add -f + baseline trước commit + rates 2 nhịp pilot-policy + feedback admin-only + e2e tách smoke, không playwright). Sẵn sàng implement A→B1→B2→B3.
+- **IMPLEMENT DONE 15/10/2026** — đủ A→B1→B2→B3 (máy), smoke mắt blocked (ghi rõ bên dưới).
+- **(A) Review/commit/push DONE:** baseline full unit TRƯỚC commit đầu = **774 passed / 0 failed**; 4 thematic commits (cấm `add -A`, scan secret từng nhịp, DB/audio/out/log vẫn ignored, verify `check-ignore` 2 chiều: curriculum staged qua `-f`, `traces.db`/`market_store.db` vẫn ignored):
+  - `faa231e` edu+RAG (calculators/tutor/RAG sources/eval datasets + WORKFLOW_STATE.md + curriculum JSON via `add -f`, giữ nguyên `data/`)
+  - `adb374b` video lip-sync (Mascot/SceneView/Trau + media-utils)
+  - `c81a0d5` traces Batch 1 (routes/storage/tests + 4 components)
+  - `4c6b7c0` infra lan rộng (vnstock v4 + ratio wiring + 43-fixes + news sentiment + market_store pilot + proxy.ts)
+  - Push `488269e..4c6b7c0 main -> main`, không force/amend. Cố ý để lại untracked: `frontend.dev.log` (rác), `evals/dashboard/v1/report-gpt41.json` (artifact), `trau-video/public/audio/` (build).
+- **(B1) Rates DONE, push `a3c8e9c`:** `rates_store/store.py` (6 bảng + `RETENTION_MONTHS` per-table 12/12/None/None/6/None + `date/effective_date/crawled_at` + `source` + `purge_older_than/purge_expired` + `is_stale/latest_fetch` + meta) + `ingest.py` (pilot duy nhất policy SBV static, `generic_html` + seed fallback, hash-skip, QĐ 1123/HL 19/06/2023) + `cached_adapter.py` (SQL-first, stale 24h/168h/720h, policy tự refresh, shape `data_as_of/source/stale`) + `scheduler.py` (opt-in `ENABLE_RATES_SCHEDULER`, weekly) + 1 tool `get_rates` (đăng ký `tools/__init__.py`, tutor allowlist giữ nguyên) + README (19 tools + row `get_rates`).
+  - Unit rates **12 passed** (parse số tay 4.5/3.0/5.0, retention constants, latest/source/dates, hash-skip, fallback seed, purge, stale, adapter shape/error/empty). Count tests 18→19.
+  - Ingest thật: fetch **luatvietnam.vn thật thành công** (source=URL thật, không seed) → 3 rows `policy_rates` HL 2023-06-19 trong `data/rates_store.db`; chạy lại → `skipped: True` (hash).
+- **(B2) Feedback DONE, commit `0a3316b`:** `storage.py` `_SCHEMA` += `feedback(trace_id,span_id NULL,score,comment,author,created_at)` IF NOT EXISTS + `CHECK (score BETWEEN 1 AND 5)` + index `trace_id` (đúng chỗ: alembic chỉ quản User/postgres) + `add_feedback/list_feedback`; routes POST/GET admin-only (`get_current_admin_user`, author=admin email, 422 ngoài 1–5, 404 trace lạ); frontend tab **Đánh giá** cạnh RAGAS-note (5 tabs) — server shell fetch initial + client reload sau submit, không fetch trong effect (né rule `set-state-in-effect` mới thành error). Tests feedback **3 passed**, observability folder **30 passed**.
+- **(B3) E2E DONE 3/3** (`src/tests/e2e/test_traces_e2e.py`, TestClient DB temp, admin@finsight.vn): list search/sort/total + detail tree depth (root → 2 children) + feedback roundtrip.
+- **Gate:** full unit **789 passed / 0 failed** (= 774 baseline + 12 rates + 3 feedback), e2e 3/3 riêng, `tsc --noEmit` sạch, `eslint src/app/traces` 0 errors 0 warnings.
+- **Smoke mắt BLOCKED (không đoán, cần người):** backend cold-boot torch quá 80s chưa lên `/health` (job log: `Started server process`, kẹt `Waiting for application startup`; redis missing nhưng degraded OK); session tool kill process nền nên không giữ server chạy xuyên lệnh. Checklist smoke cho người (backend up + login admin@finsight.vn): list sort 4 cột/search hit-miss/date/pagination total/visibility persist/copy; detail 5 tabs, waterfall expand/collapse, click span IO, truncated Badge, feedback POST/GET roundtrip.
+- Video M3L2 giữ draft (không nhận final).
+
+## Implementation Notes 7 (implementor 15/10/2026)
+- Baseline 774 (đã gồm Batch 1 traces + edu) — khớp 769 Phase A + 5 traces mới.
+- `git check-ignore`: curriculum chỉ stage được qua `-f` (parent `data/` excluded, không rewrite gitignore theo debate A2); WORKFLOW_STATE `git add` thường (chưa từng ignore, chỉ untracked).
+- Rates `purge_expired` dùng 30d/tháng approx (`ponytail:` trong code — per-table day-count nếu cần chính xác).
+- `get_rates` không vào tutor allowlist (giữ Scope 3: tutor = 4 edu + knowledge + chart_spec).
+- FeedbackTab: lần 1 dùng `useEffect` fetch-on-mount → eslint error (rule v6 flat-config nâng thành error) → chuyển initial-fetch về server shell + reload sau submit (đúng pattern TracesTable).
+- Test count name `test_mcp_has_13_tools` đã stale từ trước (assert 18) — chỉ update số 19 + expected set, không rename (ngoài scope).
 
 ## Next Agent
-- implementor
+- reviewer (review A→B3: 6 commits faa231e/adb374b/c81a0d5/4c6b7c0/a3c8e9c/0a3316b + WORKFLOW_STATE; gate số bên trên; smoke mắt checklist chờ người)
