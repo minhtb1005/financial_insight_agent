@@ -578,3 +578,103 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 
 ## Next Agent
 - reviewer (review A→B3: 6 commits faa231e/adb374b/c81a0d5/4c6b7c0/a3c8e9c/0a3316b + WORKFLOW_STATE; gate số bên trên; smoke mắt checklist chờ người)
+
+## Request mới (15/10/2026 — rà soát sót chưa triển khai)
+- User: rà soát xem còn sót gì chưa triển khai không.
+- Planner đã đọc WORKFLOW_STATE.md đuôi (Current Status 7 + Notes 7, tổng 580 dòng) + đối chiếu repo thật: `git log/status`, `rates_store/` + đếm rows sqlite, grep `get_rates|rates_store|ENABLE_RATES_SCHEDULER`, grep placeholders lessons, kiểm tra Batch 2/Phase 4b/reviewer/smoke.
+
+## Open Questions (audit sót — chờ user chốt trong chat)
+- (sẽ hỏi trong chat — xem tin nhắn planner kèm theo)
+
+## Constraints (audit sót)
+- Planner: không sửa code ngoài WORKFLOW_STATE.md.
+- Không tự ý mở rộng scope (5 nhóm rates rỗng, Batch 2 còn lại, Phase 4b, video final) khi user chưa chốt.
+- M3L2 + lessons giữ draft cho tới khi số [[TÍNH BẰNG CÔNG CỤ]] được điền bằng education tools đã kiểm tra.
+
+## Current Status (audit sót 15/10/2026 — đã đối chiếu WORKFLOW_STATE vs repo thật)
+- ĐÃ XONG (không sót): A 4 thematic commits push tới `8c75304` (git chỉ còn 3 untracked cố ý: report artifact/dev.log/audio build); rates 6 bảng + `get_rates` + scheduler opt-in + README; feedback table/API/tab Đánh giá; e2e 3/3; gate 789/0 + tsc + eslint.
+- SÓT 1 (lớn): rates 5/6 nhóm rỗng — sqlite đếm thật: `policy_rates`=3 rows, `deposit_listed`/`lending_listed`/`avg_rates_monthly`/`vnibor_daily`/`banks_meta`=0 rows. Đúng Plan 7 nhịp 1 (pilot policy duy nhất), nhưng spec 6 nhóm gốc coi như chưa full data (cần parser riêng web NH/CafeF/SBV-monthly, không chỉ hash-skip).
+- SÓT 2 (treo, cần người/môi trường): smoke mắt BLOCKED (backend cold-boot torch >80s chưa `/health`, session kill process nền) + reviewer A→B3 chưa review.
+- SÓT 3 (Batch 2 còn lại, ngoài feedback đã xong): scores/tags/session/userId/version/env/cost columns, comments per node riêng, graph DAG, virtualized hover-prefetch, row selection, DELETE dialog — chưa động.
+- SÓT 4 (cũ): Phase 4b full pipeline (toàn sàn + intraday + postgres) mới outline `docs/pipeline_full_outline.md`, chưa implement.
+- SÓT 5 (video): M3L2 + ~30 lessons còn `[[TÍNH BẰNG CÔNG CỤ]]`/`type:placeholder` (grep lessons: M3L2 2 chỗ + M6L1/M3L4/…nhiều file; `index.json` open_placeholders 1–3 ở đa số bài) — giữ draft theo chốt, chưa điền số + chưa render final.
+- NHỎ (ghi nhận, không block): test name stale `test_mcp_has_13_tools` (assert 19); `purge_expired` approx 30d/tháng (đã mark `ponytail:`); `get_rates` ngoài tutor allowlist (by design); 3 untracked cố ý để lại.
+
+## Request 8 (15/10/2026 — user chốt vét sót, scope lớn)
+- User trả lời audit 5 điểm: (1) ingest tiếp 5 nhóm rates rỗng (parser riêng web NH/CafeF/SBV-monthly); (2) Batch 2 còn lại làm tiếp; (3) smoke thử lại cách khác (tăng timeout/chạy nền khác) + duyệt reviewer luôn; (4) Phase 4b full pipeline tính vào đợt này; (5) video placeholders điền số bằng tools rồi render final, bắt đầu từ M1L1.
+- Planner diễn đạt lại: vét toàn bộ sót thành một đợt — rates full 6 nhóm có data thật + Batch 2 hoàn thiện traces + smoke/reviewer dứt điểm + Phase 4b full pipeline + video M1L1 final (điền số bằng education calculators đã kiểm tra). Đây là đợt lớn nhất từ đầu (gộp 5 luồng độc lập), phải chia nhịp + chốt acceptance từng nhịp trước khi plan chi tiết.
+
+## Open Questions 8 (chờ user — hỏi trong chat kèm theo)
+- (xem tin nhắn planner kèm theo — 6 câu follow-up)
+
+## Constraints 8
+- Planner: không sửa code ngoài WORKFLOW_STATE.md.
+- Không benchmark full nếu user không yêu cầu explicitly (tiền lệ các batch trước hoãn benchmark, chỉ unit + smoke).
+- Không commit secrets/DB/audio/out/log/node_modules; không force-push/amend-fail; stage có chọn lọc.
+- Mirror pattern sẵn có (`market_store/` cho rates, `TraceStore` IF NOT EXISTS cho traces columns) thay vì thiết kế mới khi có thể; không thêm dep nặng nếu native đủ.
+
+## Clarified Scope 8 (chốt 15/10/2026 — user trả lời 5 điểm + debate phần còn lại)
+- User chốt: (2) Batch 2 làm cả 6 + được thêm cột nullable + DELETE có làm; (3) Phase 4b full luôn; (4) mp4 giữ local; (5) được chạy docker compose; (6) chưa benchmark, thứ tự rates → Batch 2 → smoke/reviewer → Phase 4b song song video. Phần chưa trả lời giao debate chọn tối ưu (planner đề xuất dưới, debater quyết).
+- R1 rates full (planner đề xuất tối ưu): ưu tiên SBV-monthly + CafeF trước (aggregator ổn định hơn crawl lẻ từng NH), fallback web 3–4 NH lớn (VCB/BIDV/Vietin/ACB) rồi seed đã verify khi WAF/DNS chặn (pattern Phase B); acceptance tối thiểu: deposit ≥3 NH × 4 kỳ hạn, lending ≥3 NH, avg_monthly ≥1 kỳ SBV, vnibor ≥5 kỳ hạn, banks_meta ≥5 NH (debater chốt số).
+- R2 Batch 2 cả 6 đã chốt; scores/tags/session/userId/version/env/cost thêm cột nullable vào `traces` (SQLite ALTER ADD COLUMN, backfill null, không alembic vì traces.db sqlite riêng).
+- R3 smoke (đề xuất): docker compose up -d (detached, không bị session kill) + start_period/timeout 10 phút cho torch cold-boot + checklist Status 7; reviewer = code review + approve push.
+- R4 Phase 4b full (đề xuất chia nhịp trong full): nhịp 1 daily toàn sàn (HOSE+HNX+UPCoM 2–3 năm, chunked-resumable) → nhịp 2 intraday VN30 pilot (không full intraday toàn sàn ngay) → nhịp 3 postgres + cron ngoài; acceptance đề xuất: coverage ≥95% HOSE+HNX daily 2 năm, hit-rate read-through ≥90%, freshness daily T+1 (debater chốt).
+- R5 video M1L1 (verify thật 15/10: 8 scenes, VO 0 `[[...]]`, `illustrative_numbers`=null, status `draft_ready_for_review`, V1 label minh họa required + V2 recompute/V3 human-review open): final = verify số học trong narration bằng budget tool + giữ nhãn minh họa + TTS + render Remotion, mp4 local only, user duyệt V3 mới gọi là final.
+
+## Acceptance Criteria 8 (chốt)
+1. Rates 6/6 nhóm có rows đạt tối thiểu R1, `get_rates` đúng từng nhóm, nguồn + ngày hiệu lực rõ; unit + ingest thật pass.
+2. Batch 2 đủ 6 tính năng, unit/tsc/eslint xanh, không regression (so 789 baseline).
+3. Smoke docker-compose pass checklist + e2e pass; reviewer APPROVE (code + push).
+4. Phase 4b đạt ngưỡng R4 (debater chốt số cuối).
+5. M1L1: 0 placeholder, mp4 local OK, số khớp tools, V3 human duyệt.
+6. Không benchmark full; push từng nhịp, báo hash.
+
+## Library verification 8 (15/10/2026 — planner verify trước Plan 8)
+- Postgres/docker (đọc thật): `postgres:16-alpine` + `pg_isready` healthcheck đã có cả compose prod/dev; `DATABASE_URL/DATABASE_SYNC_URL` asyncpg/postgres đã wiring; `psycopg2-binary + alembic` đã pin trong `pyproject.toml`; backend command chạy `alembic upgrade head` trước uvicorn — Phase 4b postgres không cần dep mới, chỉ migration + compose đã sẵn.
+- Rates (đọc thật): `rates_store/{store,ingest,cached_adapter,scheduler}.py` tồn tại; pilot policy SBV dùng `generic_html` + seed fallback (SBV gốc WAF-block, CIC DNS fail — pattern Phase B) — 5 nhóm còn lại spike tương tự, ưu tiên aggregator trước theo đề xuất R1.
+- Traces (đọc thật): `traces`/`spans` chưa có scores/tags/session/...; `feedback` đã có (CHECK 1–5 + index) — Batch 2 thêm cột nullable qua SQLite ALTER ADD COLUMN là backward-compat, không đụng alembic (alembic chỉ quản User/postgres).
+- Video (đọc thật M1L1): 8 scenes, VO 0 placeholder, `illustrative_numbers`=null, status `draft_ready_for_review`, V2/V3 open — final M1L1 chủ yếu là verify + TTS + render, mp4 local only (out/ ignore giữ nguyên).
+
+## Plan 8 (Approved sau debate 15/10 — REVISE 6 điểm đã tiếp thu, xem Debate Notes 8)
+1. **R1 rates full 5 nhóm (spike tuần tự, seed-fallback tính đạt):** SBV-monthly + vnibor trước → deposit/lending web NH sau (CafeF trước, web 3–4 NH lớn sau); live là ưu tiên không bắt buộc — đạt bằng `seed:*` đã verify khi WAF/DNS chặn (ghi rõ source). Acceptance tối thiểu: deposit ≥3 NH×4 kỳ hạn / lending ≥3 NH / avg ≥1 kỳ / vnibor ≥5 kỳ / banks_meta ≥5 NH. Không đổi schema 6 bảng. Unit + ingest thật + `get_rates` verify.
+2. **R2 Batch 2 (DELETE cuối):** cột nullable + comments per node + row selection + DAG SVG nhẹ nội bộ (không lib) trước; virtualized conditional (chỉ khi đo >10k rows, mặc định giữ div + pagination); DELETE admin-only + confirm để cuối. Unit + tsc/eslint.
+3. **R3 smoke + reviewer:** `docker compose up -d` (timeout 10 phút: backend start_period 240s + mcp 180s có sẵn) + 1 retry khi dockerd WSL restart + login admin smoke theo checklist Status 7 → reviewer duyệt code + approve push.
+4. **R4 Phase 4b full (3 nhịp, coverage HOSE+HNX):** (a) daily HOSE+HNX 2–3 năm chunked-resumable (loại UPCoM khỏi gate 95%); (b) intraday VN30 pilot; (c) postgres + cron ngoài. Gate: VN30→HOSE xanh mới mở HNX/UPCoM; hit-rate ≥90%, freshness T+1.
+5. **R5 video M1L1 final local (thu nhỏ):** V2 1-call budget-tool verify S3 (12→6/3.6/2.4) + giữ nhãn minh họa (V1) → TTS edge-tts → render Remotion → verify 0 placeholder + mp4 local (không push, không sửa VO/scenes JSON) → user duyệt V3.
+- Thứ tự (giữ ý user): rates → Batch2 → smoke/reviewer → Phase4b ∥ video (R5 không chạy sớm trước R1/R2 để giữ ưu tiên việc lớn nhất; implementor được kéo R5 sớm opportunistic chỉ khi chờ đợi_docker/ingest).
+
+## Files To Change 8 (dự kiến)
+- R1: sửa `rates_store/ingest.py` (+parser/nhóm mới), `store.py` nếu thiếu index, `tools/rates.py` nếu mở rộng params, `tests/unit/infrastructure/rates_store/*`, `README.md` (nguồn + số rows).
+- R2: sửa `tracing/storage.py` (ALTER ADD COLUMN + comments methods), `routes/traces.py` (+scores/comments/DELETE endpoints admin-only), frontend traces (`TraceDetailTabs`, waterfall/DAG, table selection/virtualized, delete dialog), tests + `test_traces_e2e.py`.
+- R3: `docker-compose.yml/dev` nếu thiếu timeout/healthcheck, docs smoke checklist (ghi WORKFLOW_STATE, không file mới nếu không cần).
+- R4: `market_store/*` (mở rộng toàn sàn + intraday), `alembic/versions/*` (postgres migration nếu cần), scheduler/cron wiring, `docs/pipeline_full_outline.md` cập nhật, eval coverage script nếu cần (không benchmark full).
+- R5: `frontend/trau-video/scripts/*` (tts/render), `public/lessons/M1L1_scenes.json` (chỉ khi điền số — nếu VO đã sạch thì không sửa), `public/audio/M1L1/*` + `out/M1L1.mp4` local (ignored, không commit).
+- Không sửa: `.env` secrets, eval harness (chưa benchmark).
+
+## Debate Notes 8 (15/10/2026 — Plan 8 vét sót, verdict REVISE minor)
+- Đã đọc: Request 8, Scope 8, Constraints 8, Acceptance 8, Library verification 8, Plan 8, Files 8, Current Status 8 + code thật `rates_store/{store,ingest,cached_adapter,scheduler}.py`, `tracing/storage.py:181-182` (đã có DELETE spans/traces nội bộ), `docker-compose.yml` (backend start_period 240s, mcp 180s), `docs/pipeline_full_outline.md` (toàn sàn 5–6M rows/0.9GB, backfill 2 ngày guest/9h community), `M1L1_scenes.json` (8 scenes, VO 0 placeholder, S3 đã có 6/3.6/2.4tr, S8 nhãn minh họa, V1 required/V2+V3 open).
+- (1) R1 acceptance rủi ro WAF/DNS: SBV gốc WAF-block + CIC DNS-fail đã chứng minh ở Phase B/B1 (ingest.py seed fallback). Đặt acceptance cứng "deposit ≥3 NH × 4 kỳ hạn live" mà không chốt seed-fallback đạt = plan dễ kẹt. Sửa: giữ số tối thiểu nhưng cho phép đạt bằng seed-đã-verify khi fetch live bị chặn (ghi rõ source=seed:*), live là ưu tiên không phải bắt buộc. Parser 5 nhóm song song = 5 lần debug WAF/layout cùng lúc; rẻ hơn: spike tuần tự SBV-monthly + vnibor trước (nguồn tập trung, 1 layout), deposit/lending web-NH sau (mỗi NH 1 layout). Không đổi schema 6 bảng (đúng).
+- (2) R2 virtualized YAGNI rõ: 489 traces, mẫu lớn nhất 32 spans — div + pagination Batch 1 đủ, virtualized chỉ code khi đo được >10k rows (giữ trong plan dạng conditional, không implement mặc định). DAG không lib nặng: SVG nhẹ nội bộ đủ (đã ghi "không lib nặng" là đúng, giữ). DELETE: `storage.py` đã có DELETE nội bộ 2 dòng → chỉ thêm endpoint admin-only + confirm dialog, rủi ro thấp nhưng vẫn để CUỐI Batch 2 (sau khi columns/comments/DAG/selection xanh) để không lẫn destructive vào nhịp verify đầu.
+- (3) R3 compose detached + 10 phút ĐỦ: backend start_period 240s + mcp 180s đã có sẵn trong compose (đọc thật), 10 phút = margin ~2× cold-boot torch. Giữ nguyên, cộng 1 dòng retry khi WSL dockerd restart (~10 phút, đã ghi ở Status Docker packaging) — fail lần 1 do daemon thì `docker compose up -d` lại, không coi là smoke fail.
+- (4) R4 quá lớn nếu làm 1 đợt không gate: outline 5–6M rows + backfill 2 ngày guest là việc nền dài nhất repo. Cắt intraday-full → VN30 pilot như Plan đã nêu là ĐÚNG, giữ. Ngưỡng đề xuất hợp lý với 1 уточнение: coverage ≥95% chỉ áp HOSE+HNX (loại UPCoM — thanh khoản thưa, delisted nhiều, outline đã nêu delisted-mark), hit-rate ≥90% + freshness T+1 giữ nguyên. Gate giữa nhịp: nhịp-a daily VN30→HOSE xanh mới mở rộng HNX/UPCoM (mỗi nấc re-validate như outline mục 1).
+- (5) R5 M1L1 không còn gì để "điền số": VO 0 placeholder, số duy nhất S3 (12tr → 6/3.6/2.4) là phép nhân 1 dòng, verify bằng 1 call budget tool là xong; `illustrative_numbers=null` + V1 label đã có ở S8. Final M1L1 = V2 recompute 1 dòng + TTS + render + V3 human duyệt — việc nhỏ (~30 phút), không phải nhịp lớn. Không sửa VO/scenes JSON (VO đã sạch).
+- (6) Thứ tự: R4∥R5 sau R3 là SAI cho R5 — video độc lập backend/docker, chạy ∥ R1/R2 được, không cần đợi smoke. R4 bắt buộc sau R3 (cần backend/docker khỏe + postgres sẵn). Ponytail cắt thêm: virtualized mặc định → conditional; 5 parser song song → spike tuần tự; M1L1 "điền số" → 1 call verify; không file mới cho smoke checklist (ghi WORKFLOW_STATE).
+- Không tìm được plan đơn giản hơn ngoài 6 điểm trên: giữ 5 nhịp, giữ mirror market_store, giữ admin-only, giữ mp4 local-only.
+
+## Current Status 8
+- Phase 2 DONE (Scope 8 chốt). Verify DONE. Plan 8 candidate → debate DONE (REVISE minor 6 điểm: chấp nhận 5 nội dung + CHALLENGE điểm thứ tự — giữ ý user R4∥R5 sau R3, R5 sớm chỉ opportunistic khi chờ đợi). Plan 8 + Files 8 Approved (virtualized conditional, DELETE cuối, coverage HOSE+HNX, V2-1-call). Sẵn sàng implement R1→R2→R3→R4∥R5.
+
+## Implementation Notes 8 (implementor 15-16/10/2026 — R1+R2+R4a+R4b+R5 DONE, R3 BLOCKED)
+- R1 rates full (ingest.py +5 hàm seed-snapshot + hash-skip + `ingest_all_r1`; cached_adapter `_shape` nhận `updated_at` cho banks): unit 13 passed (mới `test_r1_minimums_all_groups_seed`: tối thiểu + hash-skip + get_rates 5 nhóm). Ingest thật `data/rates_store.db`: deposit 16 (4 NH×4 kỳ, seed:deposit_listed_2025-10) / lending 6 (3 NH, seed:lending_listed_2025-10) / avg 2 (2025-09, seed:sbv_avg_2025-09) / vnibor 6 kỳ (seed:vnibor_2025-10-14) / banks 5 (seed:banks_meta) / policy 3 giữ nguyên (fetch luatvietnam thật). Live WAF/DNS chặn (pattern Phase B/B1) → seed tính đạt theo debate, source ghi rõ. Không đổi schema 6 bảng.
+- R2 Batch 2 (backend unit 18 passed = 14 cũ + 4 mới): storage `_ensure_extra_cols` (7 cột nullable session_id/user_id/version/env/cost/scores/tags, ALTER ADD COLUMN idempotent, không alembic) + comments table/methods + update_trace_meta + delete_trace; routes POST/GET comments + PATCH meta + DELETE admin-only; TraceSummary +7 optional (backward-compat, test null-default). Frontend: TracesTable selection checkbox + Xóa (confirm) + note virtualized-conditional; TraceDetailTabs TraceDag SVG nội bộ (<details>) + DeleteTraceButton (useRouter, confirm); FeedbackTab comments per node (span_id optional + Tải comments). tsc sạch, eslint traces 0 errors 0 warnings (fix no-location-assign → router.push).
+- R3 smoke BLOCKED (môi trường, không phải code): `docker` không tồn tại trong shell này (where docker/pigman rỗng) → không chạy `docker compose up -d` được; cần người chạy + checklist Status 7. e2e 3/3 pass (TestClient, không cần server).
+- R4a daily VN30 gate XANH live: `market_store/universe.py` (VN30_2025 30 mã snapshot rổ HSX 2025 + backfill_universe tái dùng ingest.backfill + backfill_intraday_pilot); chạy live 16 mã mới (14 mã trùng pilot 4a skip-meta) → VN30 30/30 OK (>400 rows/mã), tổng 58,960 rows, max_date 2026-10-15 (freshness T+1 so với hôm nay). R4b intraday pilot 5/5 (VCB/HPG/FPT/VNM/BID, mỗi 62 rows 2026-07-17→2026-10-15) — caveat: vnstock trả daily-resolution cho interval=1h (62 phiên/3 tháng), chưa phải nến giờ thật. R4c postgres + cron ngoài + HOSE/HNX full: CHƯA (cần backfill ngày + migration, để nhịp sau; compose postgres đã sẵn từ trước).
+- R5 M1L1 DONE local: V2 budget_50_30_20(12tr) = 6.0/3.6/2.4tr khớp VO S3 (không sửa VO/JSON, V1 label giữ); TTS 8 scenes VO 121.5s; render --force `out/M1L1.mp4` 27.5MB; audio + mp4 trong out/ ignored (không push). V3 human-review chờ user.
+- Gate: full unit **794 passed / 0 failed** (baseline 789 + 1 rates + 4 traces), e2e 3/3, tsc sạch, eslint traces sạch.
+
+## Current Status 8 (tiếp — IMPLEMENT 15-16/10/2026)
+- R1 DONE (6/6 nhóm đạt tối thiểu, get_rates verify 6 nhóm). R2 DONE (6 mục: nullable cols + comments + selection + DAG SVG + virtualized-conditional + DELETE cuối). R3 BLOCKED (no docker binary). R4a+b DONE (VN30 30/30 + intraday pilot 5/5, caveat resolution); R4c + HOSE/HNX full để sau. R5 DONE local (mp4 27.5MB, V3 chờ duyệt).
+- Push nhịp sau khi reviewer duyệt (working tree đúng scope Plan 8: 11 modified + universe.py mới; artifacts cố ý để lại: report-gpt41.json, frontend.dev.log, trau-video audio).
+
+## Next Agent
+- reviewer (review R1+R2+R4a/b+R5: rates seed-snapshot + traces Batch2 + universe/intraday + M1L1 mp4 local; gate số bên trên; R3 smoke + R4c/HOSE-full + V3 là việc người/nhịp sau)

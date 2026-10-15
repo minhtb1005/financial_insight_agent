@@ -44,6 +44,19 @@ CREATE TABLE IF NOT EXISTS ingest_meta (
     value TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_prices_ticker_date ON prices_daily(ticker, date);
+CREATE TABLE IF NOT EXISTS prices_intraday (
+    ticker TEXT NOT NULL,
+    datetime TEXT NOT NULL,
+    open REAL,
+    high REAL,
+    low REAL,
+    close REAL,
+    volume INTEGER,
+    source TEXT NOT NULL DEFAULT 'vnstock',
+    fetched_at TEXT NOT NULL,
+    PRIMARY KEY (ticker, datetime)
+);
+CREATE INDEX IF NOT EXISTS idx_intraday_ticker_dt ON prices_intraday(ticker, datetime);
 """
 
 
@@ -127,6 +140,43 @@ class MarketStore:
             "latest_fetch": row["latest"],
         }
 
+    def upsert_intraday(
+        self, ticker: str, rows: list[dict[str, Any]], source: str = "vnstock"
+    ) -> int:
+        """Insert/replace intraday rows keyed (ticker, datetime)."""
+        now = _utcnow()
+        ticker = ticker.upper()
+        payload = []
+        for r in rows:
+            dt = str(r.get("datetime") or r.get("date") or "")[:16]
+            if not dt:
+                continue
+            payload.append((
+                ticker, dt, r.get("open"), r.get("high"), r.get("low"),
+                r.get("close"), r.get("volume"), source, now,
+            ))
+        if not payload:
+            return 0
+        with self._lock:
+            self._conn.executemany(
+                "INSERT OR REPLACE INTO prices_intraday"
+                " (ticker, datetime, open, high, low, close, volume, source, fetched_at)"
+                " VALUES (?,?,?,?,?,?,?,?,?)",
+                payload,
+            )
+            self._conn.commit()
+        return len(payload)
+
+    def intraday_coverage(self, ticker: str) -> dict[str, Any]:
+        with self._lock:
+            row = self._conn.execute(
+                "SELECT MIN(datetime) AS dmin, MAX(datetime) AS dmax, COUNT(*) AS n,"
+                " MAX(fetched_at) AS latest FROM prices_intraday WHERE ticker=?",
+                (ticker.upper(),),
+            ).fetchone()
+        return {"ticker": ticker.upper(), "min_dt": row["dmin"],
+                "max_dt": row["dmax"], "rows": row["n"], "latest_fetch": row["latest"]}
+
     # ------------------------------------------------------------------
     # ratios
     # ------------------------------------------------------------------
@@ -200,3 +250,11 @@ class MarketStore:
                 self._conn.close()
             except sqlite3.Error:
                 pass
+
+    # ponytail demo check: intraday roundtrip (run: python -m src.infrastructure.market_store.store)
+    @staticmethod
+    def demo() -> None:  # pragma: no cover
+        s = MarketStore(db_path=":memory:")
+        n = s.upsert_intraday("VCB", [{"datetime": "2026-10-15 10:00", "open": 1, "high": 2, "low": 1, "close": 2, "volume": 3}])
+        assert n == 1 and s.intraday_coverage("VCB")["rows"] == 1
+        s.close()
