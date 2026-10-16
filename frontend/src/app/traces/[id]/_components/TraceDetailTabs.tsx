@@ -2,8 +2,20 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getBackendUrl } from "@/lib/backend";
@@ -65,25 +77,40 @@ function TraceDag({ spans }: { spans: Record<string, unknown>[] }) {
   );
 }
 
-// DELETE admin-only + confirm cuối (để cuối Batch 2 vì destructive).
+// DELETE admin-only + AlertDialog confirm (để cuối Batch 2 vì destructive).
 function DeleteTraceButton({ traceId, token }: { traceId: string; token?: string }) {
   const router = useRouter();
   return (
-    <Button
-      variant="destructive"
-      size="sm"
-      onClick={async () => {
-        if (!window.confirm(`Xóa trace ${traceId}? Không thể hoàn tác.`)) return;
-        const res = await fetch(`${getBackendUrl()}/api/v1/traces/${encodeURIComponent(traceId)}`, {
-          method: "DELETE",
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        });
-        if (res.ok) router.push("/traces");
-        else window.alert(`Xóa thất bại: ${res.status}`);
-      }}
-    >
-      Xóa trace
-    </Button>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" size="sm">
+          Xóa trace
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Xóa trace?</AlertDialogTitle>
+          <AlertDialogDescription>Xóa trace {traceId}? Không thể hoàn tác.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Hủy</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={async () => {
+              const res = await fetch(`${getBackendUrl()}/api/v1/traces/${encodeURIComponent(traceId)}`, {
+                method: "DELETE",
+                headers: token ? { Authorization: `Bearer ${token}` } : {},
+              });
+              if (res.ok) {
+                toast.success("Đã xóa trace.");
+                router.push("/traces");
+              } else toast.error(`Xóa thất bại: ${res.status}`);
+            }}
+          >
+            Xóa
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 

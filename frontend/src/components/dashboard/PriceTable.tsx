@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { MOCK_PRICES, type PriceRow } from "@/lib/mock-data"
 import { TrendingUp, TrendingDown } from "lucide-react"
 import { usePrices } from "@/hooks/useMarketData"
@@ -33,6 +34,17 @@ export function PriceTable() {
   const liveRows = useMemo(() => deriveRows(data as Record<string, unknown> | null), [data])
   const rows = liveRows ?? MOCK_PRICES
   const isLive = !!liveRows
+
+  if (loading && !data) {
+    return (
+      <div className="rounded-lg border bg-card p-3 space-y-2">
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+    )
+  }
 
   return (
     <div className="rounded-lg border bg-card">
@@ -71,7 +83,7 @@ export function PriceTable() {
       </Table>
       <div className="p-3 flex items-center justify-between text-xs text-muted-foreground">
         <span>
-          {loading ? "Đang tải dữ liệu thực..." : isLive ? "Dữ liệu thực từ BFF /api/market/prices" : "Dữ liệu mock — backend chưa sẵn sàng hoặc lỗi mạng"}
+          {loading ? <Badge variant="secondary">Đang tải dữ liệu thực…</Badge> : isLive ? <Badge variant="default">Dữ liệu thực từ BFF /api/market/prices</Badge> : <Badge variant="outline">Dữ liệu mock — backend chưa sẵn sàng hoặc lỗi mạng</Badge>}
         </span>
         {error && <span className="text-amber-600">Lỗi: {error.slice(0, 80)}</span>}
       </div>

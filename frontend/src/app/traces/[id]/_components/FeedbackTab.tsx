@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getBackendUrl } from "@/lib/backend";
 
@@ -71,18 +79,18 @@ export default function FeedbackTab({ traceId, token, initial }: { traceId: stri
           <CardTitle className="text-sm">Chấm tay trace này (1–5)</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-wrap items-center gap-2 text-sm">
-          <select
-            className="rounded border px-2 py-1"
-            value={score}
-            onChange={(e) => setScore(Number(e.target.value))}
-            aria-label="Điểm"
-          >
-            {[1, 2, 3, 4, 5].map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
-          <input
-            className="min-w-0 flex-1 rounded border px-2 py-1"
+          <Select value={String(score)} onValueChange={(v) => setScore(Number(v))}>
+            <SelectTrigger className="w-24" aria-label="Điểm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[1, 2, 3, 4, 5].map((s) => (
+                <SelectItem key={s} value={String(s)}>{s}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Input
+            className="min-w-0 flex-1"
             placeholder="Nhận xét (tùy chọn, tối đa 2000 ký tự)"
             value={comment}
             maxLength={2000}
@@ -111,14 +119,14 @@ export default function FeedbackTab({ traceId, token, initial }: { traceId: stri
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           <div className="flex flex-wrap gap-2">
-            <input
-              className="w-40 rounded border px-2 py-1 font-mono text-xs"
+            <Input
+              className="w-40 font-mono text-xs"
               placeholder="span_id (trống = cả trace)"
               value={cSpan}
               onChange={(e) => setCSpan(e.target.value)}
             />
-            <input
-              className="min-w-0 flex-1 rounded border px-2 py-1"
+            <Input
+              className="min-w-0 flex-1"
               placeholder="Nhận xét node…"
               value={cText}
               maxLength={2000}

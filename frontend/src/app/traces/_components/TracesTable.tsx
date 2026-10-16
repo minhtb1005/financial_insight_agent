@@ -5,6 +5,26 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -87,6 +107,7 @@ export default function TracesTable({
   // Batch 2: row selection (không virtualized — chỉ code khi đo >10k rows;
   // hiện tại <1k nên div + pagination Batch 1 là đủ, YAGNI).
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [cols, setCols] = useState<Col[]>(() => {
     try {
       if (typeof window === "undefined") return [...ALL_COLS];
@@ -167,6 +188,17 @@ export default function TracesTable({
     load({ p: 0, sb: c, sd, q: search, st: status, from: fromDate, to: toDate });
   };
 
+  const doDeleteSelected = async () => {
+    for (const id of selected) {
+      await fetch(`${getBackendUrl()}/api/v1/traces/${id}`, {
+        method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+    }
+    setSelected(new Set());
+    load({ p: page, sb: sortBy, sd: sortDir, q: search, st: status, from: fromDate, to: toDate });
+  };
+
   const arrow = (c: SortBy) => (sortBy === c ? (sortDir === "asc" ? " ▲" : " ▼") : "");
   const totalPages = Math.max(1, Math.ceil(total / limit));
   const show = (c: Col) => cols.includes(c);
@@ -183,42 +215,43 @@ export default function TracesTable({
         />
         <Input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} className="w-40" aria-label="Từ ngày" />
         <Input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} className="w-40" aria-label="Đến ngày" />
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="h-9 rounded-md border border-input bg-background px-2 text-sm"
-          aria-label="Trạng thái"
-        >
-          <option value="">Tất cả status</option>
-          <option value="ok">ok</option>
-          <option value="error">error</option>
-          <option value="running">running</option>
-        </select>
+        <Select value={status || "all"} onValueChange={(v) => setStatus(v === "all" ? "" : v)}>
+          <SelectTrigger className="h-9 w-36" aria-label="Trạng thái">
+            <SelectValue placeholder="Tất cả status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tất cả status</SelectItem>
+            <SelectItem value="ok">ok</SelectItem>
+            <SelectItem value="error">error</SelectItem>
+            <SelectItem value="running">running</SelectItem>
+          </SelectContent>
+        </Select>
         <Button onClick={applyFilter} disabled={loading}>
           {loading ? "Đang tải…" : "Lọc"}
         </Button>
         {selected.size > 0 && (
-          <Button
-            variant="destructive"
-            onClick={async () => {
-              if (!window.confirm(`Xóa ${selected.size} trace đã chọn? Không thể hoàn tác.`)) return;
-              for (const id of selected) {
-                await fetch(`${getBackendUrl()}/api/v1/traces/${id}`, {
-                  method: "DELETE",
-                  headers: token ? { Authorization: `Bearer ${token}` } : {},
-                });
-              }
-              setSelected(new Set());
-              load({ p: page, sb: sortBy, sd: sortDir, q: search, st: status, from: fromDate, to: toDate });
-            }}
-          >
-            Xóa ({selected.size})
-          </Button>
+          <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">Xóa ({selected.size})</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Xóa traces đã chọn?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Xóa {selected.size} trace đã chọn? Không thể hoàn tác.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Hủy</AlertDialogCancel>
+                <AlertDialogAction onClick={doDeleteSelected}>Xóa</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
         <div className="flex flex-wrap items-center gap-1 text-xs">
           {ALL_COLS.map((c) => (
-            <label key={c} className="flex items-center gap-1 rounded border px-1.5 py-0.5">
-              <input type="checkbox" checked={cols.includes(c)} onChange={() => toggleCol(c)} />
+            <label key={c} className="flex cursor-pointer items-center gap-1 rounded border px-1.5 py-0.5">
+              <Checkbox checked={cols.includes(c)} onCheckedChange={() => toggleCol(c)} />
               {c}
             </label>
           ))}
@@ -229,12 +262,11 @@ export default function TracesTable({
         <TableHeader>
           <TableRow>
             <TableHead className="w-8">
-              <input
-                type="checkbox"
+              <Checkbox
                 aria-label="Chọn tất cả"
                 checked={traces.length > 0 && traces.every((t) => selected.has(t.trace_id))}
-                onChange={(e) => {
-                  if (e.target.checked) setSelected(new Set(traces.map((t) => t.trace_id)));
+                onCheckedChange={(v) => {
+                  if (v === true) setSelected(new Set(traces.map((t) => t.trace_id)));
                   else setSelected(new Set());
                 }}
               />
@@ -265,17 +297,25 @@ export default function TracesTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {traces.map((t) => (
+          {loading ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <TableRow key={`sk-${i}`}>
+                <TableCell colSpan={cols.length + 1}>
+                  <Skeleton className="h-4 w-full" />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            traces.map((t) => (
             <TableRow key={t.trace_id}>
               <TableCell>
-                <input
-                  type="checkbox"
+                <Checkbox
                   aria-label={`Chọn ${t.trace_id}`}
                   checked={selected.has(t.trace_id)}
-                  onChange={(e) => {
+                  onCheckedChange={(v) => {
                     setSelected((prev) => {
                       const next = new Set(prev);
-                      if (e.target.checked) next.add(t.trace_id);
+                      if (v === true) next.add(t.trace_id);
                       else next.delete(t.trace_id);
                       return next;
                     });
@@ -287,8 +327,10 @@ export default function TracesTable({
                   <Link href={`/traces/${t.trace_id}`} className="underline">
                     {t.trace_id.slice(0, 12)}…
                   </Link>{" "}
-                  <button
-                    className="ml-1 rounded border px-1 text-[11px]"
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="ml-1 h-6 px-1 font-mono text-[11px] font-normal"
                     title="Copy trace ID"
                     onClick={async () => {
                       const ok = await copyText(t.trace_id);
@@ -297,7 +339,7 @@ export default function TracesTable({
                     }}
                   >
                     {copied === t.trace_id ? "✓" : "⧉"}
-                  </button>
+                  </Button>
                 </TableCell>
               )}
               {show("root_name") && <TableCell>{t.root_name ?? "—"}</TableCell>}
@@ -319,8 +361,9 @@ export default function TracesTable({
                 </TableCell>
               )}
             </TableRow>
-          ))}
-          {traces.length === 0 && (
+            ))
+          )}
+          {!loading && traces.length === 0 && (
             <TableRow>
               <TableCell colSpan={7} className="text-center text-sm text-muted-foreground">
                 Chưa có trace nào.

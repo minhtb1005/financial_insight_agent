@@ -5,6 +5,15 @@ import { useChatStore } from "@/store/chatStore"
 import { useChatStream } from "@/hooks/useChatStream"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CHART_LABELS: Record<ChartType, string> = {
   candlestick: "Nến",
@@ -37,24 +46,25 @@ export function DashboardControls({ chartId }: { chartId: string }) {
   }
 
   return (
-    <div className="space-y-2 border-t pt-3">
+    <div className="space-y-2">
+      <Separator />
       <div className="flex flex-wrap items-center gap-2">
         <label htmlFor="chart-type-select" className="text-xs font-medium text-muted-foreground">
           Loại biểu đồ
         </label>
-        <select
-          id="chart-type-select"
-          value={chart.spec.chart_type}
-          onChange={(e) => overrideChartType(chartId, e.target.value as ChartType)}
-          className="h-8 rounded border bg-background px-2 text-sm"
-        >
-          {CHART_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {CHART_LABELS[t]}
-              {t === chart.spec.chart_type ? " ✓" : ""}
-            </option>
-          ))}
-        </select>
+        <Select value={chart.spec.chart_type} onValueChange={(v) => overrideChartType(chartId, v as ChartType)}>
+          <SelectTrigger id="chart-type-select" className="h-8 w-36">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {CHART_TYPES.map((t) => (
+              <SelectItem key={t} value={t}>
+                {CHART_LABELS[t]}
+                {t === chart.spec.chart_type ? " ✓" : ""}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         {warn && (
           <Badge variant="secondary" className="text-xs">
             {warn}
@@ -62,26 +72,26 @@ export function DashboardControls({ chartId }: { chartId: string }) {
         )}
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <input
+        <Input
           value={ticker}
           onChange={(e) => setTicker(e.target.value.toUpperCase())}
           placeholder="Mã, vd VNM"
           maxLength={8}
-          className="h-8 w-28 rounded border bg-background px-2 text-sm"
+          className="h-8 w-28"
           aria-label="Mã chứng khoán"
         />
-        <select
-          value={range}
-          onChange={(e) => setRange(e.target.value)}
-          className="h-8 rounded border bg-background px-2 text-sm"
-          aria-label="Khung thời gian"
-        >
-          {["1 tháng", "3 tháng", "6 tháng", "1 năm"].map((r) => (
-            <option key={r} value={r}>
-              {r}
-            </option>
-          ))}
-        </select>
+        <Select value={range} onValueChange={setRange}>
+          <SelectTrigger className="h-8 w-32" aria-label="Khung thời gian">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {["1 tháng", "3 tháng", "6 tháng", "1 năm"].map((r) => (
+              <SelectItem key={r} value={r}>
+                {r}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Button size="sm" variant="outline" onClick={handleRedraw} disabled={isStreaming}>
           Vẽ lại
         </Button>

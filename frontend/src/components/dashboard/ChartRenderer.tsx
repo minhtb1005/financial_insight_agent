@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { chartSpecSchema, routeChartKind, suitabilityWarning } from "@/lib/chart-spec"
 import { RechartsGeneric } from "./RechartsGeneric"
 import { CandlestickChart } from "./CandlestickChart"
@@ -9,11 +10,11 @@ import { WaterfallChart } from "./WaterfallChart"
 
 const HeatmapChart = dynamic(() => import("./HeatmapChart").then((m) => m.HeatmapChart), {
   ssr: false,
-  loading: () => <p className="text-sm text-muted-foreground">Đang tải heatmap…</p>,
+  loading: () => <Skeleton className="h-[380px] w-full" />,
 })
 const TreemapChart = dynamic(() => import("./TreemapChart").then((m) => m.TreemapChart), {
   ssr: false,
-  loading: () => <p className="text-sm text-muted-foreground">Đang tải treemap…</p>,
+  loading: () => <Skeleton className="h-[380px] w-full" />,
 })
 
 /** Dumb router: chart_type → đúng thư viện, không suy luận ở frontend. */

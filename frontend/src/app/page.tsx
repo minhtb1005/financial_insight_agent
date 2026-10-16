@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/auth"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import {
   MessageCircle,
   LayoutDashboard,
@@ -192,7 +193,8 @@ export default async function HomePage() {
                 </div>
 
                 {/* Mini sparkline — pure SVG, no library, proves content not chrome */}
-                <div className="border-t bg-muted/20 px-4 py-3">
+                <Separator />
+                <div className="bg-muted/20 px-4 py-3">
                   <div className="mb-2 flex items-center gap-2 text-xs">
                     <LineChart className="h-3.5 w-3.5 text-muted-foreground" />
                     <span className="font-medium">SMA9 minh họa</span>
@@ -447,7 +449,8 @@ export default async function HomePage() {
       </section>
 
       {/* FAQ — legal boundary */}
-      <section className="border-t bg-muted/30">
+      <Separator />
+      <section className="bg-muted/30">
         <div className="container mx-auto px-4 py-10 md:py-12">
           <div className="mx-auto max-w-5xl">
             <h2 className="text-base font-semibold tracking-tight">Ranh giới rõ ràng — để bạn an tâm</h2>

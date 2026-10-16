@@ -1,6 +1,7 @@
 "use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { MOCK_SECTORS } from "@/lib/mock-data"
 import { useSectors } from "@/hooks/useMarketData"
@@ -10,12 +11,29 @@ export function SectorView() {
   const rows = data?.sectors?.length ? data.sectors : MOCK_SECTORS
   const isLive = !!data?.sectors?.length
 
+  if (loading && !data) {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-4 w-56" />
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Phân tích ngành</CardTitle>
         <CardDescription>
-          Hiệu suất theo ngành {loading ? "(đang tải…)" : error ? "(lỗi, dùng mock)" : isLive ? "(dữ liệu thực 1w)" : "(mock, đã nối analyze_sector)"}
+          Hiệu suất theo ngành{" "}
+          {loading ? <Badge variant="secondary">đang tải…</Badge> : error ? <Badge variant="destructive">lỗi, dùng mock</Badge> : isLive ? <Badge variant="default">dữ liệu thực 1w</Badge> : <Badge variant="outline">mock, đã nối analyze_sector</Badge>}
         </CardDescription>
       </CardHeader>
       <CardContent>

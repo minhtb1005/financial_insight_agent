@@ -679,3 +679,138 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 
 ## Next Agent
 - reviewer (review R1+R2+R4a/b+R5: rates seed-snapshot + traces Batch2 + universe/intraday + M1L1 mp4 local; gate số bên trên; R3 smoke + R4c/HOSE-full + V3 là việc người/nhịp sau)
+
+## Request mới (16/10/2026 — R3 smoke bằng docker trên WSL)
+- User: tiếp tục với docker trên WSL (R3 smoke bị BLOCKED vì shell Windows không có binary docker).
+- Planner đối chiếu thật 16/10: WSL có distro `Ubuntu-22.04` (đang Stopped, tự start khi gọi), trong WSL có `docker 29.7.2 + compose v5.5.0`, `docker.service` đang `activating (start)` — daemon có thể lên được. Compose `docker-compose.yml` (prod, 6 services, backend start_period 240s / mcp 180s) và `docker-compose.dev.yml` đều tồn tại.
+- Smoke checklist kế thừa (Status 7/8): backend `/health` + login admin (`admin@finsight.vn`) + traces list (sort 4 cột/search hit-miss/date/pagination total/visibility persist/copy) + detail (5 tabs, waterfall expand/collapse, click span IO, truncated Badge, feedback POST/GET roundtrip) + rates `get_rates` + Batch 2 mới (comments/DELETE/DAG). e2e 3/3 đã pass không cần server.
+
+## Open Questions (R3-docker — chờ user chốt trong chat)
+- DONE 16/10/2026 — user trả lời 4/5: scope mở rộng (traces + rates + Batch 2 + M1L1), retry tối đa 2 lần (down + kill port + rebuild), down sạch sau smoke, lệnh không sudo. Còn lại (compose prod/dev) giao debate chọn tối ưu.
+
+## Constraints (R3-docker)
+- Planner: không sửa code ngoài WORKFLOW_STATE.md.
+- Chạy trong WSL (`wsl -e sh -c ...`), workdir mount qua `/mnt/f/...` — build context lớn, lần đầu build image có thể lâu; không commit artifacts/log.
+- Không force-push/amend-fail; kết quả smoke ghi WORKFLOW_STATE (pass/fail từng mục checklist).
+
+## Current Status (R3-docker 16/10/2026 — planner kiểm tra môi trường, chưa plan)
+- Windows: không có docker. WSL `Ubuntu-22.04`: docker 29.7.2 + compose v5.5.0 có sẵn; daemon đang activating (chưa verify `docker ps` OK). Tiền lệ: WSL dockerd restart ~10 phút (ghi ở Docker packaging) — cần retry.
+- Chưa chốt: compose prod hay dev; scope smoke; timeout/retry tối đa; giữ stack hay down sau smoke.
+
+## Clarified Scope R3-docker (chốt 16/10/2026 — 4/5 câu user + 1 giao debate)
+- Diễn đạt lại: chạy smoke R3 bằng docker trên WSL theo đúng luật retry của user (dockerd restart → `compose down` + kill process chiếm port + rebuild, tối đa 2 lần), xong `down` sạch. Lệnh không sudo.
+- Scope mở rộng (user chốt): traces list/detail + feedback (checklist Status 7/8) + rates `get_rates` 6 nhóm + Batch 2 (comments/DELETE/DAG) + M1L1 (verify file mp4 local, không render lại).
+- Compose file (planner đề xuất tối ưu): prod `docker-compose.yml` — khớp gate all-green đã document (backend `/health` 200 + frontend `/api/health` 200, 6 services, start_period backend 240s/mcp 180s, admin defaults trong env). Debater quyết prod/dev.
+- WSL wedge (verify thật 16/10): `docker --version` OK nhưng `docker ps` treo >60s (daemon activating + lỗi systemd user session) — implementor phải `wsl --shutdown` nếu kẹt + bounded-wait mọi lệnh docker (`timeout`, `DOCKER_CLIENT_TIMEOUT`/`COMPOSE_HTTP_TIMEOUT`), port Windows 3000/8000/8001/5432/6379/6333 đang free.
+
+## Constraints R3-docker
+- Planner: không sửa code ngoài WORKFLOW_STATE.md.
+- Smoke-only: không sửa code sản phẩm trong nhịp này trừ khi debate cho phép fix nhỏ; bug tìm được → ghi report + để follow-up.
+- Không commit secrets/DB/audio/out/log/images; `down` sạch sau smoke (user chốt); không force-push.
+- Mọi lệnh docker có bound thời gian; retry tối đa 2 lần theo luật user.
+
+## Acceptance Criteria R3-docker
+1. Stack healthy: backend `/health` 200 + frontend `/api/health` 200 (`agent_ready:true`).
+2. Login admin + checklist traces/feedback/rates/Batch2/M1L1 pass từng mục (ghi pass/fail vào WORKFLOW_STATE).
+3. `compose down` sạch sau smoke; kết quả + hash/commit (nếu có) đã báo.
+
+## Library verification R3-docker (16/10/2026 — planner verify trước Plan)
+- Compose prod đọc thật (`docker-compose.yml:89-183`): backend port 8000, `alembic upgrade head` trước uvicorn, healthcheck curl `/health` start_period 240s; frontend port 3000, healthcheck wget `/api/health` start_period 40s; ADMIN_EMAIL/PASSWORD defaults `admin@finsight.vn/admin123`; volumes `app_data` share sqlite; qdrant không healthcheck (đúng tiền lệ).
+- WSL đọc thật: `Ubuntu-22.04`, docker 29.7.2 + compose v5.5.0; `docker ps` treo >60s khi daemon activating — phải bounded-wait + shutdown-phục hồi.
+- Port Windows đọc thật (`Get-NetTCPConnection` 16/10): 3000/8000/8001/5432/6379/6333 đều free — chưa cần kill, implementor re-check trước `up`.
+
+## Plan R3-docker (Approved sau debate 16/10 — REVISE 5 điểm đã tiếp thu, xem Debate Notes R3-docker)
+1. **Readiness WSL/docker (bounded, đủ recovery):** phân biệt daemon-chết vs socket-treo (`docker version --format` + `service docker status` bounded); nếu wedged → `wsl --shutdown` rồi bắt buộc `wsl -d Ubuntu-22.04 echo ok` mới retry `docker ps`; check không-sudo (`groups` có `docker`, `DOCKER_HOST` rỗng); port free 2 mặt (Windows `Get-NetTCPConnection` + WSL `ss -ltnp`) chỉ trước up + sau down; `timeout 25s` + tối đa 3 vòng. Export `DOCKER_CLIENT_TIMEOUT`/`COMPOSE_HTTP_TIMEOUT`.
+2. **`compose up -d --build` prod `docker-compose.yml` (dev loại):** workdir WSL `/mnt/f/financial_insight_agent`; đợi healthy theo deadline (backend ≤6 phút sau start_period 240s, frontend sau backend healthy); fail → chỉ thu `docker ps` + `logs --tail 50` + health status.
+3. **Triage retry đúng luật user (tối đa 2 lần):** infra-flake (dockerd restart/kẹt) → `compose down` + kill port 2 mặt + rebuild (retry 2 mới `--build` nếu image vừa build xong); app-bug (unhealthy do code/config) → DỪNG, ghi report WORKFLOW_STATE, để follow-up — không fix code nhịp này, không đốt rebuild.
+4. **Smoke reorder (M1L1 pre-check, DELETE cuối):** M1L1 mp4 local pre-check trước `up` (fail-fast) → health infra → login admin → READ (traces list/detail, `get_rates` 6 nhóm, DAG) → WRITE (feedback/comments POST/GET) → DELETE CUỐI trên trace test-only riêng. Ghi pass/fail từng mục.
+5. **`compose down` sạch (giữ volumes):** `down` không `-v`/`--rmi` + verify `docker ps` rỗng + port free + báo cáo + hash hiện tại.
+
+## Files To Change R3-docker (Approved — smoke-only, giữ volumes)
+- Sửa: không file code nào (app-bug → report + follow-up, không fix nhịp này).
+- Ghi: `WORKFLOW_STATE.md` (pass/fail từng mục + `ps`/`logs --tail 50` khi fail + hash).
+- Chốt: compose prod (dev loại); `down` không `-v`/`--rmi`; M1L1 verify file local.
+- Không sửa: compose files, `.env` secrets, eval harness.
+
+## Debate Notes R3-docker (16/10/2026 — Plan R3-docker, verdict REVISE, planner chấp nhận toàn bộ)
+- (1) Chốt prod (khớp gate tiền lệ + healthcheck frontend; dev `npm run dev` không healthcheck → loại). Đúng đề xuất planner.
+- (2) Recovery đủ: phân biệt daemon/sock + restart tường minh + check không-sudo + port 2 mặt. Chấp nhận.
+- (3) Triage retry infra-flake vs app-bug (không đốt rebuild cho bug code). Chấp nhận.
+- (4) Reorder: M1L1 pre-check + READ trước WRITE + DELETE cuối test-only. Chấp nhận.
+- (5) Down giữ volumes + verify rỗng. Chấp nhận. Không điểm nào vô lý để challenge.
+
+## Current Status R3-docker 2 (16/10/2026)
+- Phase 2 DONE. Verify DONE. Plan candidate → debate DONE (REVISE 5 điểm ACCEPTED toàn bộ). Plan + Files Approved. Sẵn sàng implement smoke WSL.
+
+## Next Agent
+- implementor (Plan R3-docker Approved: readiness bounded → compose prod up → triage retry ≤2 → smoke reorder → down giữ volumes; ghi pass/fail WORKFLOW_STATE)
+
+## Request mới (16/10/2026 — shadcn full sweep frontend, user chốt ở build mode)
+- Nền shadcn đã có (components.json base-nova, TW4 tokens, 8 ui comps genuine, theme toggle chạy tốt, không CSS modules). Còn lại: native button×4 (TracesTable:290, TraceWaterfall:95+101, SpanIODetail:65), select×5 (TracesTable:186, FeedbackTab:74, DashboardControls:45+73, PriceChart:24), input/checkbox×~6 cùng các file, window.confirm×2/alert×1 (traces) → đổi sang shadcn; chưa có toast → thêm Sonner; Badge đã chuẩn ~10 files, còn status text rời (`(đang tải…)/(lỗi)/(mock)` ở PriceChart/PortfolioCard/PriceTable/SectorView) → Badge; border-t chia vùng → Separator (page.tsx:195+450, layout footer, header:95, ChatContainer:118+179, DashboardControls:40); loading rời rạc → Skeleton (ChartRenderer fallback, lần tải đầu dashboard, nút filter/login/signup loading, chat pending).
+- User chốt (plan mode): full scope + Sonner + Skeleton/Separator/Badge.
+
+## Clarified Scope 6 (16/10/2026)
+- B1: `npx shadcn@latest add alert-dialog select checkbox sonner skeleton separator` (khớp components.json, không init lại; CLI tự kéo radix deps) + `<Toaster/>` vào layout qua wrapper đọc `.dark` class (giữ theme-toggle hiện tại, KHÔNG refactor next-themes).
+- B2: thay native ở 5 file traces + DashboardControls/PriceChart/FeedbackTab; status text→Badge; border-t→Separator; Skeleton đúng chỗ loading; confirm/alert→AlertDialog+toast.
+- B3: verify `tsc --noEmit` + `eslint` + `next build` sạch + check visual trang động chạm.
+- Không đụng: theme toggle, charts libs, logic API. Đọc `node_modules/next/dist/docs` trước khi viết code (frontend AGENTS.md rule, Next 16).
+
+## Acceptance Criteria 6
+1. Không còn native button/select/input/checkbox ngoài `ui/`; không còn `window.confirm/alert`.
+2. `<Toaster/>` mounted; toast thay alert; AlertDialog cho confirm xóa.
+3. Skeleton đúng chỗ loading; Separator/Badge đúng chỗ chia vùng/status.
+4. `tsc --noEmit` + `eslint` + `next build` sạch.
+
+## Current Status 6
+- Plan DONE 16/10/2026 (build mode). Chờ implementor chạy B1→B3.
+- **IMPLEMENT DONE 16/10/2026** — đủ B1→B3, không thêm dep ngoài scope (radix/sonner đã có từ npm trước trong cây làm việc).
+- **B1:** Deps + components đã tồn tại trong cây (`@radix-ui/react-alert-dialog|checkbox|select|separator` + `sonner` trong package.json; 6 files ui/ genuine shadcn khớp `components.json` style base-nova/TW4/cssVariables/lucide + mẫu `button.tsx`) → không chạy lại CLI init. Còn thiếu duy nhất `<Toaster/>` → đã mount trong `src/app/layout.tsx` (import trực tiếp `ui/sonner` — Server Component render Client Component, đúng Next 16 docs `05-server-and-client-components`; wrapper đọc `.dark` class sẵn có, giữ nguyên theme-toggle, không next-themes). Đọc trước khi code: `node_modules/next/dist/docs/index.md` + `01-app/.../upgrading/version-16.md` (proxy.ts đã đúng, async `params` ở traces/[id] đã `await` — không đụng) + `.../16-proxy.md` + `.../05-server-and-client-components.md`.
+- **B2 — files đổi (20 sửa, logic/handler giữ nguyên, chỉ đổi element):**
+  - `TracesTable.tsx`: select status→Select (sentinel `all`↔`""` vì Radix Item cấm value rỗng); checkbox cột + select-all + row→Checkbox (`onCheckedChange`, `v === true` cho TS); copy trace button→Button ghost; `window.confirm`→AlertDialog (state `confirmOpen` + `doDeleteSelected` tách từ handler inline); loading→5 Skeleton rows (`colSpan=cols+1`, empty-state chỉ khi `!loading`).
+  - `TraceWaterfall.tsx`: 2 buttons→Button ghost (giữ aria-label, layout `h-4 w-4 p-0` / `justify-start font-mono text-xs` qua tailwind-merge).
+  - `SpanIODetail.tsx`: copy span button→Button ghost (giữ `e.preventDefault()` trong `<summary>`).
+  - `TraceDetailTabs.tsx`: confirm→AlertDialog; `window.alert`→`toast.error`, success thêm `toast.success` (từ `sonner`).
+  - `FeedbackTab.tsx`: select điểm→Select; inputs comment/cSpan/cText→Input.
+  - `DashboardControls.tsx`: 2 selects→Select, input ticker→Input; `border-t`→Separator đầu block.
+  - `PriceChart.tsx`: select ticker→Select; status text suffix (2 chỗ PriceChart+RSIChart)→`DataSourceBadge` (Badge loading/error/live/mock).
+  - `PortfolioCard.tsx`/`PriceTable.tsx`/`SectorView.tsx`: status text→Badge; lần tải đầu (`loading && !data`)→Skeleton cards/rows.
+  - `ChartRenderer.tsx`: loading fallback heatmap/treemap `<p>`→Skeleton `h-[380px]`.
+  - `MessageBubble.tsx`: assistant pending rỗng (`isStreaming && !content`, hook đã tạo message rỗng chờ token)→2 Skeleton lines; input chat giữ `ui/textarea`.
+  - `login/signup`: submit loading text→Skeleton trong Button (giữ disabled).
+  - Separator thay `border-t`: `page.tsx:195` (sparkline) + `:450` (FAQ) + `layout.tsx` footer + `header.tsx:95` (mobile nav, bọc fragment) + `ChatContainer.tsx:118` (input area). **Giữ nguyên** `ChatContainer.tsx:179` aside (`border-t lg:border-t-0 lg:border-l` responsive 2 trục — 1 Separator không biểu diễn được, 2 Separator tốn code vô ích).
+  - Không đụng: theme toggle, charts libs, logic API/auth gate/server shells, `traces/[id]/page.tsx` async params.
+- **B3 — Verify:** `tsc --noEmit` sạch; `eslint` 18 files touched **0 errors 0 warnings** (lần 1 timeout lạnh 240s + retry 600s mới xong — ghi nhận cho reviewer: cold-start eslint chậm, không phải treo); `next build` (Turbopack) sạch 9/9 routes. Grep: 0 `window.confirm/alert`; native `<select|input|button|textarea` chỉ còn trong `ui/` primitives.
+- KHÔNG commit/push (user chưa yêu cầu). Untracked mới: 6 files `ui/` (đã có sẵn trước batch này) — stage cùng nhịp commit sau theo luật thematic (không `add -A`).
+
+## Next Agent
+- reviewer (review shadcn sweep B1→B3: element swap + Toaster + Skeleton/Badge/Separator + gate tsc/eslint/build bên trên; visual check các trang động chạm khi có môi trường chạy)
+
+## Debate Notes R3-docker (16/10/2026 — Plan R3-docker, verdict REVISE)
+- Đã đọc: Request mới R3-docker, Clarified Scope R3-docker, Constraints R3-docker, Acceptance Criteria R3-docker, Library verification R3-docker, Plan R3-docker candidate, Files To Change R3-docker, Current Status R3-docker 2 + đọc thật `docker-compose.yml` (prod: backend/mcp target production, frontend build + healthcheck `/api/health` start_period 40s, gates backend healthy) vs `docker-compose.dev.yml` (dev: target development + bind-mount `./src`, frontend `node:20-alpine npm install && npm run dev`, KHÔNG healthcheck frontend).
+- (1) prod vs dev: chốt PROD. Vì: khớp gate all-green đã document (backend `/health` 200 + frontend `/api/health` 200 `agent_ready:true`); dev frontend không healthcheck + `npm install` mỗi `up` = chậm/khó đoán, không đo được Acceptance #1. Admin seed giống nhau cả 2 file (`admin@finsight.vn/admin123`) nên không phải tiêu chí phân biệt. Build prod lần đầu lâu hơn nhưng images giữ lại cho retry (không `--rmi`), ổn định hơn cho smoke. Dev chỉ dùng khi cần live-mount code — không phải mục đích smoke.
+- (2) bounded-wait/wsl-shutdown CHƯA ĐỦ gỡ wedge: plan thiếu (a) phân biệt client-vs-daemon (`docker version` OK ≠ `docker ps` OK; thêm `docker version --format` + `systemctl is-active docker`/`service docker status` bounded để biết daemon chết hay socket treo); (b) lệnh restart tường minh sau `wsl --shutdown` (phải `wsl -d Ubuntu-22.04 echo ok` rồi mới retry `docker ps`, không retry mù); (c) kiểm tra không-sudo: `groups` có `docker` không + `echo $DOCKER_HOST` rỗng (nếu DOCKER_HOST trỏ sai hoặc thiếu group thì `docker ps` fail kiểu khác, shutdown không cứu được); (d) port-kill 2 mặt (Windows `Get-NetTCPConnection` + WSL `ss -ltnp`) vì stack map port qua cả 2. Giữ `timeout 25s` + `DOCKER_CLIENT_TIMEOUT`/`COMPOSE_HTTP_TIMEOUT` + tối đa 3 vòng đợi daemon (~3 phút).
+- (3) smoke-only ĐÚNG hướng nhưng thiếu triage: phải phân biệt infra-flake (dockerd restart/kẹt → được retry đúng luật user tối đa 2 lần: `down` + kill port + rebuild) vs app-bug (container unhealthy do code/config → DỪNG, thu `ps` + `logs --tail 50` + health status, ghi report vào WORKFLOW_STATE, KHÔNG đốt retry rebuild vô ích). Không sửa code sản phẩm trong nhịp này; allowlist duy nhất là fix config-nhỏ kiểu env/healthcheck typo NẾU debate bổ sung sau — mặc định là không fix, để follow-up.
+- (4) thứ tự smoke chưa tối ưu + thiếu guard destructive: M1L1 là check local (file `out/M1L1.mp4` tồn tại, không cần stack) → làm PRE-CHECK trước `up` để fail-fast. Sau `up`: health infra (backend/frontend/mcp/qdrant/postgres/redis) → login admin → READ-ONLY (traces list/detail, `get_rates` 6 nhóm, DAG render) → WRITE (feedback POST/GET, comments POST/GET) → DELETE CUỐI CÙNG trên trace test-only (tạo riêng/mượn trace rác, KHÔNG xóa data thật). Plan hiện gộp chung, rủi ro xóa trước khi đọc xong.
+- (5) `down` giữ volumes là ĐÚNG với ý user "down sạch": sạch = hết containers/networks + port free, GIỮ volumes (`app_data/postgres_storage/qdrant_storage/redis_storage`) + images (không `down -v`, không `--rmi`) để không mất data/không rebuild lại từ đầu. Cần verify sau down (`docker ps` rỗng + port free) thay vì chỉ gọi lệnh.
+- Ponytail cắt: (a) không render lại M1L1 (giữ verify file — plan đã đúng, giữ); (b) log khi fail chỉ `ps` + `logs --tail 50` + health, không dump full; (c) port check 2 lần (trước up + sau down), không check mỗi vòng retry; (d) retry 1 `up -d` không `--build` nếu image vừa build xong (chỉ rebuild khi image stale/đổi Dockerfile), retry 2 mới `--build` — vẫn trong luật "rebuild" của user nhưng rẻ hơn (user chốt rebuild nên không bỏ hẳn, chỉ xếp lại).
+
+## Current Status R3-docker 3 (16/10/2026 — debate xong, chờ implement)
+- Debate DONE 16/10/2026 — verdict REVISE (xem Debate Notes R3-docker). Plan candidate chưa implement được as-is; implementor sửa 5 điểm rồi chạy: chốt prod, bổ sung WSL recovery (restart tường minh + group/DOCKER_HOST + client-vs-daemon + port 2 mặt), triage infra-flake vs app-bug (retry chỉ cho infra), reorder smoke (M1L1 pre-check → health → login → read → write → DELETE test-only cuối), `down` giữ volumes + verify rỗng/port free.
+- Scope/Constraints/Acceptance R3-docker giữ nguyên; Files To Change giữ smoke-only (chỉ ghi WORKFLOW_STATE.md).
+
+## Implementation Notes R3-docker (implementor 16-17/10/2026 — SMOKE BLOCKED ở Readiness, không tới được `up`)
+- M1L1 pre-check PASS trước `up` (fail-fast đúng plan): `frontend/trau-video/out/M1L1.mp4` tồn tại local, 27.5MB (27530184 bytes), 15/10/2026 — không render lại.
+- Windows ports free 2 mặt (lúc check): `Get-NetTCPConnection` 3000/8000/8001/5432/6379/6333 đều free. Không-sudo OK (`groups` có `docker`, `DOCKER_HOST` rỗng).
+- Daemon KHÔNG BAO GIỜ stable (readiness vượt bound 25s×3 vòng + retry): `docker ps`/`docker version`/`ss -lx` treo mọi lần (kể cả `timeout -s KILL`, `DOCKER_CLIENT_TIMEOUT=20`); probe python chứng minh socket connect OK nhưng `GET /_ping` timeout 8s — daemon nhận connect, không trả lời API.
+- Root cause (journalctl đọc thật): **WSL VM reboot chu kỳ ~2 phút** — 12+ Boot IDs trong 00:55→01:29 (00:55, 01:00, 01:02, 01:06, 01:07, 01:09, 01:11, 01:13, 01:15, 01:16, 01:21, 01:23, 01:26, ~01:28; `uptime` lúc 01:29:16 = up 1 min). Mỗi boot dockerd (VD PID 686→733→726) nhận SIGTERM khi đang `Loading containers`, không bao giờ tới `active (running)`. Reboot có từ trước khi implementor chạm vào (00:55) → không phải do `wsl --shutdown` 1 lần của implementor.
+- Nhiễu thêm: dockerd WSL đang restore stacks của người khác (`netflix-movie-recommendation-system_*`, `chatdev_*`, `compose-paddleocr-1` — sbJoin trong log) + docker-proxy giữ 6333/6334/8000/8001/6400 phía WSL (8000/8001 trùng backend/mcp của mình — nguy cơ port-conflict khi daemon hồi phục; KHÔNG kill vì không phải process của mình).
+- Quyết định theo Plan bước 3 (triage): DỪNG ở Readiness, KHÔNG `compose up --build` — VM reboot/2phút thì build sẽ chết giữa chừng + rủi ro corrupt overlay state của stacks người khác. Retry-budget (≤2) không đốt vì cần daemon stable trước đã. Không sửa file code nào (đúng smoke-only).
+- Tool-note: mỗi bash call chỉ 1 lệnh `wsl -d` (2+ lệnh wsl trong cùng 1 powershell invocation → ChildProcess.kill lặp lại 3 lần, đã verify pattern); `Start-Sleep` dài trong cùng lệnh cũng tăng rủi ro kill — sleep giữa các call thay vì trong call.
+
+## Current Status R3-docker 4 (17/10/2026 — BLOCKED hạ tầng, cần người)
+- R3 smoke CHƯA CHẠY (0/5 bước plan qua Readiness). Blocker: WSL `Ubuntu-22.04` reboot chu kỳ ~2 phút → dockerd không bao giờ ready → không `docker ps`/`compose up` được. Cần người kiểm tra host (RAM/host-process kill WSL? `.wslconfig` memory limit? task khác chiếm WSL?) rồi báo implementor chạy lại từ Readiness.
+- Pre-checks đã PASS (giữ hiệu lực khi retry): M1L1 mp4 local OK; Windows ports free; no-sudo/DOCKER_HOST OK.
+- Khi retry: check `uptime -p` >10 min trước mới `up`; `docker ps` trước để xem stacks lạ còn giữ 8000/8001 không; giữ nguyên Plan R3-docker (prod + triage + reorder + down giữ volumes).
+
+## Next Agent R3-docker
+- user/host-fix trước (dứt reboot cycle WSL), sau đó implementor retry smoke R3-docker từ Readiness theo Plan đã Approved (không cần debate lại)

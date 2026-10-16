@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Providers } from "./providers";
+import { Toaster } from "@/components/ui/sonner";
+import { Separator } from "@/components/ui/separator";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 
@@ -22,7 +24,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Providers session={session}>
           <Header />
           <main className="flex-1 flex flex-col">{children}</main>
-          <footer className="border-t py-4 text-center text-xs text-muted-foreground">
+          <Toaster />
+          <Separator />
+          <footer className="py-4 text-center text-xs text-muted-foreground">
             Financial Insight Agent — Chỉ phục vụ giáo dục & thông tin, không phải lời khuyên đầu tư.
           </footer>
         </Providers>

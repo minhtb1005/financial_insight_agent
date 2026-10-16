@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 // Waterfall collapsible tree that (y tuong hoc tu Langfuse TraceTree/Timeline,
 // MIT ngoai ee/): dung cay that tu parent_span_id (DB that co 2898/3387 spans
@@ -92,15 +93,15 @@ function Row({
         style={{ paddingLeft: depth * 16 + 4 }}
       >
         {node.children.length > 0 ? (
-          <button className="w-4 shrink-0" onClick={() => toggle(id)} aria-label={isCollapsed ? "Mở" : "Thu gọn"}>
+          <Button variant="ghost" size="sm" className="h-4 w-4 shrink-0 p-0" onClick={() => toggle(id)} aria-label={isCollapsed ? "Mở" : "Thu gọn"}>
             {isCollapsed ? "▸" : "▾"}
-          </button>
+          </Button>
         ) : (
           <span className="w-4 shrink-0 text-muted-foreground">·</span>
         )}
-        <button className="min-w-0 flex-1 truncate text-left font-mono" onClick={() => onSelect(s)} title={id}>
+        <Button variant="ghost" className="min-w-0 flex-1 justify-start truncate px-1 py-0.5 text-left font-mono text-xs font-normal" onClick={() => onSelect(s)} title={id}>
           {s.name}
-        </button>
+        </Button>
         <Badge variant="outline" className="shrink-0 text-[10px]">
           {s.kind ?? "?"}
         </Badge>

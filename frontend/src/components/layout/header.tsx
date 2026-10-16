@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { LayoutDashboard, MessageCircle, Activity, LogOut, TrendingUp } from "lucide-react"
 import { useEffect, useState, useMemo } from "react"
@@ -92,7 +93,9 @@ export function Header() {
         </div>
       </div>
       {status === "authenticated" && (
-        <div className="md:hidden border-t bg-background">
+        <>
+          <Separator className="md:hidden" />
+          <div className="md:hidden bg-background">
           <nav className="flex items-center justify-around px-2 py-1">
             {nav.map((item) => {
               const active = pathname?.startsWith(item.href)
@@ -105,6 +108,7 @@ export function Header() {
             })}
           </nav>
         </div>
+        </>
       )}
     </header>
   )

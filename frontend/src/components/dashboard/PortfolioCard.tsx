@@ -1,11 +1,29 @@
 "use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { MOCK_PORTFOLIO } from "@/lib/mock-data"
 import { usePortfolio } from "@/hooks/useMarketData"
 
 export function PortfolioCard() {
   const { data, loading, error } = usePortfolio()
+
+  if (loading && !data) {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-4 w-64" />
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </CardContent>
+      </Card>
+    )
+  }
 
   // Derive holdings from real data if available
   const isLive = data && typeof data === "object" && (("portfolio_value" in data && (data as Record<string, unknown>).portfolio_value) || ("holdings" in data))
@@ -48,8 +66,8 @@ export function PortfolioCard() {
       <CardHeader>
         <CardTitle>{isLive ? "Danh mục" : "Danh mục mock"}</CardTitle>
         <CardDescription>
-          Tổng giá trị: {totalValue.toLocaleString("vi-VN")} ₫ • Lãi/lỗ: <span className={totalPnL >= 0 ? "text-green-600" : "text-red-600"}>{totalPnL.toLocaleString("vi-VN")} ₫ ({totalPct.toFixed(2)}%)</span>
-          {loading ? " (đang tải…)" : error ? " (lỗi, dùng mock)" : isLive ? " (dữ liệu thực)" : " (mock)"}
+          Tổng giá trị: {totalValue.toLocaleString("vi-VN")} ₫ • Lãi/lỗ: <span className={totalPnL >= 0 ? "text-green-600" : "text-red-600"}>{totalPnL.toLocaleString("vi-VN")} ₫ ({totalPct.toFixed(2)}%)</span>{" "}
+          {loading ? <Badge variant="secondary">đang tải…</Badge> : error ? <Badge variant="destructive">lỗi, dùng mock</Badge> : isLive ? <Badge variant="default">dữ liệu thực</Badge> : <Badge variant="outline">mock</Badge>}
         </CardDescription>
       </CardHeader>
       <CardContent>

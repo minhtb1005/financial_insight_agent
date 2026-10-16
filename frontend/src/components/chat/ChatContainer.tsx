@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { Send, Square, Trash2, Sparkles } from "lucide-react"
 
@@ -115,7 +116,8 @@ export function ChatContainer() {
         )}
       </div>
 
-      <div className="border-t bg-background p-4">
+      <Separator />
+      <div className="bg-background p-4">
         <div className="mx-auto max-w-3xl">
           <div className="flex gap-2">
             <Textarea

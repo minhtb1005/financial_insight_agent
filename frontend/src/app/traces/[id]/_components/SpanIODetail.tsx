@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 // Shared JSON block + truncation detect (y tuong hoc tu Langfuse truncation
 // notice, MIT ngoai ee/). Gop chung thay vi file JsonViewer.tsx rieng.
@@ -62,8 +63,10 @@ export default function SpanIODetail({ span }: { span: Record<string, any> }) {
         <span className="text-muted-foreground">
           [{span.kind ?? "?"}]{span.duration_ms != null ? ` ${Math.round(span.duration_ms)}ms` : ""}
         </span>{" "}
-        <button
-          className="ml-1 rounded border px-1 text-[11px]"
+        <Button
+          variant="ghost"
+          size="sm"
+          className="ml-1 h-5 px-1 font-mono text-[11px] font-normal"
           title="Copy span ID"
           onClick={async (e) => {
             e.preventDefault();
@@ -71,7 +74,7 @@ export default function SpanIODetail({ span }: { span: Record<string, any> }) {
           }}
         >
           ⧉ {String(span.span_id ?? "").slice(0, 8)}
-        </button>
+        </Button>
         {containsTruncated([span.inputs, span.outputs, span.attributes]) && (
           <Badge variant="secondary" className="ml-1">
             truncated

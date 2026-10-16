@@ -1,11 +1,26 @@
 "use client"
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { MOCK_CANDLES } from "@/lib/mock-data"
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts"
 import { useCandles } from "@/hooks/useMarketData"
 
 const TICKER_OPTIONS = ["VCB", "FPT", "VNM", "HPG", "VIC", "MWG"]
+
+function DataSourceBadge({ loading, error, live, liveLabel, mockLabel }: { loading: boolean; error: string | null; live: boolean; liveLabel: string; mockLabel: string }) {
+  if (loading) return <Badge variant="secondary">đang tải…</Badge>
+  if (error) return <Badge variant="destructive">lỗi</Badge>
+  if (live) return <Badge variant="default">{liveLabel}</Badge>
+  return <Badge variant="outline">{mockLabel}</Badge>
+}
 
 export function PriceChart({ ticker: initial = "VCB" }: { ticker?: string }) {
   const [ticker, setTicker] = useState(initial)
@@ -18,16 +33,22 @@ export function PriceChart({ ticker: initial = "VCB" }: { ticker?: string }) {
         <div>
           <CardTitle>Biểu đồ giá & SMA9</CardTitle>
           <CardDescription>
-            {ticker} — 30 ngày gần nhất {loading ? "(đang tải…)" : error ? `(lỗi)` : data?.candles?.length ? "(dữ liệu thực)" : "(mock)"}
+            {ticker} — 30 ngày gần nhất{" "}
+            <DataSourceBadge loading={loading} error={error} live={!!data?.candles?.length} liveLabel="dữ liệu thực" mockLabel="mock" />
           </CardDescription>
         </div>
-        <select value={ticker} onChange={(e) => setTicker(e.target.value)} className="h-8 rounded border bg-background px-2 text-sm">
-          {TICKER_OPTIONS.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
+        <Select value={ticker} onValueChange={setTicker}>
+          <SelectTrigger className="h-8 w-28" aria-label="Mã chứng khoán">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {TICKER_OPTIONS.map((t) => (
+              <SelectItem key={t} value={t}>
+                {t}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </CardHeader>
       <CardContent className="h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -54,7 +75,8 @@ export function RSIChart({ ticker = "VCB" }: { ticker?: string }) {
       <CardHeader>
         <CardTitle>RSI14</CardTitle>
         <CardDescription>
-          {ticker} — Vùng quá mua {">"}70, quá bán {"<"}30 {loading ? "(đang tải…)" : error ? "(lỗi)" : data?.candles?.length ? "(thực)" : "(mock)"}
+          {ticker} — Vùng quá mua {">"}70, quá bán {"<"}30{" "}
+          <DataSourceBadge loading={loading} error={error} live={!!data?.candles?.length} liveLabel="thực" mockLabel="mock" />
         </CardDescription>
       </CardHeader>
       <CardContent className="h-[220px]">

@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const loginSchema = z.object({
   email: z.string().email("Email không hợp lệ"),
@@ -57,7 +58,7 @@ export default function LoginPage() {
               <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••" />
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>{loading ? "Đang đăng nhập..." : "Đăng nhập"}</Button>
+            <Button type="submit" className="w-full" disabled={loading}>{loading ? <Skeleton className="h-4 w-28" /> : "Đăng nhập"}</Button>
           </form>
           <div className="mt-4 text-center text-sm">
             Chưa có tài khoản? <Link href="/signup" className="text-primary hover:underline">Đăng ký</Link>

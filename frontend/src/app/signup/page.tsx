@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const signupSchema = z.object({
   name: z.string().min(2, "Tên tối thiểu 2 ký tự").max(100),
@@ -86,7 +87,7 @@ export default function SignupPage() {
               <Input id="confirm" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required placeholder="Nhập lại mật khẩu" />
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>{loading ? "Đang đăng ký..." : "Đăng ký"}</Button>
+            <Button type="submit" className="w-full" disabled={loading}>{loading ? <Skeleton className="h-4 w-28" /> : "Đăng ký"}</Button>
           </form>
           <div className="mt-4 text-center text-sm">
             Đã có tài khoản? <Link href="/login" className="text-primary hover:underline">Đăng nhập</Link>
