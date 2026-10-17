@@ -6,9 +6,9 @@ from pathlib import Path
 EVALS_DIR = Path(__file__).parents[4] / "evals"
 sys.path.insert(0, str(EVALS_DIR))
 
-import pytest  # noqa: E402
+import pytest
 
-from rag_metrics import (  # noqa: E402
+from rag_metrics import (
     answer_contains_rate,
     citation_correctness,
     citation_is_correct,

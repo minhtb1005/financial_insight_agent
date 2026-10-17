@@ -6,10 +6,10 @@ from infrastructure.market_store.pilot import PILOT_TICKERS, RATIO_FIELDS
 from infrastructure.market_store.store import MarketStore
 
 __all__ = [
-    "CachedMarketDataAdapter",
-    "MarketStore",
     "PILOT_TICKERS",
     "RATIO_FIELDS",
+    "CachedMarketDataAdapter",
+    "MarketStore",
     "backfill",
     "refresh_today",
 ]

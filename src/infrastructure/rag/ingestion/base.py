@@ -49,7 +49,7 @@ def respect_robots(url: str, ua: str = DEFAULT_UA) -> bool:
         return True
 
 
-def fetch_url(
+def fetch_url(  # noqa: PLR0917 - keep public signature
     url: str,
     delay: float = DEFAULT_DELAY,
     ua: str = DEFAULT_UA,

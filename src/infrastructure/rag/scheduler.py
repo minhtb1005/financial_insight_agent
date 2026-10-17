@@ -6,6 +6,7 @@ import os
 from zoneinfo import ZoneInfo
 
 from infrastructure.observability import get_logger
+import contextlib
 
 logger = get_logger("rag.scheduler")
 
@@ -50,8 +51,6 @@ def start_scheduler() -> None:
 def stop_scheduler() -> None:
     global _scheduler
     if _scheduler:
-        try:
+        with contextlib.suppress(Exception):
             _scheduler.shutdown(wait=False)
-        except Exception:
-            pass
         _scheduler = None

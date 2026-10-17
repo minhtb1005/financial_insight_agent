@@ -30,7 +30,7 @@ MAX_SUMMARY_ITEMS = 20
 class ShortTermMemory:
     """Redis-based short-term memory with automatic migration."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0917 - keep public signature
         self,
         host: str = "localhost",
         port: int = 6379,

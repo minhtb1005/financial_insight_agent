@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class RedisCache:
     """Redis-based cache implementation with advanced features."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0917 - keep public signature
         self,
         host: str = "localhost",
         port: int = 6379,
@@ -500,6 +500,6 @@ def get_cache() -> RedisCache | None:
     return deps.redis_cache if deps is not None else None
 
 
-def get_cache_with_format(format: SerializationFormat) -> RedisCache | None:
+def get_cache_with_format(_format: SerializationFormat) -> RedisCache | None:
     """Get Redis cache instance (format param maintained for API compat)."""
     return get_cache()

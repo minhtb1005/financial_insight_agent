@@ -10,7 +10,7 @@ class RankingService(BaseService):
     def __init__(self, cache: CachePort, market_data: MarketDataPort) -> None:
         super().__init__("ranking_service", cache, market_data)
 
-    def handle_query(
+    def handle_query(  # noqa: PLR0917 - keep public signature
         self,
         tickers: list[str],
         field: str = "close",
@@ -122,7 +122,7 @@ def perform_ranking(all_data: dict[str, Any], field: str, aggregate: str) -> dic
     return ranking
 
 
-def handle_ranking_query(
+def handle_ranking_query(  # noqa: PLR0917 - keep public signature
     tickers: list[str],
     field: str = "close",
     aggregate: str = "max",

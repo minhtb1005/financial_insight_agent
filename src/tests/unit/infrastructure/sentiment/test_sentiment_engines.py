@@ -38,7 +38,7 @@ class TestClassifyHf:
             {"label": "Uncertainty", "score": 0.15},
             {"label": "Bullish", "score": 0.05},
         ]
-        eng._hf_pipe = lambda text: [preds]  # noqa: E731 (test double)
+        eng._hf_pipe = lambda text: [preds]
         try:
             v = classify_hf("T", "x")
         finally:

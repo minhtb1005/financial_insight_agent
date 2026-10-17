@@ -15,7 +15,7 @@ from application.services.financial.ranking_service import handle_ranking_query
     name="rank_stocks",
     description="Rank 2+ tickers by a price field. Requires at least 2 tickers. Strict enums.",
 )
-def rank_stocks(
+def rank_stocks(  # noqa: PLR0917 - keep public signature
     tickers: Annotated[list[str], Field(description="Tickers to rank (≥2)")],
     field: Annotated[
         Literal["close", "open", "high", "low", "volume"], Field(description="Field")

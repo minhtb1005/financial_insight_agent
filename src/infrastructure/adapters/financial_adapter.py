@@ -30,7 +30,7 @@ class FinancialAdapter(FinancialPort):
         for source in ("KBS", "VCI"):
             try:
                 return Finance(source=source, symbol=ticker, show_log=False).ratio()
-            except Exception as e:  # noqa: BLE001 — fallback across sources
+            except Exception as e:
                 last_error = e
                 logger.warning("Finance.ratio %s %s failed: %s", source, ticker, e)
         logger.error("Finance.ratio all sources failed for %s: %s", ticker, last_error)
@@ -55,6 +55,6 @@ class FinancialAdapter(FinancialPort):
             if len(closes) == 0:
                 return {}
             return {"current_price": float(closes.iloc[-1])}
-        except Exception as e:  # noqa: BLE001 — caller degrades gracefully
+        except Exception as e:
             logger.warning("Quote.history %s failed: %s", ticker, e)
             return {}

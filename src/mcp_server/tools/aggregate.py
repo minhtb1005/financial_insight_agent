@@ -15,7 +15,7 @@ from application.services.financial.aggregate_service import handle_aggregate_qu
     name="aggregate_prices",
     description="Compute statistical aggregation (mean/sum/median/std/min/max) over tickers. Strict enums. Cite as [TICKER: value, nguồn: aggregate_prices].",
 )
-def aggregate_prices(
+def aggregate_prices(  # noqa: PLR0917 - keep public signature
     tickers: Annotated[list[str], Field(description="Tickers")],
     field: Annotated[
         Literal["close", "open", "high", "low", "volume"], Field(description="Field")

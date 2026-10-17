@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from shared.ports.cache_port import CachePort
+import contextlib
 
 
 class CacheAdapter(CachePort):
@@ -18,7 +19,5 @@ class CacheAdapter(CachePort):
         self._m.set(key, value, ttl_hours=ttl_hours)
 
     def delete(self, key: str) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self._m.delete(key)
-        except Exception:
-            pass

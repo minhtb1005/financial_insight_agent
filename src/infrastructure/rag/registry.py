@@ -79,7 +79,7 @@ def create_run(
         conn.close()
 
 
-def finish_run(
+def finish_run(  # noqa: PLR0917 - keep public signature
     run_id: int,
     status: str,
     docs_total: int = 0,
@@ -105,7 +105,7 @@ def finish_run(
         conn.close()
 
 
-def add_source_manifest(
+def add_source_manifest(  # noqa: PLR0917 - keep public signature
     run_id: int,
     source_id: str,
     url: str,

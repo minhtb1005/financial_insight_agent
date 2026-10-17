@@ -235,7 +235,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "roe": {
         "key": "roe",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "net_profit": _ensure_float(row.get("net_profit")),
             "total_equity": _ensure_float(row.get("equity")),
         },
@@ -245,7 +245,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "eps": {
         "key": "eps",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "net_profit": _ensure_float(row.get("net_profit")),
             "shares_outstanding": _ensure_float(row.get("shares_outstanding")),
         },
@@ -255,7 +255,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "current_ratio": {
         "key": "current_ratio",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "current_assets": _ensure_float(row.get("current_assets")),
             "current_liabilities": _ensure_float(row.get("current_liabilities")),
         },
@@ -265,7 +265,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "debt_to_equity": {
         "key": "debt_to_equity",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "total_liabilities": _ensure_float(row.get("total_liabilities")),
             "total_equity": _ensure_float(row.get("equity")),
         },
@@ -275,7 +275,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "profit_margin": {
         "key": "profit_margin",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "net_profit": _ensure_float(row.get("net_profit")),
             "revenue": _ensure_float(row.get("revenue")),
         },
@@ -285,7 +285,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "quick_ratio": {
         "key": "quick_ratio",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "quick_assets": _ensure_float(row.get("cash_and_equivalents"))
             + _ensure_float(row.get("marketable_securities")),
             "current_liabilities": _ensure_float(row.get("current_liabilities")),
@@ -296,7 +296,7 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     },
     "asset_turnover": {
         "key": "asset_turnover",
-        "extract": lambda row, market: {
+        "extract": lambda row, _market: {
             "revenue": _ensure_float(row.get("revenue")),
             "total_assets": _ensure_float(row.get("total_assets")),
         },
@@ -416,8 +416,8 @@ def get_financial_ratios(
     port: FinancialPort,
     ticker: str,
     ratio_type: str | None = None,
-    parsed: dict[str, Any] | None = None,
-    cache: CachePort | None = None,
+    _parsed: dict[str, Any] | None = None,
+    cache: CachePort | None = None,  # noqa: ARG001 - caller truyền cache= nên giữ tên
 ) -> dict[str, Any]:
     """Lấy các chỉ số tài chính cho một mã chứng khoán — strict via FinancialPort."""
     try:

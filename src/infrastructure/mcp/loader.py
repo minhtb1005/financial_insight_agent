@@ -73,8 +73,8 @@ def load_mcp_tools_sync() -> list[Any]:
             # No running loop — with quick timeout via wait_for
             try:
                 return asyncio.run(asyncio.wait_for(_load_mcp_tools_async(), timeout=5))
-            except asyncio.TimeoutError:
-                raise TimeoutError("MCP load timeout after 5s")
+            except TimeoutError:
+                raise TimeoutError("MCP load timeout after 5s") from None
     except Exception as e:
         logger.warning("MCP load failed (%s), falling back to in-process tools: %s", MCP_URL, e)
         # Fallback: import directly from mcp_server (in-process) — still exercises MCP definitions

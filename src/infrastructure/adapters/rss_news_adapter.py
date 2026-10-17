@@ -11,7 +11,7 @@ from __future__ import annotations
 import html
 import logging
 import re
-from datetime import datetime, timezone
+from datetime import timezone
 from typing import Any
 
 from shared.ports.news_port import NewsPort

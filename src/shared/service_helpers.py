@@ -1,4 +1,4 @@
-"""Central factory for service handlers — eliminates 12× duplicate handle_* wrappers.
+"""Central factory for service handlers — eliminates 12x duplicate handle_* wrappers.
 
 Each ``handle_*_query`` previously duplicated::
 

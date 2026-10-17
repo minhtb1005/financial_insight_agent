@@ -10,6 +10,7 @@ import os
 from zoneinfo import ZoneInfo
 
 from infrastructure.observability import get_logger
+import contextlib
 
 logger = get_logger("rates_store.scheduler")
 
@@ -49,8 +50,6 @@ def start_rates_scheduler() -> None:
 def stop_rates_scheduler() -> None:
     global _scheduler
     if _scheduler:
-        try:
+        with contextlib.suppress(Exception):
             _scheduler.shutdown(wait=False)
-        except Exception:
-            pass
         _scheduler = None

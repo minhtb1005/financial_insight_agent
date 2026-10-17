@@ -161,7 +161,7 @@ def test_compare_three_way():
 
 
 def test_indicator_empty_ticker_returns_error():
-    svc, _ = _setup_indicator_service(pd.DataFrame({"close": [1] * 20}))
+    _svc, _ = _setup_indicator_service(pd.DataFrame({"close": [1] * 20}))
     from application.services.market.indicator_service import handle_indicator_query
 
     result = handle_indicator_query(tickers=[], indicator="sma")

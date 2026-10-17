@@ -5,14 +5,16 @@ every ratio call AttributeErrors. Correct class is Finance with
 VCI -> KBS fallback, never raising (empty frame on total failure).
 """
 
+from typing import ClassVar
+
 import pandas as pd
 
 from infrastructure.adapters.financial_adapter import FinancialAdapter
 
 
 class _FakeFinance:
-    instances: list = []
-    calls: list = []
+    instances: ClassVar[list] = []
+    calls: ClassVar[list] = []
     mode = "ok"  # ok | boom
 
     def __init__(self, source, symbol, **kwargs):

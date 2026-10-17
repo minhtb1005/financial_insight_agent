@@ -124,7 +124,7 @@ class TracingCallbackHandler(BaseCallbackHandler):
             with self._lock:
                 self._runs[run_id] = span
 
-    def _open_span(  # noqa: PLR0917
+    def _open_span(  # noqa: PLR0917 - keep public signature
         self,
         name: str,
         kind: SpanKind,

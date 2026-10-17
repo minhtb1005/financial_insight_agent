@@ -15,7 +15,7 @@ from application.services.market.compare_service import handle_compare_query
     name="compare_stocks",
     description="Compare price data between main tickers and reference compare_with. Strict field enum.",
 )
-def compare_stocks(
+def compare_stocks(  # noqa: PLR0917 - keep public signature
     tickers: Annotated[list[str], Field(description="Main tickers")],
     compare_with: Annotated[list[str], Field(description="Reference tickers")],
     field: Annotated[

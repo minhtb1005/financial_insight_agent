@@ -118,15 +118,13 @@ def _pick_x_field(chart_type: str, first_row: dict[str, Any], n_symbols: int) ->
         "Mọi số liệu phải từ vnstock tools, kèm citation [TICKER: value, nguồn: generate_chart_spec]."
     ),
 )
-def generate_chart_spec(
+def generate_chart_spec(  # noqa: PLR0917 - keep public signature
     user_request: Annotated[str, Field(description="Nguyên văn yêu cầu vẽ của user")],
     chart_type_hint: Annotated[
         ChartHint | None,
         Field(description="Loại chart user nói rõ, None nếu không nói"),
     ] = None,
-    symbols: Annotated[list[str], Field(description="Mã VN, ví dụ ['VNM']")] = [
-        "VNM"
-    ],  # noqa: B006
+    symbols: Annotated[list[str] | None, Field(description="Mã VN, ví dụ ['VNM']")] = None,
     metric: Annotated[str, Field(description="close/open/high/low/volume/pe/roe")] = "close",
     months: Annotated[int | None, Field(description="Số tháng gần nhất")] = 6,
     days: Annotated[int | None, Field(description="Số ngày gần nhất")] = None,

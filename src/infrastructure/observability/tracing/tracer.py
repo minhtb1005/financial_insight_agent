@@ -119,7 +119,7 @@ class Tracer:
     # Manual API (used by TracingCallbackHandler)
     # ------------------------------------------------------------------
 
-    def begin_span(  # noqa: PLR0917
+    def begin_span(  # noqa: PLR0917 - keep public signature
         self,
         name: str,
         kind: SpanKind = SpanKind.NODE,

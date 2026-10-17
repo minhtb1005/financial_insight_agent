@@ -15,7 +15,7 @@ from application.services.market.indicator_service import handle_indicator_query
     name="calculate_technical_indicator",
     description="Compute SMA/RSI/MACD for tickers. Cite as [TICKER: value, nguồn: calculate_technical_indicator]. Strict enums.",
 )
-def calculate_technical_indicator(
+def calculate_technical_indicator(  # noqa: PLR0917 - keep public signature
     tickers: Annotated[list[str], Field(description="Tickers, e.g. ['VCB']")],
     indicator: Annotated[Literal["sma", "rsi", "macd"], Field(description="Indicator")] = "sma",
     period: Annotated[int | None, Field(description="Lookback for SMA/RSI")] = None,

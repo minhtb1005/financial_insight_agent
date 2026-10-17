@@ -58,7 +58,7 @@ class CacheManager:
     - Metrics collection and monitoring
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0917 - keep public signature
         self,
         enable_l1: bool = True,
         enable_l2: bool = True,

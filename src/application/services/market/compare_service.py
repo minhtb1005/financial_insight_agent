@@ -11,7 +11,7 @@ class CompareService(BaseService):
         """Khởi tạo CompareService — strict DI."""
         super().__init__("CompareService", cache, market_data)
 
-    def handle_query(
+    def handle_query(  # noqa: PLR0917 - keep public signature
         self,
         tickers: list[str],
         compare_with: list[str],
@@ -199,7 +199,7 @@ def calculate_percentage_difference(
     return diff
 
 
-def handle_compare_query(
+def handle_compare_query(  # noqa: PLR0917 - keep public signature
     tickers: list[str],
     compare_with: list[str],
     field: str = "close",

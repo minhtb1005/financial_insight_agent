@@ -6,7 +6,7 @@ from pathlib import Path
 EVALS_DIR = Path(__file__).parents[4] / "evals"
 sys.path.insert(0, str(EVALS_DIR))
 
-from metrics_duplicates import (  # noqa: E402
+from metrics_duplicates import (
     duplicate_rates,
     normalize_args,
     span_is_error,
@@ -14,7 +14,9 @@ from metrics_duplicates import (  # noqa: E402
 )
 
 
-def _span(name, args, outputs="", error=None, started_at=0.0, invocation="first_call"):
+def _span(  # noqa: PLR0917 - keep public signature
+    name, args, outputs="", error=None, started_at=0.0, invocation="first_call"
+):
     attrs = {} if invocation is None else {"invocation": invocation}
     return {
         "name": name,

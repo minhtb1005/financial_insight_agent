@@ -15,7 +15,7 @@ from application.services.market.price_service import handle_price_query
     name="get_stock_price",
     description="Fetch OHLCV price data for one or more tickers. ALWAYS cite as [TICKER: value, nguồn: get_stock_price]. Do NOT use for indicators/ranking/comparison/aggregation. Field enum is strict.",
 )
-def get_stock_price(
+def get_stock_price(  # noqa: PLR0917 - keep public signature
     tickers: Annotated[
         list[str], Field(description="List of Vietnamese tickers, e.g. ['VCB','FPT']")
     ],

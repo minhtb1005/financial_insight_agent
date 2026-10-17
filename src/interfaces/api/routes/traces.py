@@ -51,7 +51,7 @@ class TraceDetailResponse(BaseModel):
 
 
 class FeedbackIn(BaseModel):
-    score: int = Field(..., ge=1, le=5, description="Điểm chấm tay 1–5")
+    score: int = Field(..., ge=1, le=5, description="Điểm chấm tay 1-5")
     comment: str = Field("", max_length=2000)
     span_id: Optional[str] = Field(None, description="Null = chấm cả trace")
 
@@ -79,7 +79,7 @@ def _get_store():
     summary="Danh sách trace",
     description="Liệt kê các trace gần nhất với bộ lọc tùy chọn.",
 )
-async def list_traces(
+async def list_traces(  # noqa: PLR0917 - keep public signature
     limit: int = Query(50, ge=1, le=_MAX_LIMIT),
     offset: int = Query(0, ge=0),
     status: Optional[Literal["ok", "error", "running"]] = None,
@@ -148,7 +148,7 @@ async def get_trace(trace_id: str, _admin: User = Depends(get_current_admin_user
     "/{trace_id}/feedback",
     response_model=FeedbackOut,
     summary="Chấm tay một trace (admin)",
-    description="Human score 1–5 cạnh RAGAS auto. author = admin username.",
+    description="Human score 1-5 cạnh RAGAS auto. author = admin username.",
 )
 async def post_feedback(
     trace_id: str, body: FeedbackIn, admin: User = Depends(get_current_admin_user)

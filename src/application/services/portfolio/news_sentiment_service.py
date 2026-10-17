@@ -287,7 +287,7 @@ class NewsSentimentService(BaseService):
             self.logger.error("Error comparing news sentiment: %s", e, exc_info=True)
             return {"error": str(e)}
 
-    def handle_query(
+    def handle_query(  # noqa: PLR0917 - keep public signature
         self,
         tickers: list[str],
         field: str = "all",
@@ -322,7 +322,7 @@ class NewsSentimentService(BaseService):
             return {"error": str(e)}
 
 
-def handle_news_sentiment_query(
+def handle_news_sentiment_query(  # noqa: PLR0917 - keep public signature
     tickers: list[str],
     field: str = "all",
     compare_with: list[str] | None = None,

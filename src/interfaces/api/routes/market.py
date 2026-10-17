@@ -19,7 +19,7 @@ def _parse_tickers(tickers: str) -> list[str]:
 
 
 @router.get("/prices", summary="Get price data")
-async def get_prices(
+async def get_prices(  # noqa: PLR0917 - keep public signature
     tickers: str = Query(..., description="Comma-separated tickers e.g. VCB,FPT"),
     field: Literal["close", "open", "high", "low", "volume", "ohlcv"] = Query("close"),
     days: int | None = Query(None, ge=1),
@@ -45,7 +45,7 @@ async def get_prices(
 
 
 @router.get("/candles", summary="Get OHLCV candles + indicators for chart")
-async def get_candles(
+async def get_candles(  # noqa: PLR0917 - keep public signature
     ticker: str = Query(..., description="Single ticker e.g. VCB"),
     days: int | None = Query(30, ge=1, le=365 * 5),
     weeks: int | None = Query(None, ge=1),
@@ -134,14 +134,14 @@ async def get_candles(
 
 
 @router.get("/indicators", summary="Get technical indicators")
-async def get_indicators(
+async def get_indicators(  # noqa: PLR0917 - keep public signature
     tickers: str = Query(..., description="Comma-separated tickers"),
     indicator: Literal["sma", "rsi", "macd"] = Query("sma"),
     period: int | None = Query(None, ge=1),
     days: int | None = Query(None, ge=1),
     weeks: int | None = Query(None, ge=1),
     months: int | None = Query(None, ge=1),
-    years: int | None = Query(None, ge=1),
+    years: int | None = Query(None, ge=1),  # noqa: ARG001 - tên query param (API contract)
     start_date: str | None = Query(None),
     end_date: str | None = Query(None),
 ) -> dict[str, Any]:
@@ -216,7 +216,7 @@ async def get_portfolio(
 
 
 @router.get("/compare", summary="Compare tickers")
-async def compare_tickers(
+async def compare_tickers(  # noqa: PLR0917 - keep public signature
     tickers: str = Query(..., description="Main tickers comma-separated"),
     compare_with: str = Query(..., description="Compare tickers comma-separated"),
     field: str = Query("close"),
@@ -241,7 +241,7 @@ async def compare_tickers(
 
 
 @router.get("/ranking", summary="Rank tickers")
-async def ranking(
+async def ranking(  # noqa: PLR0917 - keep public signature
     tickers: str = Query(..., description="Comma-separated tickers"),
     field: str = Query("close"),
     aggregate: Literal["max", "min", "mean", "latest"] = Query("max"),

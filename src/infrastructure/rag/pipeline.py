@@ -21,6 +21,7 @@ from .vector_store import (
     swap_alias,
     upsert_points,
 )
+import contextlib
 
 logger = get_logger("rag.pipeline")
 
@@ -41,7 +42,7 @@ def _week_label() -> str:
 
 
 def run_full_refresh(
-    force: bool = False,
+    force: bool = False,  # noqa: ARG001 - caller truyền force= nên giữ tên
     week: str | None = None,
     db_path: Path | str | None = None,
     collection_suffix: str = "",
@@ -173,12 +174,10 @@ def run_full_refresh(
             "\n".join(json.dumps(c, ensure_ascii=False) for c in chunks), encoding="utf-8"
         )
         # also save raw docs summary for inspection
-        try:
+        with contextlib.suppress(Exception):
             (processed_dir / f"{week}.docs.json").write_text(
                 json.dumps(all_docs, ensure_ascii=False, indent=2)[:200000], encoding="utf-8"
             )
-        except Exception:
-            pass
 
         deleted: list[str] = []
         if vector_ok and vectors:
@@ -186,7 +185,7 @@ def run_full_refresh(
                 ensure_collection(collection, dim=dim, recreate=True)  # type: ignore
                 # 4. Upsert
                 points = []
-                for ch, vec in zip(chunks, vectors):
+                for ch, vec in zip(chunks, vectors, strict=False):
                     pid = str(
                         uuid.uuid5(uuid.NAMESPACE_URL, f"{ch['source_id']}:{ch['chunk_hash']}")
                     )

@@ -17,9 +17,9 @@ def clean_text(text: str) -> str:
     # remove excessive whitespace
     text = _WS_RE.sub(" ", text)
     # trim per line
-    lines = [l.strip() for l in text.splitlines()]
+    lines = [line.strip() for line in text.splitlines()]
     # drop empty lines
-    lines = [l for l in lines if l]
+    lines = [line for line in lines if line]
     out = "\n".join(lines)
     # collapse multiple newlines
     out = re.sub(r"\n{3,}", "\n\n", out)

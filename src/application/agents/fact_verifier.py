@@ -193,7 +193,7 @@ class FactVerifier:
         self,
         response: str,
         tool_data: dict[str, list[dict[str, Any]]],
-        original_query: str = "",
+        _original_query: str = "",
     ) -> dict[str, Any]:
         issues = []
         numbers_found = []
@@ -214,7 +214,7 @@ class FactVerifier:
                 )
             numbers_found.append({"value": val, "unit": unit})
 
-        for ticker, entries in tool_data.items():
+        for _ticker, entries in tool_data.items():
             for entry in entries:
                 for nf in numbers_found:
                     if abs(entry["value"] - nf["value"]) / max(abs(nf["value"]), 1) < 0.001:

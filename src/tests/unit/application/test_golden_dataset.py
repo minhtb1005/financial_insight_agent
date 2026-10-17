@@ -7,7 +7,7 @@ from pathlib import Path
 EVALS_DIR = Path(__file__).parents[4] / "evals"
 sys.path.insert(0, str(EVALS_DIR / "scripts"))
 
-from validate_golden_dataset import validate  # noqa: E402
+from validate_golden_dataset import validate
 
 DATASET = EVALS_DIR / "golden" / "golden_dataset.jsonl"
 

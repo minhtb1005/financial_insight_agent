@@ -8,6 +8,7 @@ from typing import Any
 
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, PayloadSchemaType
+import contextlib
 
 try:
     from dotenv import load_dotenv
@@ -87,12 +88,10 @@ def ensure_collection(name: str, dim: int = DEFAULT_DIM, recreate: bool = False)
         )
         # payload indexes for filtering/rerank
         for field in ("priority", "source_id", "week"):
-            try:
+            with contextlib.suppress(Exception):
                 c.create_payload_index(
                     collection_name=name, field_name=field, field_schema=PayloadSchemaType.KEYWORD
                 )
-            except Exception:
-                pass
 
 
 def alias_target() -> str | None:
@@ -134,10 +133,8 @@ def swap_alias(new_collection: str) -> None:
         c.update_collection_aliases(change_aliases_operations=ops)
     except Exception:
         # fallback: simple create
-        try:
+        with contextlib.suppress(Exception):
             c.create_alias(alias_name=ALIAS, collection_name=new_collection)
-        except Exception:
-            pass
 
 
 def upsert_points(collection: str, points: list[dict[str, Any]], batch_size: int = 100) -> int:
@@ -227,10 +224,8 @@ def cleanup_old_backups(keep_days: int = BACKUP_KEEP_DAYS) -> list[str]:
             # if unparseable, not deleting
             continue
     for n in to_delete:
-        try:
+        with contextlib.suppress(Exception):
             c.delete_collection(n)
-        except Exception:
-            pass
     return to_delete
 
 

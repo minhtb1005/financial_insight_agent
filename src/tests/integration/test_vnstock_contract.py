@@ -145,6 +145,6 @@ def test_ratio_upstream_status():
             if data is not None and not getattr(data, "empty", False):
                 return
             last_error = ValueError(f"{source} returned empty frame")
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             last_error = e
     pytest.skip(f"upstream vnstock Finance.ratio broken: {str(last_error)[:120]}")

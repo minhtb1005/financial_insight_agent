@@ -44,7 +44,7 @@ class FakeQdrant:
         self.last_filter = query_filter
         return FakeQueryResult(self.hits[:limit])
 
-    def scroll(  # noqa: PLR0917
+    def scroll(  # noqa: PLR0917 - keep public signature
         self,
         collection_name,
         scroll_filter=None,

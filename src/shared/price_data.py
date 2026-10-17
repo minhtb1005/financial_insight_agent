@@ -16,13 +16,13 @@ warnings.warn(
 )
 
 
-def get_price_data(
+def get_price_data(  # noqa: PLR0917 - keep public signature
     ticker: str,
     start_date: str | None = None,
     end_date: str | None = None,
     days: int | None = None,
-    cache_namespace: str = "price",
-    ttl_hours: float = 0.5,
+    cache_namespace: str = "price",  # noqa: ARG001 - shim giữ tên param legacy
+    ttl_hours: float = 0.5,  # noqa: ARG001 - shim giữ tên param legacy
 ) -> dict[str, Any]:
     # Try to use market_data port via registry if available
     svc = get_service("price")

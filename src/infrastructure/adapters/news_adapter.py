@@ -23,7 +23,7 @@ class NewsAdapter(NewsPort):
             # "empty news" in benchmarks).
             out: list[dict[str, Any]] = []
             for _, row in df.iterrows():
-                get = row.get if hasattr(row, "get") else lambda k, d="": row[k] if k in row else d
+                get = row.get  # pandas Series luôn có .get
                 content = get("news_short_content", "") or get("news_full_content", "")
                 out.append(
                     {

@@ -15,7 +15,7 @@ from application.services.portfolio.news_sentiment_service import handle_news_se
     name="get_news_and_sentiment",
     description="Fetch news/sentiment/social_volume for tickers. Cite [Nguồn: news - ticker].",
 )
-def get_news_and_sentiment(
+def get_news_and_sentiment(  # noqa: PLR0917 - keep public signature
     tickers: Annotated[list[str], Field(description="Tickers")],
     field: Annotated[str, Field(description="Field: news|sentiment|social_volume|all")] = "all",
     compare_with: Annotated[list[str] | None, Field(description="Reference tickers")] = None,

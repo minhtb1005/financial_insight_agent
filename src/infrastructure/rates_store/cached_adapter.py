@@ -8,6 +8,7 @@ trả DB + cờ stale để caller quyết định crawl (ingester follow-up ri�
 
 from __future__ import annotations
 
+import contextlib
 from typing import Any
 
 from infrastructure.rates_store.store import RatesStore
@@ -44,10 +45,8 @@ class RatesCachedAdapter:
             if force_refresh or self._store.is_stale("policy_rates", STALE_HOURS["policy_rates"]):
                 from infrastructure.rates_store.ingest import ingest_policy_rates
 
-                try:
+                with contextlib.suppress(Exception):  # rớt về DB cũ (db-partial)
                     ingest_policy_rates(self._store)
-                except Exception:
-                    pass  # rớt về DB cũ (db-partial) thay vì lỗi
             rows = self._store.get_policy()
             return self._shape(group, rows, "refreshed" if force_refresh else "db")
         if group == "deposit":

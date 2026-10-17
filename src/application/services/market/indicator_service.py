@@ -10,12 +10,12 @@ from shared.ports.cache_port import CachePort
 _INDICATOR_REGISTRY: dict[str, dict[str, Any]] = {
     "sma": {
         "default_params": [20],
-        "calc_fn": lambda data, p: calculate_sma(data, p),
+        "calc_fn": lambda data, p: calculate_sma(data, p),  # noqa: PLW0108 - forward ref
         "key_fn": lambda p: f"sma_{p}",
     },
     "rsi": {
         "default_params": [14],
-        "calc_fn": lambda data, p: calculate_rsi(data, p),
+        "calc_fn": lambda data, p: calculate_rsi(data, p),  # noqa: PLW0108 - forward ref
         "key_fn": lambda p: f"rsi_{p}",
     },
     "macd": {
@@ -31,7 +31,7 @@ class IndicatorService(BaseService):
         """Khởi tạo IndicatorService — strict DI."""
         super().__init__("indicator_service", cache, market_data)
 
-    def handle_query(
+    def handle_query(  # noqa: PLR0917 - keep public signature
         self,
         tickers: list[str],
         indicator_params: dict[str, Any] | None = None,
@@ -60,7 +60,7 @@ class IndicatorService(BaseService):
         )
         return results
 
-    def _fetch_single(
+    def _fetch_single(  # noqa: PLR0917 - keep public signature
         self,
         ticker: str,
         indicator_params: dict[str, Any] | None = None,
@@ -234,7 +234,7 @@ def calculate_macd(
     return result
 
 
-def handle_indicator_query(
+def handle_indicator_query(  # noqa: PLR0917 - keep public signature
     tickers: list[str],
     indicator: str = "sma",
     period: int | None = None,

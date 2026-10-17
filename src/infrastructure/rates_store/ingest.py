@@ -137,14 +137,14 @@ def ingest_deposit_listed(
     date: str = SEED_SNAPSHOT_DATE,
     source: str = "seed:deposit_listed_2025-10",
 ) -> dict[str, Any]:
-    """Snapshot huy động niêm yết 4 NH × 4 kỳ. Trùng hash → skipped."""
+    """Snapshot huy động niêm yết 4 NH x 4 kỳ. Trùng hash → skipped."""
     store = store or RatesStore()
     parts = [
         f"{b}/{t}={r}"
         for b, terms in sorted(SEED_DEPOSIT.items())
         for t, r in sorted(terms.items())
     ]
-    sha = _hash_obj(parts + [date])
+    sha = _hash_obj([*parts, date])
     if store.get_meta("deposit_listed_hash") == sha:
         return {
             "skipped": True,
@@ -174,7 +174,7 @@ def ingest_lending_listed(
         for b, types in sorted(SEED_LENDING.items())
         for t, r in sorted(types.items())
     ]
-    sha = _hash_obj(parts + [date])
+    sha = _hash_obj([*parts, date])
     if store.get_meta("lending_listed_hash") == sha:
         return {
             "skipped": True,

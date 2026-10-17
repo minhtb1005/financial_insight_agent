@@ -2,11 +2,12 @@
 
 import sys
 from pathlib import Path
+from typing import ClassVar
 
 EVALS_DIR = Path(__file__).parents[4] / "evals"
 sys.path.insert(0, str(EVALS_DIR))
 
-from run_benchmark import (  # noqa: E402
+from run_benchmark import (
     aggregate_deterministic,
     edge_behavior_ok,
     extract_numbers,
@@ -33,7 +34,7 @@ class TestExtractNumbers:
 
 
 class TestNumericMatch:
-    GT = {"close_vcb": 56.11}
+    GT: ClassVar[dict[str, float]] = {"close_vcb": 56.11}
 
     def test_exact_value_passes(self):
         assert numeric_match("Giá đóng cửa là 56.11", self.GT) is True

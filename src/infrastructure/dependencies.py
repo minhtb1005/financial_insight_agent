@@ -70,7 +70,7 @@ class Dependencies:
         self.metrics_collector: MetricsCollector | None = None
         self.alert_manager: AlertManager | None = None
 
-        # Ports (strict)
+        # Strict port bindings
         self.cache_port: CachePort | None = None  # type: ignore
         self.market_data_port: MarketDataPort | None = None  # type: ignore
         self.company_port: CompanyPort | None = None  # type: ignore

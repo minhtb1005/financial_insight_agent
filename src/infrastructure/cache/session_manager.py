@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class SessionManager:
     """Redis Hash-based session manager for efficient storage."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0917 - keep public signature
         self,
         host: str = "localhost",
         port: int = 6379,

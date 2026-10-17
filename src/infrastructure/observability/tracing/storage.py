@@ -237,7 +237,7 @@ class TraceStore:
     def _escape_like(s: str) -> str:
         return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 
-    def _where_clause(
+    def _where_clause(  # noqa: PLR0917 - keep public signature
         self,
         status: str | None,
         min_duration_ms: float | None,
@@ -276,7 +276,7 @@ class TraceStore:
             return f" ORDER BY duration_ms IS NULL ASC, duration_ms {direction}"
         return f" ORDER BY {sort_by} {direction}"
 
-    def count_traces(
+    def count_traces(  # noqa: PLR0917 - keep public signature
         self,
         status: str | None = None,
         min_duration_ms: float | None = None,
@@ -292,7 +292,7 @@ class TraceStore:
             row = self._conn.execute(f"SELECT COUNT(*) AS n FROM traces{where}", params).fetchone()
         return int(row["n"]) if row else 0
 
-    def list_traces(
+    def list_traces(  # noqa: PLR0917 - keep public signature
         self,
         limit: int = 50,
         offset: int = 0,
@@ -347,7 +347,7 @@ class TraceStore:
         author: str = "",
         span_id: str | None = None,
     ) -> dict[str, Any]:
-        """Chấm tay 1–5 sao cho trace (span_id NULL = cả trace). CHECK ở schema chặn score ngoài range."""
+        """Chấm tay 1-5 sao cho trace (span_id NULL = cả trace). CHECK ở schema chặn score ngoài range."""
         from datetime import datetime, timezone as _tz
 
         with self._lock:

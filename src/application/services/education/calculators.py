@@ -43,10 +43,7 @@ def amortize_loan(principal: float, annual_rate_pct: float, months: int) -> dict
     if annual_rate_pct < 0:
         raise ValueError("annual_rate_pct must be >= 0")
     r = annual_rate_pct / 100.0 / 12.0
-    if r == 0:
-        payment = principal / months
-    else:
-        payment = principal * r / (1.0 - (1.0 + r) ** (-months))
+    payment = principal / months if r == 0 else principal * r / (1.0 - (1.0 + r) ** (-months))
     schedule: list[dict] = []
     balance = principal
     total_interest = 0.0
@@ -101,7 +98,7 @@ def compare_repayment(debts: list[dict], monthly_budget: float) -> dict:
             month += 1
             if month > 1200:  # ponytail: hard cap, upgrade to error if hit
                 raise ValueError("repayment did not converge in 1200 months")
-            interests = [b * r if a else 0.0 for b, r, a in zip(bals, rates, alive)]
+            interests = [b * r if a else 0.0 for b, r, a in zip(bals, rates, alive, strict=False)]
             total_interest += sum(interests)
             remaining = monthly_budget
             # minimums first (interest + principal share)

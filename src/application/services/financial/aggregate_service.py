@@ -10,7 +10,7 @@ class AggregateService(BaseService):
     def __init__(self, cache: CachePort, market_data: MarketDataPort) -> None:
         super().__init__("aggregate_service", cache, market_data)
 
-    def handle_query(
+    def handle_query(  # noqa: PLR0917 - keep public signature
         self,
         tickers: list[str],
         field: str = "close",
@@ -133,7 +133,7 @@ def perform_aggregation(
     return aggregation
 
 
-def handle_aggregate_query(
+def handle_aggregate_query(  # noqa: PLR0917 - keep public signature
     tickers: list[str],
     field: str = "close",
     aggregate: str = "mean",

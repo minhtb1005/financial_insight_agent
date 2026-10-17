@@ -101,7 +101,7 @@ class MemoryManager:
     def search_memory(
         self,
         query: str,
-        query_type: str | None = None,
+        _query_type: str | None = None,
         memory_tiers: list[str] | None = None,
         top_k: int = 10,
         user_id: str | None = None,

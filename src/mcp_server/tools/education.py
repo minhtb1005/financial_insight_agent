@@ -50,8 +50,9 @@ def calculate_loan_schedule(
                     "balance": principal,
                     "annual_rate_pct": annual_rate_pct,
                     "min_payment": out["monthly_payment"],
-                }
-            ] + list(extra_debts)
+                },
+                *list(extra_debts),
+            ]
             out["comparison"] = edu.compare_repayment(debts, monthly_budget)
         return out
 
@@ -65,7 +66,7 @@ def calculate_loan_schedule(
         "khi về hưu theo 3 kịch bản lạm phát. Trả JSON {nominal, real, retirement}." + _EDU_SUFFIX
     ),
 )
-def calculate_future_value(
+def calculate_future_value(  # noqa: PLR0917 - keep public signature
     present_value: Annotated[float, Field(description="Số tiền hiện tại VND")] = 100_000_000,
     annual_rate_pct: Annotated[float, Field(description="Lãi suất năm %")] = 6.0,
     years: Annotated[float, Field(description="Số năm", ge=0)] = 5,

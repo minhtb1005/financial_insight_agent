@@ -11,11 +11,13 @@ from __future__ import annotations
 import logging
 import time
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from shared.ports.financial_port import FinancialPort
 from infrastructure.market_store.pilot import PILOT_TICKERS, RATIO_FIELDS
 from infrastructure.market_store.store import MarketStore
+
+if TYPE_CHECKING:
+    from shared.ports.financial_port import FinancialPort
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +89,7 @@ def backfill_ratios(
             store.set_meta(f"ratios_{ticker}", "done")
             logger.info("Backfilled ratios %s: %d fields (%s)", ticker, n, period)
             done.append(ticker)
-        except Exception as e:  # noqa: BLE001 — progress so far is kept
+        except Exception as e:
             logger.warning("Backfill ratios %s failed: %s", ticker, e)
             failed[ticker] = str(e)[:200]
         if i < len(tickers) - 1:
@@ -117,7 +119,7 @@ def refresh_ratios(
             if force:
                 store.set_meta(f"ratios_{ticker}", "done")
             refreshed.append((ticker, n))
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             logger.warning("Refresh ratios %s failed: %s", ticker, e)
             failed[ticker] = str(e)[:200]
         if i < len(tickers) - 1:

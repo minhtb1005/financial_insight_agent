@@ -48,7 +48,7 @@ class ConsoleApp:
         except Exception as e:
             print(f"Failed to initialize agent: {e}")
             print("   Check your API keys and network connection.")
-            raise SystemExit(1)
+            raise SystemExit(1) from None
         try:
             self.guardrail_pipeline = GuardrailPipeline()
         except Exception:

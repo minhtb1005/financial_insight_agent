@@ -80,7 +80,7 @@ class NVIDIARotatingChat:
     never masks pool rotation by retrying a dead key.
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0917 - keep public signature
         self,
         pool,
         model: str | None = None,
@@ -195,9 +195,9 @@ class LLMChain:
             return "auth"
         return "unknown"
 
-    def _try_provider(
+    def _try_provider(  # noqa: PLR0917 - keep public signature
         self, provider_name: str, llm, cb, messages, kwargs, rid: str
-    ):  # noqa: PLR0917
+    ):
         """Try a single provider. Returns (result, error) tuple."""
         try:
             start = time.time()

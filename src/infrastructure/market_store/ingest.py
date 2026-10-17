@@ -11,15 +11,17 @@ from __future__ import annotations
 import logging
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from shared.ports.market_data_port import MarketDataPort
 from infrastructure.market_store.pilot import (
     BACKFILL_START,
     PILOT_TICKERS,
     REFRESH_LOOKBACK_DAYS,
 )
 from infrastructure.market_store.store import MarketStore
+
+if TYPE_CHECKING:
+    from shared.ports.market_data_port import MarketDataPort
 
 logger = logging.getLogger(__name__)
 

@@ -3,8 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from pathlib import Path
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from infrastructure.observability import get_logger
 from .base import fetch_url
@@ -12,6 +11,10 @@ from .crawler import crawl
 from .html_parser import html_to_text
 from .pdf_parser import pdf_bytes_to_text
 from ..processing.cleaner import clean_text
+import contextlib
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 logger = get_logger("rag.connectors")
 
@@ -68,7 +71,7 @@ Nguồn https://www.ssi.com.vn/khach-hang-ca-nhan/trung-tam-kien-thuc — an to�
     "pit_law_109": """Luật Thuế TNCN 2025 số 109/2025/QH15 (Quốc hội thông qua 10/12/2025, hiệu lực 01/07/2026; quy định về tiền lương/tiền công áp dụng từ kỳ tính thuế năm 2026).
 
 Biểu thuế lũy tiến từng phần với thu nhập từ tiền lương, tiền công (Điều 9) — 5 bậc/tháng: đến 10 triệu 5%; trên 10 đến 30 triệu 10%; trên 30 đến 60 triệu 20%; trên 60 đến 100 triệu 30%; trên 100 triệu 35%.
-Giảm trừ gia cảnh (NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP, áp dụng kỳ 2026): bản thân 15,5 triệu/tháng; mỗi người phụ thuộc 6,2 triệu/tháng. Thu nhập tính thuế = thu nhập chịu thuế − giảm trừ − bảo hiểm bắt buộc.
+Giảm trừ gia cảnh (NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP, áp dụng kỳ 2026): bản thân 15,5 triệu/tháng; mỗi người phụ thuộc 6,2 triệu/tháng. Thu nhập tính thuế = thu nhập chịu thuế - giảm trừ - bảo hiểm bắt buộc.
 Hộ/cá nhân kinh doanh: ngưỡng doanh thu không nộp thuế 500 triệu/năm. Đối chiếu NĐ 253/2026 + TT 87/2026/TT-BTC trước khi quyết toán.
 """,
     "kdbh_law_08": """Luật Kinh doanh bảo hiểm số 08/2022/QH15 (thông qua 16/06/2022, hiệu lực 01/01/2023; sửa đổi bởi Luật 139/2025/QH15 hiệu lực 01/01/2026; VBHN 31/VBHN-VPQH 2026).
@@ -83,7 +86,7 @@ Căn cứ: Luật BHXH 2024, NĐ 188/2025/NĐ-CP (BHYT 4,5%), Luật Việc làm
 """,
     "cic_debt_groups": """CIC — Trung tâm Thông tin Tín dụng Quốc gia Việt Nam (thuộc Ngân hàng Nhà nước): thu thập, lưu trữ, cung cấp lịch sử tín dụng cá nhân/tổ chức; ngân hàng tra cứu khi xét duyệt vay, thẻ tín dụng.
 
-Phân loại 5 nhóm nợ theo Điều 10 Thông tư 11/2021/TT-NHNN (phương pháp định lượng): Nhóm 1 nợ đủ tiêu chuẩn (trong hạn hoặc quá hạn dưới 10 ngày); Nhóm 2 nợ cần chú ý (quá hạn đến 90 ngày); Nhóm 3 nợ dưới tiêu chuẩn (quá hạn 91–180 ngày); Nhóm 4 nợ nghi ngờ (quá hạn 181–360 ngày); Nhóm 5 nợ có khả năng mất vốn (quá hạn trên 360 ngày).
+Phân loại 5 nhóm nợ theo Điều 10 Thông tư 11/2021/TT-NHNN (phương pháp định lượng): Nhóm 1 nợ đủ tiêu chuẩn (trong hạn hoặc quá hạn dưới 10 ngày); Nhóm 2 nợ cần chú ý (quá hạn đến 90 ngày); Nhóm 3 nợ dưới tiêu chuẩn (quá hạn 91-180 ngày); Nhóm 4 nợ nghi ngờ (quá hạn 181-360 ngày); Nhóm 5 nợ có khả năng mất vốn (quá hạn trên 360 ngày).
 Nợ xấu = nhóm 3, 4, 5 (khoản 8 Điều 3 TT 11/2021; khoản 5 Điều 3 TT 31/2024/TT-NHNN). Rơi vào nợ xấu gây khó vay mới, khó mở thẻ, uy tín tín dụng giảm nhiều năm.
 """,
     "scam_tinnhiemmang": """Cảnh báo lừa đảo tài chính — dấu hiệu chung (Cục An toàn thông tin, tinnhiemmang.vn).
@@ -191,10 +194,8 @@ def ingest_source(
             text = text + "\n\n" + SEED_TEXTS[sid]
             text = clean_text(text)
         # save raw pdf
-        try:
+        with contextlib.suppress(Exception):
             (out_dir / f"{sid}.pdf").write_bytes(bytes(data))
-        except Exception:
-            pass
         docs.append(
             {
                 "source_id": sid,
@@ -213,10 +214,8 @@ def ingest_source(
             if sid in SEED_TEXTS:
                 logger.warning("Using SEED fallback for html %s: %s", sid, fr.error)
                 docs.append(_seed_doc(sid, cfg))
-                try:
+                with contextlib.suppress(Exception):
                     (out_dir / f"{sid}.seed.txt").write_text(docs[-1]["text"], encoding="utf-8")
-                except Exception:
-                    pass
                 return docs
             return [
                 {
@@ -286,10 +285,8 @@ def ingest_source(
         if not docs and sid in SEED_TEXTS:
             logger.warning("html_crawl produced 0 docs for %s — using seed fallback", sid)
             docs.append(_seed_doc(sid, cfg))
-            try:
+            with contextlib.suppress(Exception):
                 (out_dir / f"{sid}.seed.txt").write_text(docs[-1]["text"], encoding="utf-8")
-            except Exception:
-                pass
         elif not docs:
             docs.append(
                 {
@@ -308,7 +305,7 @@ def ingest_source(
                 seed = _seed_doc(sid, cfg)
                 # avoid duplicate if crawl already returned 1 SPA shell
                 if all(len(d.get("text", "")) < 500 for d in docs):
-                    docs = [seed] + docs[:1]  # keep seed + 1 sample
+                    docs = [seed, *docs[:1]]  # keep seed + 1 sample
                 else:
                     docs.append(seed)
 

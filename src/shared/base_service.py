@@ -56,7 +56,7 @@ class BaseService:
                 executor.shutdown(wait=False, cancel_futures=True)
         return results
 
-    def _build_time_params(
+    def _build_time_params(  # noqa: PLR0917 - keep public signature
         self,
         days: int | None = None,
         weeks: int | None = None,

@@ -11,7 +11,7 @@ class PriceService(BaseService):
         """Khởi tạo PriceService — strict DI."""
         super().__init__("price_service", cache, market_data)
 
-    def handle_query(
+    def handle_query(  # noqa: PLR0917 - keep public signature
         self,
         tickers: list[str],
         field: str = "close",
@@ -113,7 +113,7 @@ class PriceService(BaseService):
             # legacy: _fetch_single(ticker, parsed_dict) — not used anymore
             return {"error": "deprecated _fetch_single signature"}
         if parsed is not None and isinstance(parsed, dict):
-            # legacy: _fetch_single(ticker, field, parsed)
+            # legacy: _fetch_single(ticker, field, parsed) — not used anymore
             try:
                 start_date, end_date = self._build_time_params(
                     days=parsed.get("days"),
@@ -130,7 +130,7 @@ class PriceService(BaseService):
         return super()._fetch_single(ticker, field, parsed or "")  # type: ignore[arg-type]
 
 
-def handle_price_query(
+def handle_price_query(  # noqa: PLR0917 - keep public signature
     tickers: list[str],
     field: str = "close",
     days: int | None = None,

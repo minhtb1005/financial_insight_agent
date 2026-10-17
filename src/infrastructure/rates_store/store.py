@@ -11,6 +11,7 @@ import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+import contextlib
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS deposit_listed (
@@ -385,7 +386,5 @@ class RatesStore:
 
     def close(self) -> None:
         with self._lock:
-            try:
+            with contextlib.suppress(sqlite3.Error):
                 self._conn.close()
-            except sqlite3.Error:
-                pass
