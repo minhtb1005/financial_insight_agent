@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl postgresql
 COPY pyproject.toml README.md alembic.ini ./
 COPY src ./src
 COPY alembic ./alembic
-RUN pip install --upgrade pip && pip install -e .
+RUN pip install --upgrade pip && pip install -e . --extra-index-url https://vnstocks.com/api/simple
 
 FROM base AS production
 ENV PYTHONPATH=/app/src APP_PORT=8000

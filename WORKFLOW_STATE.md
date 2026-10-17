@@ -781,6 +781,7 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
   - Không đụng: theme toggle, charts libs, logic API/auth gate/server shells, `traces/[id]/page.tsx` async params.
 - **B3 — Verify:** `tsc --noEmit` sạch; `eslint` 18 files touched **0 errors 0 warnings** (lần 1 timeout lạnh 240s + retry 600s mới xong — ghi nhận cho reviewer: cold-start eslint chậm, không phải treo); `next build` (Turbopack) sạch 9/9 routes. Grep: 0 `window.confirm/alert`; native `<select|input|button|textarea` chỉ còn trong `ui/` primitives.
 - KHÔNG commit/push (user chưa yêu cầu). Untracked mới: 6 files `ui/` (đã có sẵn trước batch này) — stage cùng nhịp commit sau theo luật thematic (không `add -A`).
+- **PUSH DONE 16/10/2026:** commit `7a5f18d` `feat(ui): shadcn full sweep + sonner/skeleton/separator/badge` — 27 files (+1849/-262: 6 ui mới + 14 sửa element + layout/toaster + package.json/lock + WORKFLOW_STATE). `43d97db..7a5f18d main -> main`, không force/amend. Review trước push: staged đúng scope (không `add -A`); cached diff scan sạch secret (chỉ match code template `Bearer ${token}` + key `sk-${i}`); bỏ lại: report-gpt41.json, frontend.dev.log, trau-video audio (đúng convention artifact local-only).
 
 ## Next Agent
 - reviewer (review shadcn sweep B1→B3: element swap + Toaster + Skeleton/Badge/Separator + gate tsc/eslint/build bên trên; visual check các trang động chạm khi có môi trường chạy)
@@ -814,3 +815,303 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 
 ## Next Agent R3-docker
 - user/host-fix trước (dứt reboot cycle WSL), sau đó implementor retry smoke R3-docker từ Readiness theo Plan đã Approved (không cần debate lại)
+
+## Request mới (17/10/2026 — smoke local Windows, bỏ WSL)
+- User: chạy bằng pnpm + uvicorn thông thường trên Windows, không cần WSL nữa; kiểm tra còn việc nào không thì làm nốt.
+- Planner verify thật 17/10: shell python có fastapi + torch 2.11.0+cpu (chạy uvicorn trực tiếp được); node v24.14.0 + pnpm sẵn; `frontend/node_modules` đã có (npm), `package-lock.json` có, `pnpm-lock.yaml` chưa có; port 3000/8000 free.
+- Việc còn lại theo file: R3 smoke (treo vì WSL) + R4c (postgres + cron + HOSE/HNX full) + R5 V3 (user duyệt) + reviewer A→B3/R1R2R4/R5 + lặt vặt (test stale name, purge approx).
+
+## Answered (local-smoke — user chốt 17/10)
+- Q1: LOCAL trước, **sau đó WSL docker sau** (docker-fix r2 đã chốt — implement sau khi local smoke xong).
+- Q2: OK lệnh chạy (MCP + backend + frontend). **Cần cài redis** (không degrade).
+- Q3: chọn (b) — sau smoke: reviewer các batch treo (shadcn A→B3, R1R2R4/R5) + lặt vặt (M3L2 điền số, test stale name, purge approx). KHÔNG làm R4c nhịp này.
+- Q4: kill sạch process sau smoke.
+- Q5: chỉ `pnpm dev` — không `pnpm install`, không sinh/track lock mới.
+- Bổ sung: `.venv` project hỏng hoàn toàn → **xoá + tạo lại `.venv` mới** (user yêu cầu), dùng cho smoke.
+
+## Verify bổ sung trước plan (17/10)
+- Extra-index `https://vnstocks.com/api/simple` có đủ: vnstock (4.0.8/4.0.9), vnai (2.6.2/2.6.3) → `pip install -e .` resolve OK (PyPI đã quarantine cả 2).
+- Redis: winget chỉ có bản 3.0.504 (quá cũ, loại); choco có redis-64/memurai nhưng shell **non-admin** → không cài service; chọn portable: **redis-windows/redis-windows 8.10.2** asset `Redis-8.10.2-Windows-x64-msys2.zip`, SHA256 công bố `7C8CEBD50347EAA1D9E784DA842ED47A4F33394637835531D6614777B950EE85`. Compose dùng redis:7-alpine → 8.10.2 tương thích ngược.
+- Routes API: auth/memory/traces/rag/market (app.py:552-556). Chat = frontend `/api/ask-stream` (SSE). traces: list GET /traces, detail GET /traces/{id}, feedback POST/GET, comments POST/GET, meta PATCH, DELETE. `get_rates` = MCP tool `src/mcp_server/tools/rates.py:26`.
+- Data local sẵn sàng cho smoke: `data/traces/traces.db` 2.5MB (+wal/shm), `rates_store.db` 78KB, `market_store.db` 9.9MB, `app.db` 16KB, `qdrant_local*`, `rag/registry.db`.
+- `.venv` mới sẽ cho `interfaces`/`mcp_server` importable mọi nơi (editable `pip install -e .`, hatch `packages=["src"]`) — không cần `--app-dir`/`PYTHONPATH` nữa.
+
+## Plan (local-smoke r2 — 17/10, sau debate; 4 điểm bắt buộc + 4 optional đã áp)
+- L1 Env prep:
+  a) Pre-check: port 3000/8000/8001/6379 free; `frontend/trau-video/out/M1L1.mp4` tồn tại (27.5MB, fail-fast).
+  b) Venv: `Remove-Item -Recurse -Force .venv` (.gitignore dòng 30 ignore `.venv/`) → `F:\miniconda3\python.exe -m venv .venv` → `.venv\Scripts\python.exe -m pip install -U pip` → `.venv\Scripts\python.exe -m pip install -e ".[dev]" --extra-index-url https://vnstocks.com/api/simple` — **BẮT BUỘC truyền `timeout` ≥1,800,000 ms** (mặc định 2 phút của tool sẽ giết giữa chừng); ưu tiên chạy detached theo cơ chế L2-PROC (Start-Process + 2 log `.out`/`.err`) + poll; log `%TEMP%\opencode\venv-install.log`; pip cache giúp retry rẻ. `[dev]` GIỮ (pytest cho reviewer batch sau). Verify: `pip show financial_insight_agent` (editable); import `interfaces.api.app` + `mcp_server.server` + `vnstock` + `redis` (đo thời gian; cold ~2.5–3 phút).
+  c) Redis portable (non-admin): tải `https://github.com/zkteco-home/redis-windows/releases/download/8.10.2/Redis-8.10.2-Windows-x64-msys2.zip` → **verify SHA256 = `7C8CEBD5…EE85`** (chỉ bản chính; fallback không công bố hash) → giải nén `%LOCALAPPDATA%\redis\8.10.2\` → start `redis-server.exe --port 6379 --bind 127.0.0.1 --save "" --appendonly no --dir %LOCALAPPDATA%\redis\data` (PowerShell có thể bỏ arg rỗng `--save ""` — vô hại vì `--appendonly no`) → `redis-cli ping` = PONG. Fallback nếu exe lỗi (DLL msys2): tporadowski 5.0.14.1 zip (không verify hash).
+- L2-PROC (cơ chế process nền — điều kiện để MCP+backend+frontend sống đồng thời): mỗi server start bằng `Start-Process -PassThru` detached, **log 2 file `.out`/`.err` riêng** (cùng 1 file → lỗi ngay), ghi PID ngay khi start; KHÔNG `Start-Sleep` dài trong cùng call (bị tool kill) — poll readiness bằng các call ngắn riêng.
+- L2 Smoke (python qua `.venv\Scripts\python.exe`; thứ tự MCP → backend → frontend):
+  a) MCP 8001: `-m mcp_server.server --transport streamable-http --host 0.0.0.0 --port 8001` (workdir root) — process sống + port listen.
+  b) Backend 8000: `-m uvicorn interfaces.api.app:app --port 8000` — đợi `/health` 200, deadline ≤6 phút (cold import + lifespan init_db/seed admin app.py:162-177).
+  c) Frontend 3000: `pnpm dev` (cwd frontend/) — đợi `http://localhost:3000/api/health` 200 `agent_ready:true` (deadline ≤3 phút).
+  d) API smoke (Invoke-RestMethod; login path thật **`/api/v1/auth/login`**, prefix `/api/v1` app.py:552): login admin (`admin@finsight.vn`/`admin123`) → JWT → READ: traces list (sort/search/date/pagination) + detail 1 trace + `get_rates` 6 nhóm (MCP tool `rates.py:26` — client `mcp` trong .venv hoặc import hàm; rates_store 6/6 nhóm có data).
+  e) Trace cô lập (an toàn — KHÔNG đụng 489 trace thật): tạo trace tổng hợp `TraceStore("data/traces/traces.db")` + `Tracer(store=...).start_span("smoke-test-<ts>")` (tạo trace_id mới) → mọi WRITE **chỉ trên `smoke-test-*`**: comments POST→GET + feedback POST→GET + meta PATCH. Thử chat 1 lần bounded qua UI `/api/ask-stream` là optional (bonus). **Không tạo được trace cô lập → BỎ HẲN DELETE** + ghi "DELETE = SKIPPED (no isolated trace)".
+  f) UI smoke best-effort cùng session (chrome-devtools `http://localhost:3000`): login → traces list toolbar → detail tabs/waterfall → comments → DELETE confirm. Không làm được → ghi "UI chưa verify mắt", không chặn.
+  g) DELETE cuối: xoá DUY NHẤT trace `smoke-test-*` vừa tạo (API DELETE `/api/v1/traces/{id}`). Ghi pass/fail từng mục.
+- L3 Kill & cleanup (user chốt): kill theo PID đã ghi + **fallback port-owner** `Get-NetTCPConnection -State Listen -LocalPort <p> | Stop-Process -Force` (và/hoặc `taskkill /T /F /PID` cho process con `pnpm dev`/uvicorn workers); redis: `<redis>\redis-cli.exe shutdown nosave` → fallback kill PID; verify 4 port free sau kill. Không xoá `.venv`/redis (chỉ stop process).
+- L4 Ghi WORKFLOW_STATE: bảng pass/fail + PID/log + lệnh restart (cho lần sau). KHÔNG commit/push (merge v1.2 vẫn chờ user; không file code nào đổi). Note: `.env QDRANT_PATH=./data/qdrant_local` (không phải `_v117`); RAG/`search_knowledge` không thuộc smoke.
+
+## Files To Change (local-smoke)
+- Create: `.venv/` (recreate, gitignored), `%LOCALAPPDATA%\redis\8.10.2\` + `%LOCALAPPDATA%\redis\data\` (ngoài repo).
+- Update: `WORKFLOW_STATE.md`.
+- Không đụng: code `src/`, `frontend/`, `.env`, docker files, 26 scenes untracked (merge v1.2), `frontend/node_modules`, lockfiles.
+
+## Acceptance Criteria (local-smoke)
+1. `.venv` mới tạo; `pip install -e ".[dev]"` (extra-index) thành công; import app/mcp/vnstock từ `.venv` OK.
+2. Redis portable chạy (SHA256 zip khớp) + `PING`=PONG.
+3. Backend `/health` 200 + frontend `/api/health` 200 (`agent_ready:true`) trong deadline.
+4. Checklist smoke ghi pass/fail rõ (login/READ traces+rates+DAG/WRITE comments+feedback+meta/DELETE test-only/M1L1 pre-check/UI best-effort).
+5. Kill sạch sau smoke: 4 port free, không process sót; WORKFLOW_STATE cập nhật; không commit/push.
+
+## Constraints (local-smoke)
+- Planner: không sửa code ngoài WORKFLOW_STATE.md.
+- Nhịp này: local Windows (uvicorn + pnpm dev), KHÔNG đụng WSL/docker trong nhịp này; docker-fix r2 implement SAU khi local smoke xong (user chốt thứ tự).
+- `.venv` xoá + tạo lại (user yêu cầu); redis cài portable non-admin (không service); chỉ `pnpm dev` (không `pnpm install`, không sinh lock mới).
+- Không commit secrets/DB/audio/out/log/node_modules (+ pnpm-lock mới nếu sinh ra thì hỏi user trước khi track); không force-push.
+- Kết quả smoke + việc làm nốt ghi WORKFLOW_STATE.
+
+## Current Status (local-smoke — plan r2 chốt 17/10, chờ implement)
+- Debate DONE — verdict REVISE (4 bắt buộc + 4 optional) đã áp TOÀN BỘ vào plan r2 (trace cô lập `smoke-test-*` + bỏ DELETE nếu không tạo được; L2-PROC detached 2 log; kill port-owner fallback; timeout pip ≥1.8M ms; login `/api/v1/auth/login`; .gitignore dòng 30; URL redis zkteco-home; bỏ "DAG data" dư). Không có điểm nào cần challenge — debater verify bằng chứng đầy đủ.
+- Plan + Files + AC sẵn sàng; chờ implementor.
+
+## Next Agent (local-smoke)
+- implementor: chạy Plan local-smoke r2 L1→L4 (recreate `.venv` + pip `timeout ≥1.8M ms`/detached → redis portable 8.10.2 verify SHA256 → MCP 8001/backend 8000/frontend 3000 theo L2-PROC → API smoke `/api/v1` + trace cô lập `smoke-test-*` → UI best-effort → kill PID+port-owner → ghi pass/fail + PID/log vào WORKFLOW_STATE). KHÔNG đụng merge v1.2 (26 scene untracked + 3 M), không commit/push, không lẫn docker-fix.
+
+## Debate Notes (local-smoke — debater, 17/10/2026)
+**VERDICT: REVISE** (hướng đúng — KHÔNG viết lại; 4 điểm bắt buộc + 4 optional). Đã tự verify rẻ: đọc `.venv`/`pyproject.toml`/`routes/auth.py`/`routes/traces.py`/`app.py`/`agent.py`/`storage.py`/`tracer.py`/`vector_store.py`/`.env`(tên key)/`frontend/package.json` + đếm row sqlite + test thật background-process + websearch redis-windows.
+
+**Đã verify độc lập (bằng chứng):**
+- `.venv` hiện tại hỏng đúng phần cốt lõi: `python --version`=3.13.2 chạy, `redis`/`vnstock` import OK, nhưng `import interfaces.api.app` → `ModuleNotFoundError: No module named 'interfaces'` (editable install chết) + warning `Could not find platform independent libraries <prefix>`. → recreate là đúng, không phí (dù không "hỏng hoàn toàn" như chữ user).
+- `pyproject.toml`: `[dev]` extras = pytest/black/ruff/mypy/pre-commit/httpx/reportlab (nhỏ, pure-python, KHÔNG kéo torch). `uvicorn`/`fastapi`/`redis>=5.0.0` ở deps chính.
+- DB local: `traces.db` = **489 traces / 3387 spans / 0 feedback** (data THẬT, `data/` gitignored → xoá KHÔNG recover được); `rates_store.db` = 6/6 nhóm có data (policy 3, deposit 16, lending 6, avg 2, vnibor 6, banks 5) → `get_rates` 6 nhóm sẽ có số.
+- Backend KHÔNG cần postgres: `.env` `DATABASE_URL=sqlite+aiosqlite:///./data/app.db` (config default sqlite local; docker mới override) → plan bỏ postgres là ĐÚNG.
+- `.env` đủ `NVIDIA_API_KEY/2/3` + `REDIS_HOST/PORT` + `ADMIN_EMAIL/PASSWORD`; `frontend/package.json` có `"dev": "next dev"`, `next@16.3.4`, `node_modules/.bin/next` tồn tại, **`pnpm-lock.yaml` KHÔNG tồn tại** (khớp "chỉ pnpm dev, không sinh lock").
+- API path thật: auth = **`/api/v1/auth/login`** (prefix `/api/v1` ở app.py:552; `/login` ở auth.py:88 — line 50 là `/register`); traces = `/api/v1/traces...`; routes đủ GET list/detail, POST/GET feedback, POST/GET comments, PATCH meta, DELETE.
+- Harness thật: `Start-Process` detached **sống xuyên bash call** (đã chạy `python -m http.server 6399`, call sau còn listen, PID khớp) → L2 khả thi. NHƯNG: (i) `Start-Process` redirect stdout+stderr CÙNG 1 file → **lỗi ngay**; (ii) lệnh chứa `Start-Sleep` dài cùng call → `ChildProcess.kill` (tái hiện được).
+- Redis: repo build thật = `zkteco-home/redis-windows` (release "Redis 8.10.2 Stable for Windows"), asset **`Redis-8.10.2-Windows-x64-msys2.zip`**; pattern hash-per-release khớp (8.10.1 msys2 công bố `4E8F2F95…607A`, cùng định dạng hash planner đưa). redis-py 8.1.0 (đã cài) tương thích Redis server 5–8.
+
+**ĐIỂM BẮT BUỘC SỬA (đủ để REVISE):**
+1. **An toàn trace test-only — rủi ro mất data thật (nặng nhất).** Fallback "mượn trace cũ nhỏ nhất + DELETE" KHÔNG an toàn: 489 traces là data thật, `data/` gitignored nên mất là vĩnh viễn; WRITE (comments/feedback/meta) trên trace mượn cũng bẩn data thật. Sửa: tạo **trace tổng hợp cô lập** bằng API có sẵn thay vì mượn — `TraceStore("data/traces/traces.db")` + `Tracer(store=...).start_span("smoke-test-<ts>", kind=...)` (verified: `start_span`/`begin_span` → `_upsert_trace` tạo trace_id mới). Mọi WRITE + DELETE chỉ trên trace `smoke-test-*`. Thử chat 1 lần (bounded) để smoke đường thật là optional; **nếu KHÔNG tạo được trace test-only → BỎ HẲN DELETE** (tuyệt đối không xoá trace thật) + ghi "DELETE = SKIPPED (no isolated trace)".
+2. **Cơ chế process nền phải ghi rõ (L2 fail nếu không).** Start mỗi server `Start-Process -PassThru` detached, log **2 file `.out`/`.err` riêng** (cùng file = lỗi), ghi PID ngay, return (KHÔNG `Start-Sleep` dài trong cùng call); poll readiness bằng call ngắn riêng. Đây là điều kiện để MCP+backend+frontend sống đồng thời cho API/UI smoke.
+3. **L3 kill phải xử lý process con / port owner.** Kill theo PID đã ghi chưa đủ cho `pnpm dev` (next dev có thể là process con) và uvicorn workers. Thêm fallback `Get-NetTCPConnection -State Listen -LocalPort <p> | Stop-Process -Id $_.OwningProcess -Force` (và/hoặc `taskkill /T /F /PID`); verify 4 port free SAU khi kill. Redis: ưu tiên `<redis>\redis-cli.exe shutdown nosave` (graceful; đã `--save ""` nên không mất gì) rồi verify port, fallback kill PID.
+4. **pip install dài + rủi ro harness kill.** BẮT BUỘC truyền `timeout` tường minh (≥1,800,000 ms) cho call cài (mặc định 2 phút sẽ giết giữa chừng); tốt hơn: chạy pip detached + log + poll (đồng cơ chế #2) để tool-hiccup không giết. pip cache dùng lại → retry rẻ. **`[dev]` GIỮ** (nhỏ; reviewer batch sau cần pytest).
+
+**OPTIONAL (nên sửa, không chặn):**
+5. Ghi đường login chính xác `/api/v1/auth/login` (plan ghi "discover từ auth.py:50" — line 50 là `/register`, `/login` ở line 88-89).
+6. `.gitignore` ignore `.venv` ở **dòng 30** (plan ghi dòng 10) — sửa số cho đúng.
+7. Redis: ghi URL tải cụ thể (asset `Redis-8.10.2-Windows-x64-msys2.zip` từ release `zkteco-home/redis-windows` 8.10.2); nếu verify SHA256 bản chính thì nên verify cả hash fallback tporadowski (hoặc ghi rõ chỉ verify bản chính). Lưu ý PowerShell có thể bỏ arg rỗng `--save ""` — vô hại vì `--appendonly no` đã tắt persist.
+8. "DAG data" dư (nằm trong trace detail, không có API DAG riêng) → có thể bỏ khỏi checklist; thêm 1 dòng note: `.env QDRANT_PATH=./data/qdrant_local` (KHÔNG phải `_v117`) — RAG/`search_knowledge` KHÔNG thuộc smoke nên không chặn, chỉ note nếu vô tình chạm.
+
+**KHÔNG đổi (đúng, giữ nguyên):** recreate `.venv` + redis portable + kill sạch (user yêu cầu); bỏ postgres (đúng vì sqlite); không đụng merge v1.2 (26 scene untracked + 3 M) / docker-fix / không commit-push; giữ UI best-effort (chrome-devtools có sẵn) nhưng phụ thuộc điểm #2.
+
+**PONYTAIL CẮT:** giữ `[dev]` (đừng cắt — reviewer cần); KHÔNG cắt redis/kill/recreate (user yêu cầu); giữ fallback redis (rủi ro DLL msys2 là thật); bỏ "DAG data" dư; gộp writes+delete quanh 1 trace tổng hợp (ít thao tác + an toàn hơn mượn trace thật).
+
+## Fix GLM max_steps (17/10/2026 — DONE, ngoài scope project)
+- User báo OpenCode + GLM 5.3 Flash lỗi `unknown_parameter: json: unknown field "max_steps"`.
+- Root cause: 8 file agent global `C:\Users\DELL\.config\opencode\agents\*.md` có frontmatter `max_steps: N` (planner 8, implementor 12, tester 6, linter 4, security-reviewer 6, reviewer 5, debater 4, commit-message 3). Frontmatter agent OpenCode không nhận field này → bị route vào `options` → nằm trong request body gửi provider; GLM validate strict nên chặn (provider khác ignore field lạ).
+- Fix: xoá `max_steps` cả 8 file (grep verify sạch). Các cap này chưa từng hoạt động thật → không mất hành vi. Field đúng nếu muốn cap thật: `steps` (không thêm — YAGNI).
+- User cần QUIT hẳn OpenCode + mở lại (config load 1 lần lúc start) — áp dụng cho CẢ 2 fix dưới đây.
+- Fix 2 (17/10, phát hiện khi spawn debater): `Model not found: opencode/muse-spark-1.3-contributor-free` — zen đã gỡ model này khỏi registry (còn: beam-free, deepseek-v4.1-flash-free, glm-5.3-flash-free). Đã đổi `model:` cả 8 file agent sang `opencode/deepseek-v4.1-flash-free` (model session hiện tại, đang chạy verified). Muốn agent chạy GLM 5.3 Flash: thay lại 1 dòng `model:` trong 8 file.
+
+## Request mới (17/10/2026 — gộp dữ liệu bài học v1.2 vào bộ cũ)
+- User bổ sung dữ liệu bài học + cảnh mới ở `frontend/trau-video` (video_scenes/, xu-video/) và `data/lessons` (new_lessons_v1_2/); yêu cầu gộp với bộ cũ cho thống nhất rồi xoá các phần mới thêm.
+
+## Khảo sát thật (planner 17/10 — số liệu verified)
+- `public/lessons/` (canonical, tracked trong git, pipeline đọc): 30 bài M1L1–M8L3, index count=30, nhân vật "Trâu Tí".
+- `video_scenes/` (untracked mới): 56 bài = 30 cũ + 26 mới (M1L5-7, M2L5, M3L6-7, M4L5, M6L4, M8L4-10, M9L1-5, M10L1-6); index count=56. 30 bài cũ = bản rename "Trâu Tí"→"Xu" (strip-rename verify: **0 diff ngoài rename**; characters_detected + 71 visual description + 1 vo). 26 bài mới giữ "Trâu Tí" (T=11/file) → bộ này nửa Xu nửa Trâu, không thống nhất.
+- `xu-video/` (untracked mới): clone project (src CŨ HƠN trau-video — thiếu lip-sync Plan 5: SceneView không useAudioData) + lessons = 30 cũ **y hệt public** (byte-identical) + 26 mới **y hệt video_scenes** + index cũ count=30 (stale).
+- `data/lessons/new_lessons_v1_2/`: lessons_added (14 bài v1.2: M9L1-5, M3L7, M2L5, M8L10, M10L1-6; origin user_proposal_2026-10-15) + curriculum v1_2 (M1–M10, 56 bài, version=1.2, thêm `disclaimer_required_lessons`; lesson schema y hệt bản cũ) + coverage_map (summary+items) + scenes/14 file.
+- Curriculum cũ: M1–M8, 30 bài (không có version).
+- Pipeline KHÔNG đọc `characters_detected` (grep src: 0 hits) → rename "Xu" là metadata-only, không ảnh hưởng render.
+- M3L2 placeholder `[[...]]` (3 chỗ) còn nguyên ở cả 2 bản → merge không đụng việc điền số (vẫn treo riêng).
+- Đề xuất mặc định: (1) `public/lessons/` = giữ 30 bài cũ nguyên bytes + thêm 26 bài mới từ video_scenes + index 56; giữ "Trâu Tí" (project/mascot/README/video đã render + cả 26 bài mới đều Trâu Tí; "Xu" là lỗi đợt gen v1.2). (2) `data/lessons/curriculum_tai_chinh_ca_nhan.json` = thay bằng nội dung v1_2, giữ tên canonical. (3) Xoá `video_scenes/`, `xu-video/`, `new_lessons_v1_2/`.
+
+## Open Questions (merge v1.2 — đã hỏi trong chat, chờ user)
+1. Nhân vật cuối: "Trâu Tí" (đề xuất) hay "Xu" (nếu Xu → phải rename cả 26 bài mới + cân nhắc code/README)?
+2. Xác nhận xoá cả 3 folder sau gộp (đặc biệt `xu-video/` — clone code cũ, dữ liệu đã trích hết)?
+3. `coverage_map_v1_2.json` + `lessons_added_v1_2.json`: xoá kèm (nội dung đã vào curriculum v1.2) hay giữ lại nơi nào?
+
+## Current Status (merge v1.2 17/10/2026)
+- Phase 1 Clarify — khảo sát xong (bên trên), chờ user trả lời 3 câu trước khi plan.
+
+## Clarified Scope (merge v1.2 — user chốt 17/10)
+1. Nhân vật: giữ "Trâu Tí" cho bộ cuối (bỏ rename "Xu" — đã verify 0 diff ngoài rename nên không mất nội dung).
+2. Xoá cả 3 khối mới sau khi gộp: `video_scenes/`, `xu-video/`, `new_lessons_v1_2/`.
+3. Xoá kèm `coverage_map_v1_2.json` + `lessons_added_v1_2.json` (nội dung đã nằm trong curriculum v1.2).
+
+## Verify cuối trước plan (17/10)
+- Index schema cũ (30) vs mới (56) giống hệt nhau (lesson_id/title/file/status/scenes/claimed_sec/estimate_sec/open_placeholders/hand_tuned); bản mới chỉ thêm entry + đổi count.
+- Không script nào tham chiếu `video_scenes`/`xu-video` (grep: chỉ self-ref trong `xu-video/package-lock.json`) → xoá an toàn.
+- README:67 link `data/lessons/curriculum_tai_chinh_ca_nhan.json` → giữ tên canonical khi thay nội dung; file này đã được track bằng `git add -f` từ Plan 6 (sửa sẽ hiện modified, KHÔNG cần add -f lại).
+- 14 file `new_lessons_v1_2/scenes/*` = byte-identical (SHA256) với bản trong `video_scenes/` → xoá không mất gì.
+- Danh sách 26 bài mới cần copy xác nhận đúng: M1L5-7, M2L5, M3L6-7, M4L5, M6L4, M8L4-10, M9L1-5, M10L1-6.
+
+## Plan merge v1.2 (r2 — 17/10, sau debate)
+- B1 Copy 26 bài mới: `Copy-Item` (**raw byte — CẤM `Get-Content|Set-Content`/JSON re-serialize**) từ `video_scenes/*_scenes.json` (mọi file chưa tồn tại ở đích, KHÔNG gồm index.json) → `public/lessons/`. Verify: đích = 56 file bài + **SHA256 source↔dest khớp 26/26** (nguồn untracked → hash là chứng cứ bắt buộc TRƯỚC B5).
+- B2 Index: `Copy-Item` (raw byte) đè `video_scenes/index.json` → `public/lessons/index.json`. Verify: parse OK; count==56; set lesson_id/file == 56 file thực tế (2 chiều).
+- B3 Curriculum: `Copy-Item` (raw byte) `new_lessons_v1_2/curriculum_tai_chinh_ca_nhan_v1_2.json` → `data/lessons/curriculum_tai_chinh_ca_nhan.json` (giữ tên canonical). Verify path `curriculum[0].modules[].lessons[].id` (KHÔNG có key top-level `lessons`): parse OK; version=1.2; 56 lesson; đủ M1-M10; phân bố M1:7 M2:5 M3:7 M4:5 M5:3 M6:4 M7:4 M8:10 M9:5 M10:6.
+- B4 Mascot: assert 56/56 `characters_detected` chứa "Trâu Tí"; grep **CASE-SENSITIVE** `\bXu\b` toàn bộ public/lessons (PowerShell: `Select-String -CaseSensitive`/`-cmatch`) → kỳ vọng **ĐÚNG 0 hit** (bỏ ngoại lệ "xu hướng" — đã verify capital Xu = 0 trong merged); nếu >0 → STOP, báo lại (không tự sửa).
+- B5 Xoá: `frontend/trau-video/video_scenes/`, `frontend/trau-video/xu-video/`, `data/lessons/new_lessons_v1_2/`. Verify 3 path không còn; `public/audio/`, `out/`, scripts không đụng.
+- B6 Git: chỉ ghi status (public/lessons: +26 file mới + index modified; curriculum modified). KHÔNG commit/push, **KHÔNG `git add -A`** (audio rác + file mới untracked dễ bị vơ).
+- B7 WORKFLOW_STATE: Implement Notes + Current Status.
+
+## Files To Change (merge v1.2)
+- Add 26: `frontend/trau-video/public/lessons/{M1L5,M1L6,M1L7,M2L5,M3L6,M3L7,M4L5,M6L4,M8L4,M8L5,M8L6,M8L7,M8L8,M8L9,M8L10,M9L1,M9L2,M9L3,M9L4,M9L5,M10L1,M10L2,M10L3,M10L4,M10L5,M10L6}_scenes.json`
+- Modify: `frontend/trau-video/public/lessons/index.json`
+- Modify: `data/lessons/curriculum_tai_chinh_ca_nhan.json` (nội dung = bản v1_2)
+- Delete: 3 dirs ở B5
+- Update: `WORKFLOW_STATE.md`
+- Ngoài scope (KHÔNG đụng): `frontend/trau-video/public/audio/` (output render M1L1/M3L2, untracked), `out/`, `scripts/`, `README.md`.
+
+## Acceptance Criteria (merge v1.2)
+- AC1: `public/lessons/` = 56 file bài + index.json; 57/57 JSON parse OK; index.count==56==số file; index↔file khớp 2 chiều.
+- AC2: 56/56 characters_detected chứa "Trâu Tí"; 0 rename "Xu" còn sót.
+- AC3: curriculum canonical = v1.2 (parse OK, 56 bài, M1-M10, version 1.2, phân bố module đúng); README:67 link vẫn đúng file.
+- AC4: 3 folder đã xoá sạch; không file ngoài scope bị sửa (audio/out/scripts/README nguyên).
+- AC5: không commit/push; WORKFLOW_STATE cập nhật.
+
+## Debate Notes (merge v1.2 — debater r1, 17/10)
+VERDICT: REVISE (plan r1 đúng hướng, không cần đổi kế hoạch — chỉ siết 4 điểm trước khi implementa).
+Đã tự verify độc lập toàn bộ số liệu planner (script temp SHA256/JSON): public=30, video_scenes=56, new=26 (đúng list); merged 56/56 `characters_detected` chứa "Trâu Tí"; capital `\bXu\b` trong merged = 0; index count=56, refs==56 file, index không có capital "Xu"; 14 scenes `new_lessons_v1_2` byte-identical `video_scenes`; curriculum v1_2 version=1.2, 10 module, dist M1:7 M2:5 M3:7 M4:5 M5:3 M6:4 M7:4 M8:10 M9:5 M10:6 = 56; OLD curriculum 8 module/30 bài/không version/no disclaimer; xu-video assets 100% trùng main (main là superset, cần main có thêm trau_idle.png); public/audio untracked = output render (M1L1,M3L2), ngoài scope merge.
+4 điểm phải sửa:
+1. B1 verify HASH (không chỉ count): 3 folder nguồn UNTRACKED → xoá là không git-recover được. Thêm SHA256 source↔dest cho 26 file trước B5. Không cần backup riêng: hash pass = nội dung đã nhân bản an toàn ở `public/lessons`; curriculum bản gốc tracked → git-recover được.
+2. Byte-copy BẮT BUỘC: copy 26 file + thay curriculum phải là raw byte (`Copy-Item`/`File.Copy`), KHÔNG `Get-Content|Set-Content` hay JSON re-serialize (hỏng UTF-8 tiếng Việt + đổi format file).
+3. B4 grep phải CASE-SENSITIVE `\bXu\b`, kỳ vọng ĐÚNG 0 hit; BỎ "ngoại lệ từ tiếng Việt thường (xu hướng)" — ngoại lệ đó dễ khiến match case-insensitive → dính "xuống"/"đồng xu"/"xu hướng" (13 dòng lowercase trong public) → STOP oan. Dữ liệu thật capital "Xu" = 0.
+4. B3 ghi rõ JSON path verify: `curriculum.modules[].lessons[].id` (KHÔNG có key top-level `lessons`).
+Minor: thêm 1 dòng `public/audio/` = ngoài scope trong Files To Change; nhắc tránh `git add -A` (26 file mới untracked + audio rác untracked dễ bị vơ vào).
+Xác nhận không sót thành phần giá trị nào trong 3 folder: `index_new.json` (14 entry) ⊂ index 56; coverage_map + lessons_added đã nằm trong curriculum v1.2 (user chốt xoá); xu-video là clone cũ, mọi thứ trùng main/đã trích.
+
+## Current Status (merge v1.2 — plan r2 chốt, chờ implement)
+- Debater REVISE 4 điểm đã áp vào plan r2 (B1 hash SHA256, byte-copy bắt buộc, B4 case-sensitive 0 hit, B3 JSON path `curriculum[0].modules[].lessons[].id`, minor audio/no add -A). Không cần debate lại.
+- **IMPLEMENT DONE 17/10/2026** — đủ B1–B7 theo plan r2, mọi verify PASS, không block. `public/lessons/` = 56 bài + index (count 56); curriculum canonical = v1.2; 3 khối mới đã xoá; chưa commit/push (theo AC5).
+- **REVIEW DONE 17/10/2026 — APPROVE** (reviewer tự chạy lại verify độc lập, AC1–AC5 PASS; chi tiết + bảng verify ở `## Review Notes (merge v1.2)`). Chưa commit/push theo đúng AC5.
+
+## Implementation Notes (merge v1.2)
+- **B1 Copy 26 bài mới** (`Copy-Item` byte-safe, cấm `Get-Content|Set-Content`): copy 26 file `*_scenes.json` chưa tồn tại ở đích (M1L5-7, M2L5, M3L6-7, M4L5, M6L4, M8L4-10, M9L1-5, M10L1-6) `video_scenes/` → `public/lessons/`; đích 30→56 file. **Verify SHA256 source↔dest: 26/26 khớp** (chứng cứ bắt buộc trước B5 vì nguồn untracked). 30 file cũ ở `public/` giữ nguyên bytes (KHÔNG bị đè bởi bản "Xu" trong video_scenes).
+- **B2 Index** (`Copy-Item` byte): `video_scenes/index.json` → `public/lessons/index.json`, SHA256 hai bên giống hệt (`5EFCEBD4…5266`). Verify parse OK; `count`==56==số entry==số file thực tế; khớp 2 chiều 0 thiếu mỗi hướng; `lesson_id`+`_scenes.json` == `file` cho cả 56 (0 mismatch).
+- **B3 Curriculum** (`Copy-Item` byte): `new_lessons_v1_2/curriculum_tai_chinh_ca_nhan_v1_2.json` → `data/lessons/curriculum_tai_chinh_ca_nhan.json` (giữ tên canonical — README:67 link vào file này), SHA256 hai bên giống hệt (`18F91D32…BB95`). Verify parse OK; `version`=1.2; 56 lesson; đủ M1–M10; phân bố **M1:7 M2:5 M3:7 M4:5 M5:3 M6:4 M7:4 M8:10 M9:5 M10:6**. Lưu ý cấu trúc thật: `curriculum` là **object** (không phải array) → path đúng `curriculum.modules[].lessons[].id` (plan r2 ghi `curriculum[0]…` chỉ là cách viết; không có key top-level `lessons`).
+- **B4 Mascot**: **56/56** file scenes có `characters_detected` chứa "Trâu Tí" (assert qua script UTF-8). Grep **case-sensitive** `\bXu\b` trên toàn bộ `public/lessons/` (57 file = 56 scenes + index.json): **0 hit** (đúng kỳ vọng). (Thông tin, không tính FAIL: lowercase `\bxu\b` = 5 — "xu hướng"/"xuống" v.v., không phải rename.)
+- **B5 Xoá** (sau khi B1–B4 PASS, `Remove-Item -Recurse -Force`): `frontend/trau-video/video_scenes/` (57 file), `frontend/trau-video/xu-video/` (84 file), `data/lessons/new_lessons_v1_2/` (18 file). Verify cả 3 `Test-Path` = False.
+- **B6 Git**: chỉ `git status --porcelain` (không `git add`, không commit/push). Kết quả: `M data/lessons/curriculum_tai_chinh_ca_nhan.json`, `M frontend/trau-video/public/lessons/index.json`, `M WORKFLOW_STATE.md`, + 26 `??` scene mới. Không thấy deletion vì 3 nguồn untracked/ignored (đúng). Untracked pre-existing cố ý để nguyên: `evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`.
+- **Ngoài scope KHÔNG đụng** (verify còn nguyên): `frontend/trau-video/public/audio/`, `frontend/trau-video/out/`, `frontend/trau-video/scripts/`, `README.md`.
+
+## Review Notes (merge v1.2 — reviewer, 17/10/2026)
+**VERDICT: APPROVE.** Reviewer tự chạy lại toàn bộ verify độc lập (PowerShell + Python 3.13), không tin số liệu implementor. AC1–AC5 đều PASS.
+
+| AC | Kiểm tra độc lập đã chạy | Kết quả |
+|----|--------------------------|---------|
+| AC1 | `Get-ChildItem *.json` trong `public/lessons`; `ConvertFrom-Json` từng file; đối chiếu index↔file 2 chiều; check trùng + id↔file | 57 JSON (56 `*_scenes.json` + index); 57/57 parse OK; index.count=56, 56 entry unique, **0 entry thiếu file, 0 file thiếu entry**, 0 trùng, id↔file mismatch 0 → **PASS** |
+| AC2 | Substring "Trâu Tí" (dựng bằng codepoint 0x00E2/0x00ED, tránh mojibake console) trên `characters_detected`; `Select-String -CaseSensitive '\bXu\b'` toàn 57 file | 56/56 chứa Trâu Tí; capital `Xu` = **0 hit** (đã validate regex: pattern match đúng "Xu" case-sensitive + không match "Trâu Tí") → **PASS** |
+| AC3 | Python parse curriculum; `curriculum.version`; đếm `curriculum.modules[].lessons[]`; phân bố; kiểm tra encoding | parse OK; `curriculum.version=1.2` (không ở top-level); 10 module/56 lesson/56 id unique; phân bố M1:7 M2:5 M3:7 M4:5 M5:3 M6:4 M7:4 M8:10 M9:5 M10:6; có `disclaimer_required_lessons`; codepoint tiếng Việt đúng (không có U+FFFD); README:67 link còn 1 hit đúng path → **PASS** |
+| AC4 | `Test-Path` 3 folder xoá + 4 path ngoài scope | video_scenes/xu-video/new_lessons_v1_2 đều **False**; public/audio, out, scripts, README.md đều **True** → **PASS** |
+| AC5 | `git status --porcelain` + `git diff --stat` | Chỉ `M` 3 file (curriculum, index, WORKFLOW_STATE) + 26 `??` scene mới; 3 untracked pre-existing cố ý (report-gpt41.json, frontend.dev.log, public/audio/); **0 tracked deletion**; không commit/push → **PASS** |
+
+**Soi thêm (independent):**
+- **30 file scenes cũ còn nguyên bytes:** `git diff --stat frontend/trau-video/public/lessons` chỉ hiện `index.json` (288+/2-), **không** file scenes cũ nào modified. Xác nhận 30 file cũ vẫn tracked (31 tracked = 30 scenes + index) so với HEAD → byte-unchanged. Đếm đúng: 6+3+1+2+1+1+7+5 = 26 file mới.
+- **Index không có entry lạ/mất:** so index HEAD (30) với index mới (56) bằng Python: **0 entry cũ bị xoá, 0 entry cũ bị đổi nội dung** (kể cả key order), 26 entry mới = đúng danh sách 26 file trên đĩa. (Lưu ý: đối chiếu bằng PowerShell `ConvertTo-Json` ban đầu báo "29/30 changed" — đó là artifact do encoding stdout, Python xác nhận 0 changed.)
+- **Không còn reference chết:** `git grep video_scenes|xu-video|new_lessons_v1_2` ngoài WORKFLOW_STATE = NONE.
+- **public/lessons sạch:** chỉ 57 file `.json`, không có subdir/rác.
+
+**Hạn chế không kiểm được độc lập (không phải vi phạm):** nguồn `video_scenes/`/`xu-video/`/`new_lessons_v1_2/` đã xoá nên không thể đối chiếu SHA256 source↔dest 26/26 hay curriculum v1_2↔canonical nữa; bằng chứng hash nằm ở Implementation Notes (đã chụp trước B5 theo plan r2). Nội dung đích tự nhất quán và parse/encoding OK, nên không ảnh hưởng verdict.
+
+**Follow-up (ngoài scope, không block):** M3L2 còn placeholder `[[…]]` (3 chỗ) như cả 2 bản gốc — việc điền số vẫn treo riêng. Chưa commit/push (đúng AC5).
+
+## Next Agent
+- user / hoàn tất — merge v1.2 APPROVE, không cần sửa. Việc còn lại khi user muốn: (1) commit + push bộ merge (3 modified + 26 scene mới, `git add` chọn lọc, KHÔNG `add -A` vì có audio/log/report untracked); (2) điền placeholder M3L2 (treo riêng); (3) luồng local-smoke 17/10 vẫn chờ user chốt câu hỏi cũ khi muốn chạy tiếp.
+
+## Request mới (17/10/2026 — fix docker build vnstock + tiếp tục)
+- User dán log `docker compose up` vỡ ở `pip install -e .`: `Could not find a version that satisfies the requirement vnstock>=4.0.6` (Dockerfile:9). Yêu cầu sửa + tiếp tục.
+- Planner verify thật 17/10: PyPI project `vnstock` **quarantined** (pypi.org/simple trả `project-status: quarantined`; trang project "Project quarantined: Sep 24, 2026") → pip không tải được từ PyPI. Kho mới chính thức: `https://vnstocks.com/api/simple` (docs vnstocks.com 25/09/2026). Host có vnstock 4.0.2 (< 4.0.6) — không phải pin sai.
+- Verify kho mới thật: `pip download vnstock==4.0.9 --extra-index-url https://vnstocks.com/api/simple` OK (wheel py3-none-any, py313 OK); deps `vnai>=2.6.0` + `vnstock_ezchart>=1.0.2` cũng chỉ có trên kho đó — pip tự kéo (vnai 2.6.3, vnstock_ezchart 1.0.2 tải OK). Probe temp đã dọn.
+- Compose đọc thật: mcp_server + backend build cùng Dockerfile target production (frontend Dockerfile riêng, không cài vnstock) → sửa Dockerfile một chỗ, cả 3 service hết lỗi. Compose topology/ports/healthcheck KHÔNG sai gì.
+- Git: branch main `7a5f18d` (shadcn sweep đã push); working tree có M WORKFLOW_STATE + M curriculum/index (merge v1.2, chờ reviewer) + ~26 untracked scenes (của user, không đụng).
+
+## Open Questions (docker-fix — chờ user chốt trong chat)
+- (sẽ hỏi trong chat — 2 câu: extra-index trong Dockerfile vs pin 4.0.9; compose up tiếp hay dừng ở build xanh)
+
+## Constraints (docker-fix)
+- Planner: không sửa code ngoài WORKFLOW_STATE.md.
+- Sửa tối thiểu: chỉ Dockerfile (hoặc pyproject nếu debate chốt), không đụng compose topology/ports/healthcheck.
+- Không commit secrets/.env; không force-push; không đụng untracked scenes/audio của user.
+- Docker binary chỉ có trong WSL `Ubuntu-22.04` (29.7.2 + compose v5.5.0) — WSL reboot chu kỳ ~2 phút (Implementation Notes R3-docker) → mọi lệnh docker qua WSL bounded (timeout 25s×3 vòng) + triage infra-flake vs app-bug như Plan R3-docker.
+
+## Current Status (docker-fix 17/10/2026 — planner verify xong, chưa plan)
+- Root cause + kho mới verify thật (pip download OK). Sửa tối thiểu = thêm `--extra-index-url https://vnstocks.com/api/simple` vào pip install trong Dockerfile (một chỗ, cả 3 service hết lỗi).
+- Chưa chốt: pin version hay không; compose up tiếp hay dừng ở build xanh.
+
+## Clarified Scope (docker-fix — user chốt 17/10)
+1. KHÔNG pin — giữ `vnstock>=4.0.6` trong pyproject; chỉ thêm extra-index vào Dockerfile.
+2. Build xanh → chạy tiếp `docker compose up -d` + smoke R3 trọn bộ (checklist cũ: traces + rates + Batch 2 + M1L1), retry ≤2 (chỉ infra-flake), `down` sạch giữ volumes.
+- Bổ sung từ log user: user TỰ chạy `docker compose up` được (build chạy 379s, postgres/redis/qdrant pull OK, vỡ ở pip) → WSL docker đang hoạt động (ít nhất lúc đó); vẫn readiness-check lại trước build (tiền lệ reboot ~2phút).
+- Nguy cơ còn treo: stacks người khác trong WSL từng giữ 8000/8001/6333 (docker-proxy) — implementor check `docker ps` trước; conflict → STOP hỏi user, không tự kill stack người khác.
+
+## Plan docker-fix (r2 — sau debate 17/10, 4 điểm REVISE đã áp)
+- B1 Fix `Dockerfile:9`: `RUN pip install --upgrade pip && pip install -e . --extra-index-url https://vnstocks.com/api/simple` (1 dòng, không pin, KHÔNG thêm ENV — debate chốt 1 flag đủ; dep-confusion rủi ro rất thấp vì vnstock/vnai 404 trên PyPI).
+- B2 Readiness WSL bounded: gate `uptime` **>5–10 phút** + `docker ps` 2 lần cách nhau (timeout 25s×3 vòng); `docker ps -a` check stacks lạ giữ 8000/8001/6333 → conflict → STOP hỏi user (không tự kill; remap port chỉ là note). Mỗi bash call chỉ 1 lệnh `wsl -d` (tool-note R3-docker).
+- B3 Build: `docker compose build` (WSL workdir `/mnt/f/financial_insight_agent`) — 3 target xanh; pip vẫn lỗi (app-bug) → thu log + STOP; infra-flake → retry đúng luật ≤2.
+- B4 Up: `docker compose up -d` + đợi healthy (backend ≤6 phút start_period 240s; frontend sau backend; mcp POST initialize). Fail → `ps` + `logs --tail 50` + triage.
+- B4.5 **Data-readiness (mới — gap lớn nhất):** `docker compose exec backend ls /app/data` + row count `rates_store.db`/`traces.db`; volume `app_data` có thể rỗng/thiếu (rates_store.db tạo 15/10 sau lần docker up cuối 10/09) → thiếu thì seed `docker compose cp data/rates_store.db backend:/app/data/` (+ `data/market_store.db`, `data/traces/traces.db` nếu rỗng). Không seed → smoke rỗng vô nghĩa.
+- B5 Smoke API (curl): `/health` + `/api/health` → login admin (`admin@finsight.vn`/`admin123`) JWT → READ: traces list (sort/search/date/pagination), detail, `get_rates` 6 nhóm, DAG data → WRITE: feedback POST→GET, comments POST→GET → DELETE CUỐI trace test-only.
+- B6 Smoke UI best-effort **cùng session** (chrome-devtools `http://localhost:3000` nếu implementor có tool; KHÔNG delegate planner): login → list sort 4 cột/search/date/pagination/visibility/copy → detail 5 tabs/waterfall/span IO/truncated Badge → comments → DELETE confirm → DAG render. Không có browser → ghi "UI chưa verify bằng mắt" + báo.
+- B7 Down sạch: `docker compose down` (không `-v`/`--rmi`) + verify containers mình hết + port Windows free.
+- B8 Ghi WORKFLOW_STATE: pass/fail từng mục + commit Dockerfile fix — **KHÔNG push** (user chưa yêu cầu), stage CHỈ `Dockerfile` (+WORKFLOW_STATE), cấm `git add -A`.
+- Follow-up (ngoài scope, chờ user OK): `.github/workflows/ci.yml` 3 job `pip install -e ".[dev]"` sẽ đỏ cùng root cause trên push kế — fix 1 dòng `env: PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` workflow-level.
+
+## Files To Change (docker-fix)
+- Modify: `Dockerfile` (1 dòng B1).
+- Update: `WORKFLOW_STATE.md`.
+- Không đụng: compose files, pyproject (không pin), frontend/*, untracked scenes/audio của user.
+
+## Acceptance Criteria (docker-fix)
+1. `docker compose build` 3 target xanh (extra-index, không pin).
+2. Stack healthy: backend `/health` 200 + frontend `/api/health` 200 + mcp healthcheck pass.
+3. Smoke R3 checklist pass từng mục (API + UI), ghi pass/fail vào WORKFLOW_STATE.
+4. `down` sạch: containers mình hết + port free + volumes giữ nguyên.
+5. Commit Dockerfile fix; WORKFLOW_STATE cập nhật.
+
+## Debate Notes (docker-fix — debater, 17/10/2026)
+VERDICT: **REVISE** (minor — hướng đúng; thiếu 1 bước data-readiness + 1 file CI cùng root cause; sửa 4 điểm rồi implement).
+
+Checklist user hỏi:
+- **Q1 (1 dòng extra-index + ENV + dep-confusion):**
+  - 1 dòng `pip install -e . --extra-index-url https://vnstocks.com/api/simple` **ĐỦ**. pip áp index options cho TOÀN BỘ resolve (kể cả deps `vnai`/`vnstock_ezchart`), không chỉ requirement top-level. `pip install --upgrade pip` **KHÔNG cần** extra-index (pip ở PyPI) → không cần `ENV PIP_EXTRA_INDEX_URL` cho bước upgrade.
+  - `ENV PIP_EXTRA_INDEX_URL` tương đương `--extra-index-url` (cùng effect), DRY hơn + tái dùng được cho CI — chỉ nên dùng nếu muốn 1 cơ chế chung với CI; nếu chỉ Docker thì 1 flag là tối giản.
+  - Dep-confusion: rủi ro **rất thấp** — verify thật `https://pypi.org/pypi/vnstock/json` = **404** (quarantined) và `vnai` = **404** (đã rút khỏi PyPI); tên không tồn tại trên PyPI nên không có gì để squat. Giữ `--extra-index-url` không cần `--index-url`/pin.
+  - Verify thật vendor index `https://vnstocks.com/api/simple/`: có `vnstock` (4.0.8/4.0.9), `vnai` (2.6.2/2.6.3), `vnii`, `vnstock-mcp`... → kho đúng chỗ. **Sửa note planner:** `vnstock-ezchart` **có trên PyPI** (1.0.2, MIT, requires `vnstock>=4.0.3`) — không phải "chỉ có trên kho đó" (không hại, vẫn resolve).
+- **Q2 (B2 readiness gỡ wedge WSL?):** user build 379s ⇒ daemon **stable lúc đó**, reboot-cycle đã hết. Giữ bounded-wait (timeout 25s×3 vòng); **thêm gate uptime tường minh (≥5–10 phút)** trước build để không đâm vào reboot giữa chừng; `docker ps` 2 lần cách nhau xác nhận ổn định.
+- **Q3 (B5/B6 tách API/UI):** B6 "nếu implementor không có tool browser → planner chạy UI" **SAI** — planner chỉ sửa WORKFLOW_STATE, không có browser đảm bảo và không giữ được stack mở xuyên session (B7 down ngay). UI smoke phải **cùng session** với API smoke; implementor best-effort tool browser; không có → ghi "UI chưa verify bằng mắt" + báo, KHÔNG cross-delegate.
+- **Q4 (B7 down giữ volumes):** **ĐÚNG** ý user (Scope docker-fix: "down sạch giữ volumes"). `down` không `-v`/`--rmi` + verify containers mình hết + port free. Giữ.
+- **Q5 (commit/push):** B8 **commit** Dockerfile đúng (Acceptance 5), **KHÔNG push** — user chưa yêu cầu push (tiền lệ Plan 2/4: chỉ push khi user yêu cầu tường minh). Stage CHỈ `Dockerfile` (+ `WORKFLOW_STATE.md` nếu muốn), **cấm `git add -A`** (26 scene untracked + audio đang chờ).
+
+**ĐIỂM SỬA BẮT BUỘC (đủ để REVISE):**
+1. **Thêm bước data-readiness TRƯỚC B5 (gap lớn nhất, plan bỏ sót):** compose dùng named volume `app_data:/app/data`, **KHÔNG bind local `data/`** → volume có thể RỖNG (lần đầu up) hoặc thiếu `rates_store.db` (tạo local 15/10, sau lần docker up cuối 10/09) / `traces.db`. Check `docker compose exec backend sh -c 'ls -la /app/data; ...'` + row count; nếu thiếu → seed `docker compose cp data/rates_store.db backend:/app/data/rates_store.db` (+ `data/market_store.db`, `data/traces/traces.db` nếu traces rỗng). Không seed ⇒ traces list/detail, `get_rates` 6 nhóm, feedback, DELETE **rỗng vô nghĩa** ⇒ Acceptance 3 không đo được.
+2. **Cùng root cause ở CI (hidden):** `.github/workflows/ci.yml` 3 job (lint/typecheck/test) đều `pip install -e ".[dev]"` → sẽ đỏ y hệt trên mọi push. Sửa tối thiểu 1 dòng `env: PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` (workflow-level) — hoặc ghi rõ là follow-up. Scope user nói "chỉ Dockerfile" → cần user OK để mở sang CI; nếu không thì note follow-up (đừng để CI đỏ âm thầm).
+3. **Sửa B6:** bỏ "planner chạy UI"; UI smoke best-effort cùng session, không thì ghi "chưa verify bằng mắt".
+4. **B2:** ghi rõ ngưỡng `uptime` trước build (>5–10 phút).
+
+**GIỮ NGUYÊN:** prod `docker-compose.yml` (dev loại), triage infra-flake vs app-bug retry ≤2, reorder READ→WRITE→DELETE test-only, down giữ volumes, không pin, không đụng compose/pyproject/untracked scenes/audio.
+
+**PONYTAIL CẮT:** `ENV PIP_EXTRA_INDEX_URL` trong Docker là thừa (1 flag đủ). Remap port (`APP_EXTERNAL_PORT`) thay STOP khi stack người khác giữ 8000/8001/6333 → **chỉ note**, giữ luật user (conflict → STOP hỏi, không kill stack người khác). Không build riêng lẻ từng target (compose dedupe).
+
+## Current Status (docker-fix — plan r2 chốt 17/10, chờ implement)
+- Debate DONE — verdict REVISE 4 điểm (data-readiness B4.5, CI follow-up, B6 không delegate planner, B2 ngưỡng uptime) đã áp vào plan r2. Planner chấp nhận toàn bộ, không challenge.
+- Sẵn sàng implement B1→B8.
+
+## Next Agent (docker-fix)
+- implementor: chạy Plan docker-fix r2 B1→B8 (fix Dockerfile 1 dòng → readiness uptime gate → build → up → data-readiness seed nếu thiếu → smoke API + UI best-effort → down sạch giữ volumes → commit Dockerfile KHÔNG push, stage chọn lọc; ghi pass/fail WORKFLOW_STATE). CI fix chỉ làm nếu user OK mở scope.
+
+## Implementation Notes (docker-fix — implementor 17/10/2026)
+- **STATUS: PARTIAL — B1/B2/B3 PASS; B4 BLOCKED (app-bug ngoài scope); B4.5–B6 không chạy; B7 down OK; B8 commit Dockerfile OK (không push).**
+- **B1 (đã có trước):** `Dockerfile:9` = `RUN pip install --upgrade pip && pip install -e . --extra-index-url https://vnstocks.com/api/simple` (1 dòng, không pin). `git status` = `M Dockerfile`.
+- **B2 readiness WSL `Ubuntu-22.04`: GO.** uptime ổn định (không còn reboot cycle; 3→14 phút, keep-alive `sleep 1800` PID 646 + `sleep 5400` PID 1607 còn sống), `systemctl is-active docker`=active, `docker ps -a` 0 container (kiểm 2 lần cách nhau), KHÔNG port nào listen trong WSL (3000/8000/8001/5432/6379/6333) → không stack người khác. E2e: `docker ps` có lúc treo ngắn rồi tự hồi (transient), bounded `timeout -s KILL 30` xử lý.
+- **B3 build: PASS.** `docker compose build` `RC=0`, 3 image Built (`financial_insight_agent-{backend,mcp_server,frontend}`). pip layer CACHED với đúng command mới (`#17 [backend base 7/7]`); verify thật `docker run --rm --entrypoint pip financial_insight_agent-backend show vnstock` = **vnstock 4.0.9** → extra-index hoạt động. Build log: `%TEMP%\opencode\docker-build.log`.
+- **B4 up: BLOCKED — app-bug, KHÔNG liên quan vnstock/Dockerfile.** `docker compose up -d` `RC=1`: `finsight-backend` crash-loop (`Restarting (1)`), frontend không start (dependency backend unhealthy). `mcp`/`postgres`/`redis`/`qdrant` healthy (mcp `POST /mcp` 200 OK).
+  - Backend log: `alembic upgrade head` chết `ModuleNotFoundError: No module named 'psycopg'` tại `sqlalchemy/dialects/postgresql/psycopg.py:497` → `Container finsight-backend is unhealthy` → `dependency failed to start`.
+  - **Root cause (verify thật):** pyproject `sqlalchemy[asyncio]>=2.0.0` (không chặn trên) → image resolve **SQLAlchemy 2.1.5**. SQLAlchemy **2.1.0 (2026-09-24)** đổi mặc định dialect PostgreSQL từ `psycopg2` → `psycopg` (v3) cho URL `postgresql://` (nguồn: docs.sqlalchemy.org `changelog/migration_21.html` + blog 2.1.0). Image chỉ có `psycopg2-binary 2.9.13` + `asyncpg 0.32.0`, KHÔNG có `psycopg` → `alembic/env.py` (dòng 15-24) lấy `DATABASE_SYNC_URL=postgresql://finsight:…@postgres:5432/finsight` (không kèm driver) → sync engine fail. Xác nhận trực tiếp: `create_engine('postgresql://u:p@h:5432/db')` trong image → `import psycopg` fail. (App runtime dùng `postgresql+asyncpg` + asyncpg đã có nên chỉ alembic sync chết.)
+  - Không phải infra-flake ⇒ KHÔNG đốt retry rebuild (deterministic, rebuild không đổi version). Không sửa code sản phẩm: Constraints R3-docker "Smoke-only: không sửa code sản phẩm trong nhịp này trừ khi debate cho phép fix nhỏ; bug tìm được → ghi report + để follow-up"; Debate docker-fix chốt scope "chỉ Dockerfile".
+  - **Follow-up fix tối thiểu (chờ user OK, ngoài scope nhịp này):** (1) compose `DATABASE_SYNC_URL=postgresql+psycopg2://…` — 1 dòng, dùng đúng `psycopg2-binary` đã khai báo làm sync driver; (2) `alembic/env.py` chuẩn hoá `postgresql://` → `postgresql+psycopg2://`; (3) pyproject thêm `psycopg[binary]>=3.2` (bám default 2.1); (4) pin `sqlalchemy>=2.0,<2.1`. **Đề xuất (1)** (root-cause: URL sync phải nêu rõ driver, 1 dòng, không thêm dep).
+- **B4.5 data-readiness, B5 API smoke, B6 UI smoke: KHÔNG chạy** (stack không healthy → không đo được; theo plan app-bug ⇒ dừng).
+- **B7 down: PASS** (xem Current Status).
+- **B8 commit Dockerfile fix: DONE, KHÔNG push** (stage chọn lọc `Dockerfile` + `WORKFLOW_STATE.md`, không `git add -A`).
