@@ -17,7 +17,6 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
 from application.agents.agent import AgentState
 
-
 # =========================================================================
 # Mock tool compatible with CustomToolNode
 # =========================================================================
@@ -44,9 +43,11 @@ def mock_tools():
     return [
         _MockTool(
             "get_stock_price",
-            json.dumps({
-                "VCB": {"price": 95000, "ticker": "VCB", "end_date": "2026-05-22"},
-            }),
+            json.dumps(
+                {
+                    "VCB": {"price": 95000, "ticker": "VCB", "end_date": "2026-05-22"},
+                }
+            ),
         ),
     ]
 
@@ -57,17 +58,16 @@ def mock_llm_with_tool_call():
     llm.invoke.side_effect = [
         AIMessage(
             content="",
-            tool_calls=[{
-                "name": "get_stock_price",
-                "args": {"tickers": ["VCB"]},
-                "id": "tool_call_1",
-            }],
+            tool_calls=[
+                {
+                    "name": "get_stock_price",
+                    "args": {"tickers": ["VCB"]},
+                    "id": "tool_call_1",
+                }
+            ],
         ),
         AIMessage(
-            content=(
-                "Giá đóng cửa của VCB là 95,000 VND "
-                "[VCB: 95000, nguồn: get_stock_price]"
-            ),
+            content=("Giá đóng cửa của VCB là 95,000 VND " "[VCB: 95000, nguồn: get_stock_price]"),
         ),
     ]
     return llm
@@ -188,7 +188,9 @@ class TestNodeSequence:
         assert result["next_tool_call"] is None
         assert "VCB" in str(msgs[0].content)
 
-    def test_action_node_ignores_messages_without_next_tool_call(self, mock_tools, mock_llm_with_tool_call):
+    def test_action_node_ignores_messages_without_next_tool_call(
+        self, mock_tools, mock_llm_with_tool_call
+    ):
         """Verifies _action_node reads from next_tool_call field, NOT from messages."""
         agent = _build_agent(mock_tools, mock_llm_with_tool_call)
         ai = AIMessage(
@@ -206,7 +208,9 @@ class TestNodeSequence:
         assert result["messages"] == []
         assert result["next_tool_call"] is None
 
-    def test_action_node_reads_next_tool_call_not_messages(self, mock_tools, mock_llm_with_tool_call):
+    def test_action_node_reads_next_tool_call_not_messages(
+        self, mock_tools, mock_llm_with_tool_call
+    ):
         """Proves _action_node uses next_tool_call as the authoritative source."""
         agent = _build_agent(mock_tools, mock_llm_with_tool_call)
         state = _make_state(
@@ -251,11 +255,13 @@ class TestNodeSequence:
         final_ai = AIMessage(
             content="Giá VCB là 95,000 [VCB: 95000, nguồn: get_stock_price]",
         )
-        state = _make_state([
-            HumanMessage(content="Giá VCB?"),
-            ToolMessage(content="data", tool_call_id="1"),
-            final_ai,
-        ])
+        state = _make_state(
+            [
+                HumanMessage(content="Giá VCB?"),
+                ToolMessage(content="data", tool_call_id="1"),
+                final_ai,
+            ]
+        )
 
         result = agent._final_answer_node(state)
         msgs = result["messages"]
@@ -265,34 +271,42 @@ class TestNodeSequence:
 
     def test_verify_facts_node_passes_verified(self, mock_tools):
         agent = _build_agent(mock_tools, MagicMock())
-        state = _make_state([
-            HumanMessage(content="Giá VCB?"),
-            AIMessage(content="", tool_calls=[{"name": "get_stock_price", "args": {}, "id": "1"}]),
-            ToolMessage(
-                content=json.dumps({"VCB": {"price": 95000, "ticker": "VCB"}}),
-                tool_call_id="1",
-                name="get_stock_price",
-            ),
-            AIMessage(content="Giá VCB là 95,000 [VCB: 95000, nguồn: get_stock_price]"),
-            AIMessage(content="Giá VCB là 95,000 [VCB: 95000, nguồn: get_stock_price]"),
-        ])
+        state = _make_state(
+            [
+                HumanMessage(content="Giá VCB?"),
+                AIMessage(
+                    content="", tool_calls=[{"name": "get_stock_price", "args": {}, "id": "1"}]
+                ),
+                ToolMessage(
+                    content=json.dumps({"VCB": {"price": 95000, "ticker": "VCB"}}),
+                    tool_call_id="1",
+                    name="get_stock_price",
+                ),
+                AIMessage(content="Giá VCB là 95,000 [VCB: 95000, nguồn: get_stock_price]"),
+                AIMessage(content="Giá VCB là 95,000 [VCB: 95000, nguồn: get_stock_price]"),
+            ]
+        )
 
         result = agent._verify_facts_node(state)
         assert len(result.get("messages", [])) == 0
 
     def test_verify_facts_warns_on_mismatch(self, mock_tools):
         agent = _build_agent(mock_tools, MagicMock())
-        state = _make_state([
-            HumanMessage(content="Giá VCB?"),
-            AIMessage(content="", tool_calls=[{"name": "get_stock_price", "args": {}, "id": "1"}]),
-            ToolMessage(
-                content=json.dumps({"VCB": {"price": 95000, "ticker": "VCB"}}),
-                tool_call_id="1",
-                name="get_stock_price",
-            ),
-            AIMessage(content="Giá VCB là 100,000 [VCB: 100000, nguồn: get_stock_price]"),
-            AIMessage(content="Giá VCB là 100,000 [VCB: 100000, nguồn: get_stock_price]"),
-        ])
+        state = _make_state(
+            [
+                HumanMessage(content="Giá VCB?"),
+                AIMessage(
+                    content="", tool_calls=[{"name": "get_stock_price", "args": {}, "id": "1"}]
+                ),
+                ToolMessage(
+                    content=json.dumps({"VCB": {"price": 95000, "ticker": "VCB"}}),
+                    tool_call_id="1",
+                    name="get_stock_price",
+                ),
+                AIMessage(content="Giá VCB là 100,000 [VCB: 100000, nguồn: get_stock_price]"),
+                AIMessage(content="Giá VCB là 100,000 [VCB: 100000, nguồn: get_stock_price]"),
+            ]
+        )
 
         result = agent._verify_facts_node(state)
         msgs = result.get("messages", [])

@@ -92,9 +92,7 @@ class TraceStore:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.RLock()
-        self._conn = sqlite3.connect(
-            str(self.db_path), check_same_thread=False, timeout=30
-        )
+        self._conn = sqlite3.connect(str(self.db_path), check_same_thread=False, timeout=30)
         self._conn.row_factory = sqlite3.Row
         with self._lock:
             self._conn.execute("PRAGMA journal_mode=WAL")
@@ -291,9 +289,7 @@ class TraceStore:
             status, min_duration_ms, name_filter, trace_id_search, from_ts, to_ts
         )
         with self._lock:
-            row = self._conn.execute(
-                f"SELECT COUNT(*) AS n FROM traces{where}", params
-            ).fetchone()
+            row = self._conn.execute(f"SELECT COUNT(*) AS n FROM traces{where}", params).fetchone()
         return int(row["n"]) if row else 0
 
     def list_traces(
@@ -316,7 +312,9 @@ class TraceStore:
         where, params = self._where_clause(
             status, min_duration_ms, name_filter, trace_id_search, from_ts, to_ts
         )
-        query = f"SELECT * FROM traces{where}{self._order_clause(sort_by, sort_dir)} LIMIT ? OFFSET ?"
+        query = (
+            f"SELECT * FROM traces{where}{self._order_clause(sort_by, sort_dir)} LIMIT ? OFFSET ?"
+        )
         params.extend([limit, offset])
         with self._lock:
             rows = self._conn.execute(query, params).fetchall()
@@ -356,8 +354,14 @@ class TraceStore:
             cur = self._conn.execute(
                 "INSERT INTO feedback (trace_id, span_id, score, comment, author, created_at)"
                 " VALUES (?,?,?,?,?,?)",
-                (trace_id, span_id, int(score), comment or "", author,
-                 datetime.now(_tz.utc).isoformat()),
+                (
+                    trace_id,
+                    span_id,
+                    int(score),
+                    comment or "",
+                    author,
+                    datetime.now(_tz.utc).isoformat(),
+                ),
             )
             self._conn.commit()
             row = self._conn.execute(
@@ -375,7 +379,10 @@ class TraceStore:
 
     # -- Batch 2: comments per node + meta nullable + DELETE --
     def add_comment(
-        self, trace_id: str, comment: str, author: str = "",
+        self,
+        trace_id: str,
+        comment: str,
+        author: str = "",
         span_id: str | None = None,
     ) -> dict[str, Any]:
         from datetime import datetime, timezone as _tz
@@ -384,8 +391,7 @@ class TraceStore:
             cur = self._conn.execute(
                 "INSERT INTO comments (trace_id, span_id, author, comment, created_at)"
                 " VALUES (?,?,?,?,?)",
-                (trace_id, span_id, author, comment,
-                 datetime.now(_tz.utc).isoformat()),
+                (trace_id, span_id, author, comment, datetime.now(_tz.utc).isoformat()),
             )
             self._conn.commit()
             row = self._conn.execute(
@@ -416,13 +422,13 @@ class TraceStore:
     def delete_trace(self, trace_id: str) -> bool:
         """Xóa trace + spans + feedback + comments. Trả True nếu có xóa."""
         with self._lock:
-            cur = self._conn.execute("SELECT 1 FROM traces WHERE trace_id=?", (trace_id,)).fetchone()
+            cur = self._conn.execute(
+                "SELECT 1 FROM traces WHERE trace_id=?", (trace_id,)
+            ).fetchone()
             if cur is None:
                 return False
             for tbl in ("spans", "feedback", "comments", "traces"):
-                self._conn.execute(
-                    f"DELETE FROM {tbl} WHERE trace_id=?", (trace_id,)
-                )
+                self._conn.execute(f"DELETE FROM {tbl} WHERE trace_id=?", (trace_id,))
             self._conn.commit()
         return True
 

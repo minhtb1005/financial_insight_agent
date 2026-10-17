@@ -12,6 +12,7 @@ class Closable(Protocol):
 class Stoppable(Protocol):
     def stop(self) -> None: ...
 
+
 if TYPE_CHECKING:
     from infrastructure.cache.memory_cache import MemoryCache
     from infrastructure.cache.redis_cache import RedisCache
@@ -368,7 +369,13 @@ class Dependencies:
             from application.services.portfolio.news_sentiment_service import NewsSentimentService
 
             # Strict DI — ports must exist
-            if self.cache_port and self.market_data_port and self.company_port and self.financial_port and self.news_port:
+            if (
+                self.cache_port
+                and self.market_data_port
+                and self.company_port
+                and self.financial_port
+                and self.news_port
+            ):
                 set_service("price", PriceService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
                 set_service("compare", CompareService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
                 set_service("indicator", IndicatorService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore

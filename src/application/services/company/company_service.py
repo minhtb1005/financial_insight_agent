@@ -20,17 +20,43 @@ class CompanyService(BaseService):
 
     def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:
         getter = _FIELD_GETTERS.get(field, _FIELD_GETTERS["shareholders"])
-        return self._cached_fetch("company", ticker, lambda: getter(self._company, ticker), ttl_hours=COMPANY_TTL_HOURS, requested_field=field)
+        return self._cached_fetch(
+            "company",
+            ticker,
+            lambda: getter(self._company, ticker),
+            ttl_hours=COMPANY_TTL_HOURS,
+            requested_field=field,
+        )
 
 
 _COMPANY_FIELD_MAP = {
-    "shareholders": ["major_shareholders", "top_shareholders", "shareholder_list", "ownership_structure", "shareholder_info"],
-    "executives": ["executives", "management_team", "board_of_directors", "leadership", "key_personnel"],
-    "subsidiaries": ["subsidiaries", "affiliated_companies", "group_companies", "related_entities", "business_units"],
+    "shareholders": [
+        "major_shareholders",
+        "top_shareholders",
+        "shareholder_list",
+        "ownership_structure",
+        "shareholder_info",
+    ],
+    "executives": [
+        "executives",
+        "management_team",
+        "board_of_directors",
+        "leadership",
+        "key_personnel",
+    ],
+    "subsidiaries": [
+        "subsidiaries",
+        "affiliated_companies",
+        "group_companies",
+        "related_entities",
+        "business_units",
+    ],
 }
 
 
-def _get_company_field(port: CompanyPort, ticker: str, field: str, display_name: str) -> dict[str, Any]:
+def _get_company_field(
+    port: CompanyPort, ticker: str, field: str, display_name: str
+) -> dict[str, Any]:
     try:
         company_data = port.get_overview(ticker)
         if company_data is None or getattr(company_data, "empty", False):
@@ -38,15 +64,26 @@ def _get_company_field(port: CompanyPort, ticker: str, field: str, display_name:
         result_items = []
         for col in _COMPANY_FIELD_MAP.get(field, []):
             if col in getattr(company_data, "columns", []):
-                data = company_data[col].iloc[0] if hasattr(company_data, "iloc") else company_data.get(col)
+                data = (
+                    company_data[col].iloc[0]
+                    if hasattr(company_data, "iloc")
+                    else company_data.get(col)
+                )
                 if data is not None and str(data) != "nan":
                     result_items.append({"type": col, "data": data})
         if not result_items:
             basic_info = {}
             for col in ["company_name", "company_code", "industry", "sector"]:
                 if col in getattr(company_data, "columns", []):
-                    basic_info[col] = company_data[col].iloc[0] if hasattr(company_data, "iloc") else company_data.get(col)
-            return {"company_info": basic_info, "note": f"Detailed {display_name} information not available"}
+                    basic_info[col] = (
+                        company_data[col].iloc[0]
+                        if hasattr(company_data, "iloc")
+                        else company_data.get(col)
+                    )
+            return {
+                "company_info": basic_info,
+                "note": f"Detailed {display_name} information not available",
+            }
         return {display_name: result_items, f"total_{display_name}": len(result_items)}
     except Exception as e:
         return {"error": str(e)}
@@ -64,4 +101,5 @@ _get_company_field_with_ticker = _get_company_field
 
 def handle_company_query(tickers: list[str], field: str = "shareholders") -> dict[str, Any]:
     from shared.service_helpers import call_service
+
     return call_service("company", tickers=tickers, field=field)

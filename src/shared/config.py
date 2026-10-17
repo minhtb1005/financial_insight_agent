@@ -63,9 +63,15 @@ OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_EMBEDDING_MODEL: str = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
 # NVIDIA (primary chat + embedding; OpenAI kept as legacy fallback)
-NVIDIA_API_KEYS: list[str] = [k.strip() for k in (
-    os.getenv("NVIDIA_API_KEY"), os.getenv("NVIDIA_API_KEY2"), os.getenv("NVIDIA_API_KEY3"),
-) if k and k.strip()]
+NVIDIA_API_KEYS: list[str] = [
+    k.strip()
+    for k in (
+        os.getenv("NVIDIA_API_KEY"),
+        os.getenv("NVIDIA_API_KEY2"),
+        os.getenv("NVIDIA_API_KEY3"),
+    )
+    if k and k.strip()
+]
 NVIDIA_CHAT_MODEL: str = os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b")
 NVIDIA_EMBEDDING_MODEL: str = os.getenv("NVIDIA_EMBEDDING_MODEL", "nvidia/nemotron-3-embed-1b")
 NVIDIA_BASE_URL: str = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
@@ -105,6 +111,8 @@ DATABASE_URL: str = os.getenv(
     "DATABASE_URL",
     "sqlite+aiosqlite:///./data/app.db",
 )
+
+
 # Sync URL for alembic — use urllib.parse to preserve query params
 def _to_sync_url(url: str) -> str:
     if url.startswith("postgresql+asyncpg://"):
@@ -112,6 +120,7 @@ def _to_sync_url(url: str) -> str:
     if url.startswith("sqlite+aiosqlite://"):
         return url.replace("sqlite+aiosqlite://", "sqlite://", 1)
     return url
+
 
 DATABASE_SYNC_URL: str = os.getenv("DATABASE_SYNC_URL", _to_sync_url(DATABASE_URL))
 

@@ -52,7 +52,11 @@ def backfill(
         try:
             payload = port.get_price_data(ticker, start, end)
             if not isinstance(payload, dict) or "error" in payload or not payload.get("data"):
-                raise RuntimeError(str(payload.get("error", "empty data") if isinstance(payload, dict) else payload))
+                raise RuntimeError(
+                    str(
+                        payload.get("error", "empty data") if isinstance(payload, dict) else payload
+                    )
+                )
             n = store.upsert_prices(ticker, payload["data"], source="vnstock")
             store.set_meta(f"backfill_{ticker}", "done")
             logger.info("Backfilled %s: %d rows (%s..%s)", ticker, n, start, end)
@@ -88,7 +92,11 @@ def refresh_today(
         try:
             payload = port.get_price_data(ticker, start, end_s)
             if not isinstance(payload, dict) or "error" in payload or not payload.get("data"):
-                raise RuntimeError(str(payload.get("error", "empty data") if isinstance(payload, dict) else payload))
+                raise RuntimeError(
+                    str(
+                        payload.get("error", "empty data") if isinstance(payload, dict) else payload
+                    )
+                )
             n = store.upsert_prices(ticker, payload["data"], source="vnstock")
             refreshed.append((ticker, n))
         except Exception as e:

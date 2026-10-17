@@ -34,7 +34,12 @@ def start_scheduler() -> None:
                 logger.exception("RAG weekly job failed: %s", e)
 
         sched = BackgroundScheduler(timezone=ZoneInfo("Asia/Ho_Chi_Minh"))
-        sched.add_job(job, CronTrigger(day_of_week="sun", hour=2, minute=0), id="rag_weekly", replace_existing=True)
+        sched.add_job(
+            job,
+            CronTrigger(day_of_week="sun", hour=2, minute=0),
+            id="rag_weekly",
+            replace_existing=True,
+        )
         sched.start()
         _scheduler = sched
         logger.info("RAG scheduler started — weekly CN 02:00 Asia/Ho_Chi_Minh")

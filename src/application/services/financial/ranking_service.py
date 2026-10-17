@@ -56,12 +56,6 @@ class RankingService(BaseService):
             return {"error": str(e)}
 
 
-
-
-
-
-
-
 def perform_ranking(all_data: dict[str, Any], field: str, aggregate: str) -> dict[str, Any]:
     """Xếp hạng các mã chứng khoán dựa trên giá trị trường dữ liệu.
 
@@ -127,14 +121,27 @@ def perform_ranking(all_data: dict[str, Any], field: str, aggregate: str) -> dic
 
     return ranking
 
-def handle_ranking_query(tickers: list[str],
+
+def handle_ranking_query(
+    tickers: list[str],
     field: str = "close",
     aggregate: str = "max",
     days: int | None = None,
     weeks: int | None = None,
     months: int | None = None,
     start_date: str | None = None,
-    end_date: str | None = None,) -> dict[str, Any]:
+    end_date: str | None = None,
+) -> dict[str, Any]:
     from shared.service_helpers import call_service
-    return call_service("ranking", tickers=tickers, field=field, aggregate=aggregate, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date)
 
+    return call_service(
+        "ranking",
+        tickers=tickers,
+        field=field,
+        aggregate=aggregate,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
+    )

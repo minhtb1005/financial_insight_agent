@@ -103,9 +103,7 @@ class RatesStore:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.RLock()
-        self._conn = sqlite3.connect(
-            str(self.db_path), check_same_thread=False, timeout=30
-        )
+        self._conn = sqlite3.connect(str(self.db_path), check_same_thread=False, timeout=30)
         self._conn.row_factory = sqlite3.Row
         with self._lock:
             self._conn.execute("PRAGMA journal_mode=WAL")
@@ -114,7 +112,11 @@ class RatesStore:
 
     # -- deposit (daily listed) --
     def upsert_deposit(
-        self, bank: str, term_label: str, rate: float, date: str,
+        self,
+        bank: str,
+        term_label: str,
+        rate: float,
+        date: str,
         source: str = "sbv",
     ) -> None:
         with self._lock:
@@ -127,7 +129,10 @@ class RatesStore:
             self._conn.commit()
 
     def get_deposit(
-        self, bank: str | None = None, start: str = "", end: str = "",
+        self,
+        bank: str | None = None,
+        start: str = "",
+        end: str = "",
     ) -> list[dict[str, Any]]:
         q = "SELECT bank, term_label, rate, date, crawled_at, source FROM deposit_listed WHERE 1=1"
         p: list[Any] = []
@@ -147,7 +152,11 @@ class RatesStore:
 
     # -- lending (weekly listed) --
     def upsert_lending(
-        self, bank: str, loan_type: str, rate: float, date: str,
+        self,
+        bank: str,
+        loan_type: str,
+        rate: float,
+        date: str,
         source: str = "sbv",
     ) -> None:
         with self._lock:
@@ -160,7 +169,10 @@ class RatesStore:
             self._conn.commit()
 
     def get_lending(
-        self, bank: str | None = None, start: str = "", end: str = "",
+        self,
+        bank: str | None = None,
+        start: str = "",
+        end: str = "",
     ) -> list[dict[str, Any]]:
         q = "SELECT bank, loan_type, rate, date, crawled_at, source FROM lending_listed WHERE 1=1"
         p: list[Any] = []
@@ -180,7 +192,11 @@ class RatesStore:
 
     # -- avg monthly (SBV, keep forever) --
     def upsert_avg(
-        self, category: str, month: str, value: float, source: str = "sbv",
+        self,
+        category: str,
+        month: str,
+        value: float,
+        source: str = "sbv",
     ) -> None:
         with self._lock:
             self._conn.execute(
@@ -192,7 +208,10 @@ class RatesStore:
             self._conn.commit()
 
     def get_avg(
-        self, category: str | None = None, start: str = "", end: str = "",
+        self,
+        category: str | None = None,
+        start: str = "",
+        end: str = "",
     ) -> list[dict[str, Any]]:
         q = "SELECT category, month, value, crawled_at, source FROM avg_rates_monthly WHERE 1=1"
         p: list[Any] = []
@@ -212,7 +231,10 @@ class RatesStore:
 
     # -- policy (SBV operating rates, keep forever) --
     def upsert_policy(
-        self, rate_name: str, value: float, effective_date: str,
+        self,
+        rate_name: str,
+        value: float,
+        effective_date: str,
         source: str = "sbv",
     ) -> None:
         with self._lock:
@@ -244,7 +266,11 @@ class RatesStore:
 
     # -- vnibor daily --
     def upsert_vnibor(
-        self, term_label: str, rate: float, date: str, source: str = "sbv",
+        self,
+        term_label: str,
+        rate: float,
+        date: str,
+        source: str = "sbv",
     ) -> None:
         with self._lock:
             self._conn.execute(
@@ -271,7 +297,11 @@ class RatesStore:
 
     # -- banks meta (long-lived) --
     def upsert_bank(
-        self, bank_code: str, name: str, extra: str = "", source: str = "sbv",
+        self,
+        bank_code: str,
+        name: str,
+        extra: str = "",
+        source: str = "sbv",
     ) -> None:
         with self._lock:
             self._conn.execute(
@@ -297,9 +327,7 @@ class RatesStore:
             raise ValueError(f"no purgeable date column for {table!r}")
         col = _DATE_COL[table]
         with self._lock:
-            cur = self._conn.execute(
-                f"DELETE FROM {table} WHERE {col} < ?", (cutoff,)
-            )
+            cur = self._conn.execute(f"DELETE FROM {table} WHERE {col} < ?", (cutoff,))
             self._conn.commit()
             return cur.rowcount or 0
 
@@ -313,7 +341,9 @@ class RatesStore:
             if months is None:
                 out[table] = 0
                 continue
-            cutoff = (ref - timedelta(days=months * 30))  # ponytail: 30d/month approx, per-table months if finer needed
+            cutoff = ref - timedelta(
+                days=months * 30
+            )  # ponytail: 30d/month approx, per-table months if finer needed
             fmt = "%Y-%m" if table == "avg_rates_monthly" else "%Y-%m-%d"
             out[table] = self.purge_older_than(table, cutoff.strftime(fmt))
         return out
@@ -322,9 +352,7 @@ class RatesStore:
     def latest_fetch(self, table: str) -> str | None:
         col = "updated_at" if table == "banks_meta" else "crawled_at"
         with self._lock:
-            row = self._conn.execute(
-                f"SELECT MAX({col}) AS m FROM {table}"
-            ).fetchone()
+            row = self._conn.execute(f"SELECT MAX({col}) AS m FROM {table}").fetchone()
         return row["m"] if row and row["m"] else None
 
     def is_stale(self, table: str, max_age_hours: float) -> bool:
@@ -344,9 +372,7 @@ class RatesStore:
     # -- meta --
     def get_meta(self, key: str) -> str | None:
         with self._lock:
-            row = self._conn.execute(
-                "SELECT value FROM ingest_meta WHERE key=?", (key,)
-            ).fetchone()
+            row = self._conn.execute("SELECT value FROM ingest_meta WHERE key=?", (key,)).fetchone()
         return row["value"] if row else None
 
     def set_meta(self, key: str, value: str) -> None:

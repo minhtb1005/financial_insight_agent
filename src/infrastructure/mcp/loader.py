@@ -11,7 +11,9 @@ from infrastructure.observability import get_logger
 logger = get_logger("mcp.loader")
 
 MCP_URL = os.getenv("MCP_URL", os.getenv("MCP_SERVER_URL", "http://localhost:8001/mcp"))
-MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "streamable-http")  # stdio | sse | streamable-http | http
+MCP_TRANSPORT = os.getenv(
+    "MCP_TRANSPORT", "streamable-http"
+)  # stdio | sse | streamable-http | http
 
 
 def _connections_config() -> dict[str, Any]:

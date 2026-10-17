@@ -35,18 +35,28 @@ def rag_status(x_admin_token: str | None = Header(default=None, alias="X-Admin-T
     alias = alias_target()
     collections = list_collections()
     info = collection_info(alias) if alias else None
-    return {"alias": ALIAS, "alias_target": alias, "collections": collections, "alias_info": info, "last_runs": runs}
+    return {
+        "alias": ALIAS,
+        "alias_target": alias,
+        "collections": collections,
+        "alias_info": info,
+        "last_runs": runs,
+    }
 
 
 @router.post("/refresh")
-def rag_refresh(body: RefreshRequest, x_admin_token: str | None = Header(default=None, alias="X-Admin-Token")):
+def rag_refresh(
+    body: RefreshRequest, x_admin_token: str | None = Header(default=None, alias="X-Admin-Token")
+):
     _check_admin(x_admin_token)
     res = run_full_refresh(force=body.force, week=body.week)
     return res
 
 
 @router.get("/manifest/{week}")
-def rag_manifest(week: str, x_admin_token: str | None = Header(default=None, alias="X-Admin-Token")):
+def rag_manifest(
+    week: str, x_admin_token: str | None = Header(default=None, alias="X-Admin-Token")
+):
     _check_admin(x_admin_token)
     p = Path(f"data/rag/manifests/{week}.json")
     if not p.exists():

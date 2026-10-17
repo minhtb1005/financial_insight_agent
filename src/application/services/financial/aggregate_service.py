@@ -62,12 +62,6 @@ class AggregateService(BaseService):
             return {"error": str(e)}
 
 
-
-
-
-
-
-
 def perform_aggregation(
     all_data: dict[str, Any],
     field: str,
@@ -109,7 +103,9 @@ def perform_aggregation(
     sorted_values = sorted(all_values)
     n = len(sorted_values)
     overall_mean = sum(all_values) / n
-    overall_median = sorted_values[n // 2] if n % 2 else (sorted_values[n // 2 - 1] + sorted_values[n // 2]) / 2
+    overall_median = (
+        sorted_values[n // 2] if n % 2 else (sorted_values[n // 2 - 1] + sorted_values[n // 2]) / 2
+    )
     overall_std = calculate_std_dev(all_values)
     cv = (overall_std / overall_mean) * 100 if overall_mean and overall_mean == overall_mean else 0
 
@@ -136,7 +132,9 @@ def perform_aggregation(
 
     return aggregation
 
-def handle_aggregate_query(tickers: list[str],
+
+def handle_aggregate_query(
+    tickers: list[str],
     field: str = "close",
     aggregate: str = "mean",
     aggregate_fn: str | None = None,
@@ -144,9 +142,20 @@ def handle_aggregate_query(tickers: list[str],
     weeks: int | None = None,
     months: int | None = None,
     start_date: str | None = None,
-    end_date: str | None = None,) -> dict[str, Any]:
+    end_date: str | None = None,
+) -> dict[str, Any]:
     from shared.service_helpers import call_service
+
     # Support both param names for backward compat (tool used aggregate_fn, service uses aggregate)
     agg = aggregate_fn if aggregate_fn is not None else aggregate
-    return call_service("aggregate", tickers=tickers, field=field, aggregate=agg, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date)
-
+    return call_service(
+        "aggregate",
+        tickers=tickers,
+        field=field,
+        aggregate=agg,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
+    )

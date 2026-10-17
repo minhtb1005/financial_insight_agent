@@ -71,9 +71,7 @@ class MarketStore:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.RLock()
-        self._conn = sqlite3.connect(
-            str(self.db_path), check_same_thread=False, timeout=30
-        )
+        self._conn = sqlite3.connect(str(self.db_path), check_same_thread=False, timeout=30)
         self._conn.row_factory = sqlite3.Row
         with self._lock:
             self._conn.execute("PRAGMA journal_mode=WAL")
@@ -84,9 +82,7 @@ class MarketStore:
     # prices
     # ------------------------------------------------------------------
 
-    def get_prices(
-        self, ticker: str, start_date: str, end_date: str
-    ) -> list[dict[str, Any]]:
+    def get_prices(self, ticker: str, start_date: str, end_date: str) -> list[dict[str, Any]]:
         """Rows in [start_date, end_date] ordered by date (each has fetched_at)."""
         with self._lock:
             rows = self._conn.execute(
@@ -108,10 +104,19 @@ class MarketStore:
             date = str(r.get("date", ""))[:10]
             if not date:
                 continue
-            payload.append((
-                ticker, date, r.get("open"), r.get("high"), r.get("low"),
-                r.get("close"), r.get("volume"), source, now,
-            ))
+            payload.append(
+                (
+                    ticker,
+                    date,
+                    r.get("open"),
+                    r.get("high"),
+                    r.get("low"),
+                    r.get("close"),
+                    r.get("volume"),
+                    source,
+                    now,
+                )
+            )
         if not payload:
             return 0
         with self._lock:
@@ -151,10 +156,19 @@ class MarketStore:
             dt = str(r.get("datetime") or r.get("date") or "")[:16]
             if not dt:
                 continue
-            payload.append((
-                ticker, dt, r.get("open"), r.get("high"), r.get("low"),
-                r.get("close"), r.get("volume"), source, now,
-            ))
+            payload.append(
+                (
+                    ticker,
+                    dt,
+                    r.get("open"),
+                    r.get("high"),
+                    r.get("low"),
+                    r.get("close"),
+                    r.get("volume"),
+                    source,
+                    now,
+                )
+            )
         if not payload:
             return 0
         with self._lock:
@@ -174,8 +188,13 @@ class MarketStore:
                 " MAX(fetched_at) AS latest FROM prices_intraday WHERE ticker=?",
                 (ticker.upper(),),
             ).fetchone()
-        return {"ticker": ticker.upper(), "min_dt": row["dmin"],
-                "max_dt": row["dmax"], "rows": row["n"], "latest_fetch": row["latest"]}
+        return {
+            "ticker": ticker.upper(),
+            "min_dt": row["dmin"],
+            "max_dt": row["dmax"],
+            "rows": row["n"],
+            "latest_fetch": row["latest"],
+        }
 
     # ------------------------------------------------------------------
     # ratios
@@ -231,9 +250,7 @@ class MarketStore:
 
     def get_meta(self, key: str) -> str | None:
         with self._lock:
-            row = self._conn.execute(
-                "SELECT value FROM ingest_meta WHERE key=?", (key,)
-            ).fetchone()
+            row = self._conn.execute("SELECT value FROM ingest_meta WHERE key=?", (key,)).fetchone()
         return row["value"] if row else None
 
     def set_meta(self, key: str, value: str) -> None:
@@ -255,6 +272,18 @@ class MarketStore:
     @staticmethod
     def demo() -> None:  # pragma: no cover
         s = MarketStore(db_path=":memory:")
-        n = s.upsert_intraday("VCB", [{"datetime": "2026-10-15 10:00", "open": 1, "high": 2, "low": 1, "close": 2, "volume": 3}])
+        n = s.upsert_intraday(
+            "VCB",
+            [
+                {
+                    "datetime": "2026-10-15 10:00",
+                    "open": 1,
+                    "high": 2,
+                    "low": 1,
+                    "close": 2,
+                    "volume": 3,
+                }
+            ],
+        )
         assert n == 1 and s.intraday_coverage("VCB")["rows"] == 1
         s.close()

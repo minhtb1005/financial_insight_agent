@@ -143,7 +143,12 @@ class MemoryManager:
                 results["sliding"] = {"error": str(e)}
         if "episodic" in tiers:
             if self.episodic is None:
-                results["episodic"] = {"hits": [], "context": "", "count": 0, "error": "unavailable"}
+                results["episodic"] = {
+                    "hits": [],
+                    "context": "",
+                    "count": 0,
+                    "error": "unavailable",
+                }
             else:
                 try:
                     results["episodic"] = self.episodic.search_episodes(
@@ -174,7 +179,11 @@ class MemoryManager:
                 "previous_system_response": "",
                 "current_raw_query": raw_query,
             },
-            "sliding": {"turns": [], "summary": {"entities": [], "topics": [], "updated_at": None}, "count": 0},
+            "sliding": {
+                "turns": [],
+                "summary": {"entities": [], "topics": [], "updated_at": None},
+                "count": 0,
+            },
             "episodic": {"hits": [], "context": "", "count": 0},
         }
         if self.short_term:
@@ -207,7 +216,9 @@ class MemoryManager:
             return
         with self._cleanup_lock:
             now = datetime.now(timezone.utc)
-            if (now - self._last_cleanup).total_seconds() < self.config.cleanup_interval_hours * 3600:
+            if (
+                now - self._last_cleanup
+            ).total_seconds() < self.config.cleanup_interval_hours * 3600:
                 return
             self._perform_cleanup()
             self._last_cleanup = now
@@ -234,12 +245,16 @@ class MemoryManager:
         }
         if self.short_term:
             try:
-                stats["tiers"]["short_term"] = self.short_term.get_stats(user_id=self._validated_user_id(user_id))
+                stats["tiers"]["short_term"] = self.short_term.get_stats(
+                    user_id=self._validated_user_id(user_id)
+                )
             except Exception as e:
                 stats["tiers"]["short_term"] = {"error": str(e)}
         if self.episodic is not None:
             try:
-                stats["tiers"]["episodic"] = {"count": self.episodic.count(self._validated_user_id(user_id))}
+                stats["tiers"]["episodic"] = {
+                    "count": self.episodic.count(self._validated_user_id(user_id))
+                }
             except Exception as e:
                 stats["tiers"]["episodic"] = {"error": str(e)}
         return stats

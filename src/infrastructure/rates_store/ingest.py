@@ -21,8 +21,7 @@ from infrastructure.rates_store.store import RatesStore
 logger = logging.getLogger(__name__)
 
 POLICY_URL = (
-    "https://luatvietnam.vn/linh-vuc-khac/"
-    "lai-suat-dieu-hanh-la-gi-883-96788-article.html"
+    "https://luatvietnam.vn/linh-vuc-khac/" "lai-suat-dieu-hanh-la-gi-883-96788-article.html"
 )
 POLICY_EFFECTIVE_DATE = "2023-06-19"  # QĐ 1123/QĐ-NHNN
 POLICY_DECISION = "QĐ 1123/QĐ-NHNN"
@@ -66,7 +65,11 @@ def _fetch_text(url: str = POLICY_URL) -> tuple[str, str]:
     try:
         fr = fetch_url(url, delay=0.5, respect_robots_flag=False, verify=False)
         if fr.status == "ok" and fr.content:
-            html = fr.content if isinstance(fr.content, str) else fr.content.decode("utf-8", errors="ignore")
+            html = (
+                fr.content
+                if isinstance(fr.content, str)
+                else fr.content.decode("utf-8", errors="ignore")
+            )
             if "Request Rejected" not in html and "Just a moment" not in html:
                 text = clean_text(html_to_text(html))
                 if len(text) >= 200:
@@ -107,7 +110,12 @@ SEED_AVG: dict[str, float] = {"huy_dong_bq": 4.0, "cho_vay_bq": 8.5}
 
 # VNIBOR daily (đạt tối thiểu 5 kỳ hạn).
 SEED_VNIBOR: dict[str, float] = {
-    "ON": 4.3, "1W": 4.4, "2W": 4.5, "1M": 4.6, "3M": 4.8, "6M": 5.0,
+    "ON": 4.3,
+    "1W": 4.4,
+    "2W": 4.5,
+    "1M": 4.6,
+    "3M": 4.8,
+    "6M": 5.0,
 }
 
 # Metadata NH (đạt tối thiểu 5 NH).
@@ -125,40 +133,69 @@ def _hash_obj(parts: list[str]) -> str:
 
 
 def ingest_deposit_listed(
-    store: RatesStore | None = None, date: str = SEED_SNAPSHOT_DATE,
+    store: RatesStore | None = None,
+    date: str = SEED_SNAPSHOT_DATE,
     source: str = "seed:deposit_listed_2025-10",
 ) -> dict[str, Any]:
     """Snapshot huy động niêm yết 4 NH × 4 kỳ. Trùng hash → skipped."""
     store = store or RatesStore()
-    parts = [f"{b}/{t}={r}" for b, terms in sorted(SEED_DEPOSIT.items()) for t, r in sorted(terms.items())]
+    parts = [
+        f"{b}/{t}={r}"
+        for b, terms in sorted(SEED_DEPOSIT.items())
+        for t, r in sorted(terms.items())
+    ]
     sha = _hash_obj(parts + [date])
     if store.get_meta("deposit_listed_hash") == sha:
-        return {"skipped": True, "rows": sum(len(v) for v in SEED_DEPOSIT.values()), "source": source}
+        return {
+            "skipped": True,
+            "rows": sum(len(v) for v in SEED_DEPOSIT.values()),
+            "source": source,
+        }
     for bank, terms in SEED_DEPOSIT.items():
         for term, rate in terms.items():
             store.upsert_deposit(bank, term, rate, date, source=source)
     store.set_meta("deposit_listed_hash", sha)
-    return {"skipped": False, "rows": sum(len(v) for v in SEED_DEPOSIT.values()), "source": source, "date": date}
+    return {
+        "skipped": False,
+        "rows": sum(len(v) for v in SEED_DEPOSIT.values()),
+        "source": source,
+        "date": date,
+    }
 
 
 def ingest_lending_listed(
-    store: RatesStore | None = None, date: str = SEED_SNAPSHOT_DATE,
+    store: RatesStore | None = None,
+    date: str = SEED_SNAPSHOT_DATE,
     source: str = "seed:lending_listed_2025-10",
 ) -> dict[str, Any]:
     store = store or RatesStore()
-    parts = [f"{b}/{t}={r}" for b, types in sorted(SEED_LENDING.items()) for t, r in sorted(types.items())]
+    parts = [
+        f"{b}/{t}={r}"
+        for b, types in sorted(SEED_LENDING.items())
+        for t, r in sorted(types.items())
+    ]
     sha = _hash_obj(parts + [date])
     if store.get_meta("lending_listed_hash") == sha:
-        return {"skipped": True, "rows": sum(len(v) for v in SEED_LENDING.values()), "source": source}
+        return {
+            "skipped": True,
+            "rows": sum(len(v) for v in SEED_LENDING.values()),
+            "source": source,
+        }
     for bank, types in SEED_LENDING.items():
         for loan_type, rate in types.items():
             store.upsert_lending(bank, loan_type, rate, date, source=source)
     store.set_meta("lending_listed_hash", sha)
-    return {"skipped": False, "rows": sum(len(v) for v in SEED_LENDING.values()), "source": source, "date": date}
+    return {
+        "skipped": False,
+        "rows": sum(len(v) for v in SEED_LENDING.values()),
+        "source": source,
+        "date": date,
+    }
 
 
 def ingest_avg_rates(
-    store: RatesStore | None = None, month: str = SEED_AVG_MONTH,
+    store: RatesStore | None = None,
+    month: str = SEED_AVG_MONTH,
     source: str = "seed:sbv_avg_2025-09",
 ) -> dict[str, Any]:
     store = store or RatesStore()
@@ -172,7 +209,8 @@ def ingest_avg_rates(
 
 
 def ingest_vnibor(
-    store: RatesStore | None = None, date: str = SEED_VNIBOR_DATE,
+    store: RatesStore | None = None,
+    date: str = SEED_VNIBOR_DATE,
     source: str = "seed:vnibor_2025-10-14",
 ) -> dict[str, Any]:
     store = store or RatesStore()
@@ -186,7 +224,8 @@ def ingest_vnibor(
 
 
 def ingest_banks_meta(
-    store: RatesStore | None = None, source: str = "seed:banks_meta",
+    store: RatesStore | None = None,
+    source: str = "seed:banks_meta",
 ) -> dict[str, Any]:
     store = store or RatesStore()
     sha = _hash_obj([f"{k}={v}" for k, v in sorted(SEED_BANKS.items())])
@@ -208,6 +247,8 @@ def ingest_all_r1(store: RatesStore | None = None) -> dict[str, Any]:
         "vnibor": ingest_vnibor(store),
         "banks": ingest_banks_meta(store),
     }
+
+
 def ingest_policy_rates(
     store: RatesStore | None = None,
     text: str | None = None,
@@ -239,9 +280,7 @@ def ingest_policy_rates(
     for name, value in rates.items():
         store.upsert_policy(name, value, POLICY_EFFECTIVE_DATE, source=source)
     store.set_meta("policy_rates_hash", sha)
-    store.set_meta(
-        "policy_rates_last_run", datetime.now(timezone.utc).isoformat()
-    )
+    store.set_meta("policy_rates_last_run", datetime.now(timezone.utc).isoformat())
     return {
         "skipped": False,
         "rates": rates,

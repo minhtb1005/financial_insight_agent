@@ -25,14 +25,16 @@ class NewsAdapter(NewsPort):
             for _, row in df.iterrows():
                 get = row.get if hasattr(row, "get") else lambda k, d="": row[k] if k in row else d
                 content = get("news_short_content", "") or get("news_full_content", "")
-                out.append({
-                    "title": str(get("news_title", "") or ""),
-                    "content": str(content or get("news_title", "") or ""),
-                    "source": str(get("news_source", "") or "VCI"),
-                    "url": str(get("news_source_link", "") or ""),
-                    "date": str(get("public_date", "") or ""),
-                    "ticker": ticker,
-                })
+                out.append(
+                    {
+                        "title": str(get("news_title", "") or ""),
+                        "content": str(content or get("news_title", "") or ""),
+                        "source": str(get("news_source", "") or "VCI"),
+                        "url": str(get("news_source_link", "") or ""),
+                        "date": str(get("public_date", "") or ""),
+                        "ticker": ticker,
+                    }
+                )
             return out
         except Exception:
             return []

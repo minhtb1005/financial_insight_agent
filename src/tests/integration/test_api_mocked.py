@@ -69,7 +69,9 @@ class TestApiEndpointsMocked:
         assert "event: chunk" in response.text or "event: final" in response.text
 
     def test_ask_stream_long_query_success(self, client):
-        response = client.post("/ask-stream", json={"query": "Cho tôi giá cổ phiếu " + "VCB " * 100})
+        response = client.post(
+            "/ask-stream", json={"query": "Cho tôi giá cổ phiếu " + "VCB " * 100}
+        )
         assert response.status_code == 200
         events = _parse_sse_events(response)
         final = next((e for e in events if e["event"] == "final"), None)

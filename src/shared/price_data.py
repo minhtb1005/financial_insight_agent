@@ -9,7 +9,11 @@ from typing import Any
 
 from shared.service_registry import get_service
 
-warnings.warn("shared.price_data.get_price_data is deprecated — use MarketDataPort", DeprecationWarning, stacklevel=2)
+warnings.warn(
+    "shared.price_data.get_price_data is deprecated — use MarketDataPort",
+    DeprecationWarning,
+    stacklevel=2,
+)
 
 
 def get_price_data(
@@ -29,8 +33,11 @@ def get_price_data(
                 # Handle days param
                 if not start_date and days:
                     from datetime import datetime, timedelta, timezone
+
                     end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                    start_date = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%d")
+                    start_date = (datetime.now(timezone.utc) - timedelta(days=days)).strftime(
+                        "%Y-%m-%d"
+                    )
                 return svc._market_data.get_price_data(ticker, start_date or "", end_date or "")
         except Exception:
             pass

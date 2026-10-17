@@ -13,7 +13,13 @@ from .base import DEFAULT_DELAY, DEFAULT_UA, fetch_url, respect_robots
 logger = get_logger("rag.crawler")
 
 
-def crawl(start_url: str, max_pages: int = 30, delay: float = DEFAULT_DELAY, ua: str = DEFAULT_UA, respect_robots_flag: bool = True) -> list[dict[str, str]]:
+def crawl(
+    start_url: str,
+    max_pages: int = 30,
+    delay: float = DEFAULT_DELAY,
+    ua: str = DEFAULT_UA,
+    respect_robots_flag: bool = True,
+) -> list[dict[str, str]]:
     visited: set[str] = set()
     queue: list[str] = [start_url]
     results: list[dict[str, str]] = []
@@ -28,10 +34,16 @@ def crawl(start_url: str, max_pages: int = 30, delay: float = DEFAULT_DELAY, ua:
             logger.info("skip robots blocked %s", url)
             continue
         time.sleep(delay)
-        fr = fetch_url(url, delay=0, ua=ua, respect_robots_flag=False, verify=False)  # already checked, verify False for HNX
+        fr = fetch_url(
+            url, delay=0, ua=ua, respect_robots_flag=False, verify=False
+        )  # already checked, verify False for HNX
         if fr.status != "ok":
             continue
-        html = fr.content if isinstance(fr.content, str) else fr.content.decode("utf-8", errors="ignore")
+        html = (
+            fr.content
+            if isinstance(fr.content, str)
+            else fr.content.decode("utf-8", errors="ignore")
+        )
         results.append({"url": url, "html": html})
         # discover links (same domain)
         try:

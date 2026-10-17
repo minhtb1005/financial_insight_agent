@@ -192,9 +192,7 @@ class SerializationManager:
 
         return result
 
-    def get_compression_ratio(
-        self, data: Any, format: SerializationFormat | None = None
-    ) -> float:
+    def get_compression_ratio(self, data: Any, format: SerializationFormat | None = None) -> float:
         """Size ratio of ``format`` serialization vs plain JSON (>= 0).
 
         Returns 1.0 when both byte sizes are equal (e.g. JSON vs JSON) or

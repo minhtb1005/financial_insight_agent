@@ -20,4 +20,6 @@ def analyze_sector(
     metric: Annotated[str, Field(description="performance|volume")] = "performance",
     timeframe: Annotated[str, Field(description="1w|1m...")] = "1w",
 ) -> str:
-    return call_service("analyze_sector", handle_sector_query, sector=sector, metric=metric, timeframe=timeframe)
+    return call_service(
+        "analyze_sector", handle_sector_query, sector=sector, metric=metric, timeframe=timeframe
+    )

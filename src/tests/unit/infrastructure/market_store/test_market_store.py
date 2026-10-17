@@ -73,8 +73,7 @@ class TestMarketStore:
         assert store.coverage("VCB")["rows"] == 0
         store.upsert_prices("VCB", _rows(0, 2))
         cov = store.coverage("VCB")
-        assert (cov["min_date"], cov["max_date"], cov["rows"]) == (
-            "2024-06-24", "2024-06-25", 2)
+        assert (cov["min_date"], cov["max_date"], cov["rows"]) == ("2024-06-24", "2024-06-25", 2)
         assert cov["latest_fetch"]
         assert store.get_meta("k") is None
         store.set_meta("k", "v")
@@ -92,7 +91,8 @@ class TestCachedAdapter:
         store.upsert_prices("VCB", _rows(0, 5))
         inner = FakePort([])
         out = CachedMarketDataAdapter(inner, store).get_price_data(
-            "VCB", "2024-06-24", "2024-06-28")
+            "VCB", "2024-06-24", "2024-06-28"
+        )
         assert inner.calls == []
         assert out["source"] == "db"
         assert len(out["data"]) == 5
@@ -101,7 +101,8 @@ class TestCachedAdapter:
     def test_miss_fetches_and_caches(self, store):
         inner = FakePort(_rows(0, 2))
         out = CachedMarketDataAdapter(inner, store).get_price_data(
-            "VCB", "2024-06-24", "2024-06-25")
+            "VCB", "2024-06-24", "2024-06-25"
+        )
         assert len(inner.calls) == 1
         assert out["source"] == "vnstock"
         assert len(store.get_prices("VCB", "2024-06-24", "2024-06-25")) == 2
@@ -110,29 +111,37 @@ class TestCachedAdapter:
         store.upsert_prices("VCB", _rows(0, 2))
         inner = FakePort(_rows(0, 4))
         out = CachedMarketDataAdapter(inner, store).get_price_data(
-            "VCB", "2024-06-24", "2024-06-27")
+            "VCB", "2024-06-24", "2024-06-27"
+        )
         assert out["source"] == "mixed"
         assert [r["date"] for r in out["data"]] == [
-            "2024-06-24", "2024-06-25", "2024-06-26", "2024-06-27"]
+            "2024-06-24",
+            "2024-06-25",
+            "2024-06-26",
+            "2024-06-27",
+        ]
 
     def test_inner_error_empty_store_returns_error(self, store):
         inner = FakePort([], error="boom")
         out = CachedMarketDataAdapter(inner, store).get_price_data(
-            "VCB", "2024-06-24", "2024-06-25")
+            "VCB", "2024-06-24", "2024-06-25"
+        )
         assert "error" in out
 
     def test_inner_error_partial_store_returns_partial(self, store):
         store.upsert_prices("VCB", _rows(0, 1))
         inner = FakePort([], error="boom")
         out = CachedMarketDataAdapter(inner, store).get_price_data(
-            "VCB", "2024-06-24", "2024-06-25")
+            "VCB", "2024-06-24", "2024-06-25"
+        )
         assert out["source"] == "db-partial"
         assert len(out["data"]) == 1
 
     def test_non_daily_delegates(self, store):
         inner = FakePort(_rows(0, 1))
         out = CachedMarketDataAdapter(inner, store).get_price_data(
-            "VCB", "2024-06-24", "2024-06-24", interval="1h")
+            "VCB", "2024-06-24", "2024-06-24", interval="1h"
+        )
         assert out["source"] == "vnstock"
         assert store.coverage("VCB")["rows"] == 0
 

@@ -85,7 +85,8 @@ class TestCitations:
 
     def test_counts(self):
         ok, tot = citation_correctness(
-            ["src:deadbeef", "fake:00000000"], ["deadbeefcafe0001"], ["src"])
+            ["src:deadbeef", "fake:00000000"], ["deadbeefcafe0001"], ["src"]
+        )
         assert (ok, tot) == (1, 2)
 
 
@@ -104,7 +105,9 @@ class TestRefusal:
 
 class TestAnswerContains:
     def test_rate(self):
-        assert answer_contains_rate("Cổ phiếu  xác nhận quyền", ["cổ phiếu", "trái phiếu"]) == pytest.approx(0.5)
+        assert answer_contains_rate(
+            "Cổ phiếu  xác nhận quyền", ["cổ phiếu", "trái phiếu"]
+        ) == pytest.approx(0.5)
 
     def test_empty_phrases_none(self):
         assert answer_contains_rate("bất kỳ", []) is None

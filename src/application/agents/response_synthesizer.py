@@ -40,9 +40,7 @@ class ResponseSynthesizer:
             resp = self._llm_provider.invoke_with_fallback(
                 [
                     SystemMessage(content=_get_synthesis_prompt()),
-                    HumanMessage(
-                        content=f"Câu hỏi gốc: {query}\n\nKết quả:\n{combined}"
-                    ),
+                    HumanMessage(content=f"Câu hỏi gốc: {query}\n\nKết quả:\n{combined}"),
                 ]
             )
             return resp.content if hasattr(resp, "content") else combined

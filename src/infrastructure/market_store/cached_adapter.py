@@ -26,9 +26,7 @@ def _norm_date(value: Any) -> str:
 
 
 class CachedMarketDataAdapter(MarketDataPort):
-    def __init__(
-        self, inner: MarketDataPort, store: MarketStore | None = None
-    ) -> None:
+    def __init__(self, inner: MarketDataPort, store: MarketStore | None = None) -> None:
         self._inner = inner
         self._store = store or MarketStore()
 
@@ -64,16 +62,12 @@ class CachedMarketDataAdapter(MarketDataPort):
         self._store.upsert_prices(ticker, fresh.get("data", []), source="vnstock")
         merged = self._store.get_prices(ticker, start_date, end_date) or cached
         grew = bool(cached) and len(merged) > len(cached)
-        return self._shape(
-            ticker, merged, start_date, end_date, "mixed" if grew else "vnstock"
-        )
+        return self._shape(ticker, merged, start_date, end_date, "mixed" if grew else "vnstock")
 
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _missing_dates(
-        start_date: str, end_date: str, have: set[str]
-    ) -> list[str]:
+    def _missing_dates(start_date: str, end_date: str, have: set[str]) -> list[str]:
         """Missing dates in [start_date, end_date]; caller fetches one span."""
         try:
             start = date.fromisoformat(start_date[:10])

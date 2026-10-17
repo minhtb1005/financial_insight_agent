@@ -50,12 +50,14 @@ def test_db_miss_falls_back_to_live(tmp_path):
 
     class LivePort(FinancialPort):
         def get_financial_statement(self, ticker):
-            return pd.DataFrame({
-                "item": ["P/E"],
-                "item_en": ["Price to Earning"],
-                "item_id": ["price_to_earning"],
-                "2024": [11.0],
-            })
+            return pd.DataFrame(
+                {
+                    "item": ["P/E"],
+                    "item_en": ["Price to Earning"],
+                    "item_id": ["price_to_earning"],
+                    "2024": [11.0],
+                }
+            )
 
         def get_market_data(self, ticker):
             return {}

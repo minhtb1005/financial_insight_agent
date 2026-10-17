@@ -81,9 +81,9 @@ def mem():
 
 def _seed(mem, n, user_id="u1"):
     for i in range(n):
-        assert mem.add_interaction(
-            user_query=f"q{i}", agent_response=f"r{i}", user_id=user_id
-        ) is True
+        assert (
+            mem.add_interaction(user_query=f"q{i}", agent_response=f"r{i}", user_id=user_id) is True
+        )
 
 
 # -- Working memory -----------------------------------------------------------

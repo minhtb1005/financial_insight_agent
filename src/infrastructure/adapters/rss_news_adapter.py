@@ -63,8 +63,7 @@ def _clean(text: str, limit: int = _EXCERPT_CHARS) -> str:
 def _mentions(text: str, ticker: str) -> bool:
     candidates = (ticker, *TICKER_ALIASES.get(ticker.upper(), ()))
     return any(
-        re.search(rf"\b{re.escape(alias)}\b", text or "", re.IGNORECASE)
-        for alias in candidates
+        re.search(rf"\b{re.escape(alias)}\b", text or "", re.IGNORECASE) for alias in candidates
     )
 
 
@@ -113,9 +112,7 @@ class RssNewsAdapter(NewsPort):
                 continue
             for entry in feed.entries[:_MAX_ENTRIES_PER_FEED]:
                 title = _clean(getattr(entry, "title", ""), 300)
-                summary = _clean(
-                    getattr(entry, "summary", getattr(entry, "description", ""))
-                )
+                summary = _clean(getattr(entry, "summary", getattr(entry, "description", "")))
                 if not (_mentions(title, ticker) or _mentions(summary, ticker)):
                     continue
                 link = getattr(entry, "link", "")
@@ -123,14 +120,16 @@ class RssNewsAdapter(NewsPort):
                     continue
                 seen.add(link)
                 published = getattr(entry, "published", "") or getattr(entry, "updated", "")
-                out.append({
-                    "title": title,
-                    "content": summary,  # excerpt only (copyright)
-                    "source": site,
-                    "url": link,
-                    "date": _to_iso(published),
-                    "ticker": ticker,
-                })
+                out.append(
+                    {
+                        "title": title,
+                        "content": summary,  # excerpt only (copyright)
+                        "source": site,
+                        "url": link,
+                        "date": _to_iso(published),
+                        "ticker": ticker,
+                    }
+                )
         return out
 
 
@@ -159,8 +158,9 @@ class CombinedNewsAdapter(NewsPort):
     Blank articles (no title and no content) are dropped — they carry no signal.
     """
 
-    def __init__(self, primary: NewsPort, secondary: NewsPort | None = None,
-                 max_articles: int = 60) -> None:
+    def __init__(
+        self, primary: NewsPort, secondary: NewsPort | None = None, max_articles: int = 60
+    ) -> None:
         self._primary = primary
         self._secondary = secondary
         self._max = max_articles

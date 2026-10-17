@@ -26,12 +26,14 @@ class _FakeFinance:
             raise ConnectionError("upstream down")
         if self._source == "KBS":
             raise ConnectionError("stale primary")
-        return pd.DataFrame({
-            "item": ["P/E", "ROE"],
-            "item_en": ["Price to Earning", "Return on Equity"],
-            "item_id": ["price_to_earning", "roe"],
-            "2024": [15.5, 18.2],
-        })
+        return pd.DataFrame(
+            {
+                "item": ["P/E", "ROE"],
+                "item_en": ["Price to Earning", "Return on Equity"],
+                "item_id": ["price_to_earning", "roe"],
+                "2024": [15.5, 18.2],
+            }
+        )
 
 
 def test_adapter_uses_finance_ratio_not_company(monkeypatch):

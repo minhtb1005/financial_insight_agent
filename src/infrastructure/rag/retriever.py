@@ -38,7 +38,7 @@ def search_knowledge(query: str, top_k: int = 5, min_score: float = 0.3) -> dict
     # filter by score and rerank by priority (lower priority number = higher trust)
     filtered = [h for h in hits if (h.get("score") or 0) >= min_score]
     # sort by priority then score descending
-    filtered.sort(key=lambda h: (h.get("payload", {}).get("priority", 99), - (h.get("score") or 0)))
+    filtered.sort(key=lambda h: (h.get("payload", {}).get("priority", 99), -(h.get("score") or 0)))
 
     contexts = []
     for h in filtered[:top_k]:

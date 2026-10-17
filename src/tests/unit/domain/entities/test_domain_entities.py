@@ -128,8 +128,3 @@ def test_subtract_months_many():
     result = TimeRange.subtract_months(datetime(2026, 3, 10), 18)
     assert result.year == 2024
     assert result.month == 9
-
-
-
-
-

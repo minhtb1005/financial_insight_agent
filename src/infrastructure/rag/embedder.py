@@ -38,9 +38,7 @@ class Embedder:
             try:
                 from openai import OpenAI
 
-                self._nvidia_client = OpenAI(
-                    base_url=NVIDIA_BASE_URL, api_key=self._pool.keys[0]
-                )
+                self._nvidia_client = OpenAI(base_url=NVIDIA_BASE_URL, api_key=self._pool.keys[0])
             except Exception as e:
                 logger.warning("NVIDIA embed init failed: %s", e)
         key = os.getenv("OPENAI_API_KEY")
@@ -85,9 +83,14 @@ class Embedder:
                 if "400" not in str(e) and "status_code" not in type(e).__name__.lower():
                     # Only swallow 400-style rejections; re-raise auth/rate-limit.
                     etype = type(e).__name__
-                    if etype in ("AuthenticationError", "RateLimitError",
-                                 "InternalServerError", "ServiceUnavailableError",
-                                 "APITimeoutError", "APIConnectionError"):
+                    if etype in (
+                        "AuthenticationError",
+                        "RateLimitError",
+                        "InternalServerError",
+                        "ServiceUnavailableError",
+                        "APITimeoutError",
+                        "APIConnectionError",
+                    ):
                         raise
                 logger.info("input_type rejected, retrying plain: %s", e)
         resp = client.embeddings.create(model=self.model, input=batch)
@@ -115,11 +118,18 @@ class Embedder:
                             break
                         except Exception as e:
                             etype = type(e).__name__
-                            if etype in ("AuthenticationError", "RateLimitError",
-                                         "InternalServerError", "ServiceUnavailableError",
-                                         "APITimeoutError", "APIConnectionError"):
+                            if etype in (
+                                "AuthenticationError",
+                                "RateLimitError",
+                                "InternalServerError",
+                                "ServiceUnavailableError",
+                                "APITimeoutError",
+                                "APIConnectionError",
+                            ):
                                 status = getattr(e, "status_code", None)
-                                self._pool.report_failure(key, status if isinstance(status, int) else None)
+                                self._pool.report_failure(
+                                    key, status if isinstance(status, int) else None
+                                )
                                 continue
                             raise
                     if not done:
@@ -148,7 +158,9 @@ class Embedder:
                 raise
         if self._st_model:
             return self._st_model.encode(texts, normalize_embeddings=True).tolist()  # type: ignore
-        raise RuntimeError("No embedding provider available — set NVIDIA_API_KEY or OPENAI_API_KEY or install sentence-transformers")
+        raise RuntimeError(
+            "No embedding provider available — set NVIDIA_API_KEY or OPENAI_API_KEY or install sentence-transformers"
+        )
 
 
 def embed_query(query: str, embedder: Embedder | None = None) -> list[float]:

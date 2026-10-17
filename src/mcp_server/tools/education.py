@@ -31,17 +31,27 @@ def calculate_loan_schedule(
     months: Annotated[int, Field(description="Kỳ hạn tháng", ge=1)] = 12,
     extra_debts: Annotated[
         list[dict] | None,
-        Field(description="Các khoản nợ thêm [{name,balance,annual_rate_pct,min_payment}] để so sánh snowball/avalanche"),
+        Field(
+            description="Các khoản nợ thêm [{name,balance,annual_rate_pct,min_payment}] để so sánh snowball/avalanche"
+        ),
     ] = None,
-    monthly_budget: Annotated[float | None, Field(description="Tổng ngân sách trả nợ/tháng (bắt buộc nếu có extra_debts)")] = None,
+    monthly_budget: Annotated[
+        float | None, Field(description="Tổng ngân sách trả nợ/tháng (bắt buộc nếu có extra_debts)")
+    ] = None,
 ) -> str:
     def _impl() -> dict:
         out = edu.amortize_loan(principal, annual_rate_pct, months)
         if extra_debts:
             if not monthly_budget:
                 raise ValueError("monthly_budget required when extra_debts given")
-            debts = [{"name": "main", "balance": principal, "annual_rate_pct": annual_rate_pct,
-                      "min_payment": out["monthly_payment"]}] + list(extra_debts)
+            debts = [
+                {
+                    "name": "main",
+                    "balance": principal,
+                    "annual_rate_pct": annual_rate_pct,
+                    "min_payment": out["monthly_payment"],
+                }
+            ] + list(extra_debts)
             out["comparison"] = edu.compare_repayment(debts, monthly_budget)
         return out
 
@@ -52,8 +62,7 @@ def calculate_loan_schedule(
     name="calculate_future_value",
     description=(
         "Tính lãi kép (giá trị danh nghĩa + giá trị thực sau lạm phát) và chi phí sống "
-        "khi về hưu theo 3 kịch bản lạm phát. Trả JSON {nominal, real, retirement}."
-        + _EDU_SUFFIX
+        "khi về hưu theo 3 kịch bản lạm phát. Trả JSON {nominal, real, retirement}." + _EDU_SUFFIX
     ),
 )
 def calculate_future_value(
@@ -61,7 +70,9 @@ def calculate_future_value(
     annual_rate_pct: Annotated[float, Field(description="Lãi suất năm %")] = 6.0,
     years: Annotated[float, Field(description="Số năm", ge=0)] = 5,
     inflation_pct: Annotated[float, Field(description="Lạm phát năm %")] = 4.0,
-    monthly_cost_now: Annotated[float | None, Field(description="Chi phí sống/tháng hiện tại (để ước tính lúc hưu)")] = None,
+    monthly_cost_now: Annotated[
+        float | None, Field(description="Chi phí sống/tháng hiện tại (để ước tính lúc hưu)")
+    ] = None,
     years_to_retire: Annotated[float | None, Field(description="Số năm tới khi nghỉ hưu")] = None,
 ) -> str:
     def _impl() -> dict:
@@ -77,8 +88,7 @@ def calculate_future_value(
     name="calculate_pit",
     description=(
         "Tính thuế TNCN từ tiền lương theo biểu hiện hành (Luật 109/2025, kỳ 2026). "
-        "Kèm nguồn + ngày hiệu lực + câu đối chiếu trong output."
-        + _EDU_SUFFIX
+        "Kèm nguồn + ngày hiệu lực + câu đối chiếu trong output." + _EDU_SUFFIX
     ),
 )
 def calculate_pit(
@@ -86,15 +96,20 @@ def calculate_pit(
     dependents: Annotated[int, Field(description="Số người phụ thuộc", ge=0)] = 0,
     insurance: Annotated[float, Field(description="BHXH+BHYT+BHTN bắt buộc/tháng VND", ge=0)] = 0.0,
 ) -> str:
-    return call_service("calculate_pit", edu.calculate_pit, gross_monthly=gross_monthly, dependents=dependents, insurance=insurance)
+    return call_service(
+        "calculate_pit",
+        edu.calculate_pit,
+        gross_monthly=gross_monthly,
+        dependents=dependents,
+        insurance=insurance,
+    )
 
 
 @mcp.tool(
     name="budget_template",
     description=(
         "Lập ngân sách 50/30/20 + zero-based từ thu nhập ròng. "
-        "Gợi ý dùng generate_chart_spec (pie/donut) để vẽ cơ cấu."
-        + _EDU_SUFFIX
+        "Gợi ý dùng generate_chart_spec (pie/donut) để vẽ cơ cấu." + _EDU_SUFFIX
     ),
 )
 def budget_template(

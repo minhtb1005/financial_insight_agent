@@ -7,7 +7,6 @@ from shared.base_service import BaseService
 from shared.ports.market_data_port import MarketDataPort
 from shared.ports.cache_port import CachePort
 
-
 _INDICATOR_REGISTRY: dict[str, dict[str, Any]] = {
     "sma": {
         "default_params": [20],
@@ -111,7 +110,11 @@ class IndicatorService(BaseService):
 
             for name, cfg in _INDICATOR_REGISTRY.items():
                 if requested_field == name or (indicator_params and name in indicator_params):
-                    params = indicator_params.get(name, cfg["default_params"]) if indicator_params else cfg["default_params"]
+                    params = (
+                        indicator_params.get(name, cfg["default_params"])
+                        if indicator_params
+                        else cfg["default_params"]
+                    )
                     for p in params:
                         ticker_results[cfg["key_fn"](p)] = cfg["calc_fn"](data, p)
 
@@ -124,11 +127,6 @@ class IndicatorService(BaseService):
         except Exception as e:
             self.logger.error(f"Failed for {ticker}: {e}")
             return {"error": str(e)}
-
-
-
-
-
 
 
 def _fmt_date(value: Any) -> str:
@@ -235,6 +233,7 @@ def calculate_macd(
 
     return result
 
+
 def handle_indicator_query(
     tickers: list[str],
     indicator: str = "sma",
@@ -248,6 +247,7 @@ def handle_indicator_query(
     end_date: str | None = None,
 ) -> dict[str, Any]:
     from shared.service_helpers import call_service
+
     # Map indicator -> field + indicator_params (kept for backward compat with MCP tools)
     indicator_params: dict[str, Any] | None = {}
     if period is not None:
@@ -269,4 +269,3 @@ def handle_indicator_query(
         start_date=start_date,
         end_date=end_date,
     )
-

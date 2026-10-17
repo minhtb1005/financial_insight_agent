@@ -121,7 +121,11 @@ class EpisodicStore:
                 with_payload=True,
             )
             hits = [
-                {"id": getattr(p, "id", None), "score": getattr(p, "score", None), "payload": getattr(p, "payload", {})}
+                {
+                    "id": getattr(p, "id", None),
+                    "score": getattr(p, "score", None),
+                    "payload": getattr(p, "payload", {}),
+                }
                 for p in getattr(res, "points", res)
             ]
         except Exception as e:

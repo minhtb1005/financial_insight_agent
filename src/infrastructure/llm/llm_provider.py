@@ -10,19 +10,23 @@ from infrastructure.observability.logging.logger import request_id_var
 from infrastructure.observability.tracing import SpanKind, get_tracer
 from infrastructure.resilience.circuit_breaker import LLMUnavailableError, create_circuit_breaker
 
-_RETRYABLE_ERRORS = frozenset({
-    "RateLimitError",
-    "InternalServerError",
-    "ServiceUnavailableError",
-    "APITimeoutError",
-    "APIConnectionError",
-})
+_RETRYABLE_ERRORS = frozenset(
+    {
+        "RateLimitError",
+        "InternalServerError",
+        "ServiceUnavailableError",
+        "APITimeoutError",
+        "APIConnectionError",
+    }
+)
 
-_AUTH_ERRORS = frozenset({
-    "AuthenticationError",
-    "PermissionDeniedError",
-    "ForbiddenError",
-})
+_AUTH_ERRORS = frozenset(
+    {
+        "AuthenticationError",
+        "PermissionDeniedError",
+        "ForbiddenError",
+    }
+)
 
 logger = get_logger("llm_provider")
 
@@ -76,8 +80,15 @@ class NVIDIARotatingChat:
     never masks pool rotation by retrying a dead key.
     """
 
-    def __init__(self, pool, model: str | None = None, base_url: str | None = None,
-                 schema=None, method: str = "json_mode", tools=None):
+    def __init__(
+        self,
+        pool,
+        model: str | None = None,
+        base_url: str | None = None,
+        schema=None,
+        method: str = "json_mode",
+        tools=None,
+    ):
         from infrastructure.llm.nvidia_key_pool import get_pool
 
         self._pool = pool if pool is not None else get_pool()
@@ -92,16 +103,34 @@ class NVIDIARotatingChat:
         return self._model
 
     def with_structured_output(self, pydantic_object, method: str = "json_mode"):
-        return NVIDIARotatingChat(self._pool, self._model, self._base_url,
-                                  schema=pydantic_object, method=method, tools=self._tools)
+        return NVIDIARotatingChat(
+            self._pool,
+            self._model,
+            self._base_url,
+            schema=pydantic_object,
+            method=method,
+            tools=self._tools,
+        )
 
     def bind_tools(self, tools, **kwargs):  # noqa: ARG002
-        return NVIDIARotatingChat(self._pool, self._model, self._base_url,
-                                  schema=self._schema, method=self._method, tools=tools)
+        return NVIDIARotatingChat(
+            self._pool,
+            self._model,
+            self._base_url,
+            schema=self._schema,
+            method=self._method,
+            tools=tools,
+        )
 
     def _build(self, api_key: str):
-        llm = ChatOpenAI(base_url=self._base_url, api_key=api_key, model=self._model,
-                         temperature=0, max_tokens=4096, max_retries=0)
+        llm = ChatOpenAI(
+            base_url=self._base_url,
+            api_key=api_key,
+            model=self._model,
+            temperature=0,
+            max_tokens=4096,
+            max_retries=0,
+        )
         if self._schema is not None:
             llm = llm.with_structured_output(self._schema, method=self._method)
         if self._tools is not None:
@@ -166,14 +195,18 @@ class LLMChain:
             return "auth"
         return "unknown"
 
-    def _try_provider(self, provider_name: str, llm, cb, messages, kwargs, rid: str):  # noqa: PLR0917
+    def _try_provider(
+        self, provider_name: str, llm, cb, messages, kwargs, rid: str
+    ):  # noqa: PLR0917
         """Try a single provider. Returns (result, error) tuple."""
         try:
             start = time.time()
             result = llm.invoke(messages, **kwargs)
             cb.record_success()
             logger.info(
-                "%s %s LLM call succeeded", provider_name.title(), self._label,
+                "%s %s LLM call succeeded",
+                provider_name.title(),
+                self._label,
                 extra={
                     "request_id": rid,
                     "provider": provider_name,
@@ -210,7 +243,8 @@ class LLMChain:
 
         tracer = get_tracer()
         with tracer.start_span(
-            "llm_provider.chain", SpanKind.LLM,
+            "llm_provider.chain",
+            SpanKind.LLM,
             attributes={"request_id": rid, "label": self._label},
             inputs={"message_count": len(messages)},
         ) as span:
@@ -218,11 +252,15 @@ class LLMChain:
             groq_kwargs = self._filter_kwargs(kwargs, self._groq_kwarg_keys)
 
             if self._primary and self._openai_cb.acquire_permit():
-                result, err = self._try_provider("openai", self._primary, self._openai_cb, messages, openai_kwargs, rid)
+                result, err = self._try_provider(
+                    "openai", self._primary, self._openai_cb, messages, openai_kwargs, rid
+                )
                 if err is None:
                     if span is not None:
                         span.provider = "openai"
-                        span.model = getattr(self._primary, "model_name", None) or getattr(self._primary, "model", None)
+                        span.model = getattr(self._primary, "model_name", None) or getattr(
+                            self._primary, "model", None
+                        )
                         span.attributes["fallback_used"] = False
                     return result
                 last_error = err
@@ -230,7 +268,9 @@ class LLMChain:
                     span.attributes["openai_error"] = f"{type(err).__name__}: {err}"
 
             if self._fallback and self._groq_cb.acquire_permit():
-                result, err = self._try_provider("groq", self._fallback, self._groq_cb, messages, groq_kwargs, rid)
+                result, err = self._try_provider(
+                    "groq", self._fallback, self._groq_cb, messages, groq_kwargs, rid
+                )
                 if err is None:
                     if span is not None:
                         span.provider = "groq"

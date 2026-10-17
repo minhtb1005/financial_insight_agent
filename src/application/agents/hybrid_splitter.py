@@ -55,13 +55,13 @@ class HybridQuerySplitter:
         # Exclude Vietnamese abbreviations: Tp.HCM, ticker.Exchange (VCB.HNX),
         # decimal numbers (12.5%), and common abbreviations (e.g., etc.)
         _KNOWN_ABBREV = re.compile(
-            r"(?:Tp|tp|Thành phố|TP)\.[A-Z]|"         # Tp.HCM
-            r"[A-Z]{2,4}\.(HNX|HOSE|UPCOM)|"           # VCB.HNX
-            r"\d+\.\d+%?|"                              # 12.5 or 12.5%
-            r"[A-Z]\.\s*[A-Z]\.",                       # N.N. (initials)
+            r"(?:Tp|tp|Thành phố|TP)\.[A-Z]|"  # Tp.HCM
+            r"[A-Z]{2,4}\.(HNX|HOSE|UPCOM)|"  # VCB.HNX
+            r"\d+\.\d+%?|"  # 12.5 or 12.5%
+            r"[A-Z]\.\s*[A-Z]\.",  # N.N. (initials)
             re.IGNORECASE,
         )
-        if re.search(r'(?<![A-Za-z0-9])[.!?](?:\s|$)', text):
+        if re.search(r"(?<![A-Za-z0-9])[.!?](?:\s|$)", text):
             sentences = re.split(r"(?<=[.!?])\s+|(?<=[.!?])[\n\r]+", text)
             if len(sentences) > 1:
                 valid = [s.strip() for s in sentences if s.strip()]
@@ -78,7 +78,10 @@ class HybridQuerySplitter:
             # Same-action patterns: keep as one query
             #   "SMA9 và SMA20 của VIC" / "P/E và P/B của VCB"
             #   "lấy giá đóng cửa và khối lượng của VCB"
-            if re.search(r"(sma|ma|rsi|macd|pe|pb|roe|eps|giá|khối lượng|volume|close|open)\s*\d*\s*và\s*(sma|ma|rsi|macd|pe|pb|roe|eps|giá|khối lượng|volume|close|open)", original):
+            if re.search(
+                r"(sma|ma|rsi|macd|pe|pb|roe|eps|giá|khối lượng|volume|close|open)\s*\d*\s*và\s*(sma|ma|rsi|macd|pe|pb|roe|eps|giá|khối lượng|volume|close|open)",
+                original,
+            ):
                 return []
 
             count = sum(1 for w in _ACTION_WORDS if w in original)
@@ -91,7 +94,10 @@ class HybridQuerySplitter:
                     # Check if same action word appears in all parts → single intent
                     first_action = next((w for w in _ACTION_WORDS if w in parts[0].lower()), None)
                     if first_action:
-                        other_actions = [next((w for w in _ACTION_WORDS if w in p.lower()), None) for p in parts[1:]]
+                        other_actions = [
+                            next((w for w in _ACTION_WORDS if w in p.lower()), None)
+                            for p in parts[1:]
+                        ]
                         if all(a == first_action for a in other_actions):
                             return []
                     return parts

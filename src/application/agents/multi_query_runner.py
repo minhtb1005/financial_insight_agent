@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections.abc import Callable
 
 from shared.base_service import _MAX_WORKERS_CEILING
+
 logger = logging.getLogger(__name__)
 
 _PARALLEL_MAX_WORKERS = min(4, _MAX_WORKERS_CEILING)
@@ -38,8 +39,7 @@ def run_queries_parallel(
     max_workers = min(_PARALLEL_MAX_WORKERS, _MAX_WORKERS_CEILING, len(sub_queries))
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         fut_to_idx = {
-            pool.submit(_run_with_context, sq, request_id): i
-            for i, sq in enumerate(sub_queries)
+            pool.submit(_run_with_context, sq, request_id): i for i, sq in enumerate(sub_queries)
         }
         for fut in as_completed(fut_to_idx):
             i = fut_to_idx[fut]
@@ -49,8 +49,6 @@ def run_queries_parallel(
                 answers[i] = f"**Kết quả [{i + 1}] — {sq}**\n{ans}"
             except Exception as e:
                 logger.exception("Sub-query %d failed", i + 1, extra={"request_id": request_id})
-                answers[i] = (
-                    f"**Kết quả [{i + 1}] — {sq}**\nKhông thể lấy dữ liệu: {e}"
-                )
+                answers[i] = f"**Kết quả [{i + 1}] — {sq}**\nKhông thể lấy dữ liệu: {e}"
 
     return synthesize_fn(answers, original_query)

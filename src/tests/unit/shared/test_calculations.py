@@ -1,6 +1,5 @@
 """Unit tests for financial calculations."""
 
-
 import pytest
 from shared.utils.calculations import calculate_volatility, calculate_std_dev
 

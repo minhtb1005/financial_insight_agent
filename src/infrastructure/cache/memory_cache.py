@@ -294,7 +294,10 @@ class MemoryCache:
     def close(self) -> None:
         """Close cache with graceful thread shutdown."""
         self._stop_event.set()
-        if self._cleanup_thread.is_alive() and self._cleanup_thread is not threading.current_thread():
+        if (
+            self._cleanup_thread.is_alive()
+            and self._cleanup_thread is not threading.current_thread()
+        ):
             self._cleanup_thread.join(timeout=5)
         with self._lock:
             self._cache.clear()

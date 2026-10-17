@@ -15,9 +15,14 @@ class FakeCache(CachePort):
     def __init__(self, store=None):
         self._store = store or {}
 
-    def get(self, key): return self._store.get(key)
-    def set(self, key, value, ttl_hours=1.0): self._store[key] = value
-    def delete(self, key): self._store.pop(key, None)
+    def get(self, key):
+        return self._store.get(key)
+
+    def set(self, key, value, ttl_hours=1.0):
+        self._store[key] = value
+
+    def delete(self, key):
+        self._store.pop(key, None)
 
 
 class FakeCompanyPort(CompanyPort):
@@ -84,10 +89,12 @@ def test_sector_empty_returns_error():
 
 def test_sector_valid():
     svc = _make_service(
-        df=_overview([
-            {"ticker": "VCB", "sector": "banking"},
-            {"ticker": "VNM", "sector": "banking"},
-        ]),
+        df=_overview(
+            [
+                {"ticker": "VCB", "sector": "banking"},
+                {"ticker": "VNM", "sector": "banking"},
+            ]
+        ),
         rows=_prices([100.0, 102.0]),
     )
     result = svc.handle_query(sector="banking")
@@ -101,11 +108,15 @@ def test_sector_valid():
 
 
 def test_get_tickers_in_sector_matches():
-    svc = _make_service(df=_overview([
-        {"ticker": "VCB", "sector": "banking"},
-        {"ticker": "VNM", "sector": "banking"},
-        {"ticker": "HPG", "sector": "steel"},
-    ]))
+    svc = _make_service(
+        df=_overview(
+            [
+                {"ticker": "VCB", "sector": "banking"},
+                {"ticker": "VNM", "sector": "banking"},
+                {"ticker": "HPG", "sector": "steel"},
+            ]
+        )
+    )
     result = svc._get_tickers_in_sector("banking")
     assert "VCB" in result
     assert "VNM" in result

@@ -49,13 +49,34 @@ def respect_robots(url: str, ua: str = DEFAULT_UA) -> bool:
         return True
 
 
-def fetch_url(url: str, delay: float = DEFAULT_DELAY, ua: str = DEFAULT_UA, timeout: int = 30, respect_robots_flag: bool = True, verify: bool = False) -> FetchResult:
+def fetch_url(
+    url: str,
+    delay: float = DEFAULT_DELAY,
+    ua: str = DEFAULT_UA,
+    timeout: int = 30,
+    respect_robots_flag: bool = True,
+    verify: bool = False,
+) -> FetchResult:
     if respect_robots_flag and not respect_robots(url, ua):
-        return FetchResult(source_id="", url=url, content=b"", content_type="", etag=None, sha256="", fetched_at="", status="blocked_robots", error="Blocked by robots.txt")
+        return FetchResult(
+            source_id="",
+            url=url,
+            content=b"",
+            content_type="",
+            etag=None,
+            sha256="",
+            fetched_at="",
+            status="blocked_robots",
+            error="Blocked by robots.txt",
+        )
     time.sleep(delay)
     # Use browser-like headers to avoid 403 on some sites (thuvienphapluat, hnx)
     headers = {
-        "User-Agent": ua if "Mozilla" in ua else "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+        "User-Agent": (
+            ua
+            if "Mozilla" in ua
+            else "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+        ),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "vi,en;q=0.5",
     }
@@ -68,11 +89,39 @@ def fetch_url(url: str, delay: float = DEFAULT_DELAY, ua: str = DEFAULT_UA, time
         if "pdf" in ctype.lower() or url.lower().endswith(".pdf"):
             data = resp.content
             sha = sha256_bytes(data)
-            return FetchResult(source_id="", url=url, content=data, content_type=ctype or "application/pdf", etag=etag, sha256=sha, fetched_at="", status="ok")
+            return FetchResult(
+                source_id="",
+                url=url,
+                content=data,
+                content_type=ctype or "application/pdf",
+                etag=etag,
+                sha256=sha,
+                fetched_at="",
+                status="ok",
+            )
         else:
             text = resp.text
             sha = hashlib.sha256(text.encode("utf-8")).hexdigest()
-            return FetchResult(source_id="", url=url, content=text, content_type=ctype or "text/html", etag=etag, sha256=sha, fetched_at="", status="ok")
+            return FetchResult(
+                source_id="",
+                url=url,
+                content=text,
+                content_type=ctype or "text/html",
+                etag=etag,
+                sha256=sha,
+                fetched_at="",
+                status="ok",
+            )
     except Exception as e:
         logger.warning("fetch failed %s: %s", url, e)
-        return FetchResult(source_id="", url=url, content=b"", content_type="", etag=None, sha256="", fetched_at="", status="error", error=str(e))
+        return FetchResult(
+            source_id="",
+            url=url,
+            content=b"",
+            content_type="",
+            etag=None,
+            sha256="",
+            fetched_at="",
+            status="error",
+            error=str(e),
+        )

@@ -15,7 +15,9 @@ from shared.utils.cache_keys import make_cache_key
 SENTIMENT_ENGINE = os.getenv("SENTIMENT_ENGINE", "hf")
 
 
-def _score_articles(articles: list[dict], engine: str = SENTIMENT_ENGINE) -> tuple[float, dict[str, Any]]:
+def _score_articles(
+    articles: list[dict], engine: str = SENTIMENT_ENGINE
+) -> tuple[float, dict[str, Any]]:
     """Score articles with an engine; returns (avg_float, detail dict).
 
     Never raises for a single article — engines fall back to keyword.
@@ -29,13 +31,36 @@ def _score_articles(articles: list[dict], engine: str = SENTIMENT_ENGINE) -> tup
         content = a.get("content", "")
         kw_score = _classify_sentiment(f"{title} {content}")
         verdict = classify_article(title, content, engine=engine, keyword_score=kw_score)
-        details.append({"title": title, "label": verdict["label"], "score": verdict["score"], "rationale": verdict["rationale"], "engine": verdict["engine"]})
+        details.append(
+            {
+                "title": title,
+                "label": verdict["label"],
+                "score": verdict["score"],
+                "rationale": verdict["rationale"],
+                "engine": verdict["engine"],
+            }
+        )
         scores.append(float(verdict["score"]))
     avg = round(sum(scores) / len(scores), 4) if scores else 0.0
     label = "pos" if avg > 0 else ("neg" if avg < 0 else "neu")
     return avg, {"label": label, "score": avg, "engine": engine, "articles": details}
 
-_NEGATION_WORDS = frozenset({"không", "chẳng", "chưa", "đừng", "không phải", "không có", "not", "no", "never", "neither", "nor"})
+
+_NEGATION_WORDS = frozenset(
+    {
+        "không",
+        "chẳng",
+        "chưa",
+        "đừng",
+        "không phải",
+        "không có",
+        "not",
+        "no",
+        "never",
+        "neither",
+        "nor",
+    }
+)
 _WORD_SPLIT = re.compile(r"\w+|[^\w\s]")
 
 
@@ -64,8 +89,51 @@ def _is_negated(keyword: str, text_lower: str, window: int = 3) -> bool:
     return False
 
 
-_POSITIVE_KEYWORDS = {"tăng", "lợi nhuận", "doanh thu", "tích cực", "khả quan", "tăng trưởng", "mở rộng", "đầu tư", "cổ tức", "thưởng", "hợp tác", "chiến lược", "đột phá", "hiệu quả", "cải thiện", "phục hồi", "lãi", "thuận lợi", "triển vọng", "kỳ vọng", "mua vào", "outperform", "upgrade"}
-_NEGATIVE_KEYWORDS = {"giảm", "lỗ", "thua lỗ", "rủi ro", "tiêu cực", "cảnh báo", "khó khăn", "suy thoái", "khủng hoảng", "phá sản", "kiện tụng", "cắt lỗ", "bán ra", "thoái vốn", "nợ xấu", "mất thanh khoản", "downgrade", "underperform"}
+_POSITIVE_KEYWORDS = {
+    "tăng",
+    "lợi nhuận",
+    "doanh thu",
+    "tích cực",
+    "khả quan",
+    "tăng trưởng",
+    "mở rộng",
+    "đầu tư",
+    "cổ tức",
+    "thưởng",
+    "hợp tác",
+    "chiến lược",
+    "đột phá",
+    "hiệu quả",
+    "cải thiện",
+    "phục hồi",
+    "lãi",
+    "thuận lợi",
+    "triển vọng",
+    "kỳ vọng",
+    "mua vào",
+    "outperform",
+    "upgrade",
+}
+_NEGATIVE_KEYWORDS = {
+    "giảm",
+    "lỗ",
+    "thua lỗ",
+    "rủi ro",
+    "tiêu cực",
+    "cảnh báo",
+    "khó khăn",
+    "suy thoái",
+    "khủng hoảng",
+    "phá sản",
+    "kiện tụng",
+    "cắt lỗ",
+    "bán ra",
+    "thoái vốn",
+    "nợ xấu",
+    "mất thanh khoản",
+    "downgrade",
+    "underperform",
+}
 
 
 def _classify_sentiment(text: str) -> float:
@@ -190,10 +258,17 @@ class NewsSentimentService(BaseService):
             for ticker in tickers:
                 articles = news_by_ticker.get(ticker, [])
                 avg, detail = _score_articles(articles, engine=engine)
-                result[ticker] = {"news": articles, "sentiment": avg, "social_volume": len(articles), "sentiment_detail": detail}
+                result[ticker] = {
+                    "news": articles,
+                    "sentiment": avg,
+                    "social_volume": len(articles),
+                    "sentiment_detail": detail,
+                }
             return result
         except Exception as e:
-            self.logger.error("Error analyzing news sentiment for %s: %s", tickers, e, exc_info=True)
+            self.logger.error(
+                "Error analyzing news sentiment for %s: %s", tickers, e, exc_info=True
+            )
             return {"error": str(e)}
 
     def compare_news_sentiment(self, query: dict) -> dict[str, Any]:
@@ -227,7 +302,9 @@ class NewsSentimentService(BaseService):
             if compare_with and field not in (None, "sentiment", "all"):
                 return {"error": "Comparison only supported for sentiment field"}
             if compare_with:
-                return self.compare_news_sentiment({"tickers": tickers, "compare_with": compare_with})
+                return self.compare_news_sentiment(
+                    {"tickers": tickers, "compare_with": compare_with}
+                )
             time_kw: dict[str, Any] = {}
             if days is not None:
                 time_kw["days"] = days
@@ -254,4 +331,13 @@ def handle_news_sentiment_query(
     months: int | None = None,
 ) -> dict[str, Any]:
     from shared.service_helpers import call_service
-    return call_service("news", tickers=tickers, field=field, compare_with=compare_with, days=days, weeks=weeks, months=months)
+
+    return call_service(
+        "news",
+        tickers=tickers,
+        field=field,
+        compare_with=compare_with,
+        days=days,
+        weeks=weeks,
+        months=months,
+    )

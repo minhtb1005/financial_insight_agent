@@ -72,21 +72,25 @@ class TestDuplicateRates:
         assert res["retry_rate"] is None and res["wasteful_duplicate_rate"] is None
 
     def test_all_first_calls_zero_rates(self):
-        trace = _trace([
-            _span("get_stock_price", {"tickers": ["VCB"]}, '{"ok": 1}', started_at=1.0),
-            _span("rank_stocks", {"tickers": ["VCB"]}, '{"ok": 1}', started_at=2.0),
-        ])
+        trace = _trace(
+            [
+                _span("get_stock_price", {"tickers": ["VCB"]}, '{"ok": 1}', started_at=1.0),
+                _span("rank_stocks", {"tickers": ["VCB"]}, '{"ok": 1}', started_at=2.0),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["retry_rate"] == 0.0
         assert res["wasteful_duplicate_rate"] == 0.0
         assert res["total_tool_calls"] == 2
 
     def test_retry_after_error_not_waste(self):
-        trace = _trace([
-            _span("get_stock_price", {"a": 1}, "TOOL_ERR#TIMEOUT", started_at=1.0),
-            _span("get_stock_price", {"a": 1}, "TOOL_ERR#TIMEOUT", started_at=2.0),
-            _span("get_stock_price", {"a": 1}, '{"ok": 1}', started_at=3.0),
-        ])
+        trace = _trace(
+            [
+                _span("get_stock_price", {"a": 1}, "TOOL_ERR#TIMEOUT", started_at=1.0),
+                _span("get_stock_price", {"a": 1}, "TOOL_ERR#TIMEOUT", started_at=2.0),
+                _span("get_stock_price", {"a": 1}, '{"ok": 1}', started_at=3.0),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["retry_calls"] == 2
         assert res["wasteful_calls"] == 0
@@ -94,10 +98,12 @@ class TestDuplicateRates:
         assert res["wasteful_duplicate_rate"] == 0.0
 
     def test_repeat_after_success_is_wasteful(self):
-        trace = _trace([
-            _span("get_stock_price", {"a": 1}, '{"ok": 1}', started_at=1.0),
-            _span("get_stock_price", {"a": 1}, '{"ok": 1}', started_at=2.0),
-        ])
+        trace = _trace(
+            [
+                _span("get_stock_price", {"a": 1}, '{"ok": 1}', started_at=1.0),
+                _span("get_stock_price", {"a": 1}, '{"ok": 1}', started_at=2.0),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["retry_calls"] == 0
         assert res["wasteful_calls"] == 1
@@ -105,12 +111,14 @@ class TestDuplicateRates:
 
     def test_retry_then_repeat_counts_as_waste(self):
         # err -> retry(err) -> retry(ok) -> repeat(ok) = 2 retries + 1 wasteful
-        trace = _trace([
-            _span("t", {"a": 1}, "TOOL_ERR#x", started_at=1.0),
-            _span("t", {"a": 1}, "TOOL_ERR#x", started_at=2.0),
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=3.0),
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=4.0),
-        ])
+        trace = _trace(
+            [
+                _span("t", {"a": 1}, "TOOL_ERR#x", started_at=1.0),
+                _span("t", {"a": 1}, "TOOL_ERR#x", started_at=2.0),
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=3.0),
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=4.0),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["retry_calls"] == 2
         assert res["wasteful_calls"] == 1
@@ -118,37 +126,45 @@ class TestDuplicateRates:
         assert res["wasteful_duplicate_rate"] == 0.25
 
     def test_different_args_not_duplicates(self):
-        trace = _trace([
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0),
-            _span("t", {"a": 2}, '{"ok": 1}', started_at=2.0),
-        ])
+        trace = _trace(
+            [
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0),
+                _span("t", {"a": 2}, '{"ok": 1}', started_at=2.0),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["wasteful_duplicate_rate"] == 0.0
 
     def test_unordered_spans_sorted_by_time(self):
-        trace = _trace([
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=2.0),
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0),
-        ])
+        trace = _trace(
+            [
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=2.0),
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["wasteful_calls"] == 1
 
     def test_double_recorded_spans_ignored(self):
         # Older instrumentation recorded the same execution twice: once with
         # the invocation attribute, once without. Only one execution happened.
-        trace = _trace([
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0, invocation="first_call"),
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=1.1, invocation=None),
-        ])
+        trace = _trace(
+            [
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0, invocation="first_call"),
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=1.1, invocation=None),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["total_tool_calls"] == 1
         assert res["wasteful_duplicate_rate"] == 0.0
 
     def test_legacy_trace_without_invocation_counts_all(self):
-        trace = _trace([
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0, invocation=None),
-            _span("t", {"a": 1}, '{"ok": 1}', started_at=2.0, invocation=None),
-        ])
+        trace = _trace(
+            [
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=1.0, invocation=None),
+                _span("t", {"a": 1}, '{"ok": 1}', started_at=2.0, invocation=None),
+            ]
+        )
         res = duplicate_rates(trace)
         assert res["total_tool_calls"] == 2
         assert res["wasteful_calls"] == 1

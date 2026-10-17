@@ -103,7 +103,9 @@ _PORTFOLIO_FIELD_HANDLERS: dict[str, Callable[["PortfolioService"], dict[str, An
 
 
 class PortfolioService(BaseService):
-    def __init__(self, cache: CachePort, market_data: MarketDataPort, company_port: CompanyPort) -> None:
+    def __init__(
+        self, cache: CachePort, market_data: MarketDataPort, company_port: CompanyPort
+    ) -> None:
         """Khởi tạo PortfolioService — strict DI."""
         super().__init__("PortfolioService", cache, market_data)
         self._company = company_port
@@ -327,8 +329,11 @@ class PortfolioService(BaseService):
         except Exception as e:
             return {"error": str(e)}
 
-def handle_portfolio_query(field: str = "portfolio_summary",
-    portfolio: dict[str, int] | None = None,) -> dict[str, Any]:
-    from shared.service_helpers import call_service
-    return call_service("portfolio", field=field, portfolio=portfolio)
 
+def handle_portfolio_query(
+    field: str = "portfolio_summary",
+    portfolio: dict[str, int] | None = None,
+) -> dict[str, Any]:
+    from shared.service_helpers import call_service
+
+    return call_service("portfolio", field=field, portfolio=portfolio)

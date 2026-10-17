@@ -41,9 +41,7 @@ class RatesCachedAdapter:
     ) -> dict[str, Any]:
         """Đọc SQL-first; policy tự refresh khi stale/force, nhóm khác trả DB + stale flag."""
         if group == "policy":
-            if force_refresh or self._store.is_stale(
-                "policy_rates", STALE_HOURS["policy_rates"]
-            ):
+            if force_refresh or self._store.is_stale("policy_rates", STALE_HOURS["policy_rates"]):
                 from infrastructure.rates_store.ingest import ingest_policy_rates
 
                 try:
@@ -68,7 +66,10 @@ class RatesCachedAdapter:
             rows = self._store.get_banks()
             table = "banks_meta"
         else:
-            return {"error": f"unknown group: {group}", "valid_groups": ["policy", "deposit", "lending", "avg", "vnibor", "banks"]}
+            return {
+                "error": f"unknown group: {group}",
+                "valid_groups": ["policy", "deposit", "lending", "avg", "vnibor", "banks"],
+            }
         stale = self._store.is_stale(table, STALE_HOURS[table])
         return self._shape(group, rows, "db", stale=stale)
 
@@ -76,7 +77,11 @@ class RatesCachedAdapter:
     def _shape(
         group: str, rows: list[dict[str, Any]], source: str, stale: bool = False
     ) -> dict[str, Any]:
-        stamps = [r.get("crawled_at") or r.get("updated_at") for r in rows if r.get("crawled_at") or r.get("updated_at")]
+        stamps = [
+            r.get("crawled_at") or r.get("updated_at")
+            for r in rows
+            if r.get("crawled_at") or r.get("updated_at")
+        ]
         return {
             "group": group,
             "data": rows,

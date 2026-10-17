@@ -41,7 +41,9 @@ def compute_basic_stats(values: list[float]) -> dict[str, Any]:
     n = len(values)
     sorted_vals = sorted(values)
     mean_val = sum(values) / n
-    median_val = sorted_vals[n // 2] if n % 2 else (sorted_vals[n // 2 - 1] + sorted_vals[n // 2]) / 2
+    median_val = (
+        sorted_vals[n // 2] if n % 2 else (sorted_vals[n // 2 - 1] + sorted_vals[n // 2]) / 2
+    )
     return {
         "mean": mean_val,
         "min": min(values),

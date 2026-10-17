@@ -39,7 +39,9 @@ def _client() -> QdrantClient:
     if os.getenv("QDRANT_FORCE_LOCAL", "false").lower() in ("1", "true", "yes"):
         url = None
     if url:
-        return QdrantClient(url=url, api_key=api_key, timeout=30, prefer_grpc=False, check_compatibility=False)
+        return QdrantClient(
+            url=url, api_key=api_key, timeout=30, prefer_grpc=False, check_compatibility=False
+        )
     host = os.getenv("QDRANT_HOST", "localhost")
     port = int(os.getenv("QDRANT_PORT", "6333"))
     # For local docker, don't send cloud api_key (causes SSL confusion)
@@ -50,7 +52,15 @@ def _client() -> QdrantClient:
         local_api_key = None
     else:
         local_api_key = api_key if not url else None
-    return QdrantClient(host=host, port=port, api_key=local_api_key, timeout=30, prefer_grpc=False, check_compatibility=False, https=False)
+    return QdrantClient(
+        host=host,
+        port=port,
+        api_key=local_api_key,
+        timeout=30,
+        prefer_grpc=False,
+        check_compatibility=False,
+        https=False,
+    )
 
 
 def _week_label(dt: datetime | None = None) -> str:
@@ -78,7 +88,9 @@ def ensure_collection(name: str, dim: int = DEFAULT_DIM, recreate: bool = False)
         # payload indexes for filtering/rerank
         for field in ("priority", "source_id", "week"):
             try:
-                c.create_payload_index(collection_name=name, field_name=field, field_schema=PayloadSchemaType.KEYWORD)
+                c.create_payload_index(
+                    collection_name=name, field_name=field, field_schema=PayloadSchemaType.KEYWORD
+                )
             except Exception:
                 pass
 
@@ -115,7 +127,9 @@ def swap_alias(new_collection: str) -> None:
     current = alias_target()
     if current:
         ops.append(DeleteAliasOperation(delete_alias={"alias_name": ALIAS}))
-    ops.append(CreateAliasOperation(create_alias={"collection_name": new_collection, "alias_name": ALIAS}))
+    ops.append(
+        CreateAliasOperation(create_alias={"collection_name": new_collection, "alias_name": ALIAS})
+    )
     try:
         c.update_collection_aliases(change_aliases_operations=ops)
     except Exception:
@@ -139,7 +153,9 @@ def upsert_points(collection: str, points: list[dict[str, Any]], batch_size: int
         for p in batch:
             # p is dict with id/vector/payload
             if isinstance(p, dict):
-                struct_batch.append(PointStruct(id=p["id"], vector=p["vector"], payload=p["payload"]))
+                struct_batch.append(
+                    PointStruct(id=p["id"], vector=p["vector"], payload=p["payload"])
+                )
             else:
                 struct_batch.append(p)
         c.upsert(collection_name=collection, points=struct_batch)  # type: ignore
@@ -147,16 +163,36 @@ def upsert_points(collection: str, points: list[dict[str, Any]], batch_size: int
     return total
 
 
-def search(collection_or_alias: str, vector: list[float], top_k: int = 5, filter_priority: int | None = None) -> list[dict[str, Any]]:
+def search(
+    collection_or_alias: str,
+    vector: list[float],
+    top_k: int = 5,
+    filter_priority: int | None = None,
+) -> list[dict[str, Any]]:
     c = _client()
     flt = None
     if filter_priority is not None:
         from qdrant_client.http.models import Filter, FieldCondition, Range
-        flt = Filter(must=[FieldCondition(key="priority", range=Range(gte=None, lte=filter_priority))])
-    res = c.query_points(collection_name=collection_or_alias, query=vector, limit=top_k, query_filter=flt, with_payload=True)
+
+        flt = Filter(
+            must=[FieldCondition(key="priority", range=Range(gte=None, lte=filter_priority))]
+        )
+    res = c.query_points(
+        collection_name=collection_or_alias,
+        query=vector,
+        limit=top_k,
+        query_filter=flt,
+        with_payload=True,
+    )
     out = []
     for p in getattr(res, "points", res):
-        out.append({"id": getattr(p, "id", None), "score": getattr(p, "score", None), "payload": getattr(p, "payload", {})})
+        out.append(
+            {
+                "id": getattr(p, "id", None),
+                "score": getattr(p, "score", None),
+                "payload": getattr(p, "payload", {}),
+            }
+        )
     return out
 
 
@@ -202,6 +238,10 @@ def collection_info(name: str) -> dict[str, Any]:
     c = _client()
     try:
         info = c.get_collection(name)
-        return {"name": name, "points_count": getattr(info, "points_count", None), "vectors_count": getattr(info, "vectors_count", None)}
+        return {
+            "name": name,
+            "points_count": getattr(info, "points_count", None),
+            "vectors_count": getattr(info, "vectors_count", None),
+        }
     except Exception as e:
         return {"name": name, "error": str(e)}

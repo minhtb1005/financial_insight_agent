@@ -165,9 +165,7 @@ class OutputGuardrails:
         issues = []
 
         # Email detection with TLD validation (skip numeric-only TLDs)
-        email_pattern = re.compile(
-            r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,})"
-        )
+        email_pattern = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,})")
         for match in email_pattern.finditer(text):
             tld = match.group(1)
             if tld.isalpha() and len(tld) >= 2:
@@ -298,9 +296,11 @@ class OutputGuardrails:
                     )
                 )
         if issues:
-            status = ValidationResult.FAIL if any(
-                i.level == GuardrailLevel.HIGH for i in issues
-            ) else ValidationResult.WARNING
+            status = (
+                ValidationResult.FAIL
+                if any(i.level == GuardrailLevel.HIGH for i in issues)
+                else ValidationResult.WARNING
+            )
             return ValidationResultData(status=status, issues=issues)
         return ValidationResultData(status=ValidationResult.PASS, issues=issues)
 

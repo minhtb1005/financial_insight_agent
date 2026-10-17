@@ -124,7 +124,9 @@ def generate_chart_spec(
         ChartHint | None,
         Field(description="Loại chart user nói rõ, None nếu không nói"),
     ] = None,
-    symbols: Annotated[list[str], Field(description="Mã VN, ví dụ ['VNM']")] = ["VNM"],  # noqa: B006
+    symbols: Annotated[list[str], Field(description="Mã VN, ví dụ ['VNM']")] = [
+        "VNM"
+    ],  # noqa: B006
     metric: Annotated[str, Field(description="close/open/high/low/volume/pe/roe")] = "close",
     months: Annotated[int | None, Field(description="Số tháng gần nhất")] = 6,
     days: Annotated[int | None, Field(description="Số ngày gần nhất")] = None,
@@ -149,9 +151,7 @@ def generate_chart_spec(
             "title": f"{','.join(tickers)} — {user_request[:80]}",
             "x_field": x_field,
             "y_field": y_field,
-            "series": [
-                {"name": s, "type": chart_type, "data_ref": "rows"} for s in tickers[:4]
-            ],
+            "series": [{"name": s, "type": chart_type, "data_ref": "rows"} for s in tickers[:4]],
             "sort": {"field": x_field, "order": "ascending"},
             "legend": True,
             "annotations": [],

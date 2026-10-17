@@ -16,9 +16,14 @@ class FakeCache:
     def __init__(self, store=None):
         self._store = store or {}
 
-    def get(self, key): return self._store.get(key)
-    def set(self, key, value, ttl_hours=1.0): self._store[key] = value
-    def delete(self, key): self._store.pop(key, None)
+    def get(self, key):
+        return self._store.get(key)
+
+    def set(self, key, value, ttl_hours=1.0):
+        self._store[key] = value
+
+    def delete(self, key):
+        self._store.pop(key, None)
 
 
 class FakeMarketData(MarketDataPort):
@@ -57,6 +62,7 @@ def _price_rows(closes):
         for i, c in enumerate(closes)
     ]
 
+
 # -- handle_news_sentiment_query ------------------------------------------
 
 
@@ -70,14 +76,18 @@ def test_news_sentiment_empty_tickers_returns_error():
 def test_news_sentiment_valid_ticker():
     svc = NewsSentimentService(
         cache=FakeCache(),
-        news_port=FakeNewsPort([{
-            "title": "VCB kinh doanh kỷ lục",
-            "content": "Lợi nhuận tăng mạnh",
-            "source": "VnEconomy",
-            "url": "https://example.com",
-            "date": "2026-03-01",
-            "ticker": "VCB",
-        }]),
+        news_port=FakeNewsPort(
+            [
+                {
+                    "title": "VCB kinh doanh kỷ lục",
+                    "content": "Lợi nhuận tăng mạnh",
+                    "source": "VnEconomy",
+                    "url": "https://example.com",
+                    "date": "2026-03-01",
+                    "ticker": "VCB",
+                }
+            ]
+        ),
     )
 
     result = svc.handle_query(tickers=["VCB"], field="news")
@@ -268,11 +278,14 @@ def test_fetch_sector_and_price_missing_sector():
 
 @patch.object(PortfolioService, "_fetch_price")
 def test_get_portfolio_value_with_holdings(mock_fetch):
-    mock_fetch.return_value = {"ticker": "VCB", "quantity": 10, "current_price": 100.0, "value": 1000.0}
+    mock_fetch.return_value = {
+        "ticker": "VCB",
+        "quantity": 10,
+        "current_price": 100.0,
+        "value": 1000.0,
+    }
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {"VCB": 10}
         mock_pm.return_value.portfolio = {"holdings": {"VCB": 10}, "transactions": []}
         result = svc.get_portfolio_value({})
@@ -283,9 +296,7 @@ def test_get_portfolio_value_with_holdings(mock_fetch):
 @patch.object(PortfolioService, "_fetch_price")
 def test_get_portfolio_value_empty_holdings(mock_fetch):
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {}
         mock_pm.return_value.portfolio = {"holdings": {}, "transactions": []}
         result = svc.get_portfolio_value({})
@@ -302,9 +313,7 @@ def test_get_portfolio_value_skips_error_tickers(mock_fetch):
 
     mock_fetch.side_effect = fetch_side
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {"VCB": 10, "BAD": 5}
         mock_pm.return_value.portfolio = {"holdings": {"VCB": 10, "BAD": 5}, "transactions": []}
         result = svc.get_portfolio_value({})
@@ -371,9 +380,7 @@ def test_get_portfolio_allocation_multiple_sectors(mock_fetch):
 
     mock_fetch.side_effect = side_effect
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {"VCB": 10, "VNM": 5}
         mock_pm.return_value.portfolio = {"holdings": {"VCB": 10, "VNM": 5}, "transactions": []}
         result = svc.get_portfolio_allocation({})
@@ -384,9 +391,7 @@ def test_get_portfolio_allocation_multiple_sectors(mock_fetch):
 
 def test_get_portfolio_allocation_empty():
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {}
         mock_pm.return_value.portfolio = {"holdings": {}, "transactions": []}
         result = svc.get_portfolio_allocation({})
@@ -398,9 +403,7 @@ def test_get_portfolio_allocation_empty():
 def test_get_portfolio_allocation_single_sector(mock_fetch):
     mock_fetch.return_value = {"ticker": "VCB", "sector": "banking", "value": 1000.0}
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {"VCB": 10}
         mock_pm.return_value.portfolio = {"holdings": {"VCB": 10}, "transactions": []}
         result = svc.get_portfolio_allocation({})
@@ -412,9 +415,7 @@ def test_get_portfolio_allocation_single_sector(mock_fetch):
 
 def test_update_portfolio_new_ticker():
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {}
         mock_pm.return_value.portfolio = {"holdings": {}, "transactions": []}
         svc._update_portfolio_data({"VCB": 10})
@@ -423,9 +424,7 @@ def test_update_portfolio_new_ticker():
 
 def test_update_portfolio_existing_ticker():
     svc = _make_portfolio_service()
-    with patch(
-        "application.services.portfolio.portfolio_service.PortfolioManager"
-    ) as mock_pm:
+    with patch("application.services.portfolio.portfolio_service.PortfolioManager") as mock_pm:
         mock_pm.return_value.get_holdings.return_value = {"VCB": 5}
         mock_pm.return_value.portfolio = {"holdings": {"VCB": 5}, "transactions": []}
         svc._update_portfolio_data({"VCB": 10})
@@ -470,9 +469,7 @@ def test_handle_query_with_portfolio_data(mock_get_value):
     mock_get_value.return_value = {"portfolio_value": 1000.0}
     svc = _make_portfolio_service()
     with patch.object(svc, "_update_portfolio_data") as mock_update:
-        result = svc.handle_query(
-            requested_field="portfolio_value", portfolio={"VCB": 10}
-        )
+        result = svc.handle_query(requested_field="portfolio_value", portfolio={"VCB": 10})
     mock_update.assert_called_once_with({"VCB": 10})
     assert result["portfolio_value"] == 1000.0
 
@@ -511,9 +508,7 @@ def test_filter_articles_by_days():
         {"title": "old", "date": "2026-04-01"},
         {"title": "recent", "date": "2026-05-17"},
     ]
-    with patch(
-        "application.services.portfolio.news_sentiment_service.datetime"
-    ) as mock_dt:
+    with patch("application.services.portfolio.news_sentiment_service.datetime") as mock_dt:
         mock_dt.now.return_value = datetime(2026, 5, 19, 12, 0, 0, tzinfo=timezone.utc)
         mock_dt.fromisoformat = datetime.fromisoformat
         mock_dt.side_effect = lambda *a, **kw: datetime(*a, **kw)
@@ -623,9 +618,7 @@ def test_compare_news_sentiment_no_tickers():
 def test_compare_news_sentiment_basic(mock_sent):
     mock_sent.return_value = {"sentiment": {"VCB": 0.5, "VNM": -0.2}}
     svc = _make_news_service()
-    result = svc.compare_news_sentiment(
-        {"tickers": ["VCB"], "compare_with": ["VNM"]}
-    )
+    result = svc.compare_news_sentiment({"tickers": ["VCB"], "compare_with": ["VNM"]})
     assert result["VCB"] == 0.5
     assert result["VNM"] == -0.2
 
@@ -690,9 +683,7 @@ def test_dispatch_compare_sentiment_only():
         handle_news_sentiment_query,
     )
 
-    result = handle_news_sentiment_query(
-        tickers=["VCB"], compare_with=["VNM"], field="news"
-    )
+    result = handle_news_sentiment_query(tickers=["VCB"], compare_with=["VNM"], field="news")
     assert "error" in result
 
 
@@ -705,7 +696,5 @@ def test_dispatch_compare_valid(mock_compare):
         handle_news_sentiment_query,
     )
 
-    result = handle_news_sentiment_query(
-        tickers=["VCB"], compare_with=["VNM"], field="all"
-    )
+    result = handle_news_sentiment_query(tickers=["VCB"], compare_with=["VNM"], field="all")
     assert "VCB" in result

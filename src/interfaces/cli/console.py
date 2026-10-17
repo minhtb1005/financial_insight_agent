@@ -119,7 +119,11 @@ class ConsoleApp:
                         if not result.passed:
                             self.cli_logger.warning(
                                 "Guardrail blocked CLI query",
-                                extra={"query": query, "reason": result.reason, "request_id": request_id},
+                                extra={
+                                    "query": query,
+                                    "reason": result.reason,
+                                    "request_id": request_id,
+                                },
                             )
                             print(
                                 "⚠️  Yêu cầu của bạn không thể xử lý. Vui lòng thử lại với câu hỏi khác."
@@ -133,11 +137,17 @@ class ConsoleApp:
                         fut = self._executor.submit(self._run_agent, self.agent, query, request_id)
                         response = fut.result(timeout=120)
                     except concurrent.futures.TimeoutError:
-                        self.cli_logger.error("Agent run timed out", extra={"request_id": request_id})
-                        print("🔥 Yêu cầu xử lý quá lâu. Vui lòng thử lại với câu hỏi đơn giản hơn.")
+                        self.cli_logger.error(
+                            "Agent run timed out", extra={"request_id": request_id}
+                        )
+                        print(
+                            "🔥 Yêu cầu xử lý quá lâu. Vui lòng thử lại với câu hỏi đơn giản hơn."
+                        )
                         continue
                     except Exception as e:
-                        self.cli_logger.exception("Agent run failed", extra={"request_id": request_id})
+                        self.cli_logger.exception(
+                            "Agent run failed", extra={"request_id": request_id}
+                        )
                         print(f"🔥 Lỗi xử lý: {e!s}")
                         continue
 
@@ -174,6 +184,7 @@ def main():
 
     init_observability()
     from infrastructure.dependencies import init_deps
+
     init_deps()
     app = ConsoleApp(raw_output=args.raw)
 

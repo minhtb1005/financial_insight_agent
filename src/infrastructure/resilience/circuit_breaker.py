@@ -66,7 +66,10 @@ class CircuitBreaker:
                 return False
 
             if self.state == CircuitState.HALF_OPEN:
-                if time.time() - self.state_last_changed_at >= self.recovery_timeout and self.half_open_requests <= 0:
+                if (
+                    time.time() - self.state_last_changed_at >= self.recovery_timeout
+                    and self.half_open_requests <= 0
+                ):
                     logger.info("Circuit %s HALF_OPEN probe timed out — back to OPEN", self.name)
                     self.state = CircuitState.OPEN
                     self.state_last_changed_at = time.time()

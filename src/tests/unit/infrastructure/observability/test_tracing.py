@@ -131,21 +131,28 @@ class TestModelInfoExtraction:
 
     def test_openai_token_usage(self):
         resp = self._fake_response(
-            {"token_usage": {"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15},
-             "model_name": "gpt-4o-mini"},
+            {
+                "token_usage": {"prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15},
+                "model_name": "gpt-4o-mini",
+            },
             {},
         )
         info = _model_info_from_response(resp)
         assert info == {
-            "model": "gpt-4o-mini", "provider": "openai",
-            "prompt_tokens": 10, "completion_tokens": 5, "total_tokens": 15,
+            "model": "gpt-4o-mini",
+            "provider": "openai",
+            "prompt_tokens": 10,
+            "completion_tokens": 5,
+            "total_tokens": 15,
         }
 
     def test_groq_usage_fallback(self):
         resp = self._fake_response(
             {},
-            {"usage": {"prompt_tokens": 7, "completion_tokens": 3, "total_tokens": 10},
-             "model_name": "llama-3.1-8b-instant"},
+            {
+                "usage": {"prompt_tokens": 7, "completion_tokens": 3, "total_tokens": 10},
+                "model_name": "llama-3.1-8b-instant",
+            },
         )
         info = _model_info_from_response(resp)
         assert info["provider"] == "groq"
@@ -162,7 +169,9 @@ class TestTracingCallbackHandler:
 
         msgs = MagicMock()
         msgs.__iter__ = lambda self: iter([])
-        handler.on_chat_model_start({"id": ["langchain_openai", "ChatOpenAI"]}, [msgs], run_id=run_id)
+        handler.on_chat_model_start(
+            {"id": ["langchain_openai", "ChatOpenAI"]}, [msgs], run_id=run_id
+        )
 
         from langchain_core.messages import AIMessage
         from langchain_core.outputs import ChatGeneration, LLMResult
@@ -203,11 +212,18 @@ class TestTracingCallbackHandler:
         node_run = "node-run"
         llm_run = "llm-under-node"
 
-        handler.on_chain_start(None, {}, run_id=node_run,
-                               parent_run_id="agent-root", metadata={"langgraph_node": "reason"})
+        handler.on_chain_start(
+            None,
+            {},
+            run_id=node_run,
+            parent_run_id="agent-root",
+            metadata={"langgraph_node": "reason"},
+        )
         handler.on_chat_model_start(
-            {"id": ["langchain_openai", "chat_models", "ChatOpenAI"]}, [],
-            run_id=llm_run, parent_run_id=node_run,
+            {"id": ["langchain_openai", "chat_models", "ChatOpenAI"]},
+            [],
+            run_id=llm_run,
+            parent_run_id=node_run,
             metadata={"langgraph_node": "reason"},
         )
         handler.on_llm_end(MagicMock(), run_id=llm_run)

@@ -17,6 +17,13 @@ from application.services.financial.financial_ratio_service import handle_financ
 )
 def get_financial_ratios(
     tickers: Annotated[list[str], Field(description="Tickers")],
-    field: Annotated[str, Field(description="Ratio field: pe|pb|roe|eps|current_ratio|debt_to_equity|profit_margin|quick_ratio|asset_turnover|dividend_yield")] = "pe",
+    field: Annotated[
+        str,
+        Field(
+            description="Ratio field: pe|pb|roe|eps|current_ratio|debt_to_equity|profit_margin|quick_ratio|asset_turnover|dividend_yield"
+        ),
+    ] = "pe",
 ) -> str:
-    return call_service("get_financial_ratios", handle_financial_ratio_query, tickers=tickers, field=field)
+    return call_service(
+        "get_financial_ratios", handle_financial_ratio_query, tickers=tickers, field=field
+    )

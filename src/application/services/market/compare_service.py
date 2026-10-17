@@ -65,12 +65,6 @@ class CompareService(BaseService):
             return {"error": str(e)}
 
 
-
-
-
-
-
-
 def perform_comparison(
     main_data: dict[str, Any],
     compare_data: dict[str, Any],
@@ -204,14 +198,27 @@ def calculate_percentage_difference(
 
     return diff
 
-def handle_compare_query(tickers: list[str],
+
+def handle_compare_query(
+    tickers: list[str],
     compare_with: list[str],
     field: str = "close",
     days: int | None = None,
     weeks: int | None = None,
     months: int | None = None,
     start_date: str | None = None,
-    end_date: str | None = None,) -> dict[str, Any]:
+    end_date: str | None = None,
+) -> dict[str, Any]:
     from shared.service_helpers import call_service
-    return call_service("compare", tickers=tickers, compare_with=compare_with, field=field, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date)
 
+    return call_service(
+        "compare",
+        tickers=tickers,
+        compare_with=compare_with,
+        field=field,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
+    )

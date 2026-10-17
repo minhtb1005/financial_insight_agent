@@ -13,7 +13,12 @@ import mcp_server.tools  # noqa: F401
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Finsight MCP server")
-    parser.add_argument("--transport", choices=["stdio", "sse", "streamable-http"], default="stdio", help="Transport")
+    parser.add_argument(
+        "--transport",
+        choices=["stdio", "sse", "streamable-http"],
+        default="stdio",
+        help="Transport",
+    )
     parser.add_argument("--host", default=None)
     parser.add_argument("--port", type=int, default=None)
     args = parser.parse_args()

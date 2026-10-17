@@ -16,7 +16,9 @@ def _ensure_float(v, default: float = 0.0) -> float:
 
 
 class FinancialRatioService(BaseService):
-    def __init__(self, cache: CachePort, financial_port: FinancialPort, store: Any | None = None) -> None:
+    def __init__(
+        self, cache: CachePort, financial_port: FinancialPort, store: Any | None = None
+    ) -> None:
         super().__init__("financial_ratio_service", cache)
         self._financial = financial_port
         self._store = store
@@ -61,7 +63,9 @@ class FinancialRatioService(BaseService):
                             "data_as_of": snap["_fetched_at"],
                             "data_source": snap.get("_source", "db"),
                         }
-                    entry = _snapshot_entry(field, float(snap[field]), snap.get("_period"), freshness)
+                    entry = _snapshot_entry(
+                        field, float(snap[field]), snap.get("_period"), freshness
+                    )
                     if entry:
                         return entry
             except Exception:
@@ -69,7 +73,9 @@ class FinancialRatioService(BaseService):
         result = self._cached_fetch(
             "financial_ratio",
             ticker,
-            lambda: get_financial_ratios(self._financial, ticker, field, {"requested_field": field}, cache=self._cache),
+            lambda: get_financial_ratios(
+                self._financial, ticker, field, {"requested_field": field}, cache=self._cache
+            ),
             ttl_hours=RATIO_TTL_HOURS,
             ratio_type=field,
         )
@@ -79,12 +85,16 @@ class FinancialRatioService(BaseService):
                 payload = {
                     name: entry.get("value")
                     for name, entry in result.items()
-                    if isinstance(entry, dict) and entry.get("value") is not None
+                    if isinstance(entry, dict)
+                    and entry.get("value") is not None
                     and not str(name).startswith("data_")
                 }
                 period = next(
-                    (e.get("time_range") for e in result.values()
-                     if isinstance(e, dict) and e.get("time_range")),
+                    (
+                        e.get("time_range")
+                        for e in result.values()
+                        if isinstance(e, dict) and e.get("time_range")
+                    ),
                     None,
                 )
                 if payload:
@@ -92,11 +102,6 @@ class FinancialRatioService(BaseService):
             except Exception:
                 pass
         return result
-
-
-
-
-
 
 
 def get_pe_interpretation(pe_ratio: float) -> str:
@@ -281,7 +286,8 @@ _RATIO_ENTRIES: dict[str, dict[str, Any]] = {
     "quick_ratio": {
         "key": "quick_ratio",
         "extract": lambda row, market: {
-            "quick_assets": _ensure_float(row.get("cash_and_equivalents")) + _ensure_float(row.get("marketable_securities")),
+            "quick_assets": _ensure_float(row.get("cash_and_equivalents"))
+            + _ensure_float(row.get("marketable_securities")),
             "current_liabilities": _ensure_float(row.get("current_liabilities")),
         },
         "guard": lambda vals: vals["current_liabilities"] != 0,
@@ -337,7 +343,17 @@ _INTERPRET: dict[str, Any] = {
     "dividend_yield": get_dividend_yield_interpretation,
 }
 
-_FRAME_META_COLS = {"item", "item_en", "item_id", "unit", "levels", "row_number", "ticker", "quarter", "year"}
+_FRAME_META_COLS = {
+    "item",
+    "item_en",
+    "item_id",
+    "unit",
+    "levels",
+    "row_number",
+    "ticker",
+    "quarter",
+    "year",
+}
 
 
 def parse_ratio_frame(frame: Any) -> tuple[dict[str, float], str | None]:
@@ -378,7 +394,9 @@ def parse_ratio_frame(frame: Any) -> tuple[dict[str, float], str | None]:
         return {}, None
 
 
-def _snapshot_entry(field: str, value: float, period: str | None, freshness: dict[str, Any]) -> dict[str, Any]:
+def _snapshot_entry(
+    field: str, value: float, period: str | None, freshness: dict[str, Any]
+) -> dict[str, Any]:
     interpret = _INTERPRET.get(field)
     if interpret is None:
         return {}
@@ -395,7 +413,11 @@ def _snapshot_entry(field: str, value: float, period: str | None, freshness: dic
 
 
 def get_financial_ratios(
-    port: FinancialPort, ticker: str, ratio_type: str | None = None, parsed: dict[str, Any] | None = None, cache: CachePort | None = None
+    port: FinancialPort,
+    ticker: str,
+    ratio_type: str | None = None,
+    parsed: dict[str, Any] | None = None,
+    cache: CachePort | None = None,
 ) -> dict[str, Any]:
     """Lấy các chỉ số tài chính cho một mã chứng khoán — strict via FinancialPort."""
     try:
@@ -445,8 +467,11 @@ def get_financial_ratios(
     except Exception as e:
         return {"error": str(e)}
 
-def handle_financial_ratio_query(tickers: list[str],
-    field: str = "pe",) -> dict[str, Any]:
-    from shared.service_helpers import call_service
-    return call_service("financial_ratio", tickers=tickers, field=field)
 
+def handle_financial_ratio_query(
+    tickers: list[str],
+    field: str = "pe",
+) -> dict[str, Any]:
+    from shared.service_helpers import call_service
+
+    return call_service("financial_ratio", tickers=tickers, field=field)

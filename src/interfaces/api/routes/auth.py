@@ -20,7 +20,9 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    password: str = Field(..., min_length=8, max_length=128, description="Mật khẩu tối thiểu 8 ký tự")
+    password: str = Field(
+        ..., min_length=8, max_length=128, description="Mật khẩu tối thiểu 8 ký tự"
+    )
     name: str = Field("", max_length=100, description="Tên hiển thị")
     # role is ignored for public register — always 'user'; admin is seeded
 
@@ -98,7 +100,9 @@ async def login(
     result = await session.execute(select(User).where(User.email == email_norm))
     user = result.scalar_one_or_none()
     if user is None or not verify_password(body.password, user.hashed_password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Email hoặc mật khẩu không đúng")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Email hoặc mật khẩu không đúng"
+        )
     if not user.is_active:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Tài khoản đã bị khóa")
 

@@ -14,9 +14,14 @@ class FakeCache(CachePort):
     def __init__(self, store=None):
         self._store = store or {}
 
-    def get(self, key): return self._store.get(key)
-    def set(self, key, value, ttl_hours=1.0): self._store[key] = value
-    def delete(self, key): self._store.pop(key, None)
+    def get(self, key):
+        return self._store.get(key)
+
+    def set(self, key, value, ttl_hours=1.0):
+        self._store[key] = value
+
+    def delete(self, key):
+        self._store.pop(key, None)
 
 
 class FakeMarketData(MarketDataPort):

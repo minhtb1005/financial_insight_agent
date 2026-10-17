@@ -24,7 +24,9 @@ _MAX_RETRIES = 2
 _RETRY_DELAY = 1.0
 _CACHE_TTL = 3600  # 1 hour
 _CACHE_MAX = 512
-_cache: OrderedDict[tuple[str, str, str], tuple[float, tuple[str, list[str], list[str]]]] = OrderedDict()
+_cache: OrderedDict[tuple[str, str, str], tuple[float, tuple[str, list[str], list[str]]]] = (
+    OrderedDict()
+)
 _cache_lock = threading.Lock()
 
 _FALLBACK_PROMPT = (
@@ -80,7 +82,9 @@ class QueryReformulator:
         recent = []
         for t in turns[-2:]:
             if isinstance(t, dict):
-                recent.append(f"Hỏi: {t.get('user_query', '')} / Đáp: {t.get('agent_response', '')[:300]}")
+                recent.append(
+                    f"Hỏi: {t.get('user_query', '')} / Đáp: {t.get('agent_response', '')[:300]}"
+                )
         return {
             "query": raw_query,
             "prev_q": working.get("previous_user_query", ""),
@@ -160,7 +164,9 @@ class QueryReformulator:
                 logger.warning("Empty rewrite response — keeping raw query")
                 return raw_query, [], []
             except Exception as e:
-                logger.warning("LLM rewrite attempt %d/%d failed: %s", attempt + 1, 1 + _MAX_RETRIES, e)
+                logger.warning(
+                    "LLM rewrite attempt %d/%d failed: %s", attempt + 1, 1 + _MAX_RETRIES, e
+                )
                 if attempt < _MAX_RETRIES:
                     time.sleep(_RETRY_DELAY)
 

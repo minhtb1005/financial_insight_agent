@@ -19,4 +19,6 @@ def forecast_stock_price(
     tickers: Annotated[list[str], Field(description="Tickers")],
     timeframe: Annotated[str, Field(description="Horizon e.g. 1d|1w|1m")] = "1w",
 ) -> str:
-    return call_service("forecast_stock_price", handle_forecast_query, tickers=tickers, timeframe=timeframe)
+    return call_service(
+        "forecast_stock_price", handle_forecast_query, tickers=tickers, timeframe=timeframe
+    )

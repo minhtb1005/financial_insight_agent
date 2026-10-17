@@ -64,9 +64,7 @@ def start_market_scheduler() -> None:
         )
         sched.start()
         _scheduler = sched
-        logger.info(
-            "Market scheduler started — every %d min Asia/Ho_Chi_Minh", REFRESH_MINUTES
-        )
+        logger.info("Market scheduler started — every %d min Asia/Ho_Chi_Minh", REFRESH_MINUTES)
     except Exception as e:
         logger.warning("Failed to start market scheduler: %s", e)
 

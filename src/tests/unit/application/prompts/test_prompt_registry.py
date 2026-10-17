@@ -20,7 +20,9 @@ class TestBuiltinTemplates:
     def test_all_three_prompts_load(self):
         registry = get_registry()
         assert set(registry.names()) >= {
-            "agent_system", "response_synthesis", "query_splitter",
+            "agent_system",
+            "response_synthesis",
+            "query_splitter",
         }
 
     def test_default_version_is_pinned(self):
@@ -59,10 +61,14 @@ class TestRegistryLoading:
         (path / f"{name}.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
 
     def test_duplicate_versions_rejected(self, tmp_path):
-        self._write(tmp_path, "dup", [
-            {"version": "1", "template": "a"},
-            {"version": "1", "template": "b"},
-        ])
+        self._write(
+            tmp_path,
+            "dup",
+            [
+                {"version": "1", "template": "a"},
+                {"version": "1", "template": "b"},
+            ],
+        )
         with pytest.raises(PromptRegistryError, match="duplicate version"):
             PromptRegistry(base_dir=tmp_path)
 
@@ -72,27 +78,40 @@ class TestRegistryLoading:
             PromptRegistry(base_dir=tmp_path)
 
     def test_latest_stable_wins_without_pin(self, tmp_path):
-        self._write(tmp_path, "multi", [
-            {"version": "1.0", "template": "v1 {x}"},
-            {"version": "2.0", "status": "draft", "template": "v2 {x}"},
-            {"version": "1.5", "template": "v15 {x}"},
-        ])
+        self._write(
+            tmp_path,
+            "multi",
+            [
+                {"version": "1.0", "template": "v1 {x}"},
+                {"version": "2.0", "status": "draft", "template": "v2 {x}"},
+                {"version": "1.5", "template": "v15 {x}"},
+            ],
+        )
         registry = PromptRegistry(base_dir=tmp_path)
         assert registry.render("multi", x=1).text == "v15 1"
 
     def test_default_version_pin_respected(self, tmp_path):
-        self._write(tmp_path, "pinned", [
-            {"version": "1.0", "template": "one {x}"},
-            {"version": "2.0", "template": "two {x}"},
-        ], default="1.0")
+        self._write(
+            tmp_path,
+            "pinned",
+            [
+                {"version": "1.0", "template": "one {x}"},
+                {"version": "2.0", "template": "two {x}"},
+            ],
+            default="1.0",
+        )
         registry = PromptRegistry(base_dir=tmp_path)
         assert registry.render("pinned", x="?").version == "1.0"
 
     def test_explicit_draft_version_selectable(self, tmp_path):
-        self._write(tmp_path, "draft_ok", [
-            {"version": "1.0", "template": "stable"},
-            {"version": "2.0", "status": "draft", "template": "experimental {x}"},
-        ])
+        self._write(
+            tmp_path,
+            "draft_ok",
+            [
+                {"version": "1.0", "template": "stable"},
+                {"version": "2.0", "status": "draft", "template": "experimental {x}"},
+            ],
+        )
         registry = PromptRegistry(base_dir=tmp_path)
         rendered = registry.render("draft_ok", version="2.0", x=1)
         assert rendered.text == "experimental 1"
@@ -106,13 +125,17 @@ class TestRendering:
     @staticmethod
     def _write_yaml(tmp_path):
         (tmp_path / "withvars.yaml").write_text(
-            yaml.safe_dump({
-                "name": "withvars",
-                "versions": [{
-                    "version": "1.0",
-                    "template": "Hello {user}, today is {date}. Score: {score}",
-                }],
-            }),
+            yaml.safe_dump(
+                {
+                    "name": "withvars",
+                    "versions": [
+                        {
+                            "version": "1.0",
+                            "template": "Hello {user}, today is {date}. Score: {score}",
+                        }
+                    ],
+                }
+            ),
             encoding="utf-8",
         )
 
@@ -123,25 +146,23 @@ class TestRendering:
 
     def test_render_substitutes_all_variables(self, tmp_path):
         registry = self._registry_with_vars(tmp_path)
-        rendered = registry.render(
-            "withvars", user="An", date="2026-08-25", score=99
-        )
+        rendered = registry.render("withvars", user="An", date="2026-08-25", score=99)
         assert rendered.text == "Hello An, today is 2026-08-25. Score: 99"
         assert rendered.variables_used == {"date": "2026-08-25", "score": 99, "user": "An"}
 
     def test_extra_variables_ignored(self, tmp_path):
         registry = self._registry_with_vars(tmp_path)
-        rendered = registry.render(
-            "withvars", user="A", date="d", score=1, unused="ignored"
-        )
+        rendered = registry.render("withvars", user="A", date="d", score=1, unused="ignored")
         assert "ignored" not in rendered.text
 
     def test_malformed_placeholder_raises(self, tmp_path):
         (tmp_path / "bad.yaml").write_text(
-            yaml.safe_dump({
-                "name": "bad",
-                "versions": [{"version": "1.0", "template": "oops {broken"}],
-            }),
+            yaml.safe_dump(
+                {
+                    "name": "bad",
+                    "versions": [{"version": "1.0", "template": "oops {broken"}],
+                }
+            ),
             encoding="utf-8",
         )
         with pytest.raises(PromptRegistryError, match="malformed placeholder"):

@@ -20,7 +20,9 @@ _TIMEOUT_SECONDS = 30
 class BaseService:
     """Strict DI base — cache is required, market_data optional for price-based services."""
 
-    def __init__(self, logger_name: str, cache: CachePort, market_data: MarketDataPort | None = None) -> None:
+    def __init__(
+        self, logger_name: str, cache: CachePort, market_data: MarketDataPort | None = None
+    ) -> None:
         self.logger = logging.getLogger(logger_name)
         self._cache: CachePort = cache
         self._market_data: MarketDataPort | None = market_data
@@ -124,14 +126,8 @@ class BaseService:
         where source is ``"db"`` | ``"vnstock"`` | ``"mixed"`` (or None when
         no raw carries freshness info, e.g. legacy/error payloads).
         """
-        stamps = [
-            r.get("data_as_of") for r in raws
-            if isinstance(r, dict) and r.get("data_as_of")
-        ]
-        sources = {
-            r.get("source") for r in raws
-            if isinstance(r, dict) and r.get("source")
-        }
+        stamps = [r.get("data_as_of") for r in raws if isinstance(r, dict) and r.get("data_as_of")]
+        sources = {r.get("source") for r in raws if isinstance(r, dict) and r.get("source")}
         if not stamps and not sources:
             return {}
         out: dict[str, Any] = {}

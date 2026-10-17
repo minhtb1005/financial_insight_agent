@@ -8,13 +8,15 @@ from application.services.financial.financial_ratio_service import (
 
 
 def _kbs_frame():
-    return pd.DataFrame({
-        "item": ["P/E", "ROE", "EPS (VND)"],
-        "item_en": ["Price to Earning", "Return on Equity", "Earning Per Share"],
-        "item_id": ["price_to_earning", "roe", "earning_per_share"],
-        "2023": [15.5, 18.2, 2500.0],
-        "2024": [12.0, 20.1, 3100.0],
-    })
+    return pd.DataFrame(
+        {
+            "item": ["P/E", "ROE", "EPS (VND)"],
+            "item_en": ["Price to Earning", "Return on Equity", "Earning Per Share"],
+            "item_id": ["price_to_earning", "roe", "earning_per_share"],
+            "2023": [15.5, 18.2, 2500.0],
+            "2024": [12.0, 20.1, 3100.0],
+        }
+    )
 
 
 def test_parse_ratio_frame_latest_period():

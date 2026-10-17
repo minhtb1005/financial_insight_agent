@@ -39,9 +39,7 @@ def classify_keyword(score: float) -> dict[str, Any]:
     }
 
 
-def classify_llm(
-    title: str, excerpt: str = "", provider: Any | None = None
-) -> dict[str, Any]:
+def classify_llm(title: str, excerpt: str = "", provider: Any | None = None) -> dict[str, Any]:
     """Zero-shot LLM verdict via structured output (gpt-4o-mini)."""
     from pydantic import BaseModel, Field
 
@@ -78,9 +76,7 @@ def classify_llm(
     }
 
 
-def classify_hf(
-    title: str, excerpt: str = "", model_id: str = HF_MODEL_ID
-) -> dict[str, Any]:
+def classify_hf(title: str, excerpt: str = "", model_id: str = HF_MODEL_ID) -> dict[str, Any]:
     """PhoBERT-family classifier verdict (local, free, ~300ms CPU/article)."""
     global _hf_pipe
     if _hf_pipe is None:

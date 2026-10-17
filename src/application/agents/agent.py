@@ -50,14 +50,16 @@ AGENT_TIMEOUT_SECONDS = parse_int_env("AGENT_TIMEOUT_SECONDS", 120)
 
 # Tutor allowlist — 4 education tools + knowledge + chart (pie/donut ngân sách).
 # NOTE: UX-mode only, not a security boundary (client could still call MCP directly).
-TUTOR_TOOL_ALLOWLIST = frozenset({
-    "calculate_loan_schedule",
-    "calculate_future_value",
-    "calculate_pit",
-    "budget_template",
-    "search_knowledge",
-    "generate_chart_spec",
-})
+TUTOR_TOOL_ALLOWLIST = frozenset(
+    {
+        "calculate_loan_schedule",
+        "calculate_future_value",
+        "calculate_pit",
+        "budget_template",
+        "search_knowledge",
+        "generate_chart_spec",
+    }
+)
 
 TUTOR_ADDENDUM = (
     "Bạn đang trong chế độ giáo dục tài chính cá nhân. Giải thích khái niệm, "
@@ -152,7 +154,9 @@ class StockAgent:
             if self.tools:
                 self.llm = self.llm_provider.get_tool_calling_llm(self.tools)
             else:
-                logger.warning("MCP tools empty — agent running without tools (prompt-only fallback)")
+                logger.warning(
+                    "MCP tools empty — agent running without tools (prompt-only fallback)"
+                )
                 # Create a tool-less chain so LLM can still answer (degraded)
                 self.llm = self.llm_provider.get_tool_calling_llm([])
             self._synthesizer = ResponseSynthesizer(self.llm_provider)
@@ -414,7 +418,11 @@ class StockAgent:
         messages = state.get("messages", [])
         original_query = state.get("original_query", "")
 
-        tool_error = self._output_guardrails.validate_tool_results(messages) if self._output_guardrails else None
+        tool_error = (
+            self._output_guardrails.validate_tool_results(messages)
+            if self._output_guardrails
+            else None
+        )
         if tool_error:
             node_logger.warning(
                 "All tools returned errors",
@@ -438,7 +446,9 @@ class StockAgent:
         if self._output_guardrails is None:
             return {"messages": [response]}
 
-        validation_result = self._output_guardrails.validate_response(response.content, original_query)
+        validation_result = self._output_guardrails.validate_response(
+            response.content, original_query
+        )
 
         if validation_result.status == "FAIL":
             node_logger.error(
@@ -467,7 +477,9 @@ class StockAgent:
 
             sanitized_text, blocked = check_and_sanitize(response.content)
             if blocked or sanitized_text != response.content:
-                node_logger.warning("RAG safety sanitized", extra={"request_id": rid, "blocked": blocked})
+                node_logger.warning(
+                    "RAG safety sanitized", extra={"request_id": rid, "blocked": blocked}
+                )
                 response = AIMessage(content=sanitized_text)
         except Exception:
             pass
@@ -514,9 +526,7 @@ class StockAgent:
         if not result["verified"]:
             if issues:
                 summary = "\n".join(i["message"] for i in issues[:3])
-                warning = (
-                    f"\n\n⚠️ Cảnh báo: Một số số liệu cần kiểm tra lại:\n{summary}"
-                )
+                warning = f"\n\n⚠️ Cảnh báo: Một số số liệu cần kiểm tra lại:\n{summary}"
                 return {"messages": [AIMessage(content=last_ai.content + warning)]}
             return {"messages": [AIMessage(content=last_ai.content)]}
 
@@ -540,14 +550,20 @@ class StockAgent:
         if self._output_guardrails is None:
             return text
         result = self._output_guardrails.validate_response(text, original_query)
-        sanitized = result.processed_query.get("sanitized_response", text) if result.processed_query else text
+        sanitized = (
+            result.processed_query.get("sanitized_response", text)
+            if result.processed_query
+            else text
+        )
         return sanitized
 
     # ------------------------------------------------------------------
     # Shared preamble: memory + split
     # ------------------------------------------------------------------
 
-    def _prepare_and_split(self, query: str, user_id: str | None = None) -> tuple[str, list[str], dict]:
+    def _prepare_and_split(
+        self, query: str, user_id: str | None = None
+    ) -> tuple[str, list[str], dict]:
         """Build memory context, rewrite follow-up, and split into sub-queries.
 
         Returns (memory_context, sub_queries, reform) where reform holds
@@ -573,11 +589,15 @@ class StockAgent:
         sub_queries = self.splitter.split(reformulated) if self.splitter else [reformulated]
         if not sub_queries:
             sub_queries = [reformulated]
-        return memory_context, sub_queries, {
-            "reformulated": reformulated,
-            "entities": entities,
-            "topics": topics,
-        }
+        return (
+            memory_context,
+            sub_queries,
+            {
+                "reformulated": reformulated,
+                "entities": entities,
+                "topics": topics,
+            },
+        )
 
     # ------------------------------------------------------------------
     # Multi-query fan-out via HybridQuerySplitter
@@ -628,14 +648,20 @@ class StockAgent:
         except Exception as e:
             logger.warning("Summary update failed", extra={"error": str(e)})
 
-    def _run_single(self, query: str, rid: str, memory_context: str = "", user_id: str | None = None, active_chart_summary: str | None = None) -> str:
+    def _run_single(
+        self,
+        query: str,
+        rid: str,
+        memory_context: str = "",
+        user_id: str | None = None,
+        active_chart_summary: str | None = None,
+    ) -> str:
         with suppress(Exception):
             request_id_var.set(rid)
         tracer = get_tracer()
         handler = TracingCallbackHandler(tracer) if tracer.enabled else None
         stream_config = (
-            {"callbacks": [handler], "configurable": {"thread_id": rid}}
-            if handler else None
+            {"callbacks": [handler], "configurable": {"thread_id": rid}} if handler else None
         )
         try:
             init_state: AgentState = {
@@ -678,7 +704,14 @@ class StockAgent:
             with suppress(Exception):
                 request_id_var.set(None)
 
-    def _execute_graph(self, query: str, rid: str, trace_span=None, user_id: str | None = None, active_chart_spec: dict | None = None) -> str:
+    def _execute_graph(
+        self,
+        query: str,
+        rid: str,
+        trace_span=None,
+        user_id: str | None = None,
+        active_chart_spec: dict | None = None,
+    ) -> str:
         try:
             memory_context, sub_queries, reform = self._prepare_and_split(query, user_id=user_id)
             effective_query = reform.get("reformulated") or query
@@ -690,10 +723,24 @@ class StockAgent:
                 trace_span.attributes["reformulated_query"] = effective_query
 
             if len(sub_queries) <= 1:
-                result = self._run_single(effective_query, rid, memory_context=memory_context, user_id=user_id, active_chart_summary=active_summary)
+                result = self._run_single(
+                    effective_query,
+                    rid,
+                    memory_context=memory_context,
+                    user_id=user_id,
+                    active_chart_summary=active_summary,
+                )
             else:
+
                 def _run_with_memory(q: str, r: str) -> str:
-                    return self._run_single(q, r, memory_context=memory_context, user_id=user_id, active_chart_summary=active_summary)
+                    return self._run_single(
+                        q,
+                        r,
+                        memory_context=memory_context,
+                        user_id=user_id,
+                        active_chart_summary=active_summary,
+                    )
+
                 merged = run_queries_parallel(
                     sub_queries=sub_queries,
                     request_id=rid,
@@ -726,13 +773,13 @@ class StockAgent:
                         rewritten_query=effective_query,
                     )
                 except Exception as mem_err:
-                    logger.warning("Failed to record memory", extra={"request_id": rid, "error": str(mem_err)})
+                    logger.warning(
+                        "Failed to record memory", extra={"request_id": rid, "error": str(mem_err)}
+                    )
 
             return result
         except Exception as e:
-            logger.exception(
-                "Agent execution failed", extra={"request_id": rid, "error": str(e)}
-            )
+            logger.exception("Agent execution failed", extra={"request_id": rid, "error": str(e)})
             return "Xin lỗi, đã xảy ra lỗi trong quá trình xử lý. Vui lòng thử lại sau."
 
     # ------------------------------------------------------------------
@@ -747,19 +794,33 @@ class StockAgent:
             return existing
         return str(uuid.uuid4())
 
-    def run(self, query: str, request_id: str | None = None, user_id: str | None = None, active_chart_spec: dict | None = None) -> str:
+    def run(
+        self,
+        query: str,
+        request_id: str | None = None,
+        user_id: str | None = None,
+        active_chart_spec: dict | None = None,
+    ) -> str:
         rid = self._resolve_request_id(request_id)
         with suppress(Exception):
             request_id_var.set(rid)
         tracer = get_tracer()
         try:
             with tracer.start_span(
-                "agent.run", SpanKind.AGENT,
-                attributes={"request_id": rid}, inputs={"query": query},
+                "agent.run",
+                SpanKind.AGENT,
+                attributes={"request_id": rid},
+                inputs={"query": query},
             ) as span:
                 start_time = time.time()
                 try:
-                    result = self._execute_graph(query, rid, trace_span=span, user_id=user_id, active_chart_spec=active_chart_spec)
+                    result = self._execute_graph(
+                        query,
+                        rid,
+                        trace_span=span,
+                        user_id=user_id,
+                        active_chart_spec=active_chart_spec,
+                    )
                     if span is not None:
                         span.outputs = {"answer": str(result)[:4000]}
                         span.attributes["user_id"] = user_id or "anonymous"
@@ -778,7 +839,14 @@ class StockAgent:
             with suppress(Exception):
                 request_id_var.set(None)
 
-    def _run_single_stream(self, query: str, rid: str, memory_context: str = "", user_id: str | None = None, active_chart_summary: str | None = None):
+    def _run_single_stream(
+        self,
+        query: str,
+        rid: str,
+        memory_context: str = "",
+        user_id: str | None = None,
+        active_chart_summary: str | None = None,
+    ):
         try:
             request_id_var.set(rid)
         except Exception as exc:
@@ -792,8 +860,7 @@ class StockAgent:
         tracer = get_tracer()
         handler = TracingCallbackHandler(tracer) if tracer.enabled else None
         stream_config = (
-            {"callbacks": [handler], "configurable": {"thread_id": rid}}
-            if handler else None
+            {"callbacks": [handler], "configurable": {"thread_id": rid}} if handler else None
         )
         init_state: AgentState = {
             "messages": [HumanMessage(content=query)],
@@ -842,19 +909,29 @@ class StockAgent:
             )
             yield "Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu. Vui lòng thử lại sau."
 
-    def run_stream(self, query: str, request_id: str | None = None, user_id: str | None = None, active_chart_spec: dict | None = None):
+    def run_stream(
+        self,
+        query: str,
+        request_id: str | None = None,
+        user_id: str | None = None,
+        active_chart_spec: dict | None = None,
+    ):
         rid = self._resolve_request_id(request_id)
         with suppress(Exception):
             request_id_var.set(rid)
         tracer = get_tracer()
         try:
             with tracer.start_span(
-                "agent.stream", SpanKind.AGENT,
-                attributes={"request_id": rid}, inputs={"query": query},
+                "agent.stream",
+                SpanKind.AGENT,
+                attributes={"request_id": rid},
+                inputs={"query": query},
             ) as span:
                 start_time = time.time()
                 collected: list[str] = []
-                memory_context, sub_queries, reform = self._prepare_and_split(query, user_id=user_id)
+                memory_context, sub_queries, reform = self._prepare_and_split(
+                    query, user_id=user_id
+                )
                 effective_query = reform.get("reformulated") or query
                 active_summary = _summarize_chart_spec(active_chart_spec)
                 if span is not None:
@@ -866,7 +943,13 @@ class StockAgent:
 
                 if len(sub_queries) <= 1:
                     try:
-                        for token in self._run_single_stream(effective_query, rid, memory_context=memory_context, user_id=user_id, active_chart_summary=active_summary):
+                        for token in self._run_single_stream(
+                            effective_query,
+                            rid,
+                            memory_context=memory_context,
+                            user_id=user_id,
+                            active_chart_summary=active_summary,
+                        ):
                             if token:
                                 collected.append(token)
                                 yield token
@@ -884,9 +967,12 @@ class StockAgent:
                         )
                         yield "Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu. Vui lòng thử lại sau."
                 else:
-                    result = self._execute_graph(query, rid, user_id=user_id, active_chart_spec=active_chart_spec)
+                    result = self._execute_graph(
+                        query, rid, user_id=user_id, active_chart_spec=active_chart_spec
+                    )
                     collected.append(result)
                     import re
+
                     _WORD_CHUNK_SIZE = 5
                     words = re.split(r"(\s+)", result)
                     for i in range(0, len(words), _WORD_CHUNK_SIZE * 2):
@@ -908,7 +994,10 @@ class StockAgent:
                 # Persist interaction for streaming single-query path (multi-query already saved via _execute_graph)
                 if collected and len(sub_queries) <= 1:
                     try:
-                        from infrastructure.memory.memory_manager import get_memory_manager as _get_mm
+                        from infrastructure.memory.memory_manager import (
+                            get_memory_manager as _get_mm,
+                        )
+
                         _mm = _get_mm()
                         if _mm:
                             _mm.add_interaction(
@@ -931,7 +1020,10 @@ class StockAgent:
                                 rewritten_query=effective_query,
                             )
                     except Exception as mem_err:
-                        logger.warning("Failed to record stream memory", extra={"request_id": rid, "error": str(mem_err)})
+                        logger.warning(
+                            "Failed to record stream memory",
+                            extra={"request_id": rid, "error": str(mem_err)},
+                        )
         finally:
             with suppress(Exception):
                 request_id_var.set(None)

@@ -37,7 +37,11 @@ class SummaryUpdater:
         try:
             mgr = get_memory_manager()
             if mgr is None or mgr.short_term is None:
-                return {"entities": merged_entities, "topics": list(topics or []), "updated_at": None}
+                return {
+                    "entities": merged_entities,
+                    "topics": list(topics or []),
+                    "updated_at": None,
+                }
             uid = mgr._validated_user_id(user_id)
             return mgr.short_term.update_summary(
                 user_id=uid, entities=merged_entities, topics=list(topics or [])

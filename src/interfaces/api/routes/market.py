@@ -33,7 +33,14 @@ async def get_prices(
 
     tick_list = _parse_tickers(tickers)
     return handle_price_query(
-        tickers=tick_list, field=field, days=days, weeks=weeks, months=months, years=years, start_date=start_date, end_date=end_date
+        tickers=tick_list,
+        field=field,
+        days=days,
+        weeks=weeks,
+        months=months,
+        years=years,
+        start_date=start_date,
+        end_date=end_date,
     )
 
 
@@ -52,15 +59,40 @@ async def get_candles(
 
     tick_list = [ticker.strip().upper()]
     price_res = handle_price_query(
-        tickers=tick_list, field="close", days=days, weeks=weeks, months=months, years=years, start_date=start_date, end_date=end_date
+        tickers=tick_list,
+        field="close",
+        days=days,
+        weeks=weeks,
+        months=months,
+        years=years,
+        start_date=start_date,
+        end_date=end_date,
     )
     # Extract raw candles from price result
     ticker_data = price_res.get(ticker, {}) if isinstance(price_res, dict) else {}
     raw_candles = ticker_data.get("data", []) if isinstance(ticker_data, dict) else []
 
     # Fetch indicators (SMA9 + RSI14) for overlay
-    ind_res = handle_indicator_query(tickers=tick_list, indicator="sma", period=9, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date)
-    rsi_res = handle_indicator_query(tickers=tick_list, indicator="rsi", period=14, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date)
+    ind_res = handle_indicator_query(
+        tickers=tick_list,
+        indicator="sma",
+        period=9,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
+    )
+    rsi_res = handle_indicator_query(
+        tickers=tick_list,
+        indicator="rsi",
+        period=14,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
+    )
 
     # Merge by date: price candles + sma/rsi
     sma_map: dict[str, float] = {}
@@ -117,7 +149,14 @@ async def get_indicators(
 
     tick_list = _parse_tickers(tickers)
     return handle_indicator_query(
-        tickers=tick_list, indicator=indicator, period=period, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date
+        tickers=tick_list,
+        indicator=indicator,
+        period=period,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
     )
 
 
@@ -148,7 +187,9 @@ async def get_sectors(
             # compute avg performance
             avg_perf = 0.0
             if ranked:
-                avg_perf = sum(r.get("performance_pct", 0) for r in ranked[:5]) / min(5, len(ranked))
+                avg_perf = sum(r.get("performance_pct", 0) for r in ranked[:5]) / min(
+                    5, len(ranked)
+                )
             results.append(
                 {
                     "sector": s,
@@ -164,7 +205,10 @@ async def get_sectors(
 
 @router.get("/portfolio", summary="Get portfolio summary")
 async def get_portfolio(
-    field: str = Query("portfolio_summary", description="portfolio_summary|portfolio_value|portfolio_performance|portfolio_allocation"),
+    field: str = Query(
+        "portfolio_summary",
+        description="portfolio_summary|portfolio_value|portfolio_performance|portfolio_allocation",
+    ),
 ) -> dict[str, Any]:
     from application.services.portfolio.portfolio_service import handle_portfolio_query
 
@@ -210,5 +254,12 @@ async def ranking(
     from application.services.financial.ranking_service import handle_ranking_query
 
     return handle_ranking_query(
-        tickers=_parse_tickers(tickers), field=field, aggregate=aggregate, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date
+        tickers=_parse_tickers(tickers),
+        field=field,
+        aggregate=aggregate,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
     )

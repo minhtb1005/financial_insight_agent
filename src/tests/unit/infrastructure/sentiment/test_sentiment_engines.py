@@ -85,9 +85,7 @@ class TestRssAdapterMapping:
 
         feed = MagicMock()
         feed.entries = [entry_vcb, entry_other]
-        with patch("feedparser.parse", return_value=feed), patch(
-            "requests.get"
-        ) as mock_get:
+        with patch("feedparser.parse", return_value=feed), patch("requests.get") as mock_get:
             mock_get.return_value.status_code = 200
             mock_get.return_value.content = b"<rss></rss>"
             arts = RssNewsAdapter().fetch_news("VCB")
@@ -103,8 +101,9 @@ class TestRssAdapterMapping:
         assert RssNewsAdapter().fetch_news("") == []
         fb = MagicMock()
         fb.fetch_news.return_value = [{"title": "t"}]
-        with patch("feedparser.parse", side_effect=Exception("net down")), patch(
-            "requests.get", side_effect=Exception("net down")
+        with (
+            patch("feedparser.parse", side_effect=Exception("net down")),
+            patch("requests.get", side_effect=Exception("net down")),
         ):
             assert RssNewsAdapter(fallback=fb).fetch_news("VCB") == [{"title": "t"}]
 
@@ -121,17 +120,19 @@ class TestVciMapping:
 
         from infrastructure.adapters.news_adapter import NewsAdapter
 
-        df = pd.DataFrame([{
-            "news_title": "VCB: Thông báo chi nhánh",
-            "news_short_content": None,
-            "news_full_content": None,
-            "news_source": None,
-            "news_source_link": None,
-            "public_date": "2026-09-07T17:14:35",
-        }])
-        with patch(
-            "infrastructure.adapters.news_adapter.Company"
-        ) as mock_company:
+        df = pd.DataFrame(
+            [
+                {
+                    "news_title": "VCB: Thông báo chi nhánh",
+                    "news_short_content": None,
+                    "news_full_content": None,
+                    "news_source": None,
+                    "news_source_link": None,
+                    "public_date": "2026-09-07T17:14:35",
+                }
+            ]
+        )
+        with patch("infrastructure.adapters.news_adapter.Company") as mock_company:
             mock_company.return_value.news.return_value = df
             arts = NewsAdapter().fetch_news("VCB")
         assert len(arts) == 1

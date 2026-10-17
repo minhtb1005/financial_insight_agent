@@ -116,7 +116,9 @@ def _seed_doc(sid: str, cfg: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respect_robots: bool = True) -> list[dict[str, Any]]:
+def ingest_source(
+    cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respect_robots: bool = True
+) -> list[dict[str, Any]]:
     sid = cfg["id"]
     url = cfg["url"]
     stype = cfg.get("type", "html")
@@ -135,7 +137,11 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
             fr = fetch_url(u, delay=delay, respect_robots_flag=respect_robots, verify=False)
             if fr.status == "ok":
                 # check if content is actual pdf/text (not Cloudflare challenge)
-                content_preview = str(fr.content[:2000]) if isinstance(fr.content, (bytes, bytearray)) else str(fr.content)[:2000]
+                content_preview = (
+                    str(fr.content[:2000])
+                    if isinstance(fr.content, (bytes, bytearray))
+                    else str(fr.content)[:2000]
+                )
                 if _is_blocked_page(content_preview):
                     logger.warning("pdf fetch got block page for %s — using seed", u)
                     continue
@@ -153,15 +159,31 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
                 try:
                     (out_dir / f"{sid}.seed.txt").write_text(seed["text"], encoding="utf-8")
                     (out_dir / f"{sid}.seed.meta.json").write_text(
-                        __import__("json").dumps({"source_id": sid, "url": url, "reason": "fetch_failed_fallback_seed"}, ensure_ascii=False, indent=2),
+                        __import__("json").dumps(
+                            {"source_id": sid, "url": url, "reason": "fetch_failed_fallback_seed"},
+                            ensure_ascii=False,
+                            indent=2,
+                        ),
                         encoding="utf-8",
                     )
                 except Exception:
                     pass
                 docs.append(seed)
                 return docs
-            return [{"source_id": sid, "url": url, "text": "", "error": "fetch failed", "priority": cfg.get("priority", 5)}]
-        data = fetched.content if isinstance(fetched.content, (bytes, bytearray)) else str(fetched.content).encode()
+            return [
+                {
+                    "source_id": sid,
+                    "url": url,
+                    "text": "",
+                    "error": "fetch failed",
+                    "priority": cfg.get("priority", 5),
+                }
+            ]
+        data = (
+            fetched.content
+            if isinstance(fetched.content, (bytes, bytearray))
+            else str(fetched.content).encode()
+        )
         text = pdf_bytes_to_text(bytes(data))
         text = clean_text(text)
         if len(text) < 500 and sid in SEED_TEXTS:
@@ -173,7 +195,17 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
             (out_dir / f"{sid}.pdf").write_bytes(bytes(data))
         except Exception:
             pass
-        docs.append({"source_id": sid, "url": fetched.url, "text": text, "priority": cfg.get("priority", 5), "title": cfg.get("name", sid), "sha256": fetched.sha256, "etag": fetched.etag})
+        docs.append(
+            {
+                "source_id": sid,
+                "url": fetched.url,
+                "text": text,
+                "priority": cfg.get("priority", 5),
+                "title": cfg.get("name", sid),
+                "sha256": fetched.sha256,
+                "etag": fetched.etag,
+            }
+        )
 
     elif stype in ("html", "generic_html"):
         fr = fetch_url(url, delay=delay, respect_robots_flag=respect_robots, verify=False)
@@ -186,19 +218,49 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
                 except Exception:
                     pass
                 return docs
-            return [{"source_id": sid, "url": url, "text": "", "error": fr.error, "priority": cfg.get("priority", 5)}]
-        html = fr.content if isinstance(fr.content, str) else fr.content.decode("utf-8", errors="ignore")
+            return [
+                {
+                    "source_id": sid,
+                    "url": url,
+                    "text": "",
+                    "error": fr.error,
+                    "priority": cfg.get("priority", 5),
+                }
+            ]
+        html = (
+            fr.content
+            if isinstance(fr.content, str)
+            else fr.content.decode("utf-8", errors="ignore")
+        )
         if _is_blocked_page(html):
             if sid in SEED_TEXTS:
                 logger.warning("HTML got block page for %s — using seed", sid)
                 docs.append(_seed_doc(sid, cfg))
                 return docs
-            return [{"source_id": sid, "url": url, "text": "", "error": "blocked_page", "priority": cfg.get("priority", 5)}]
+            return [
+                {
+                    "source_id": sid,
+                    "url": url,
+                    "text": "",
+                    "error": "blocked_page",
+                    "priority": cfg.get("priority", 5),
+                }
+            ]
         text = clean_text(html_to_text(html))
         if len(text) < 200 and sid in SEED_TEXTS:
             text = SEED_TEXTS[sid]  # trang chặn/fetch rỗng: dùng seed thay vì rác tiền tố
             text = clean_text(text)
-        docs.append({"source_id": sid, "url": fr.url, "text": text, "priority": cfg.get("priority", 5), "title": cfg.get("name", sid), "sha256": fr.sha256, "etag": fr.etag})
+        docs.append(
+            {
+                "source_id": sid,
+                "url": fr.url,
+                "text": text,
+                "priority": cfg.get("priority", 5),
+                "title": cfg.get("name", sid),
+                "sha256": fr.sha256,
+                "etag": fr.etag,
+            }
+        )
 
     elif stype == "html_crawl":
         crawl_cfg = cfg.get("crawl", {})
@@ -209,7 +271,17 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
             if len(text) < 200:
                 continue
             sha = hashlib.sha256(text.encode("utf-8")).hexdigest()
-            docs.append({"source_id": sid, "url": p["url"], "text": text, "priority": cfg.get("priority", 5), "title": cfg.get("name", sid), "sha256": sha, "etag": None})
+            docs.append(
+                {
+                    "source_id": sid,
+                    "url": p["url"],
+                    "text": text,
+                    "priority": cfg.get("priority", 5),
+                    "title": cfg.get("name", sid),
+                    "sha256": sha,
+                    "etag": None,
+                }
+            )
         # fallback seed if crawl produced nothing or SPA (HOSE) or filtered too short
         if not docs and sid in SEED_TEXTS:
             logger.warning("html_crawl produced 0 docs for %s — using seed fallback", sid)
@@ -219,21 +291,37 @@ def ingest_source(cfg: dict[str, Any], raw_dir: Path, delay: float = 1.5, respec
             except Exception:
                 pass
         elif not docs:
-            docs.append({"source_id": sid, "url": url, "text": "", "error": "no pages", "priority": cfg.get("priority", 5)})
+            docs.append(
+                {
+                    "source_id": sid,
+                    "url": url,
+                    "text": "",
+                    "error": "no pages",
+                    "priority": cfg.get("priority", 5),
+                }
+            )
         # For hose_docs SPA case where raw HTML is tiny but seed is more useful, inject seed as extra doc if unique
         elif sid == "hose_docs" and sid in SEED_TEXTS:
             # check if any doc already has substantial HOSE text; if not, add seed as supplemental
-            has_hose_seed = any("HOSE" in d.get("text","")[:500] for d in docs)
+            has_hose_seed = any("HOSE" in d.get("text", "")[:500] for d in docs)
             if not has_hose_seed:
                 seed = _seed_doc(sid, cfg)
                 # avoid duplicate if crawl already returned 1 SPA shell
-                if all(len(d.get("text","")) < 500 for d in docs):
+                if all(len(d.get("text", "")) < 500 for d in docs):
                     docs = [seed] + docs[:1]  # keep seed + 1 sample
                 else:
                     docs.append(seed)
 
     else:
         logger.warning("unknown source type %s for %s", stype, sid)
-        docs.append({"source_id": sid, "url": url, "text": "", "error": f"unknown type {stype}", "priority": cfg.get("priority", 5)})
+        docs.append(
+            {
+                "source_id": sid,
+                "url": url,
+                "text": "",
+                "error": f"unknown type {stype}",
+                "priority": cfg.get("priority", 5),
+            }
+        )
 
     return docs

@@ -129,6 +129,7 @@ class TestTracesApi:
         bad_dir = http.get("/traces", params={"sort_dir": "sideways"})
         assert bad_dir.status_code == 422
 
+
 class TestFeedbackApi:
     def test_post_get_roundtrip(self, client):
         http, _store = client

@@ -302,5 +302,3 @@ def get_logger(name: str) -> RequestLogger:
         RequestLogger instance
     """
     return RequestLogger(name)
-
-

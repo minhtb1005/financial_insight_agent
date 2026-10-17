@@ -13,12 +13,14 @@ class FakePort:
     def get_financial_statement(self, ticker):
         if ticker in self.fail:
             raise RuntimeError("boom")
-        return pd.DataFrame({
-            "item": ["P/E", "ROE"],
-            "item_en": ["Price to Earning", "Return on Equity"],
-            "item_id": ["price_to_earning", "roe"],
-            "2024": [10.0, 20.0],
-        })
+        return pd.DataFrame(
+            {
+                "item": ["P/E", "ROE"],
+                "item_en": ["Price to Earning", "Return on Equity"],
+                "item_id": ["price_to_earning", "roe"],
+                "2024": [10.0, 20.0],
+            }
+        )
 
     def get_market_data(self, ticker):
         return {}
@@ -39,7 +41,9 @@ def test_backfill_writes_snapshots_and_resumes(tmp_path):
 def test_backfill_records_failure_and_continues(tmp_path):
     store = MarketStore(tmp_path / "t.db")
     try:
-        res = backfill_ratios(tickers=["BAD", "VCB"], port=FakePort(fail={"BAD"}), store=store, sleep_s=0)
+        res = backfill_ratios(
+            tickers=["BAD", "VCB"], port=FakePort(fail={"BAD"}), store=store, sleep_s=0
+        )
         assert "BAD" in res["failed"] and res["done"] == ["VCB"]
     finally:
         store.close()

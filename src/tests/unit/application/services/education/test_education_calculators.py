@@ -45,7 +45,12 @@ def test_compare_repayment_avalanche_cheaper():
 
 def test_compare_repayment_divergent_orders():
     debts = [
-        {"name": "small-high", "balance": 3_000_000, "annual_rate_pct": 30.0, "min_payment": 500_000},
+        {
+            "name": "small-high",
+            "balance": 3_000_000,
+            "annual_rate_pct": 30.0,
+            "min_payment": 500_000,
+        },
         {"name": "big-low", "balance": 20_000_000, "annual_rate_pct": 8.0, "min_payment": 500_000},
     ]
     out = edu.compare_repayment(debts, 3_000_000)
@@ -54,7 +59,12 @@ def test_compare_repayment_divergent_orders():
     # make them diverge: small balance but LOW rate vs big HIGH rate
     debts2 = [
         {"name": "small-low", "balance": 3_000_000, "annual_rate_pct": 6.0, "min_payment": 500_000},
-        {"name": "big-high", "balance": 20_000_000, "annual_rate_pct": 24.0, "min_payment": 500_000},
+        {
+            "name": "big-high",
+            "balance": 20_000_000,
+            "annual_rate_pct": 24.0,
+            "min_payment": 500_000,
+        },
     ]
     out2 = edu.compare_repayment(debts2, 3_000_000)
     assert out2["snowball"]["payoff_order"][0] == "small-low"
@@ -129,7 +139,11 @@ def test_pit_net_and_invalid():
 
 def test_budget_50_30_20():
     out = edu.budget_50_30_20(12_000_000)
-    assert (out["needs_50"], out["wants_30"], out["savings_20"]) == (6_000_000, 3_600_000, 2_400_000)
+    assert (out["needs_50"], out["wants_30"], out["savings_20"]) == (
+        6_000_000,
+        3_600_000,
+        2_400_000,
+    )
     assert out["needs_50"] + out["wants_30"] + out["savings_20"] == 12_000_000
 
 

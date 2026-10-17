@@ -17,8 +17,7 @@ from __future__ import annotations
 # PIT 2026 constants (cite + effective date — update here when law changes)
 # ---------------------------------------------------------------------------
 PIT_SOURCE = (
-    "Luật Thuế TNCN 2025 số 109/2025/QH15 (Điều 9) + "
-    "NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP"
+    "Luật Thuế TNCN 2025 số 109/2025/QH15 (Điều 9) + " "NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP"
 )
 PIT_EFFECTIVE_DATE = "2026-01-01"  # kỳ tính thuế năm 2026 (Luật hiệu lực 01/07/2026)
 # (upper bound of monthly taxable income in VND, rate)
@@ -56,13 +55,15 @@ def amortize_loan(principal: float, annual_rate_pct: float, months: int) -> dict
         principal_part = min(payment - interest, balance)
         balance -= principal_part
         total_interest += interest
-        schedule.append({
-            "month": m,
-            "payment": round(payment, 0),
-            "interest": round(interest, 0),
-            "principal": round(principal_part, 0),
-            "balance": round(max(balance, 0.0), 0),
-        })
+        schedule.append(
+            {
+                "month": m,
+                "payment": round(payment, 0),
+                "interest": round(interest, 0),
+                "principal": round(principal_part, 0),
+                "balance": round(max(balance, 0.0), 0),
+            }
+        )
     return {
         "monthly_payment": round(payment, 0),
         "total_payment": round(payment * months, 0),
@@ -142,7 +143,9 @@ def compare_repayment(debts: list[dict], monthly_budget: float) -> dict:
     return {
         "snowball": snowball,
         "avalanche": avalanche,
-        "cheaper": "avalanche" if avalanche["total_interest"] <= snowball["total_interest"] else "snowball",
+        "cheaper": (
+            "avalanche" if avalanche["total_interest"] <= snowball["total_interest"] else "snowball"
+        ),
         "interest_saved": round(abs(snowball["total_interest"] - avalanche["total_interest"]), 0),
     }
 
@@ -178,7 +181,9 @@ def retirement_monthly(
     scenarios = [
         {
             "inflation_pct": inf,
-            "future_monthly_cost": round(current_monthly_cost * (1.0 + inf / 100.0) ** years_to_retire, 0),
+            "future_monthly_cost": round(
+                current_monthly_cost * (1.0 + inf / 100.0) ** years_to_retire, 0
+            ),
         }
         for inf in inflation_scenarios
     ]
@@ -209,7 +214,14 @@ def calculate_pit(
         portion = min(remaining, cap - prev_cap)
         tax += portion * rate
         if portion > 0:
-            breakdown.append({"bracket_up_to": None if cap == float("inf") else cap, "rate": rate, "portion": round(portion, 0), "tax": round(portion * rate, 0)})
+            breakdown.append(
+                {
+                    "bracket_up_to": None if cap == float("inf") else cap,
+                    "rate": rate,
+                    "portion": round(portion, 0),
+                    "tax": round(portion * rate, 0),
+                }
+            )
         remaining -= portion
         prev_cap = cap
     return {

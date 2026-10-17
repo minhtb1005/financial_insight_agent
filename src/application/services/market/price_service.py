@@ -43,16 +43,25 @@ class PriceService(BaseService):
 
         try:
             start_date_r, end_date_r = self._build_time_params(
-                days=days, weeks=weeks, months=months, years=years, start_date=start_date, end_date=end_date
+                days=days,
+                weeks=weeks,
+                months=months,
+                years=years,
+                start_date=start_date,
+                end_date=end_date,
             )
         except ValueError as e:
             return {"error": str(e)}
 
-        results = self.for_each_ticker(tickers, lambda t: self._fetch_price_for_ticker(t, field, start_date_r, end_date_r))
+        results = self.for_each_ticker(
+            tickers, lambda t: self._fetch_price_for_ticker(t, field, start_date_r, end_date_r)
+        )
 
         return results if results else {"error": "No valid data found"}
 
-    def _fetch_price_for_ticker(self, ticker: str, field: str, start_date: str, end_date: str) -> dict[str, Any]:
+    def _fetch_price_for_ticker(
+        self, ticker: str, field: str, start_date: str, end_date: str
+    ) -> dict[str, Any]:
         """Lấy dữ liệu giá cho một mã chứng khoán.
 
         Args:
@@ -97,7 +106,9 @@ class PriceService(BaseService):
             return {"error": str(e)}
 
     # Backward compat alias — old code called _fetch_single(ticker, field, parsed)
-    def _fetch_single(self, ticker: str, field: str | dict[str, Any], parsed: dict[str, Any] | None = None) -> dict[str, Any]:
+    def _fetch_single(
+        self, ticker: str, field: str | dict[str, Any], parsed: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         if isinstance(field, dict) and parsed is None:
             # legacy: _fetch_single(ticker, parsed_dict) — not used anymore
             return {"error": "deprecated _fetch_single signature"}
@@ -118,14 +129,27 @@ class PriceService(BaseService):
         # new signature via BaseService compatibility
         return super()._fetch_single(ticker, field, parsed or "")  # type: ignore[arg-type]
 
-def handle_price_query(tickers: list[str],
+
+def handle_price_query(
+    tickers: list[str],
     field: str = "close",
     days: int | None = None,
     weeks: int | None = None,
     months: int | None = None,
     years: int | None = None,
     start_date: str | None = None,
-    end_date: str | None = None,) -> dict[str, Any]:
+    end_date: str | None = None,
+) -> dict[str, Any]:
     from shared.service_helpers import call_service
-    return call_service("price", tickers=tickers, field=field, days=days, weeks=weeks, months=months, years=years, start_date=start_date, end_date=end_date)
 
+    return call_service(
+        "price",
+        tickers=tickers,
+        field=field,
+        days=days,
+        weeks=weeks,
+        months=months,
+        years=years,
+        start_date=start_date,
+        end_date=end_date,
+    )

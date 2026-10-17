@@ -45,8 +45,13 @@ class FakeQdrant:
         return FakeQueryResult(self.hits[:limit])
 
     def scroll(  # noqa: PLR0917
-        self, collection_name, scroll_filter=None, limit=100, offset=None,
-        with_payload=False, with_vectors=False,
+        self,
+        collection_name,
+        scroll_filter=None,
+        limit=100,
+        offset=None,
+        with_payload=False,
+        with_vectors=False,
     ):
         return ([], None)
 
@@ -57,6 +62,7 @@ class FakeQdrant:
     def count(self, collection_name, count_filter=None, exact=True):
         class R:
             count = 3
+
         return R()
 
 
@@ -64,7 +70,9 @@ class FakeQdrant:
 def fake_qdrant(monkeypatch):
     fq = FakeQdrant()
     monkeypatch.setattr(episodic_store.vs, "_client", lambda: fq)
-    monkeypatch.setattr(episodic_store.vs, "ensure_collection", lambda name, dim=1536, recreate=False: None)
+    monkeypatch.setattr(
+        episodic_store.vs, "ensure_collection", lambda name, dim=1536, recreate=False: None
+    )
     upserted = []
 
     def fake_upsert(collection, points, batch_size=100):

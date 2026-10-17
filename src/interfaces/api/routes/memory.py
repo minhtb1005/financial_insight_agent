@@ -35,7 +35,9 @@ async def get_my_memory(
     if mgr is None:
         return MemoryResponse(user_id=current_user.id, memory={})
     memory_tiers = [t.strip() for t in tiers.split(",") if t.strip()] if tiers else None
-    data = mgr.search_memory(query="", top_k=top_k, memory_tiers=memory_tiers, user_id=current_user.id)
+    data = mgr.search_memory(
+        query="", top_k=top_k, memory_tiers=memory_tiers, user_id=current_user.id
+    )
     return MemoryResponse(user_id=current_user.id, memory=data)
 
 

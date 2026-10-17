@@ -8,9 +8,14 @@ from shared.ports.market_data_port import MarketDataPort
 
 
 class FakeCache(CachePort):
-    def get(self, key): return None
-    def set(self, key, value, ttl_hours=1.0): pass
-    def delete(self, key): pass
+    def get(self, key):
+        return None
+
+    def set(self, key, value, ttl_hours=1.0):
+        pass
+
+    def delete(self, key):
+        pass
 
 
 class FakeMarketData(MarketDataPort):
@@ -96,8 +101,9 @@ def test_check_single_no_data():
 
 
 def test_check_single_missing_close():
-    svc = _make_service([{"date": "2026-03-08", "open": 100.0},
-                         {"date": "2026-03-09", "open": 101.0}])
+    svc = _make_service(
+        [{"date": "2026-03-08", "open": 100.0}, {"date": "2026-03-09", "open": 101.0}]
+    )
     assert "error" in svc._check_single("VCB", 100.0, "above")
 
 

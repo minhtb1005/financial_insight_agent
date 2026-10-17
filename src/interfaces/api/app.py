@@ -126,7 +126,8 @@ class HealthResponse(BaseModel):
 def _build_error(detail: str, error_type: str, request_id: str, status_code: int = 400):
     if status_code >= 500:
         _request_logger.error(
-            "Server error: %s", detail,
+            "Server error: %s",
+            detail,
             extra={"error_type": error_type, "request_id": request_id},
             exc_info=True,
         )
@@ -202,7 +203,9 @@ async def lifespan(_app: FastAPI):
         _guardrail_pipeline = None
 
     if agent is None:
-        _request_logger.warning("Starting server without agent — /ask-stream endpoint will return 503")
+        _request_logger.warning(
+            "Starting server without agent — /ask-stream endpoint will return 503"
+        )
 
     # RAG weekly scheduler (CN 02:00 Asia/Ho_Chi_Minh)
     try:
@@ -399,7 +402,6 @@ async def check_guardrails(query: str, request: Request, user_id: str | None = N
 # ---------------------------------------------------------------------------
 
 
-
 @api_router.post(
     "/ask-stream",
     summary="Gửi câu hỏi chứng khoán (streaming)",
@@ -446,7 +448,12 @@ async def ask_stock_agent_stream(
 
                 def _produce():
                     try:
-                        for chunk in agent.run_stream(body.query, request_id=request_id, user_id=current_user.id, active_chart_spec=body.activeChartSpec):
+                        for chunk in agent.run_stream(
+                            body.query,
+                            request_id=request_id,
+                            user_id=current_user.id,
+                            active_chart_spec=body.activeChartSpec,
+                        ):
                             if cancel_event.is_set():
                                 return
                             try:
@@ -460,9 +467,7 @@ async def ask_stock_agent_stream(
                         pass
                     finally:
                         with suppress(Exception):
-                            asyncio.run_coroutine_threadsafe(
-                                async_queue.put(None), loop
-                            ).result()
+                            asyncio.run_coroutine_threadsafe(async_queue.put(None), loop).result()
 
                 loop.run_in_executor(None, _produce)
 
@@ -548,6 +553,7 @@ async def ping():
         content={"status": "ok"},
         headers={"Cache-Control": "no-cache"},
     )
+
 
 api_router.include_router(auth_router)
 api_router.include_router(memory_router)

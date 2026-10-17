@@ -111,7 +111,9 @@ def test_embedder_nvidia_primary_mocked(mock_openai):
     inst.embeddings.create.return_value.data = [MagicMock(embedding=[0.1] * 2048)]
     mock_openai.return_value = inst
 
-    with patch.dict("os.environ", {"NVIDIA_API_KEY": "nv-test", "NVIDIA_API_KEY2": "", "NVIDIA_API_KEY3": ""}):
+    with patch.dict(
+        "os.environ", {"NVIDIA_API_KEY": "nv-test", "NVIDIA_API_KEY2": "", "NVIDIA_API_KEY3": ""}
+    ):
         emb = Embedder()
     assert emb.provider == "nvidia"
     assert emb.embed(["hello"]) == [[0.1] * 2048]

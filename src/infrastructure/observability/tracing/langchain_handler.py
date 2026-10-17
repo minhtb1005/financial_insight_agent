@@ -30,9 +30,13 @@ logger = get_logger("observability.tracing.handler")
 
 def _model_info_from_response(response: Any) -> dict[str, Any]:
     """Extract (model_name, provider, usage) from an LLMResult."""
-    info: dict[str, Any] = {"model": None, "provider": None,
-                            "prompt_tokens": None, "completion_tokens": None,
-                            "total_tokens": None}
+    info: dict[str, Any] = {
+        "model": None,
+        "provider": None,
+        "prompt_tokens": None,
+        "completion_tokens": None,
+        "total_tokens": None,
+    }
     llm_output = getattr(response, "llm_output", None) or {}
     usage = llm_output.get("token_usage") or {}
     model = llm_output.get("model_name")
@@ -76,10 +80,16 @@ def _serialize_messages(messages: Any, max_chars: int) -> list[dict[str, Any]]:
             for single in (m if isinstance(m, list) else [m]):
                 role = getattr(single, "type", type(single).__name__)
                 content = getattr(single, "content", "")
-                out.append({
-                    "role": role,
-                    "content": content[:max_chars] if isinstance(content, str) else str(content)[:max_chars],
-                })
+                out.append(
+                    {
+                        "role": role,
+                        "content": (
+                            content[:max_chars]
+                            if isinstance(content, str)
+                            else str(content)[:max_chars]
+                        ),
+                    }
+                )
     except Exception:
         return [{"role": "unknown", "content": "<unserializable>"}]
     return out
@@ -128,9 +138,8 @@ class TracingCallbackHandler(BaseCallbackHandler):
         parent_span = self._resolve_parent_span(parent_run_id)
         if parent_span is None:
             parent_span = self._ambient_parent()
-        trace_id = (
-            (metadata or {}).get("trace_id")
-            or (parent_span.trace_id if parent_span else None)
+        trace_id = (metadata or {}).get("trace_id") or (
+            parent_span.trace_id if parent_span else None
         )
         span = self._tracer.begin_span(
             name=name,
@@ -147,9 +156,14 @@ class TracingCallbackHandler(BaseCallbackHandler):
     # ------------------------------------------------------------------
 
     def on_chat_model_start(
-        self, serialized: dict[str, Any] | None, messages: list,
-        *, run_id: Any, parent_run_id: Any | None = None,
-        metadata: dict[str, Any] | None = None, **kwargs: Any,
+        self,
+        serialized: dict[str, Any] | None,
+        messages: list,
+        *,
+        run_id: Any,
+        parent_run_id: Any | None = None,
+        metadata: dict[str, Any] | None = None,
+        **kwargs: Any,
     ) -> None:
         if not self._tracer.enabled:
             return
@@ -164,9 +178,7 @@ class TracingCallbackHandler(BaseCallbackHandler):
                 parent_run_id=parent_run_id,
                 metadata=metadata,
                 attributes={"langgraph_node": (metadata or {}).get("langgraph_node")},
-                inputs=_serialize_messages(
-                    messages, self._tracer.max_content_chars // 4
-                ),
+                inputs=_serialize_messages(messages, self._tracer.max_content_chars // 4),
             )
         except Exception:
             logger.exception("on_chat_model_start tracing failed")
@@ -209,9 +221,14 @@ class TracingCallbackHandler(BaseCallbackHandler):
     # ------------------------------------------------------------------
 
     def on_chain_start(
-        self, serialized: dict[str, Any] | None, inputs: dict[str, Any],
-        *, run_id: Any, parent_run_id: Any | None = None,
-        metadata: dict[str, Any] | None = None, **kwargs: Any,
+        self,
+        serialized: dict[str, Any] | None,
+        inputs: dict[str, Any],
+        *,
+        run_id: Any,
+        parent_run_id: Any | None = None,
+        metadata: dict[str, Any] | None = None,
+        **kwargs: Any,
     ) -> None:
         if not self._tracer.enabled:
             return
@@ -241,7 +258,8 @@ class TracingCallbackHandler(BaseCallbackHandler):
         try:
             if isinstance(outputs, dict):
                 interesting = {
-                    k: v for k, v in outputs.items()
+                    k: v
+                    for k, v in outputs.items()
                     if k in ("iterations", "next_tool_call", "tool_call_history")
                 }
                 span.attributes.update(interesting or {})
@@ -267,9 +285,14 @@ class TracingCallbackHandler(BaseCallbackHandler):
     # ------------------------------------------------------------------
 
     def on_tool_start(
-        self, serialized: dict[str, Any] | None, input_str: str,
-        *, run_id: Any, parent_run_id: Any | None = None,
-        inputs: dict[str, Any] | None = None, **kwargs: Any,
+        self,
+        serialized: dict[str, Any] | None,
+        input_str: str,
+        *,
+        run_id: Any,
+        parent_run_id: Any | None = None,
+        inputs: dict[str, Any] | None = None,
+        **kwargs: Any,
     ) -> None:
         return
 

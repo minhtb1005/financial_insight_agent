@@ -23,4 +23,13 @@ def get_news_and_sentiment(
     weeks: Annotated[int | None, Field(description="Last N weeks")] = None,
     months: Annotated[int | None, Field(description="Last N months")] = None,
 ) -> str:
-    return call_service("get_news_and_sentiment", handle_news_sentiment_query, tickers=tickers, field=field, compare_with=compare_with, days=days, weeks=weeks, months=months)
+    return call_service(
+        "get_news_and_sentiment",
+        handle_news_sentiment_query,
+        tickers=tickers,
+        field=field,
+        compare_with=compare_with,
+        days=days,
+        weeks=weeks,
+        months=months,
+    )

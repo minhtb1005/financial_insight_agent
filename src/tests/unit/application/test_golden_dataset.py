@@ -20,17 +20,26 @@ def test_golden_dataset_exists_and_is_valid():
 
 def test_golden_dataset_covers_all_query_types():
     cases = [
-        json.loads(ln)
-        for ln in DATASET.read_text(encoding="utf-8").splitlines()
-        if ln.strip()
+        json.loads(ln) for ln in DATASET.read_text(encoding="utf-8").splitlines() if ln.strip()
     ]
     types = {c["query_type"] for c in cases}
     expected = {
-        "price", "indicator", "compare", "ranking", "aggregate",
-        "financial_ratio", "company", "news_sentiment", "portfolio",
-        "alert", "forecast", "sector",
-        "compound_sequential", "compound_multi_intent",
-        "edge_invalid_ticker", "edge_ambiguous",
+        "price",
+        "indicator",
+        "compare",
+        "ranking",
+        "aggregate",
+        "financial_ratio",
+        "company",
+        "news_sentiment",
+        "portfolio",
+        "alert",
+        "forecast",
+        "sector",
+        "compound_sequential",
+        "compound_multi_intent",
+        "edge_invalid_ticker",
+        "edge_ambiguous",
     }
     missing = expected - types
     assert not missing, f"query types missing from dataset: {missing}"
@@ -38,12 +47,11 @@ def test_golden_dataset_covers_all_query_types():
 
 def test_numeric_cases_have_ground_truth():
     cases = [
-        json.loads(ln)
-        for ln in DATASET.read_text(encoding="utf-8").splitlines()
-        if ln.strip()
+        json.loads(ln) for ln in DATASET.read_text(encoding="utf-8").splitlines() if ln.strip()
     ]
     numeric = [
-        c for c in cases
+        c
+        for c in cases
         if c["query_type"] in ("price", "indicator")
         and c.get("as_of_date")  # fixed-date cases only; realtime ones are soft-checked
     ]
@@ -58,9 +66,5 @@ def test_numeric_cases_have_ground_truth():
 
 
 def test_case_count_in_expected_range():
-    n = sum(
-        1
-        for ln in DATASET.read_text(encoding="utf-8").splitlines()
-        if ln.strip()
-    )
+    n = sum(1 for ln in DATASET.read_text(encoding="utf-8").splitlines() if ln.strip())
     assert 30 <= n <= 50, f"dataset size {n} outside planned range"

@@ -113,9 +113,11 @@ def test_manager_reformulation_inputs_end_to_end(user_id):
 
         mem = ShortTermMemory(host="localhost", port=6379, db=15)
         try:
-            mem.add_interaction(user_query="Khái niệm Transformer là gì?",
-                                agent_response="Transformer là kiến trúc Attention...",
-                                user_id=user_id)
+            mem.add_interaction(
+                user_query="Khái niệm Transformer là gì?",
+                agent_response="Transformer là kiến trúc Attention...",
+                user_id=user_id,
+            )
             with patch(
                 "infrastructure.memory.memory_manager.get_short_term_memory",
                 return_value=mem,

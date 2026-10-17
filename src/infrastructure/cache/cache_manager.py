@@ -180,9 +180,7 @@ class CacheManager:
                         and not self._is_circuit_open(CacheTier.L1_MEMORY)
                     ):
                         try:
-                            self.l1_cache.set(
-                                key, value, ttl_hours=0.25, namespace=namespace
-                            )
+                            self.l1_cache.set(key, value, ttl_hours=0.25, namespace=namespace)
                         except Exception as e:
                             logger.warning("L2->L1 promotion failed for key %s: %s", key, e)
                     return value
@@ -311,9 +309,7 @@ class CacheManager:
         """Flush cache with optional tier and namespace filtering."""
         success = False
 
-        target_tiers = (
-            [tier] if tier else [CacheTier.L1_MEMORY, CacheTier.L2_REDIS]
-        )
+        target_tiers = [tier] if tier else [CacheTier.L1_MEMORY, CacheTier.L2_REDIS]
 
         for t in target_tiers:
             if not self._get_cache_for_tier(t) or self._is_circuit_open(t):

@@ -27,4 +27,17 @@ def calculate_technical_indicator(
     start_date: Annotated[str | None, Field(description="Start YYYY-MM-DD")] = None,
     end_date: Annotated[str | None, Field(description="End YYYY-MM-DD")] = None,
 ) -> str:
-    return call_service("calculate_technical_indicator", handle_indicator_query, tickers=tickers, indicator=indicator, period=period, fast_period=fast_period, slow_period=slow_period, days=days, weeks=weeks, months=months, start_date=start_date, end_date=end_date)
+    return call_service(
+        "calculate_technical_indicator",
+        handle_indicator_query,
+        tickers=tickers,
+        indicator=indicator,
+        period=period,
+        fast_period=fast_period,
+        slow_period=slow_period,
+        days=days,
+        weeks=weeks,
+        months=months,
+        start_date=start_date,
+        end_date=end_date,
+    )

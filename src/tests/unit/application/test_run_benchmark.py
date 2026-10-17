@@ -48,8 +48,7 @@ class TestNumericMatch:
         assert numeric_match("Không có dữ liệu.", self.GT) is False
 
     def test_thousands_volume(self):
-        assert numeric_match("KLGD đạt 12,379,504 cổ phiếu",
-                             {"volume_hpg": 12379504}) is True
+        assert numeric_match("KLGD đạt 12,379,504 cổ phiếu", {"volume_hpg": 12379504}) is True
 
     def test_multi_targets_require_all(self):
         gt = {"sma9_vic": 20.6878, "sma20_vic": 21.2245}
@@ -69,9 +68,7 @@ class TestToolPrecisionRecall:
         assert (p, r) == (1.0, 1.0)
 
     def test_partial(self):
-        p, r = tool_precision_recall(
-            {"get_stock_price", "rank_stocks"}, {"get_stock_price"}
-        )
+        p, r = tool_precision_recall({"get_stock_price", "rank_stocks"}, {"get_stock_price"})
         assert p == 0.5 and r == 1.0
 
     def test_missed_expected(self):
@@ -115,15 +112,36 @@ class TestEdgeBehavior:
 class TestAggregateDeterministic:
     def test_aggregates_means_and_percentiles(self):
         rows = [
-            {"id": "a", "tool_precision": 1.0, "tool_recall": 1.0,
-             "citation": True, "numeric_match": True, "edge_ok": None,
-             "latency_ms": 100.0, "total_tokens": 500},
-            {"id": "b", "tool_precision": 0.5, "tool_recall": 1.0,
-             "citation": False, "numeric_match": False, "edge_ok": True,
-             "latency_ms": 300.0, "total_tokens": 700},
-            {"id": "c", "tool_precision": None, "tool_recall": None,
-             "citation": True, "numeric_match": None, "edge_ok": False,
-             "latency_ms": 200.0, "total_tokens": None},
+            {
+                "id": "a",
+                "tool_precision": 1.0,
+                "tool_recall": 1.0,
+                "citation": True,
+                "numeric_match": True,
+                "edge_ok": None,
+                "latency_ms": 100.0,
+                "total_tokens": 500,
+            },
+            {
+                "id": "b",
+                "tool_precision": 0.5,
+                "tool_recall": 1.0,
+                "citation": False,
+                "numeric_match": False,
+                "edge_ok": True,
+                "latency_ms": 300.0,
+                "total_tokens": 700,
+            },
+            {
+                "id": "c",
+                "tool_precision": None,
+                "tool_recall": None,
+                "citation": True,
+                "numeric_match": None,
+                "edge_ok": False,
+                "latency_ms": 200.0,
+                "total_tokens": None,
+            },
         ]
         agg = aggregate_deterministic(rows)
         assert agg["tool_precision"] == 0.75

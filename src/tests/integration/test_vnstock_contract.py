@@ -54,7 +54,11 @@ def test_price_volume_hpg_fixed_date():
 def test_price_range_fpt_week():
     out = _adapter().get_price_data("FPT", "2024-07-01", "2024-07-05")
     assert [r["date"] for r in out["data"]] == [
-        "2024-07-01", "2024-07-02", "2024-07-03", "2024-07-04", "2024-07-05",
+        "2024-07-01",
+        "2024-07-02",
+        "2024-07-03",
+        "2024-07-04",
+        "2024-07-05",
     ]
 
 
@@ -94,9 +98,7 @@ def test_cached_adapter_readthrough_live(tmp_path):
     from infrastructure.market_store.cached_adapter import CachedMarketDataAdapter
     from infrastructure.market_store.store import MarketStore
 
-    adapter = CachedMarketDataAdapter(
-        inner=VNStockAdapter(), store=MarketStore(tmp_path / "t.db")
-    )
+    adapter = CachedMarketDataAdapter(inner=VNStockAdapter(), store=MarketStore(tmp_path / "t.db"))
     first = adapter.get_price_data("VCB", "2024-06-28", "2024-06-28")
     assert first["data"][0]["close"] == 56.11
     assert first["source"] == "vnstock" and first["data_as_of"]

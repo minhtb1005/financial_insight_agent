@@ -88,7 +88,9 @@ async def list_traces(
     trace_id_search: Optional[str] = Query(None, max_length=100),
     from_ts: Optional[float] = Query(None, ge=0),
     to_ts: Optional[float] = Query(None, ge=0),
-    sort_by: Literal["started_at", "duration_ms", "num_spans", "total_tokens"] = Query("started_at"),
+    sort_by: Literal["started_at", "duration_ms", "num_spans", "total_tokens"] = Query(
+        "started_at"
+    ),
     sort_dir: Literal["asc", "desc"] = Query("desc"),
     _admin: User = Depends(get_current_admin_user),
 ):
@@ -158,7 +160,10 @@ async def post_feedback(
         raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
     try:
         row = store.add_feedback(
-            trace_id, body.score, body.comment, author=admin.email or admin.name or "admin",
+            trace_id,
+            body.score,
+            body.comment,
+            author=admin.email or admin.name or "admin",
             span_id=body.span_id,
         )
     except Exception as exc:
@@ -202,7 +207,9 @@ async def post_comment(
     if store.get_trace(trace_id) is None:
         raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
     row = store.add_comment(
-        trace_id, body.comment, author=admin.email or admin.name or "admin",
+        trace_id,
+        body.comment,
+        author=admin.email or admin.name or "admin",
         span_id=body.span_id,
     )
     return row
@@ -225,9 +232,7 @@ async def patch_meta(
         raise HTTPException(status_code=503, detail="Tracing is disabled")
     if store.get_trace(trace_id) is None:
         raise HTTPException(status_code=404, detail=f"Trace '{trace_id}' not found")
-    store.update_trace_meta(
-        trace_id, {k: v for k, v in body.model_dump().items() if v is not None}
-    )
+    store.update_trace_meta(trace_id, {k: v for k, v in body.model_dump().items() if v is not None})
     return {"trace_id": trace_id, "updated": True}
 
 

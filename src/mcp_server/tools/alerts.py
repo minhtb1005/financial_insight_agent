@@ -21,4 +21,11 @@ def check_price_alert(
     condition: Annotated[str, Field(description="above|below")] = "above",
     timeframe: Annotated[str, Field(description="Timeframe e.g. 1d")] = "1d",
 ) -> str:
-    return call_service("check_price_alert", handle_alert_query, tickers=tickers, threshold=threshold, condition=condition, timeframe=timeframe)
+    return call_service(
+        "check_price_alert",
+        handle_alert_query,
+        tickers=tickers,
+        threshold=threshold,
+        condition=condition,
+        timeframe=timeframe,
+    )

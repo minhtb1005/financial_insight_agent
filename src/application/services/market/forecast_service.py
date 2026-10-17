@@ -67,7 +67,9 @@ class ForecastService(BaseService):
         lookback = _TIMEFRAME_DAYS.get(timeframe, 180)
         min_lookback = max(lookback, 20)
         start_date = end_date - timedelta(days=min_lookback)
-        result = self._market_data.get_price_data(ticker, start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"))
+        result = self._market_data.get_price_data(
+            ticker, start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")
+        )
         if result is None or "error" in result or not result.get("data"):
             return {"error": "Insufficient historical data for forecast"}
         import pandas as pd
@@ -113,8 +115,11 @@ class ForecastService(BaseService):
             cache.set(cache_key, forecast, ttl_hours=FORECAST_TTL_HOURS)
         return forecast
 
-def handle_forecast_query(tickers: list[str],
-    timeframe: str = "1w",) -> dict[str, Any]:
-    from shared.service_helpers import call_service
-    return call_service("forecast", tickers=tickers, timeframe=timeframe)
 
+def handle_forecast_query(
+    tickers: list[str],
+    timeframe: str = "1w",
+) -> dict[str, Any]:
+    from shared.service_helpers import call_service
+
+    return call_service("forecast", tickers=tickers, timeframe=timeframe)

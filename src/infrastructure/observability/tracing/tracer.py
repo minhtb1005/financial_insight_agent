@@ -137,9 +137,7 @@ class Tracer:
             name=name,
             kind=kind,
             parent_span_id=(
-                parent_span_id
-                if parent_span_id is not None
-                else current_parent_span_id()
+                parent_span_id if parent_span_id is not None else current_parent_span_id()
             ),
             request_id=request_id or request_id_var.get(),
             started_at=time.time(),
@@ -168,7 +166,10 @@ class Tracer:
             outputs_json = safe_json(self._truncate(span.outputs), 0)
             attributes_json = safe_json(self._truncate_deep(span.attributes), 0)
             self.store.record_span(
-                d, inputs_json, outputs_json, attributes_json,
+                d,
+                inputs_json,
+                outputs_json,
+                attributes_json,
                 is_root=span.parent_span_id is None,
             )
         if self.jsonl_exporter is not None:
@@ -184,23 +185,28 @@ class Tracer:
             self._ensure_metric_defs(collector)
             labels_base = {"span_kind": span.kind.value}
             if span.kind == SpanKind.LLM:
-                llm_labels = {"model": span.model or "unknown",
-                              "provider": span.provider or "unknown",
-                              "status": span.status}
+                llm_labels = {
+                    "model": span.model or "unknown",
+                    "provider": span.provider or "unknown",
+                    "status": span.status,
+                }
                 collector.increment_counter("tracing_llm_calls_total", labels=llm_labels)
                 if span.prompt_tokens:
                     collector.increment_counter(
-                        "tracing_llm_tokens_total", value=span.prompt_tokens,
+                        "tracing_llm_tokens_total",
+                        value=span.prompt_tokens,
                         labels={"type": "prompt", "model": span.model or "unknown"},
                     )
                 if span.completion_tokens:
                     collector.increment_counter(
-                        "tracing_llm_tokens_total", value=span.completion_tokens,
+                        "tracing_llm_tokens_total",
+                        value=span.completion_tokens,
                         labels={"type": "completion", "model": span.model or "unknown"},
                     )
                 if span.duration_ms is not None:
                     collector.observe_histogram(
-                        "tracing_llm_latency_ms", span.duration_ms,
+                        "tracing_llm_latency_ms",
+                        span.duration_ms,
                         labels={"model": span.model or "unknown"},
                     )
             elif span.kind == SpanKind.TOOL:
@@ -208,7 +214,8 @@ class Tracer:
                 collector.increment_counter("tracing_tool_calls_total", labels=tool_labels)
                 if span.duration_ms is not None:
                     collector.observe_histogram(
-                        "tracing_tool_latency_ms", span.duration_ms,
+                        "tracing_tool_latency_ms",
+                        span.duration_ms,
                         labels={"tool": span.name},
                     )
             elif span.duration_ms is not None:

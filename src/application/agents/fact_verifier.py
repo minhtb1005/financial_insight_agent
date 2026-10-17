@@ -20,7 +20,7 @@ from langchain_core.messages import ToolMessage, BaseMessage
 logger = logging.getLogger(__name__)
 
 CITATION_PATTERN = re.compile(
-    r'\[([A-Z]{2,4})\s*:\s*([\d,]+\.?\d*)\s*,?\s*(?:ngu[oôồốổỗộ]\`?n|source)\s*:\s*([a-z_]+)\]',
+    r"\[([A-Z]{2,4})\s*:\s*([\d,]+\.?\d*)\s*,?\s*(?:ngu[oôồốổỗộ]\`?n|source)\s*:\s*([a-z_]+)\]",
     re.I,
 )
 
@@ -69,11 +69,13 @@ class DataExtractor:
                     continue
                 if isinstance(value, (int, float)) and not isinstance(value, bool):
                     if ticker:
-                        accumulator.setdefault(ticker.upper(), []).append({
-                            "value": float(value),
-                            "field": key,
-                            "source": source,
-                        })
+                        accumulator.setdefault(ticker.upper(), []).append(
+                            {
+                                "value": float(value),
+                                "field": key,
+                                "source": source,
+                            }
+                        )
                 elif isinstance(value, (dict, list)):
                     DataExtractor._dig(value, source, accumulator, ticker or current_ticker)
         elif isinstance(obj, list):
@@ -95,12 +97,14 @@ class CitationParser:
                 value = float(raw_value)
             except ValueError:
                 continue
-            citations.append({
-                "ticker": match.group(1).upper(),
-                "value": value,
-                "source": match.group(3).lower(),
-                "matched_text": match.group(0),
-            })
+            citations.append(
+                {
+                    "ticker": match.group(1).upper(),
+                    "value": value,
+                    "source": match.group(3).lower(),
+                    "matched_text": match.group(0),
+                }
+            )
         return citations
 
 
@@ -143,12 +147,14 @@ class FactVerifier:
             entries = tool_data.get(ticker, [])
 
             if not entries:
-                issues.append({
-                    "type": "no_tool_data",
-                    "ticker": ticker,
-                    "value": value,
-                    "message": f"[{ticker}] Không tìm thấy dữ liệu tool nào cho mã này",
-                })
+                issues.append(
+                    {
+                        "type": "no_tool_data",
+                        "ticker": ticker,
+                        "value": value,
+                        "message": f"[{ticker}] Không tìm thấy dữ liệu tool nào cho mã này",
+                    }
+                )
                 continue
 
             match = self._find_match(value, entries)
@@ -156,18 +162,20 @@ class FactVerifier:
                 verified_count += 1
             else:
                 closest = min(entries, key=lambda e: abs(e["value"] - value))
-                issues.append({
-                    "type": "value_mismatch",
-                    "ticker": ticker,
-                    "cited_value": value,
-                    "tool_value": closest["value"],
-                    "tool_field": closest["field"],
-                    "tool_source": closest["source"],
-                    "message": (
-                        f"[{ticker}] Giá trị {value} không khớp dữ liệu tool "
-                        f"({closest['value']} từ {closest['source']}/{closest['field']})"
-                    ),
-                })
+                issues.append(
+                    {
+                        "type": "value_mismatch",
+                        "ticker": ticker,
+                        "cited_value": value,
+                        "tool_value": closest["value"],
+                        "tool_field": closest["field"],
+                        "tool_source": closest["source"],
+                        "message": (
+                            f"[{ticker}] Giá trị {value} không khớp dữ liệu tool "
+                            f"({closest['value']} từ {closest['source']}/{closest['field']})"
+                        ),
+                    }
+                )
 
         total = len(citations)
         confidence = verified_count / total if total else 1.0
@@ -189,7 +197,7 @@ class FactVerifier:
     ) -> dict[str, Any]:
         issues = []
         numbers_found = []
-        for match in re.finditer(r'(?<!\d)([\d,]+\.?\d*)\s*(VND|đ|%)?', response):
+        for match in re.finditer(r"(?<!\d)([\d,]+\.?\d*)\s*(VND|đ|%)?", response):
             raw = match.group(1).replace(",", "")
             try:
                 val = float(raw)
@@ -197,11 +205,13 @@ class FactVerifier:
                 continue
             unit = match.group(2) or ""
             if val > 1_000_000_000_000:
-                issues.append({
-                    "type": "outlier_value",
-                    "value": val,
-                    "message": f"Số {val:,.0f} {unit}vượt quá giới hạn tài chính hợp lý",
-                })
+                issues.append(
+                    {
+                        "type": "outlier_value",
+                        "value": val,
+                        "message": f"Số {val:,.0f} {unit}vượt quá giới hạn tài chính hợp lý",
+                    }
+                )
             numbers_found.append({"value": val, "unit": unit})
 
         for ticker, entries in tool_data.items():

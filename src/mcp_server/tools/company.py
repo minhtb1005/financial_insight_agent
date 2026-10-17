@@ -17,6 +17,8 @@ from application.services.company.company_service import handle_company_query
 )
 def get_company_info(
     tickers: Annotated[list[str], Field(description="Tickers")],
-    field: Annotated[str, Field(description="Field: shareholders|executives|subsidiaries")] = "shareholders",
+    field: Annotated[
+        str, Field(description="Field: shareholders|executives|subsidiaries")
+    ] = "shareholders",
 ) -> str:
     return call_service("get_company_info", handle_company_query, tickers=tickers, field=field)

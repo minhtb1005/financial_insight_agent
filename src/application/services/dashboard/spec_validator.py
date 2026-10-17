@@ -46,7 +46,9 @@ def validate_chart_spec(spec: ChartSpec | dict[str, Any]) -> SpecValidationResul
         errors.append(f"y_field '{spec.y_field}' không khớp field {sorted(cols)[:8]} trong data")
     checked.append("sort_field_valid")
     if spec.sort.field not in cols:
-        errors.append(f"sort.field '{spec.sort.field}' không khớp field {sorted(cols)[:8]} trong data")
+        errors.append(
+            f"sort.field '{spec.sort.field}' không khớp field {sorted(cols)[:8]} trong data"
+        )
     if spec.library != CHART_LIBRARY_ROUTE.get(spec.chart_type.value, ""):
         errors.append(
             f"library '{spec.library}' sai route, kỳ vọng "

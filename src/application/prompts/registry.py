@@ -42,9 +42,7 @@ def _validate_template_syntax(template: str, context: str) -> None:
         for _ in string.Formatter().parse(template):
             pass
     except ValueError as exc:
-        raise PromptRegistryError(
-            f"{context}: malformed placeholder ({exc})"
-        ) from exc
+        raise PromptRegistryError(f"{context}: malformed placeholder ({exc})") from exc
 
 
 @dataclass
@@ -99,9 +97,7 @@ class PromptRegistry:
     """Loads, validates, and renders versioned YAML prompts."""
 
     def __init__(self, base_dir: str | Path | None = None):
-        self.base_dir = (
-            Path(base_dir) if base_dir else Path(__file__).parent / "templates"
-        )
+        self.base_dir = Path(base_dir) if base_dir else Path(__file__).parent / "templates"
         self._prompts: dict[str, list[dict[str, Any]]] = {}
         self._defaults: dict[str, str | None] = {}
         self._lock = threading.RLock()
@@ -190,9 +186,7 @@ class PromptRegistry:
             pinned = self._defaults.get(name)
             chosen = next((e for e in entries if e["version"] == pinned), None)
             if chosen is None:
-                chosen = next(
-                    (e for e in entries if e["status"] == "stable"), entries[0]
-                )
+                chosen = next((e for e in entries if e["status"] == "stable"), entries[0])
             return chosen
 
         chosen = next((e for e in entries if e["version"] == str(version)), None)

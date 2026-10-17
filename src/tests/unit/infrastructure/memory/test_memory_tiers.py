@@ -10,9 +10,7 @@ def _make_manager(episodic=None):
         "infrastructure.memory.memory_manager.get_short_term_memory",
         return_value=MagicMock(),
     ):
-        mm = MemoryManager(
-            config=MemoryConfig(auto_cleanup_enabled=False, episodic_enabled=False)
-        )
+        mm = MemoryManager(config=MemoryConfig(auto_cleanup_enabled=False, episodic_enabled=False))
     mm.episodic = episodic
     return mm
 

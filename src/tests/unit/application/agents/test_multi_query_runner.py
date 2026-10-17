@@ -10,7 +10,9 @@ def test_empty_sub_queries():
 
 
 def test_single_sub_query():
-    result = run_queries_parallel(["query1"], "rid", lambda q, r: "answer1", lambda a, q: "", "original")
+    result = run_queries_parallel(
+        ["query1"], "rid", lambda q, r: "answer1", lambda a, q: "", "original"
+    )
     assert result == "answer1"
 
 
@@ -22,7 +24,9 @@ def test_multiple_sub_queries():
 
     assert result == "final"
     assert run_single.call_count == 2
-    synthesize.assert_called_once_with(["**Kết quả [1] — query1**\nans1", "**Kết quả [2] — query2**\nans2"], "original")
+    synthesize.assert_called_once_with(
+        ["**Kết quả [1] — query1**\nans1", "**Kết quả [2] — query2**\nans2"], "original"
+    )
 
 
 def test_sub_query_exception():

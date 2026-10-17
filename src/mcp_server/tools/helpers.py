@@ -37,7 +37,9 @@ def _wrap(fn_name: str, result: Any) -> str:
         result = dict(result)
         error_keys = {k for k in result if k != "error"}
         if not error_keys:
-            return _safe_json({"data": None, "note": f"Service error for {fn_name}: {result['error']}"})
+            return _safe_json(
+                {"data": None, "note": f"Service error for {fn_name}: {result['error']}"}
+            )
         result["_partial_error"] = True
         result["_error"] = result.pop("error")
     return _safe_json(result)

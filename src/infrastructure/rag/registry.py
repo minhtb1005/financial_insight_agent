@@ -22,8 +22,7 @@ def _connect(db_path: Path | str | None = None) -> sqlite3.Connection:
 def init_db(db_path: Path | str | None = None) -> None:
     conn = _connect(db_path)
     try:
-        conn.executescript(
-            """
+        conn.executescript("""
             CREATE TABLE IF NOT EXISTS ingestion_runs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 week TEXT NOT NULL,
@@ -49,20 +48,30 @@ def init_db(db_path: Path | str | None = None) -> None:
                 status TEXT
             );
             CREATE INDEX IF NOT EXISTS idx_runs_week ON ingestion_runs(week);
-            """
-        )
+            """)
         conn.commit()
     finally:
         conn.close()
 
 
-def create_run(week: str, collection: str, sources_manifest: list[dict[str, Any]] | None = None, db_path: Path | str | None = None) -> int:
+def create_run(
+    week: str,
+    collection: str,
+    sources_manifest: list[dict[str, Any]] | None = None,
+    db_path: Path | str | None = None,
+) -> int:
     init_db(db_path)
     conn = _connect(db_path)
     try:
         cur = conn.execute(
             "INSERT INTO ingestion_runs (week, started_at, status, collection, sources_manifest) VALUES (?, ?, ?, ?, ?)",
-            (week, datetime.now(timezone.utc).isoformat(), "running", collection, json.dumps(sources_manifest or [], ensure_ascii=False)),
+            (
+                week,
+                datetime.now(timezone.utc).isoformat(),
+                "running",
+                collection,
+                json.dumps(sources_manifest or [], ensure_ascii=False),
+            ),
         )
         conn.commit()
         return int(cur.lastrowid)
@@ -70,24 +79,58 @@ def create_run(week: str, collection: str, sources_manifest: list[dict[str, Any]
         conn.close()
 
 
-def finish_run(run_id: int, status: str, docs_total: int = 0, chunks_total: int = 0, error: str | None = None, db_path: Path | str | None = None) -> None:
+def finish_run(
+    run_id: int,
+    status: str,
+    docs_total: int = 0,
+    chunks_total: int = 0,
+    error: str | None = None,
+    db_path: Path | str | None = None,
+) -> None:
     conn = _connect(db_path)
     try:
         conn.execute(
             "UPDATE ingestion_runs SET finished_at=?, status=?, docs_total=?, chunks_total=?, error=? WHERE id=?",
-            (datetime.now(timezone.utc).isoformat(), status, docs_total, chunks_total, error, run_id),
+            (
+                datetime.now(timezone.utc).isoformat(),
+                status,
+                docs_total,
+                chunks_total,
+                error,
+                run_id,
+            ),
         )
         conn.commit()
     finally:
         conn.close()
 
 
-def add_source_manifest(run_id: int, source_id: str, url: str, sha256: str | None, etag: str | None, doc_count: int, chunk_count: int, status: str, db_path: Path | str | None = None) -> None:
+def add_source_manifest(
+    run_id: int,
+    source_id: str,
+    url: str,
+    sha256: str | None,
+    etag: str | None,
+    doc_count: int,
+    chunk_count: int,
+    status: str,
+    db_path: Path | str | None = None,
+) -> None:
     conn = _connect(db_path)
     try:
         conn.execute(
             "INSERT INTO source_manifests (run_id, source_id, url, sha256, etag, fetched_at, doc_count, chunk_count, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (run_id, source_id, url, sha256, etag, datetime.now(timezone.utc).isoformat(), doc_count, chunk_count, status),
+            (
+                run_id,
+                source_id,
+                url,
+                sha256,
+                etag,
+                datetime.now(timezone.utc).isoformat(),
+                doc_count,
+                chunk_count,
+                status,
+            ),
         )
         conn.commit()
     finally:
@@ -98,7 +141,9 @@ def get_last_runs(limit: int = 10, db_path: Path | str | None = None) -> list[di
     init_db(db_path)
     conn = _connect(db_path)
     try:
-        rows = conn.execute("SELECT * FROM ingestion_runs ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
+        rows = conn.execute(
+            "SELECT * FROM ingestion_runs ORDER BY id DESC LIMIT ?", (limit,)
+        ).fetchall()
         return [dict(r) for r in rows]
     finally:
         conn.close()

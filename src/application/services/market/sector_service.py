@@ -30,7 +30,9 @@ def _resolve_timeframe(timeframe: str) -> tuple[str, str]:
 
 
 class SectorService(BaseService):
-    def __init__(self, cache: CachePort, company_port: CompanyPort, market_data: MarketDataPort) -> None:
+    def __init__(
+        self, cache: CachePort, company_port: CompanyPort, market_data: MarketDataPort
+    ) -> None:
         super().__init__("sector_service", cache, market_data)
         self._company = company_port
 
@@ -50,7 +52,9 @@ class SectorService(BaseService):
             logger.warning("Cannot query companies by sector '%s': %s", sector, e)
             return []
 
-    def _get_performance(self, ticker: str, start_date: str, end_date: str) -> dict[str, Any] | None:
+    def _get_performance(
+        self, ticker: str, start_date: str, end_date: str
+    ) -> dict[str, Any] | None:
         try:
             if self._market_data is None:
                 return None
@@ -64,13 +68,21 @@ class SectorService(BaseService):
             last = float(data[-1]["close"])
             perf_pct = ((last - first) / first) * 100 if first else 0.0
             avg_volume = mean([int(r["volume"]) for r in data]) if data else 0
-            perf = {"ticker": ticker, "first_price": first, "last_price": last, "performance_pct": round(perf_pct, 2), "avg_volume": int(avg_volume)}
+            perf = {
+                "ticker": ticker,
+                "first_price": first,
+                "last_price": last,
+                "performance_pct": round(perf_pct, 2),
+                "avg_volume": int(avg_volume),
+            }
             perf.update(BaseService._freshness_of(result))
             return perf
         except Exception:
             return None
 
-    def handle_query(self, sector: str, metric: str = "performance", timeframe: str = "1w") -> dict[str, Any]:
+    def handle_query(
+        self, sector: str, metric: str = "performance", timeframe: str = "1w"
+    ) -> dict[str, Any]:
         if not sector:
             return {"error": "Missing sector parameter"}
         try:
@@ -80,7 +92,11 @@ class SectorService(BaseService):
                 return cached  # type: ignore
             tickers = self._get_tickers_in_sector(sector)
             if not tickers:
-                return {"sector": sector, "error": "Sector data unavailable", "suggested_tickers": []}
+                return {
+                    "sector": sector,
+                    "error": "Sector data unavailable",
+                    "suggested_tickers": [],
+                }
             start_date, end_date = _resolve_timeframe(timeframe)
             performances = []
             for ticker in tickers:
@@ -91,8 +107,23 @@ class SectorService(BaseService):
                 performances.sort(key=lambda x: x.get("avg_volume", 0), reverse=True)
             else:
                 performances.sort(key=lambda x: x.get("performance_pct", 0), reverse=True)
-            ranked = [{"rank": i + 1, "ticker": p["ticker"], "performance_pct": p.get("performance_pct"), "avg_volume": p.get("avg_volume"), "data_as_of": p.get("data_as_of")} for i, p in enumerate(performances)]
-            result = {"sector": sector, "metric": metric, "timeframe": timeframe, "ranked_tickers": ranked, "total_tickers": len(performances)}
+            ranked = [
+                {
+                    "rank": i + 1,
+                    "ticker": p["ticker"],
+                    "performance_pct": p.get("performance_pct"),
+                    "avg_volume": p.get("avg_volume"),
+                    "data_as_of": p.get("data_as_of"),
+                }
+                for i, p in enumerate(performances)
+            ]
+            result = {
+                "sector": sector,
+                "metric": metric,
+                "timeframe": timeframe,
+                "ranked_tickers": ranked,
+                "total_tickers": len(performances),
+            }
             self._cache.set(cache_key, result, ttl_hours=SECTOR_TTL_HOURS)
             return result
         except Exception as e:
@@ -100,6 +131,9 @@ class SectorService(BaseService):
             return {"error": "Sector data unavailable", "suggested_tickers": []}
 
 
-def handle_sector_query(sector: str, metric: str = "performance", timeframe: str = "1w") -> dict[str, Any]:
+def handle_sector_query(
+    sector: str, metric: str = "performance", timeframe: str = "1w"
+) -> dict[str, Any]:
     from shared.service_helpers import call_service
+
     return call_service("sector", sector=sector, metric=metric, timeframe=timeframe)

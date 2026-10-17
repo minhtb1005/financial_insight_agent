@@ -91,7 +91,12 @@ class ShortTermMemory:
         self._message_list_key = f"memory:short_term:messages:{user_id}"
         self._facts_key = f"memory:short_term:facts:{user_id}"
         self._summary_key = f"memory:short_term:summary:{user_id}"
-        logger.info("Set user context %s — TTL=%sh, max_messages=%d", user_id, self.ttl_hours, self.max_messages)
+        logger.info(
+            "Set user context %s — TTL=%sh, max_messages=%d",
+            user_id,
+            self.ttl_hours,
+            self.max_messages,
+        )
 
     def _serialize_memory_item(self, item: dict[str, Any]) -> str:
         memory_item = {
@@ -136,14 +141,18 @@ class ShortTermMemory:
                 self._redis.list_trim(msg_key, 0, self.max_messages - 1)
                 self._redis.expire(msg_key, self.ttl_hours)
                 self._check_migration_trigger(user_id=user_id)
-                logger.debug(f"Added interaction to short-term memory (user={user_id or self._user_id}, confidence: {confidence:.2f})")
+                logger.debug(
+                    f"Added interaction to short-term memory (user={user_id or self._user_id}, confidence: {confidence:.2f})"
+                )
                 return True
             return False
         except RedisError as e:
             logger.error(f"Failed to add interaction to short-term memory: {e}")
             return False
 
-    def get_recent_interactions(self, limit: int = 10, user_id: str | None = None) -> list[dict[str, Any]]:
+    def get_recent_interactions(
+        self, limit: int = 10, user_id: str | None = None
+    ) -> list[dict[str, Any]]:
         try:
             msg_key = self._msg_key(user_id)
             messages_data = self._redis.list_range(msg_key, 0, limit - 1)
@@ -167,7 +176,9 @@ class ShortTermMemory:
         turns = self.get_last_k_turns(k=1, user_id=user_id)
         return turns[0] if turns else None
 
-    def get_last_k_turns(self, k: int = DEFAULT_WINDOW_SIZE, user_id: str | None = None) -> list[dict[str, Any]]:
+    def get_last_k_turns(
+        self, k: int = DEFAULT_WINDOW_SIZE, user_id: str | None = None
+    ) -> list[dict[str, Any]]:
         """Sliding window: k most recent interaction turns, chronological (oldest -> newest).
 
         Redis list uses LPUSH so index 0 is the newest; the result is reversed
@@ -280,7 +291,9 @@ class ShortTermMemory:
             logger.error(f"Failed to update summary: {e}")
             return {"entities": [], "topics": [], "updated_at": None}
 
-    def get_facts(self, fact_types: list[str] | None = None, user_id: str | None = None) -> dict[str, Any]:
+    def get_facts(
+        self, fact_types: list[str] | None = None, user_id: str | None = None
+    ) -> dict[str, Any]:
         try:
             facts_key = self._facts_key_for(user_id)
             if fact_types:
@@ -329,7 +342,9 @@ class ShortTermMemory:
             msg_key = self._msg_key(user_id)
             message_count = self._redis.list_length(msg_key)
             if message_count >= self.migration_threshold:
-                logger.info(f"Migration threshold reached ({message_count} messages, user={user_id or self._user_id}), triggering migration")
+                logger.info(
+                    f"Migration threshold reached ({message_count} messages, user={user_id or self._user_id}), triggering migration"
+                )
         except RedisError as e:
             logger.error(f"Failed to check migration trigger: {e}")
 
@@ -375,9 +390,18 @@ class ShortTermMemory:
             keys_to_delete = [msg_key, facts_key, summary_key]
             if (user_id is None and self._user_id is None) or (user_id == "anonymous"):
                 # Legacy global keys without suffix (pre-fix) -> delete once.
-                keys_to_delete.extend(["memory:short_term:messages", "memory:short_term:facts", "memory:short_term:summary"])
+                keys_to_delete.extend(
+                    [
+                        "memory:short_term:messages",
+                        "memory:short_term:facts",
+                        "memory:short_term:summary",
+                    ]
+                )
             result = self._redis.delete_multi(keys_to_delete)
-            logger.info("Cleared short-term memory (user=%s)", user_id if user_id is not None else (self._user_id or "anonymous"))
+            logger.info(
+                "Cleared short-term memory (user=%s)",
+                user_id if user_id is not None else (self._user_id or "anonymous"),
+            )
             return result
         except RedisError as e:
             logger.error(f"Failed to clear short-term memory: {e}")

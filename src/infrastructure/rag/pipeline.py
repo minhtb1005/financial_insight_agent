@@ -14,7 +14,13 @@ from .embedder import Embedder
 from .ingestion.connectors import ingest_source
 from .processing.chunker import chunk_text, dedupe_chunks
 from .registry import add_source_manifest, create_run, finish_run
-from .vector_store import cleanup_old_backups, collection_name_for_week, ensure_collection, swap_alias, upsert_points
+from .vector_store import (
+    cleanup_old_backups,
+    collection_name_for_week,
+    ensure_collection,
+    swap_alias,
+    upsert_points,
+)
 
 logger = get_logger("rag.pipeline")
 
@@ -34,8 +40,12 @@ def _week_label() -> str:
     return week_label()
 
 
-def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path | str | None = None,
-                     collection_suffix: str = "") -> dict[str, Any]:
+def run_full_refresh(
+    force: bool = False,
+    week: str | None = None,
+    db_path: Path | str | None = None,
+    collection_suffix: str = "",
+) -> dict[str, Any]:
     week = week or _week_label()
     sources, settings = _load_sources()
     delay = float(settings.get("rate_limit", {}).get("default_delay_seconds", 1.5))
@@ -55,7 +65,12 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
     # if exists and not force, add suffix
 
     # create run entry
-    run_id = create_run(week=week, collection=collection, sources_manifest=[{"id": s["id"], "url": s["url"]} for s in sources], db_path=db_path)
+    run_id = create_run(
+        week=week,
+        collection=collection,
+        sources_manifest=[{"id": s["id"], "url": s["url"]} for s in sources],
+        db_path=db_path,
+    )
     logger.info("RAG run %s start week=%s collection=%s", run_id, week, collection)
 
     all_docs: list[dict[str, Any]] = []
@@ -65,14 +80,34 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
         # 1. Ingest
         for cfg in sources:
             try:
-                docs = ingest_source(cfg, raw_dir=raw_dir, delay=delay, respect_robots=respect_robots)
+                docs = ingest_source(
+                    cfg, raw_dir=raw_dir, delay=delay, respect_robots=respect_robots
+                )
             except Exception as e:
                 logger.exception("ingest failed %s: %s", cfg["id"], e)
-                docs = [{"source_id": cfg["id"], "url": cfg["url"], "text": "", "error": str(e), "priority": cfg.get("priority", 5)}]
+                docs = [
+                    {
+                        "source_id": cfg["id"],
+                        "url": cfg["url"],
+                        "text": "",
+                        "error": str(e),
+                        "priority": cfg.get("priority", 5),
+                    }
+                ]
             # stats
             ok_docs = [d for d in docs if d.get("text")]
             for d in docs:
-                add_source_manifest(run_id, d.get("source_id", cfg["id"]), d.get("url", cfg["url"]), d.get("sha256"), d.get("etag"), 1 if d.get("text") else 0, 0, "ok" if d.get("text") else "error", db_path=db_path)
+                add_source_manifest(
+                    run_id,
+                    d.get("source_id", cfg["id"]),
+                    d.get("url", cfg["url"]),
+                    d.get("sha256"),
+                    d.get("etag"),
+                    1 if d.get("text") else 0,
+                    0,
+                    "ok" if d.get("text") else "error",
+                    db_path=db_path,
+                )
             all_docs.extend(ok_docs)
             source_stats.append({"id": cfg["id"], "docs": len(ok_docs), "total": len(docs)})
 
@@ -131,11 +166,17 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
             "vector_ok": vector_ok,
             "embed_error": embed_error,
         }
-        (manifests_dir / f"{week}.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-        (processed_dir / f"{week}.jsonl").write_text("\n".join(json.dumps(c, ensure_ascii=False) for c in chunks), encoding="utf-8")
+        (manifests_dir / f"{week}.json").write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        (processed_dir / f"{week}.jsonl").write_text(
+            "\n".join(json.dumps(c, ensure_ascii=False) for c in chunks), encoding="utf-8"
+        )
         # also save raw docs summary for inspection
         try:
-            (processed_dir / f"{week}.docs.json").write_text(json.dumps(all_docs, ensure_ascii=False, indent=2)[:200000], encoding="utf-8")
+            (processed_dir / f"{week}.docs.json").write_text(
+                json.dumps(all_docs, ensure_ascii=False, indent=2)[:200000], encoding="utf-8"
+            )
         except Exception:
             pass
 
@@ -146,7 +187,9 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
                 # 4. Upsert
                 points = []
                 for ch, vec in zip(chunks, vectors):
-                    pid = str(uuid.uuid5(uuid.NAMESPACE_URL, f"{ch['source_id']}:{ch['chunk_hash']}"))
+                    pid = str(
+                        uuid.uuid5(uuid.NAMESPACE_URL, f"{ch['source_id']}:{ch['chunk_hash']}")
+                    )
                     payload = {k: v for k, v in ch.items() if k != "text"}
                     payload["text"] = ch["text"][:2000]
                     payload["week"] = week
@@ -157,10 +200,15 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
                 # 6. Cleanup old backups (>7 days)
                 deleted = cleanup_old_backups(keep_days=7)
             except Exception as ve:
-                logger.warning("Vector store failed (Qdrant not running?) — filesystem saved, Qdrant skipped: %s", ve)
+                logger.warning(
+                    "Vector store failed (Qdrant not running?) — filesystem saved, Qdrant skipped: %s",
+                    ve,
+                )
                 manifest["vector_error"] = str(ve)
                 manifest["vector_ok"] = False
-                (manifests_dir / f"{week}.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+                (manifests_dir / f"{week}.json").write_text(
+                    json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+                )
                 vector_ok = False
         else:
             logger.info("Skipping Qdrant upsert — no vectors")
@@ -171,9 +219,32 @@ def run_full_refresh(force: bool = False, week: str | None = None, db_path: Path
         # if vector failed but docs ok, keep partial not failed
         if failed_sources == 0 and not manifest.get("vector_ok"):
             status = "partial"
-        finish_run(run_id, status=status, docs_total=len(all_docs), chunks_total=len(chunks), db_path=db_path)
-        logger.info("RAG run %s done status=%s chunks=%s alias->%s deleted=%s vector_ok=%s", run_id, status, len(chunks), collection, deleted, manifest.get("vector_ok"))
-        return {"run_id": run_id, "week": week, "collection": collection, "status": status, "docs_total": len(all_docs), "chunks_total": len(chunks), "deleted": deleted, "manifest": manifest}
+        finish_run(
+            run_id,
+            status=status,
+            docs_total=len(all_docs),
+            chunks_total=len(chunks),
+            db_path=db_path,
+        )
+        logger.info(
+            "RAG run %s done status=%s chunks=%s alias->%s deleted=%s vector_ok=%s",
+            run_id,
+            status,
+            len(chunks),
+            collection,
+            deleted,
+            manifest.get("vector_ok"),
+        )
+        return {
+            "run_id": run_id,
+            "week": week,
+            "collection": collection,
+            "status": status,
+            "docs_total": len(all_docs),
+            "chunks_total": len(chunks),
+            "deleted": deleted,
+            "manifest": manifest,
+        }
 
     except Exception as e:
         logger.exception("RAG pipeline failed run %s: %s", run_id, e)

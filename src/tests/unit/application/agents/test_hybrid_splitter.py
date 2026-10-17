@@ -19,6 +19,7 @@ def _make_splitter():
 
 # --- Integration: split() calls rule then LLM fallback ---
 
+
 def test_empty_text_returns_empty():
     s = _make_splitter()
     assert s.split("") == []
@@ -80,6 +81,7 @@ def test_rule_split_multi_action_va_splits():
 
 
 # --- _llm_split (direct unit tests) ---
+
 
 def test_llm_split_empty():
     s = _make_splitter()

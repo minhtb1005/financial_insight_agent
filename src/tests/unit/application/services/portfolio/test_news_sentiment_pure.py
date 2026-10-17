@@ -3,6 +3,7 @@
 Covers _classify_sentiment (incl. negation handling) and
 _calc_sentiment_from_articles aggregation. No network, no model weights.
 """
+
 import pytest
 
 from application.services.portfolio.news_sentiment_service import (

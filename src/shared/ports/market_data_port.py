@@ -8,5 +8,7 @@ from typing import Any
 
 class MarketDataPort(ABC):
     @abstractmethod
-    def get_price_data(self, ticker: str, start_date: str, end_date: str, interval: str = "1d") -> dict[str, Any]:
+    def get_price_data(
+        self, ticker: str, start_date: str, end_date: str, interval: str = "1d"
+    ) -> dict[str, Any]:
         """Return dict {ticker, data:[{date,open,high,low,close,volume}], start_date, end_date} or {error}."""

@@ -54,12 +54,16 @@ class AlertService(BaseService):
             },
         }
 
-    def _check_single(self, ticker: str, threshold: float, condition: str, timeframe: str = "1d") -> dict[str, Any]:
+    def _check_single(
+        self, ticker: str, threshold: float, condition: str, timeframe: str = "1d"
+    ) -> dict[str, Any]:
         end_date = datetime.now(timezone.utc)
         _TIMEFRAME_LOOKBACK = {"1d": 1, "5d": 5, "1w": 7, "2w": 14, "1m": 30, "3m": 90}
         lookback = _TIMEFRAME_LOOKBACK.get(timeframe, 7)
         start_date = end_date - timedelta(days=lookback)
-        result = self._market_data.get_price_data(ticker, start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"))
+        result = self._market_data.get_price_data(
+            ticker, start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")
+        )
         if result is None or "error" in result or not result.get("data"):
             return {"error": "No price data available"}
         import pandas as pd
@@ -85,10 +89,15 @@ class AlertService(BaseService):
             "triggered": triggered,
         } | self._freshness_of(result)
 
-def handle_alert_query(tickers: list[str],
+
+def handle_alert_query(
+    tickers: list[str],
     threshold: float,
     condition: str = "above",
-    timeframe: str = "1d",) -> dict[str, Any]:
+    timeframe: str = "1d",
+) -> dict[str, Any]:
     from shared.service_helpers import call_service
-    return call_service("alert", tickers=tickers, threshold=threshold, condition=condition, timeframe=timeframe)
 
+    return call_service(
+        "alert", tickers=tickers, threshold=threshold, condition=condition, timeframe=timeframe
+    )

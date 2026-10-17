@@ -27,7 +27,9 @@ def _mock_infrastructure():
     ):
         mock_agent = MagicMock()
         mock_agent.run.return_value = "Giá đóng cửa của VCB hôm qua là 105,000 VND."
-        mock_agent.run_stream.return_value = iter(["Giá đóng ", "cửa của ", "VCB hôm qua là 105,000 VND."])
+        mock_agent.run_stream.return_value = iter(
+            ["Giá đóng ", "cửa của ", "VCB hôm qua là 105,000 VND."]
+        )
         mock_agent_cls.return_value = mock_agent
 
         mock_gr = MagicMock()

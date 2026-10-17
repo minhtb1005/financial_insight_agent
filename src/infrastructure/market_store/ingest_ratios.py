@@ -35,14 +35,22 @@ def _compute_snapshot(port: FinancialPort, ticker: str) -> tuple[dict[str, float
     # Legacy fallback: balance-sheet compute path via the service helper.
     res = get_financial_ratios(port, ticker, None)
     if not isinstance(res, dict) or "error" in res:
-        raise RuntimeError(str(res.get("error", "empty ratios")) if isinstance(res, dict) else "empty ratios")
+        raise RuntimeError(
+            str(res.get("error", "empty ratios")) if isinstance(res, dict) else "empty ratios"
+        )
     out: dict[str, float] = {}
     period = None
     legacy_key = {
-        "pe": "pe_ratio", "pb": "pb_ratio", "roe": "roe", "eps": "eps",
-        "current_ratio": "current_ratio", "debt_to_equity": "debt_to_equity",
-        "profit_margin": "profit_margin", "quick_ratio": "quick_ratio",
-        "asset_turnover": "asset_turnover", "dividend_yield": "dividend_yield",
+        "pe": "pe_ratio",
+        "pb": "pb_ratio",
+        "roe": "roe",
+        "eps": "eps",
+        "current_ratio": "current_ratio",
+        "debt_to_equity": "debt_to_equity",
+        "profit_margin": "profit_margin",
+        "quick_ratio": "quick_ratio",
+        "asset_turnover": "asset_turnover",
+        "dividend_yield": "dividend_yield",
     }
     for field in RATIO_FIELDS:
         entry = res.get(legacy_key.get(field, field))

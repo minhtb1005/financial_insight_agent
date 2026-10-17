@@ -16,9 +16,36 @@ logger = logging.getLogger(__name__)
 
 # Snapshot rổ VN30 công bố 2025 (30 mã, source: HSX công bố rổ kỳ 2025).
 VN30_2025: list[str] = [
-    "ACB", "BCM", "BID", "BVH", "CTG", "FPT", "GAS", "GVR", "HDB", "HPG",
-    "LPB", "MBB", "MSN", "MWG", "PLX", "POW", "SAB", "SHB", "SSB", "SSI",
-    "STB", "TCB", "TPB", "VCB", "VHM", "VIB", "VIC", "VJC", "VNM", "VPB",
+    "ACB",
+    "BCM",
+    "BID",
+    "BVH",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "POW",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
 ]
 
 INTRADAY_PILOT: list[str] = ["VCB", "HPG", "FPT", "VNM", "BID"]
@@ -42,8 +69,13 @@ def backfill_universe(
             cov[t] = store.coverage(t)
     total = len(tickers)
     ok_rate = len(done) / total if total else 0.0
-    return {"done": done, "failed": failed, "coverage": cov,
-            "ok_rate": round(ok_rate, 3), "start": start}
+    return {
+        "done": done,
+        "failed": failed,
+        "coverage": cov,
+        "ok_rate": round(ok_rate, 3),
+        "start": start,
+    }
 
 
 def backfill_intraday_pilot(
@@ -66,9 +98,17 @@ def backfill_intraday_pilot(
         try:
             payload = port.get_price_data(ticker, start, end, interval="1h")
             if not isinstance(payload, dict) or "error" in payload or not payload.get("data"):
-                raise RuntimeError(str(payload.get("error", "empty") if isinstance(payload, dict) else payload))
+                raise RuntimeError(
+                    str(payload.get("error", "empty") if isinstance(payload, dict) else payload)
+                )
             data = payload["data"]
-            norm = [{"datetime": str(r.get("date", ""))[:16], **{k: r.get(k) for k in ("open", "high", "low", "close", "volume")}} for r in data]
+            norm = [
+                {
+                    "datetime": str(r.get("date", ""))[:16],
+                    **{k: r.get(k) for k in ("open", "high", "low", "close", "volume")},
+                }
+                for r in data
+            ]
             n = store.upsert_intraday(ticker, norm)
             rows[ticker] = n
             done.append(ticker)

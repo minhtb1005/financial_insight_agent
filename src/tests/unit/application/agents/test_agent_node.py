@@ -31,7 +31,13 @@ def _make_agent(llm_available=True):
         return agent
 
 
-def _state(messages=None, iterations=0, original_query="test query", request_id="test-rid", next_tool_call=None):
+def _state(
+    messages=None,
+    iterations=0,
+    original_query="test query",
+    request_id="test-rid",
+    next_tool_call=None,
+):
     return AgentState(
         messages=messages or [],
         iterations=iterations,
@@ -42,6 +48,7 @@ def _state(messages=None, iterations=0, original_query="test query", request_id=
 
 
 # --- _should_continue ---
+
 
 def test_should_continue_no_next_tool_call():
     assert StockAgent._should_continue(_state([])) == "end"
@@ -61,6 +68,7 @@ def test_should_continue_empty_list():
 
 
 # --- _reason_node ---
+
 
 def test_reason_node_llm_none():
     agent = _make_agent(llm_available=False)
@@ -87,12 +95,16 @@ def test_reason_node_llm_call_fails():
 
 def test_reason_node_success_with_tool_calls():
     agent = _make_agent(llm_available=True)
-    mock_response = AIMessage(content="", tool_calls=[{"name": "get_price", "args": {"ticker": "VCB"}, "id": "1"}])
+    mock_response = AIMessage(
+        content="", tool_calls=[{"name": "get_price", "args": {"ticker": "VCB"}, "id": "1"}]
+    )
     agent.llm.invoke.return_value = mock_response
     result = agent._reason_node(_state([HumanMessage(content="test")]))
     assert result["messages"][0] is mock_response
     assert result["iterations"] == 1
-    assert result["next_tool_call"] == [{"name": "get_price", "args": {"ticker": "VCB"}, "id": "1", "type": "tool_call"}]
+    assert result["next_tool_call"] == [
+        {"name": "get_price", "args": {"ticker": "VCB"}, "id": "1", "type": "tool_call"}
+    ]
     agent.llm.invoke.assert_called_once()
 
 
@@ -119,7 +131,9 @@ def test_reason_node_with_memory_context():
 
 def test_reason_node_empty_llm_response():
     agent = _make_agent(llm_available=True)
-    agent.llm.invoke.return_value = AIMessage(content="", tool_calls=[{"name": "t", "args": {}, "id": "1"}])
+    agent.llm.invoke.return_value = AIMessage(
+        content="", tool_calls=[{"name": "t", "args": {}, "id": "1"}]
+    )
     result = agent._reason_node(_state([HumanMessage(content="test")]))
     assert result["messages"][0].content == ""
     assert result["iterations"] == 1
@@ -127,6 +141,7 @@ def test_reason_node_empty_llm_response():
 
 
 # --- _action_node (reads from next_tool_call, uses execute_one) ---
+
 
 def test_action_node_no_next_tool_call():
     agent = _make_agent(llm_available=True)
@@ -216,6 +231,7 @@ def test_action_node_multiple_tool_calls():
 
 
 # --- _final_answer_node ---
+
 
 @patch("application.agents.agent.get_output_guardrails")
 def test_final_answer_all_tools_error(mock_get_gr):

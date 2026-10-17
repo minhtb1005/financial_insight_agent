@@ -74,7 +74,9 @@ def test_empty_query_passthrough():
 def test_rewrite_with_history():
     llm = FakeStructuredLLM()
     r = QueryReformulator(FakeProvider(llm))
-    rewritten, entities, topics = r.rewrite("Giá đóng cửa của nó hôm qua?", mem_inputs=_mem_inputs(), user_id="u1")
+    rewritten, entities, topics = r.rewrite(
+        "Giá đóng cửa của nó hôm qua?", mem_inputs=_mem_inputs(), user_id="u1"
+    )
     assert rewritten == "Giá đóng cửa của HPG hôm qua là bao nhiêu?"
     assert entities == ["HPG"]
     assert topics == ["price"]
@@ -108,9 +110,7 @@ def test_empty_response_falls_back_to_raw():
 def test_prompt_input_truncates_context():
     mem = _mem_inputs()
     mem["sliding"] = {
-        "turns": [
-            {"user_query": f"q{i}", "agent_response": "x" * 2000} for i in range(5)
-        ]
+        "turns": [{"user_query": f"q{i}", "agent_response": "x" * 2000} for i in range(5)]
     }
     mem["episodic"] = {"context": "y" * 5000}
     variables = QueryReformulator._build_prompt_input("Giá của nó?", mem)
