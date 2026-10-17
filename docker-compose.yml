@@ -121,7 +121,7 @@ services:
       - QDRANT_URL=
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-finsight}:${POSTGRES_PASSWORD:-finsight}@postgres:5432/${POSTGRES_DB:-finsight}
-      - DATABASE_SYNC_URL=postgresql://${POSTGRES_USER:-finsight}:${POSTGRES_PASSWORD:-finsight}@postgres:5432/${POSTGRES_DB:-finsight}
+      - DATABASE_SYNC_URL=postgresql+psycopg2://${POSTGRES_USER:-finsight}:${POSTGRES_PASSWORD:-finsight}@postgres:5432/${POSTGRES_DB:-finsight}
       - JWT_SECRET=${JWT_SECRET:-}
       - JWT_ALGORITHM=${JWT_ALGORITHM:-HS256}
       - JWT_EXPIRE_MINUTES=${JWT_EXPIRE_MINUTES:-60}
