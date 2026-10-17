@@ -14,9 +14,12 @@ config = context.config
 # Override sqlalchemy.url from env if present
 db_url = os.getenv("DATABASE_SYNC_URL") or os.getenv("DATABASE_URL", "")
 if db_url:
-    # Convert async URL to sync for alembic, preserving query params (single replace)
+    # Convert async URL to sync for alembic, preserving query params (single replace).
+    # Explicit psycopg2 driver: SQLAlchemy 2.1 defaults bare postgresql:// to psycopg (v3).
     if db_url.startswith("postgresql+asyncpg://"):
-        sync_url = db_url.replace("postgresql+asyncpg://", "postgresql://", 1)
+        sync_url = db_url.replace("postgresql+asyncpg://", "postgresql+psycopg2://", 1)
+    elif db_url.startswith("postgresql://"):
+        sync_url = db_url.replace("postgresql://", "postgresql+psycopg2://", 1)
     elif db_url.startswith("sqlite+aiosqlite://"):
         sync_url = db_url.replace("sqlite+aiosqlite://", "sqlite://", 1)
     else:

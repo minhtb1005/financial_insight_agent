@@ -272,7 +272,7 @@ _GUARDRAIL_PATHS = frozenset({"/api/v1/ask-stream"})
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_allowed_origins,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
 )
 

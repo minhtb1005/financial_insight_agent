@@ -8,6 +8,8 @@ on:
 
 env:
   PYTHON_VERSION: "3.13"
+  # vnstock/vnai quarantined on PyPI — vendor index required for `pip install -e .`
+  PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple
 
 jobs:
   lint:

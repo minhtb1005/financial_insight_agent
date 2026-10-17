@@ -108,7 +108,7 @@ DATABASE_URL: str = os.getenv(
 # Sync URL for alembic — use urllib.parse to preserve query params
 def _to_sync_url(url: str) -> str:
     if url.startswith("postgresql+asyncpg://"):
-        return url.replace("postgresql+asyncpg://", "postgresql://", 1)
+        return url.replace("postgresql+asyncpg://", "postgresql+psycopg2://", 1)
     if url.startswith("sqlite+aiosqlite://"):
         return url.replace("sqlite+aiosqlite://", "sqlite://", 1)
     return url

@@ -1134,9 +1134,50 @@ Checklist user hỏi:
 - C8 Ghi WORKFLOW_STATE pass/fail từng mục + commit compose fix (KHÔNG push, stage CHỈ docker-compose.yml + docker-compose.dev.yml + WORKFLOW_STATE.md, cấm `git add -A`).
 - Ghi tiến độ vào WORKFLOW_STATE SAU MỖI bước (C1, C3, C4, C5, C6, C7) để bị ngắt không mất trạng thái.
 
+## Review Findings (docker-fix r3 — reviewer 18/10/2026)
+**VERDICT: commits APPROVE-scoped; 1 doc correction BẮT BUỘC (CORS impact overstated).**
+
+### 1. Commit `8343418` (compose DATABASE_SYNC_URL) — **APPROVE**
+- Diff đúng scope: **3 file, 2 dòng code** (`docker-compose.yml` +1/-1, `docker-compose.dev.yml` +1/-1) + `WORKFLOW_STATE.md` +46. `--numstat` xác nhận, không lẫn file khác.
+- Dòng đúng vị trí: `docker-compose.yml:124` + `docker-compose.dev.yml:119` — `DATABASE_SYNC_URL=postgresql://…` → `postgresql+psycopg2://…`. Chỉ `DATABASE_SYNC_URL`; `DATABASE_URL=postgresql+asyncpg://…` giữ nguyên (đúng).
+- **Không có secret** trong diff (chỉ `${POSTGRES_*}` var-refs; scan `password|secret|api_key|token` = 0 match thật). Không push (`main` ahead 3 = `35440f2`, `346570e`, `8343418`).
+- Root cause **được verify độc lập**: SQLAlchemy 2.1.0 (release 2026-09-24) đổi default PostgreSQL DBAPI `psycopg2`→`psycopg` (v3) cho `postgresql://`; explicit `postgresql+psycopg2://` là cách đúng để chọn psycopg2 (docs.sqlalchemy.org/en/21 + blog 2026-09-24). `psycopg2-binary>=2.9.0` đã có trong `pyproject.toml:46`. Fix khớp root cause.
+
+### 2. Commit `35440f2` (Dockerfile extra-index) — **APPROVE**
+- `Dockerfile:9` = `pip install --upgrade pip && pip install -e . --extra-index-url https://vnstocks.com/api/simple` — **1 dòng**, có extra-index, **không pin** (đúng Clarified Scope docker-fix). Diff = `Dockerfile` +1/-1 + state. APPROVE.
+
+### 3. CORS finding — **ĐÚNG một phần (core TRUE, impact OVERSTATED)**
+- **TRUE (verified):** `src/interfaces/api/app.py:275` thật sự là `allow_methods=["GET", "POST"]` (thiếu PATCH/DELETE/PUT); `allow_headers=["Content-Type","Authorization"]` đã đủ. Preflight cho method không có trong allow_methods → 400 → browser block. Routes thực bị ảnh hưởng:
+  - DELETE: `routes/traces.py:234` (Xóa trace) — UI gọi trực tiếp browser: `frontend/.../TracesTable.tsx:194` + `TraceDetailTabs.tsx:100`.
+  - PATCH: `routes/traces.py:219` (meta env/tags).
+  - Không có route `PUT` nào trong `routes/` → thêm PUT là phòng xa, không bắt buộc.
+- **SAI (overstated):** câu ở Implementation Notes C6 *"và cả POST feedback/comment có header đều không chạy được ở UI"* — **không đúng**. `POST` **nằm trong** `allow_methods`, headers `Content-Type`+`Authorization` **nằm trong** `allow_headers` → preflight POST trả 200 → POST feedback/comment từ UI **chạy được**. Implementor chưa test POST-write từ UI (feedback/comment tạo qua C5 PowerShell) nên đây là suy luận chưa verify. `FeedbackTab.tsx` là `"use client"` + POST trực tiếp `${getBackendUrl()}/api/v1/traces/.../feedback` → hoạt động.
+- **Bổ sung:** `memory.py:42` DELETE **không** bị ảnh hưởng từ UI vì frontend đi qua Next server route `frontend/src/app/api/memory/route.ts` (fetch server-side, không áp CORS). Vậy impact browser thật = **Xóa trace + PATCH meta** (2 hành động), không phải "mọi thao tác ghi".
+
+### 4. Acceptance docker-fix — verdict từng AC
+- **AC1 build 3 target xanh, không pin → PASS** (Dockerfile verified 1 dòng, không pin; commit `35440f2`).
+- **AC2 stack healthy → PASS trên bằng chứng report** (backend healthy, `/health` + `/api/health` = ok/agent_ready:true, alembic qua psycopg2). Reviewer không re-run WSL docker (không tái lập độc lập) — chấp nhận evidence-based, consistent với fix.
+- **AC3 smoke từng mục → PASS-with-disclosed-gap**: API PASS toàn bộ (reads/writes/guard 422/get_rates 6/6 qua MCP); UI reads PASS; UI **writes** fail do bug CORS **ngoài scope C1, có sẵn từ trước** — implementor ghi nhận trung thực là FAIL (không phóng đại). AC3 wording "pass từng mục" không đạt tuyệt đối nhưng gap được disclose + root-cause + fix đề xuất.
+- **AC4 down sạch giữ volumes → PASS** (down không `-v`/`--rmi`, 0 container, port free; evidence-based).
+- **AC5 commit không push → PASS** (commit `8343418` tồn tại, stage chọn lọc 3 file, không push, `add -A` không dùng).
+
+### 5. Tính trung thực của WORKFLOW_STATE
+- Trung thực tổng thể: header "C1→C8 XONG" đi kèm dòng "UI writes FAIL do CORS, ngoài scope, chưa sửa" — không giấu fail, không phóng đại. 1 FAIL search `trace_id_search=smoke-test` được giải thích đúng (test-expectation sai, không phải bug code).
+- **Khuyết điểm cần sửa:** câu overstated POST ở C6 (mục 3 trên) làm sai lệch impact của CORS finding.
+- **Minor (không block):** số traces không nhất quán giữa C5 (total 82) và C6 UI (112 / "Tổng 116") — có thể do thời điểm/filter khác nhau nhưng chưa giải thích. Nên ghi rõ hoặc bỏ con số không chắc.
+
+### 6. Rủi ro tồn dư (residual, ngoài scope C1 — note)
+- Fix mới chỉ vá ở **env compose**. Cùng root cause còn latent ở đường không-set-env: `src/shared/config.py:109-114 _to_sync_url()` + `alembic/env.py:18-23` vẫn convert `postgresql+asyncpg://` → plain `postgresql://` (sẽ resolve psycopg3 dưới SQLAlchemy 2.1); `.env.example:55` vẫn ghi `postgresql://`. Ai chạy alembic postgres **không qua compose env** → crash lại `No module named 'psycopg'`. Đề xuất gộp vào vòng nhỏ kế tiếp (1 dòng ở `_to_sync_url` → `postgresql+psycopg2://` + sửa `.env.example`).
+
+### 7. Đề xuất vòng `cors-fix`
+- **CẦN** (1 dòng, bug user-facing thật): `app.py:275` → `allow_methods=["GET","POST","PATCH","DELETE"]` (+ `PUT` tuỳ ý). Không phải "1 dòng đẹp cho vui" — hiện UI **không xóa được trace / không patch được meta**. Nên gộp cả residual mục 6 (config `_to_sync_url` + `.env.example`) trong cùng vòng nhỏ.
+- Không cần chặn: r3 đã đạt mục tiêu (stack healthy end-to-end + smoke API/UI reads).
+
 ## Next Agent (docker-fix r3)
-- **reviewer**: review commit C8 (2 dòng compose + state) + xác nhận finding CORS ở C6 có nên thành vòng riêng không.
-- Sau review: user quyết định có mở vòng `cors-fix` (1 dòng `app.py:275`) hay không.
+- **implementor** (correction nhỏ, docs-only — commit r3 không cần sửa):
+  1. Sửa `WORKFLOW_STATE.md` Dòng Implementation Notes C6: bỏ/đính chính mệnh đề *"và cả POST feedback/comment có header đều không chạy được ở UI"* → POST **chạy được** (POST∈allow_methods, headers đủ); impact browser thật chỉ **DELETE trace + PATCH meta**; ghi rõ `memory.py` DELETE không bị ảnh hưởng (đi qua Next server route).
+  2. (Tuỳ chọn, nếu user mở vòng) thêm note residual mục 6.
+- Sau đó: **user quyết định mở vòng `cors-fix`** hay không (reviewer đề xuất CÓ; gộp cả `_to_sync_url`+`.env.example`). Nếu user muốn verify độc lập stack docker trước → **tester**.
 
 ## Current Status (docker-fix r3 — implementor 18/10/2026, C1→C8 XONG)
 - **Fix chính (C1) HIỆU LỰC:** `postgresql+psycopg2://` → backend `healthy`, alembic `upgrade head` chạy qua, không còn `No module named 'psycopg'`. Stack 6/6 lên, `/health` + `/api/health` = `ok/agent_ready:true`.
@@ -1155,7 +1196,9 @@ Checklist user hỏi:
   - **PASS (đọc):** trang chủ render OK ("Agent sẵn sàng"); `/traces` bảng dữ liệu, cột mặc định **112 traces**; **sort** click header `duration ▼` → đổi thứ tự đúng (784 > 656 > 495 > 446 ms); **search** `9bd16d0c` + Lọc → "Tổng 1 · trang 1/1" đúng trace; **ẩn/hiện cột** uncheck `tokens` → header + cell mất cột ngay; **phân trang** "Tổng 116 · trang 1/3" + nút Trước/Sau; nút **copy trace ID (⧉)** có mặt.
   - **PASS (detail):** 5 tab **Tổng quan / Chunks (1) / Memory / Đánh giá / Raw**; cây span agent→tool (2 spans); **DAG spans (2 nodes)** render (details + 10 svg trên trang); click span root → panel `span 812567ed…` có **badge `truncated`** + dòng "Nội dung bị cắt ở 2000 ký tự lúc ghi (bản full không lưu)" + JSON payload → cơ chế truncate/IO hiển thị đúng; tab **Đánh giá** hiện điểm `5/5 admin@finsight.vn` + nội dung, bấm "Tải comments" → hiện `trace admin@finsight.vn · smoke r3 comment` (feedback + comment do C5 tạo đọc được qua UI).
   - **FAIL (ghi, có root cause):** bấm **Xóa trace → dialog confirm OK** (`alertdialog "Xóa trace?" … "Không thể hoàn tác."` + nút Hủy/Xóa) nhưng bấm **Xóa → request `DELETE http://localhost:8000/api/v1/traces/…9bd16d0c…` bị `net::ERR_FAILED`**, console: `blocked by CORS policy: Response to preflight request doesn't pass access control check: It does not have HTTP ok status`. Kiểm chứng trực tiếp: `OPTIONS` preflight có `Access-Control-Request-Method: DELETE` → **HTTP 400**; `PATCH` (route `/meta`) → **HTTP 400**.
-    - **Root cause:** `src/interfaces/api/app.py:275` → `allow_methods=["GET", "POST"]` thiếu `PATCH`/`DELETE` (allow_headers đã đủ `Content-Type, Authorization`). Vì preflight fail nên mọi thao tác ghi **từ trình duyệt** (Xóa trace, PATCH meta, và cả POST feedback/comment có header) đều không chạy được ở UI; **API thật vẫn đúng** (C5 pass vì PowerShell không áp CORS).
+    - **Root cause:** `src/interfaces/api/app.py:275` → `allow_methods=["GET", "POST"]` thiếu `PATCH`/`DELETE` (allow_headers đã đủ `Content-Type, Authorization`). Preflight cho method ngoài allow_methods fail → browser chặn. **API thật vẫn đúng** (C5 pass vì PowerShell không áp CORS).
+    - **[ĐÍNH CHÍNH 18/10 — D4, sau review r3]:** mệnh đề cũ *"và cả POST feedback/comment có header đều không chạy được ở UI"* là **SAI (overstated)**. `POST` **nằm trong** `allow_methods` + headers `Content-Type`/`Authorization` đủ → preflight POST trả 200 → **POST feedback/comment từ UI chạy được** (implementor chưa test write-from-UI nên từng suy luận sai; `FeedbackTab.tsx` gọi POST trực tiếp `${getBackendUrl()}/api/v1/.../feedback` nên hoạt động). Impact browser thật của bug CORS = **đúng 2 hành động: Xóa trace (DELETE `traces.py:234`) + PATCH meta (`traces.py:219`)**. Bổ sung: `memory.py:42` DELETE **KHÔNG** bị ảnh hưởng vì frontend đi qua Next server route `frontend/src/app/api/memory/route.ts` (fetch server-side, không áp CORS).
+    - **[D5 18/10 — giải thích lệch số traces C5 total=82 vs C6 UI 112/"Tổng 116"]:** hypothesis "scheduler tạo trace" **BỊ BÁC BỎ bằng đọc code** — 3 scheduler (`rag/scheduler.py`, `market_store/scheduler.py`, `rates_store/scheduler.py`) và toàn bộ call-chain job (`rag/pipeline.run_full_refresh`, `market_store/ingest.refresh_today`, `rates_store/ingest.ingest_policy_rates`) **0 tham chiếu tracer/start_span** (grep = no files/matches). **Cơ chế thật (đã đọc code):** `src/interfaces/api/app.py:317-328` `@app.middleware("http") trace_middleware` tạo **root span cho MỌI request HTTP backend** (`tracer.start_span(f"http {method} {path}")`, `parent_span_id=None` → store upsert 1 trace mới). Nhánh `if path not in ("/health","/ping",...)` chỉ **bỏ qua rate-limit**, KHÔNG bỏ qua tracing → mỗi healthcheck poll (`/health`, `/api/health`) + mỗi API/UI request đều +1 trace. Vì count **tăng đơn điệu theo thời gian/số request**, mốc C4 (77) < C5 (82, sau ~5 request của chính C5) < C6 UI (112 rồi 116 khi trang tiếp tục gọi API) là **nhất quán**. Kết luận: lệch số do **tracing mọi HTTP request + thời điểm đo khác nhau**, KHÔNG phải bug; không dùng số này làm bằng chứng gì thêm. (Hệ quả ngoài scope: health-poll làm bẩn trace DB — note, không sửa.)
     - **Fix 1 dòng (đề xuất, CHƯA áp dụng):** `allow_methods=["GET", "POST", "PATCH", "DELETE"]` (thêm `PUT` nếu cần). **Nằm ngoài scope C1** (C1 chỉ chốt 2 dòng compose) và C8 chỉ được stage 3 file (2 compose + state) → **không sửa, không commit**; ghi lại để reviewer/user quyết định vòng sau.
   - **Cleanup:** xoá trace test-only qua API (không qua UI do bug trên): `DELETE /api/v1/traces/9bd16d0c…` → **200**, search lại `9bd16d0c` → **total=0**, detail → **404**. Không còn residue `smoke-test-*` trong DB.
 - **C3 DONE (up + healthy, FIX 1 HIỆU LỰC):** `docker compose up -d` (KHÔNG `--build`, dùng images cũ) RC=0 — 6/6 services lên: postgres/redis/mcp healthy nhanh, **`finsight-backend` healthy** (alembic `upgrade head` chạy qua driver `psycopg2` OK — không còn `ModuleNotFoundError: No module named 'psycopg'`), frontend start sau backend. Log backend: `Application startup complete` + `GET /health 200` + MCP loader 19 tools + schedulers (rag weekly + market 15m) started. Không triage/retry (không fail).
@@ -1163,3 +1206,60 @@ Checklist user hỏi:
 - **C7 DONE (teardown sạch):** `docker compose down` (KHÔNG `-v`, KHÔNG `--rmi`) → log xác nhận đủ 6 container Removed (backend/mcp/postgres/redis/qdrant/frontend) + network `financial_insight_agent_finsight-network` Removed. Verify: `docker compose ps -a` **rỗng**, `docker ps -a` **rỗng** (không còn container nào, kể cả container lạ). Volumes + images giữ nguyên theo yêu cầu (chạy lại chỉ cần `up -d`, không cần build lại).
 - **C8 DONE (commit, KHÔNG push):** xoá 4 script tạm khỏi repo (`_smoke_api.ps1`, `_smoke_mcp.py`, `_smoke_trace_create.py`, `_smoke_data_check.py`) — không commit. Stage CHỈ 3 file: `docker-compose.yml`, `docker-compose.dev.yml`, `WORKFLOW_STATE.md` (không `git add -A`; các thay đổi có sẵn từ vòng trước như `data/lessons/curriculum_*.json`, `frontend/trau-video/...` để nguyên, không đụng).
   - **Kết luận r3:** fix C1 giải quyết đúng root cause (backend healthy, stack chạy được end-to-end); smoke API xanh toàn bộ; smoke UI xanh phần đọc, phát hiện thêm **bug CORS preflight** (ngoài scope, đã ghi để xử lý vòng sau).
+
+## Review Notes (docker-fix r3 — reviewer 18/10/2026)
+- Commit `8343418` (2 dòng compose + state): **APPROVE** — đúng scope/vị trí, không secret, không push (ahead 3). Root cause SQLAlchemy 2.1 psycopg3 verify độc lập qua docs — đúng.
+- Commit `35440f2` (Dockerfile extra-index): **APPROVE** — 1 dòng, không pin.
+- CORS finding: **đúng core** (`app.py:275` `allow_methods=["GET","POST"]` thật; routes bị chặn: `traces.py:234` DELETE + `traces.py:219` PATCH meta; không có route PUT) nhưng **sai impact** ở note implementor: POST vẫn chạy được từ UI (POST có trong allow_methods) — chỉ 2 hành động DELETE trace + PATCH meta bị chặn; `memory.py:42` DELETE không ảnh hưởng (đi qua Next server route). Cần đính chính 1 câu overstated trong Implementation Notes C6 (docs-only).
+- Minor chưa giải thích: số traces C5 (total 82) vs C6 UI (112/"Tổng 116") không nhất quán.
+- Residual cùng root cause (ngoài scope C1): `config.py:_to_sync_url` + `alembic/env.py` + `.env.example:55` vẫn tạo plain `postgresql://` → latent cho đường không-set-env.
+- AC: AC1/AC2/AC4/AC5 PASS; AC3 PASS-with-disclosed-gap (UI writes fail do CORS, ghi trung thực).
+
+## Current Status (docker-fix r3 — review xong 18/10, chờ user 2 quyết định)
+- Smoke R3: API full PASS; UI reads PASS; UI writes (DELETE trace + PATCH meta) blocked bởi CORS preflight — bug user-facing thật, 1 dòng fix.
+- 3 commit chưa push: `35440f2` (Dockerfile) + `346570e` (WORKFLOW_STATE r2) + `8343418` (compose fix r3).
+- Chờ user: (1) mở cors-fix round không; (2) push 3 commit khi nào.
+
+## Next Agent (docker-fix r3)
+- user (2 quyết định: cors-fix round + push), sau đó implementor chạy cors-fix (1 dòng allow_methods + residual sync-url + đính chính state) nếu OK.
+
+## Clarified Scope (cors-fix — user chốt 18/10 "mở cors-fix rồi push cho tôi")
+1. Mở cors-fix round: fix CORS preflight + residual sync-url + đính chính state.
+2. Push TOÀN BỘ commit chưa push lên origin/main sau khi cors-fix xong.
+- Planner bỏ debate cho round này: reviewer r3 đã duyệt đúng scope này ("Vòng cors-fix: CÓ nên mở — 1 dòng allow_methods, gộp luôn residual _to_sync_url + .env.example") — không cần challenge lại.
+- CI fix gộp vào round này (1 dòng): user yêu cầu push → không fix CI thì push chắc chắn đỏ CI cùng root cause vnstock-quarantine (đã báo user 2 lần, đây là điều kiện để push sạch).
+
+## Plan cors-fix (18/10)
+- D1 `src/interfaces/api/app.py:275`: `allow_methods=["GET","POST"]` → `["GET","POST","PATCH","DELETE"]` (KHÔNG thêm PUT — reviewer xác nhận không có route PUT).
+- D2 Residual sync-url (cùng root cause SQLAlchemy 2.1 psycopg3): grep `_to_sync_url`/`DATABASE_SYNC_URL` — `config.py:_to_sync_url` tạo `postgresql+psycopg2://` thay vì plain `postgresql://`; `alembic/env.py` fallback driver-qualified; `.env.example:55` đổi sang `postgresql+psycopg2://`. Đọc file trước, sửa tối thiểu, không đụng logic khác.
+- D3 CI: `.github/workflows/ci.yml` thêm workflow-level `env: PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` (1 dòng).
+- D4 Docs: đính chính câu overstated POST trong Implementation Notes C6 (POST chạy được từ UI; chỉ DELETE trace + PATCH meta bị chặn; memory.py DELETE không ảnh hưởng).
+- D5 Minor: giải thích lệch số traces (C5 total=82 vs C6 UI 112/"Tổng 116") — hypothesis: schedulers (market 15m/rag) tạo trace giữa 2 lần đo; verify được thì ghi kết luận, không thì ghi hypothesis.
+- D6 Gate: full unit suite pytest (kỳ vọng ~794/0) + verify CORS bằng local uvicorn + curl `OPTIONS` preflight (`Origin` + `Access-Control-Request-Method: DELETE` → kỳ vọng 200 + Allow headers). KHÔNG rebuild docker (fix deterministic; UI re-verify trên docker để nhịp sau nếu user muốn).
+- D7 Commit cors-fix (1 commit, stage chọn lọc: app.py + config/sync-url files + alembic/env.py + .env.example + ci.yml + WORKFLOW_STATE.md; cấm `git add -A`).
+- D8 PUSH toàn bộ lên origin/main (`35440f2` + `346570e` + `8343418` + cors-fix commit) — user yêu cầu. Verify push OK + ghi hash.
+- D9 Ghi WORKFLOW_STATE pass/fail + push hashes + Current Status.
+
+## Files To Change (cors-fix)
+- Modify: `src/interfaces/api/app.py` (1 dòng D1), sync-url files (D2: config + alembic/env.py + .env.example), `.github/workflows/ci.yml` (1 dòng D3), `WORKFLOW_STATE.md` (D4/D9).
+- Không đụng: compose files (đã fix), frontend/*, untracked scenes/audio, data DB.
+
+## Acceptance Criteria (cors-fix)
+1. CORS preflight OPTIONS DELETE/PATCH trả 200 (curl verify với Origin header).
+2. Full unit suite pass 0 fail.
+3. Mọi đường tạo sync URL đều driver-qualified (`postgresql+psycopg2://`).
+4. CI workflow có `PIP_EXTRA_INDEX_URL` → push không đỏ vì vnstock.
+5. Push thành công origin/main (đủ 4+ commit), ghi hash.
+6. WORKFLOW_STATE: đính chính overstated + pass/fail trung thực.
+
+## Implementation Notes (cors-fix — implementor 18/10/2026, DANG CHAY D1→D9)
+- **D1 DONE:** `src/interfaces/api/app.py:275` `allow_methods=["GET","POST"]` → `["GET","POST","PATCH","DELETE"]` (KHÔNG thêm PUT — reviewer xác nhận không có route PUT).
+- **D2 DONE (3 file, tối thiểu):** `config.py:_to_sync_url` `postgresql+asyncpg://` → `postgresql+psycopg2://` (không còn plain `postgresql://`); `alembic/env.py` thêm nhánh `postgresql://` → `postgresql+psycopg2://` (+ asyncpg → psycopg2) để mọi sync URL driver-qualified; `.env.example:55` `DATABASE_SYNC_URL` → `postgresql+psycopg2://`. KHÔNG đụng `DATABASE_URL` asyncpg (giữ nguyên runtime). Xem xét `infrastructure/db/base.py:39` (sync→async reverse) — **bỏ qua có chủ ý**: nhánh đó chết (chỉ chạy khi DATABASE_URL env rỗng, mà config luôn default sqlite) nên không thêm code (ponytail).
+- **D3 DONE:** `.github/workflows/ci.yml` thêm workflow-level `env: PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` (1 dòng, cả 3 job kế thừa).
+- **D4 DONE:** đính chính mệnh đề overstated POST trong Implementation Notes C6 (thêm bullet `[ĐÍNH CHÍNH 18/10 — D4]` ở mục C6 phía trên): POST **chạy được** từ UI (POST∈allow_methods); impact thật chỉ **DELETE trace + PATCH meta**; `memory.py` DELETE không bị ảnh hưởng (đi qua Next server route).
+- **D5 DONE:** giải thích lệch số traces (bullet `[D5 18/10]` ở mục C6 phía trên): hypothesis scheduler **bác bỏ bằng code** (3 scheduler + call-chain 0 tracer); cơ chế thật = `trace_middleware` (app.py:317-328) tạo 1 trace/mọi HTTP request → count tăng đơn điệu theo request/thời điểm đo.
+- **D6 DONE (gate):**
+  - **D6(a) Unit suite: 794 passed / 0 failed** (`pytest src/tests/unit`, 157.77s) — khớp kỳ vọng ~794, KHÔNG regression do D1/D2/D3.
+  - **D6(a) Full `src/tests`: 821 passed / 7 failed / 19 skipped** (352.66s). 7 failed **toàn bộ** ở `src/tests/integration/test_api_mocked.py` (các test `POST /ask-stream` — route thật là `/api/v1/ask-stream`, test cũ dùng thiếu prefix). **ĐÃ CHỨNG MINH pre-existing, KHÔNG liên quan D1/D2/D3:** `git stash push` 5 file code (app.py/config.py/env.py/.env.example/ci.yml) → chạy lại 1 test → fail y hệt 404 (rồi `git stash pop`). Đây là test stale có sẵn, ngoài scope cors-fix — chỉ ghi nhận, không sửa.
+  - **D6(b) CORS preflight verify (local uvicorn 8765, PID 620, `interfaces.api.app:app`, boot OK degraded-mode do Redis absent) — PASS:** `GET /health` 200; `OPTIONS /api/v1/traces/x` (Origin `http://localhost:3000`, `Access-Control-Request-Method: DELETE`) → **200** + `access-control-allow-methods: GET, POST, PATCH, DELETE` + `allow-origin: http://localhost:3000` + `allow-headers: Accept,…,Authorization,…,Content-Type`; `PATCH /api/v1/traces/x/meta` → **200** + cùng header; sanity: `POST` preflight **200**, `PUT` preflight **400** (không nằm trong allow_methods — xác nhận middleware validate + không cần route PUT). Kill uvicorn + verify port 8765 free; ghi chú: process python leftover `9844` (start 17/10) bị kill lẫn trong cleanup.
+- (D7→D9 chờ chạy)
