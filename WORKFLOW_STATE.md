@@ -1095,12 +1095,14 @@ Checklist user hỏi:
 
 **PONYTAIL CẮT:** `ENV PIP_EXTRA_INDEX_URL` trong Docker là thừa (1 flag đủ). Remap port (`APP_EXTERNAL_PORT`) thay STOP khi stack người khác giữ 8000/8001/6333 → **chỉ note**, giữ luật user (conflict → STOP hỏi, không kill stack người khác). Không build riêng lẻ từng target (compose dedupe).
 
-## Current Status (docker-fix — plan r2 chốt 17/10, chờ implement)
-- Debate DONE — verdict REVISE 4 điểm (data-readiness B4.5, CI follow-up, B6 không delegate planner, B2 ngưỡng uptime) đã áp vào plan r2. Planner chấp nhận toàn bộ, không challenge.
-- Sẵn sàng implement B1→B8.
+## Current Status (docker-fix — IMPLEMENT 17/10/2026, PARTIAL + BLOCKED)
+- **Kết quả:** B1 pre-done + **B2 PASS** (readiness WSL GO) + **B3 PASS** (build 3 target xanh; vnstock 4.0.9 trong image) → **B4 BLOCKED** (app-bug SQLAlchemy 2.1 default psycopg3: backend alembic chết → stack unhealthy) → B4.5/B5/B6 KHÔNG chạy (không đo được) → **B7 PASS** (down sạch: 0 container, port Windows+WSL free, volumes+image giữ) → **B8 PASS** (commit `35440f2` `fix(docker): add vnstock vendor index to pip install`, KHÔNG push).
+- **Acceptance docker-fix:** AC1 ✅ PASS (build 3 target xanh, không pin). AC2 ⛔ BLOCKED / AC3 ⛔ BLOCKED (stack không healthy → không smoke). AC4 ✅ PASS (down sạch giữ volumes). AC5 ✅ PASS (commit Dockerfile + WORKFLOW_STATE).
+- **Blocker cần user quyết:** SQLAlchemy 2.1.0 đổi default `postgresql://` → `psycopg` (v3) trong khi pyproject khai `psycopg2-binary`. Fix tối thiểu đề xuất (ngoài scope nhịp này — xem chi tiết Implementation Notes bên dưới): **(1)** compose `DATABASE_SYNC_URL=postgresql+psycopg2://…` (1 dòng, không thêm dep) — ưu tiên; hoặc (2) env.py chuẩn hoá driver; (3) thêm `psycopg[binary]`; (4) pin `sqlalchemy<2.1`. Sau khi chốt fix → chạy lại B4→B7 để lấy smoke R3 checklist.
+- **CI follow-up (chưa làm, đúng lệnh):** `.github/workflows/ci.yml` 3 job `pip install -e ".[dev]"` sẽ đỏ cùng root cause vnstock-quarantine → fix 1 dòng `env: PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` khi user OK mở scope.
 
 ## Next Agent (docker-fix)
-- implementor: chạy Plan docker-fix r2 B1→B8 (fix Dockerfile 1 dòng → readiness uptime gate → build → up → data-readiness seed nếu thiếu → smoke API + UI best-effort → down sạch giữ volumes → commit Dockerfile KHÔNG push, stage chọn lọc; ghi pass/fail WORKFLOW_STATE). CI fix chỉ làm nếu user OK mở scope.
+- **user (quyết blocker):** chọn fix (1)–(4) cho SQLAlchemy 2.1/psycopg (đề xuất **(1)** compose `DATABASE_SYNC_URL=postgresql+psycopg2://…`) rồi implementor chạy lại B4→B7 (smoke R3). Dockerfile fix `35440f2` đã commit (chưa push) — reviewer có thể review độc lập commit này; CI fix vẫn là follow-up chờ user OK.
 
 ## Implementation Notes (docker-fix — implementor 17/10/2026)
 - **STATUS: PARTIAL — B1/B2/B3 PASS; B4 BLOCKED (app-bug ngoài scope); B4.5–B6 không chạy; B7 down OK; B8 commit Dockerfile OK (không push).**
