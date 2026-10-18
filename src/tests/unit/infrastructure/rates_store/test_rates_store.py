@@ -94,6 +94,17 @@ def test_purge_expired_vnibor_6mo_vs_policy_forever():
     s.close()
 
 
+def test_purge_expired_month_end_clamps_to_last_day():
+    # 2026-05-31 minus 6 months → 2025-11-30 (Nov has 30 days: day 31 clamps to 30).
+    s = _mem_store()
+    s.upsert_vnibor("ON", 4.0, "2025-11-29", source="u")
+    s.upsert_vnibor("ON", 4.1, "2025-11-30", source="u")
+    out = s.purge_expired(today="2026-05-31")
+    assert out["vnibor_daily"] == 1
+    assert [r["date"] for r in s.get_vnibor()] == ["2025-11-30"]
+    s.close()
+
+
 def test_stale_empty_true_then_false_after_write():
     s = _mem_store()
     assert s.is_stale("policy_rates", 24) is True

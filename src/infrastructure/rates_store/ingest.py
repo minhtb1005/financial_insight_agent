@@ -26,13 +26,7 @@ POLICY_URL = (
 POLICY_EFFECTIVE_DATE = "2023-06-19"  # QĐ 1123/QĐ-NHNN
 POLICY_DECISION = "QĐ 1123/QĐ-NHNN"
 
-# Fallback đã verify (khớp seed sbv_policy_rates trong connectors.py).
-KNOWN_POLICY_RATES: dict[str, float] = {
-    "tai_cap_von": 4.5,
-    "tai_chiet_khau": 3.0,
-    "qua_dem": 5.0,
-}
-
+# Fallback đã verify nằm trong seed sbv_policy_rates (connectors.py).
 _RATE_PATTERNS: dict[str, str] = {
     "tai_cap_von": r"tái cấp vốn\s*([\d.,]+)\s*%",
     "tai_chiet_khau": r"tái chiết khấu\s*([\d.,]+)\s*%",

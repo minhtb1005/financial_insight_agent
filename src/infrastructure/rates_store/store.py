@@ -6,6 +6,7 @@ threading.RLock, UTC ISO timestamps, DB file under ``data/`` (gitignored).
 
 from __future__ import annotations
 
+import calendar
 import sqlite3
 import threading
 from datetime import datetime, timezone
@@ -333,18 +334,22 @@ class RatesStore:
             return cur.rowcount or 0
 
     def purge_expired(self, today: str | None = None) -> dict[str, int]:
-        """Purge per-table retention (months) relative to today. Tables with None are skipped."""
-        from datetime import timedelta
+        """Purge per-table retention (months) relative to today. Tables with None are skipped.
 
+        Cutoff = same day-of-month N calendar months earlier, clamped to the target
+        month's last day (e.g. 2026-03-31 minus 1 month → 2026-02-28).
+        """
         ref = datetime.strptime((today or _utcnow()[:10]), "%Y-%m-%d")
         out: dict[str, int] = {}
         for table, months in RETENTION_MONTHS.items():
             if months is None:
                 out[table] = 0
                 continue
-            cutoff = ref - timedelta(
-                days=months * 30
-            )  # ponytail: 30d/month approx, per-table months if finer needed
+            total = ref.year * 12 + (ref.month - 1) - months
+            year, month0 = divmod(total, 12)
+            month = month0 + 1
+            day = min(ref.day, calendar.monthrange(year, month)[1])
+            cutoff = datetime(year, month, day)
             fmt = "%Y-%m" if table == "avg_rates_monthly" else "%Y-%m-%d"
             out[table] = self.purge_older_than(table, cutoff.strftime(fmt))
         return out
