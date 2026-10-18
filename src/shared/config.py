@@ -84,10 +84,6 @@ QDRANT_API_KEY: str | None = os.getenv("QDRANT_API_KEY")
 QDRANT_EXTERNAL_PORT: int = _get_int("QDRANT_EXTERNAL_PORT", 6333)
 QDRANT_GRPC_PORT: int = _get_int("QDRANT_GRPC_PORT", 6334)
 
-# Redis
-REDIS_HOST: str = os.getenv("REDIS_HOST", "localhost")
-REDIS_PORT: int = _get_int("REDIS_PORT", 6379)
-
 # MCP
 MCP_HOST: str = os.getenv("MCP_HOST", "0.0.0.0")
 MCP_PORT: int = _get_int("MCP_PORT", 8001)

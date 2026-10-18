@@ -63,24 +63,6 @@ services:
       retries: 5
       start_period: 20s
 
-  redis:
-    image: redis:7-alpine
-    container_name: finsight-redis
-    ports:
-      - "${REDIS_EXTERNAL_PORT:-6379}:6379"
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_storage:/data
-    networks:
-      - finsight-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-
   backend:
     build:
       context: .
@@ -128,14 +110,10 @@ services:
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@finsight.vn}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
       - ADMIN_NAME=${ADMIN_NAME:-Admin}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
     volumes:
       - app_data:/app/data
     depends_on:
       postgres:
-        condition: service_healthy
-      redis:
         condition: service_healthy
       mcp_server:
         condition: service_healthy
@@ -204,7 +182,6 @@ networks:
 volumes:
   qdrant_storage:
   postgres_storage:
-  redis_storage:
   # Shared sqlite snapshots (market_store.db, traces): backend writes
   # (scheduler), mcp_server reads. Single-host only — see 4b outline.
   app_data:

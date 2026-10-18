@@ -15,12 +15,6 @@ class Stoppable(Protocol):
 
 if TYPE_CHECKING:
     from infrastructure.cache.memory_cache import MemoryCache
-    from infrastructure.cache.redis_cache import RedisCache
-    from infrastructure.cache.config import CacheConfig
-    from infrastructure.cache.cache_manager import CacheManager
-    from infrastructure.cache.serialization import SerializationManager
-    from infrastructure.cache.session_manager import SessionManager
-    from infrastructure.memory.short_term.memory import ShortTermMemory
     from infrastructure.memory.memory_manager import MemoryManager
     from infrastructure.llm.llm_provider import LLMProvider
     from infrastructure.observability.metrics.collector import MetricsCollector
@@ -48,16 +42,8 @@ class Dependencies:
     def __init__(self) -> None:
         # Cache layer
         self.memory_cache: MemoryCache | None = None
-        self.redis_cache: RedisCache | None = None
-        self.cache_config: CacheConfig | None = None
-        self.cache_manager: CacheManager | None = None
-        self.serialization_manager: SerializationManager | None = None
-
-        # Session
-        self.session_manager: SessionManager | None = None
 
         # Memory
-        self.short_term_memory: ShortTermMemory | None = None
         self.memory_manager: MemoryManager | None = None
 
         # LLM / Agent
@@ -85,15 +71,7 @@ class Dependencies:
         logger.info("Initialising application dependencies …")
 
         # ------ Tier 1 – no external services -------------------------
-        self._init_serialization()
         self._init_memory_cache()
-        self._init_cache_config()
-
-        # ------ Tier 2 – Redis (optional) -----------------------------
-        self._init_redis_cache()
-        self._init_cache_manager()
-        self._init_session_manager()
-        self._init_short_term_memory()
 
         # ------ Tier 3 – Memory manager -------------------------------
         self._init_memory_manager()
@@ -127,10 +105,6 @@ class Dependencies:
             (self.metrics_collector, "MetricsCollector"),
         ]
         _close_components: list[tuple[object | None, str]] = [
-            (self.short_term_memory, "ShortTermMemory"),
-            (self.session_manager, "SessionManager"),
-            (self.cache_manager, "CacheManager"),
-            (self.redis_cache, "RedisCache"),
             (self.memory_cache, "MemoryCache"),
             (self.llm_provider, "LLMProvider"),
         ]
@@ -163,15 +137,6 @@ class Dependencies:
     # ------------------------------------------------------------------
     # Tier-initialisers
     # ------------------------------------------------------------------
-    def _init_serialization(self) -> None:
-        from infrastructure.cache.serialization import SerializationManager
-
-        try:
-            self.serialization_manager = SerializationManager()
-            logger.debug("SerializationManager initialised")
-        except Exception as e:
-            logger.warning("Failed to init SerializationManager: %s", e)
-
     def _init_memory_cache(self) -> None:
         from infrastructure.cache.memory_cache import MemoryCache
 
@@ -180,65 +145,6 @@ class Dependencies:
             logger.debug("MemoryCache initialised")
         except Exception as e:
             logger.warning("Failed to init MemoryCache: %s", e)
-
-    def _init_cache_config(self) -> None:
-        from infrastructure.cache.config import CacheConfig
-
-        try:
-            self.cache_config = CacheConfig()
-            logger.debug("CacheConfig initialised")
-        except Exception as e:
-            logger.warning("Failed to init CacheConfig: %s", e)
-
-    def _init_redis_cache(self) -> None:
-        from infrastructure.cache.redis_cache import RedisCache
-
-        try:
-            redis = RedisCache()
-            if redis.get_raw_client() is not None:
-                self.redis_cache = redis
-                logger.debug("RedisCache initialised")
-        except Exception as e:
-            logger.warning("Redis unavailable — running in degraded mode: %s", e)
-
-    def _init_cache_manager(self) -> None:
-        if self.redis_cache is None:
-            logger.debug("Skipping CacheManager (Redis unavailable)")
-            return
-        from infrastructure.cache.cache_manager import CacheManager
-
-        try:
-            self.cache_manager = CacheManager(
-                enable_l1=True,
-                enable_l2=True,
-            )
-            logger.debug("CacheManager initialised")
-        except Exception as e:
-            logger.warning("Failed to init CacheManager: %s", e)
-
-    def _init_session_manager(self) -> None:
-        if self.redis_cache is None:
-            logger.debug("Skipping SessionManager (Redis unavailable)")
-            return
-        from infrastructure.cache.session_manager import SessionManager
-
-        try:
-            self.session_manager = SessionManager()
-            logger.debug("SessionManager initialised")
-        except Exception as e:
-            logger.warning("Failed to init SessionManager: %s", e)
-
-    def _init_short_term_memory(self) -> None:
-        if self.redis_cache is None:
-            logger.debug("Skipping ShortTermMemory (Redis unavailable)")
-            return
-        from infrastructure.memory.short_term.memory import ShortTermMemory
-
-        try:
-            self.short_term_memory = ShortTermMemory()
-            logger.debug("ShortTermMemory initialised")
-        except Exception as e:
-            logger.warning("Failed to init ShortTermMemory: %s", e)
 
     def _init_memory_manager(self) -> None:
         try:
@@ -293,27 +199,11 @@ class Dependencies:
             from infrastructure.adapters.vn_stock_adapter import VNStockAdapter
             from infrastructure.adapters.knowledge_adapter import QdrantKnowledgeAdapter
 
-            # CachePort — always available (fallback to MemoryCache if cache_manager is None)
-            if self.cache_manager is not None:
-                self.cache_port = CacheAdapter(self.cache_manager)
-            elif self.memory_cache is not None:
-                # Fallback: wrap MemoryCache directly in a minimal adapter
-                class _MemCacheAdapter:  # minimal CachePort-like
-                    def __init__(self, mem):
-                        self._mem = mem
-
-                    def get(self, key: str):
-                        return self._mem.get(key)
-
-                    def set(self, key: str, value, ttl_hours: float = 1.0):
-                        self._mem.set(key, value, ttl_hours=ttl_hours)
-
-                    def delete(self, key: str):
-                        self._mem.delete(key) if hasattr(self._mem, "delete") else None
-
-                self.cache_port = _MemCacheAdapter(self.memory_cache)  # type: ignore[assignment]  # duck-typed CachePort
+            # CachePort — always available (backed by MemoryCache)
+            if self.memory_cache is not None:
+                self.cache_port = CacheAdapter(self.memory_cache)
             else:
-                logger.warning("CachePort unavailable — no cache_manager/memory_cache")
+                logger.warning("CachePort unavailable — no memory_cache")
 
             self.market_data_port = VNStockAdapter()
             try:

@@ -1412,7 +1412,14 @@ Checklist user hỏi:
 ### 7. Kết luận
 APPROVE. Không có vấn đề blocking. Implementation đúng Clarified Scope + Plan D1→D9 + Files To Change (6 file), gate evidence trung thực, push sạch không force. Minor ở mục 6 chỉ là note.
 
-## Ship C (cleanup-v — chốt planner 18/10)
+## Ship C (cleanup-v — chốt planner 18/10) — KẾT QUẢ SAU NGẮT (18/10)
+- C1 DONE: 2 commit IMP `b8a2cec` (rates purge) + `6e6b14f` (M3L2 numbers + mcp test) + docs `7de13db`.
+- C3 PUSH DONE trước khi ngắt: origin/main = HEAD = `7de13db` (6 commit: 1f1ddda, 5e2fce3, 2d1475a, b8a2cec, 6e6b14f, 7de13db); **CI run 39094405141 = success** (4m55s, 3 job xanh).
+- **C2 docker UI-writes: TẠM DỪNG theo user** — lý do: lần chạy WSL docker trước full 16GB RAM khiến user phải tắt máy; docker tạm không dùng. Việc này PAUSED (không huỷ) — mở lại khi user bảo.
+- Reviewer D ship-verify: bỏ nhịp riêng (nội dung push đã được review từng phần: G commit + IMP diff + latents); gộp kiểm nhẹ vào round kế nếu cần.
+- **Request mới (user 18/10):** (1) audit dependencies pyproject.toml — cái nào không dùng trong code, đề xuất bỏ CHỜ USER DUYỆT; (2) bỏ Redis khỏi docker compose + code (user chốt trực tiếp, "tạm thời chưa cần"). Docker/WSL KHÔNG khởi động trong round này (RAM constraint).
+
+## Ship C (cleanup-v — plan gốc, lưu vết)
 1. IMP 6 file → 2 commit theo gợi ý reviewer: (1) `fix(rates): exact calendar-month arithmetic in purge + tests` (store/ingest/test_rates_store); (2) `chore(lessons,mcp): M3L2 illustrative numbers + fix stale mcp tools test name` (M3L2/index/test_mcp_tools). State commit riêng ở nhịp sau. KHÔNG add -A: stage theo path.
 2. H docker UI-writes: keep-alive (`wsl -d Ubuntu-22.04 sh -c "nohup sleep 5400 >/dev/null 2>&1 &"`, 1 lệnh/once; sau đó 1 bash-call để boot docker và chờ active) → `compose build backend mcp_server` (src/CORS/latent/IMP tất cả mới có trong image; vẫn vendor-index) → `up -d` → healthy → browser: tạo 1 trace disposable nhỏ qua API (nếu cần), Ở UI traces bấm DELETE + confirm → preflight OPTIONS 200 + không CORS console error + row biến mất; PATCH meta qua edit form → 200 + đổi giá trị; check `get_rates` qua API còn 6/6; down sạch (KHÔNG -v/--rmi).
 3. PUSH toàn bộ local (1f1ddda, 5e2fce3, 2d1475a, 2 IMP commits, state commit) → 0/0 fast-forward; `gh run list` watch run trên sha mới → kỳ vọng 3 job xanh (typecheck/lint/test); đỏ chỗ khác → log + báo, KHÔNG tự mở round mới.
@@ -2061,3 +2068,114 @@ Dieu kien dau: HEAD `2d1475a`, 6 file IMP `M`. Diffstat khop reviewer report. `g
 ### C3 — Push + CI (cho)
 
 **Current Status (Ship C):** C1 xong (`b8a2cec`, `6e6b14f`). Tiep: C2 docker.
+
+## Request mới (18/10/2026 — Trâu Tí hữu dụng hơn / "chất riêng" cho video)
+**User V3 feedback (xem M1L1.mp4):** mascot trâu tí đứng riêng lẻ ở trên cùng, không có tác dụng; muốn mascot hữu dụng hơn (vd: đóng vai thầy giáo dạy trên bảng đen) hoặc ý tưởng làm video AI của app có chất riêng. **User yêu cầu ĐỀ XUẤT trước — chưa triển khai.**
+
+**Recon (planner 18/10, đọc code):**
+- Pipeline: `public/lessons/<ID>_scenes.json` → SceneView (Remotion 1080x1920, 30fps) → `out/<ID>.mp4`. Hiện chỉ 3 lớp: (1) thẻ `on_screen_text` (top:560, xuất hiện tuần tự theo `split_hint`), (2) phụ đề chunk 9 từ (bottom:150), (3) Mascot top:120 (pose từ scenes JSON, bob/tilt + lip-sync từ VO amplitude). Audio per scene edge-tts + durations.json.
+- Mascot: `src/trau/Trau.tsx` SVG thuần (trâu mập, kính xanh, hoa tai, **cầm cuốn sổ xanh**), poses idle/happy/think/point/wave/celebrate; `Mascot.tsx` chỉ nhún nhảy.
+- **Gap cốt lõi:** `visual.description` (biểu đồ tròn 50/30/20, bảng giá thuê, chồng nợ, mũi tên dòng tiền…) **CHƯA được vẽ ra** — video chỉ có chữ + mascot → mascot không có gì để tương tác. `mascot_pose` phổ biến nhất = `point`.
+- Tài nguyên: M1L1 đã render (`out/M1L1.mp4` 27.5MB); M3L2 đã có audio/durations; 56 bài scenes JSON sẵn sàng.
+
+**Đề xuất (chờ user chọn hướng trước khi viết spec/plan/AC):**
+- **A — "Trâu Tí thầy giáo bảng đen" v1:** sân khấu = bảng đen + phấn; `on_screen_text` thành chữ phấn viết dần; mascot đứng cạnh bảng, chỉ trỏ dòng đang hiện theo nhịp VO (đã có energy/mouthOpen). Chỉ đổi SceneView/Mascot/theme — SVG thuần, không thêm dep, **audio không đổi**. (Biến thể A': "vở ô ly" — tận dụng cuốn sổ xanh của mascot làm mặt bảng, độc quyền hơn.)
+- **B — lớp sơ đồ dạy học (v2):** thư viện 6-8 sơ đồ SVG (tròn 50/30/20, cột, chồng nợ, lọ tiền, mũi tên dòng tiền, đường lãi); scene JSON thêm field optional (`board`/`diagram`), không có → fallback hiện tại; mascot tương tác phần tử đang nói tới. Cần authoring dần cho 56 bài.
+- **C — micro-interactions (rẻ, nhanh):** mascot bước vào đầu cảnh, chỉ đúng thẻ đang xuất hiện, phản ứng (shock/celebrate), exit; ~nửa ngày, không đổi schema/audio.
+- **D — chất riêng:** intro/outro thầy-trò — mascot tự giới thiệu bằng **giọng riêng** (edge-tts, khác giọng VO), câu hỏi cuối bài viết phấn + mascot giữ đáp án.
+- **Khuyến nghị planner:** A+C trước (re-render M1L1 để duyệt) → B nâng cấp sau → D điểm nhấn cuối.
+
+**Open Questions:**
+1. Chọn hướng nào (A / A+C / full A+B+C+D / khác)? — chờ user.
+2. Phạm vi duyệt: chỉ re-render M1L1, hay M1L1 + M3L2?
+3. Giữ khung 9:16 dọc cho mọi bài? (giả định: giữ)
+
+**Current Status (mascot):** Phase-1 clarify (brainstorming skill) — chưa viết spec/plan, chưa code. Next: user chốt hướng.
+[CẬP NHẬT planner 18/10 sau ngắt: C3 push ĐÃ xong trước ngắt — origin/main = HEAD = `7de13db`, CI run 39094405141 **success**. C2 docker UI-writes **PAUSED theo user** (WSL docker full 16GB RAM, user phải tắt máy — tạm không build/up docker). Reviewer D ship-verify bỏ nhịp riêng (nội dung push đã review từng phần).]
+
+## Dep audit + Redis removal (planner 18/10 — request mới)
+### Audit kết quả (grep imports src/ + evals/ + Dockerfile/compose)
+- **KEEP (used, bằng chứng import):** langchain (chunker fallback + transitive), langchain-openai, langchain-groq, langgraph, langchain-text-splitters, pandas, requests, beautifulsoup4 (bs4), feedparser, html2text, qdrant-client, openai (embedder), apscheduler (3 scheduler), pymupdf (fitz), pdfminer.six, fastapi, pydantic, python-dotenv, vnstock, sentence-transformers, PyYAML, mcp (FastMCP), langchain-mcp-adapters, uvicorn (Dockerfile CMD + compose), starlette (app.py import trực tiếp), sqlalchemy[asyncio], asyncpg, psycopg2-binary (alembic sync), aiosqlite (sqlite fallback), alembic, bcrypt (password.py import trực tiếp), python-jose (jose), pydantic[email] (EmailStr auth.py).
+- **ĐỀ XUẤT BỎ — chờ user duyệt:** (1) `passlib[bcrypt]` — 0 import (password.py dùng bcrypt trực tiếp); (2) `python-multipart` — 0 endpoint Form/File/UploadFile; (3) `email-validator` standalone — trùng `pydantic[email]` (giữ 1); (4) dev: `pytest-mock` — 0 `mocker`; (5) dev: `reportlab` — 0 dùng ở src/evals/scripts. Eval extra (ragas/datasets/langchain-community) DÙNG bởi evals/run_ragas_eval.py + run_rag_eval.py → giữ.
+- **Redis removal (user đã chốt, không cần duyệt):** xem plan dưới.
+
+### Plan redis-removal (user chốt "bỏ redis docker + code, tạm thời chưa cần")
+- Nguyên tắc: app ĐÃ có degraded-mode sẵn (dependencies.py skip cache/session/short-term khi redis absent; memory_manager None-tolerant đầy đủ; CachePort fallback MemoryCache) → xoá sạch tier redis, KHÔNG viết replacement mới.
+- Compose ×2 (docker-compose.yml + dev): xoá service `redis` (image/ports/command/volume/healthcheck), `depends_on: redis`, env `REDIS_HOST/REDIS_PORT`, volume `redis_storage(_dev)`.
+- Code xoá file: `infrastructure/cache/redis_cache.py`, `cache/session_manager.py`, `cache/cache_manager.py`, `cache/serialization.py` (consumer duy nhất = redis stack — verify memory_cache không import), `memory/short_term/` (memory.py + pkg). `cache/config.py` + `cache/memory_cache.py` GIỮ nếu memory_cache/CachePort cần (CacheTier…); strip phần redis-only trong config nếu tách rẻ, không thì giữ nguyên + note.
+- `infrastructure/dependencies.py`: bỏ 4 `_init_*` (redis_cache/cache_manager/session_manager/short_term_memory) + attributes + shutdown list + TYPE imports; CachePort → luôn MemoryCache fallback (bỏ nhánh cache_manager).
+- `infrastructure/memory/memory_manager.py`: bỏ import + wiring short_term (self.short_term + các nhánh `if self.short_term` — dead post-removal); `memory/__init__.py` bỏ export ShortTermMemory.
+- `shared/config.py`: bỏ REDIS_HOST/PORT/PASSWORD (+ cache tier redis nếu có); `.env.example`: bỏ REDIS_*.
+- Tests xoá/sửa: test_redis_cache, test_cache_manager, test_serialization, test_cache_config (phần redis), test_conversation_memory, test_memory_tiers (short-term), test_memory_manager (bỏ mock get_short_term_memory), test_infrastructure_dependencies (phần redis/4 init), `unit/conftest.py` fixture mock_redis_cache, integration test_memory_reformulation_prep (import redis — đọc mục đích, xoá hoặc chuyển nếu test thứ khác).
+- pyproject: bỏ `redis>=5.0.0` + `msgpack>=1.0.0` (consumer duy nhất serialization đã xoá).
+- **CẤM docker build/up** (RAM constraint user); cho phép `docker compose config` (parse YAML thuần, không daemon) để validate compose.
+- Gates: full `pytest src/tests -q` 0 failed (số test GIẢM do xoá — report trung thực số mới), ruff/black/mypy = 0. Commit 1 trọn gói `refactor(cache): remove redis tier (service + code) per user`. KHÔNG push (gộp push sau với dep-removal nếu user duyệt).
+
+### Acceptance Criteria (redis-removal)
+1. `grep -ri redis` trong src/ + docker-compose*.yml + .env.example + pyproject.toml = 0 hit.
+2. Full pytest 0 failed; ruff/black/mypy 0.
+3. App boot local không cần redis (import app + TestClient /health 200 nếu rẻ — KHÔNG docker).
+4. `docker compose config` parse OK cả 2 file (không daemon).
+5. CachePort vẫn hoạt động qua MemoryCache (test liên quan còn lại xanh).
+6. State trung thực: số file xoá, số test trước/sau, hash.
+
+## Implementation Notes (redis-removal — implementor 18/10/2026) — DONE, chờ review
+
+### Compose (2 file, −45 dòng) — AC4 PASS
+- `docker-compose.yml`: xoá service `redis` (image/ports/command/volume/healthcheck), `depends_on: redis`, env `REDIS_HOST/REDIS_PORT`, volume `redis_storage`.
+- `docker-compose.dev.yml`: xoá service, `depends_on: redis`, env, volume `redis_storage_dev`.
+- **Validate `docker compose config` = exit 0 cả 2 file** (gọi qua WSL — Windows không có `docker` trên PATH, chỉ có `wsl.exe`; WSL có docker 29.7.2 + compose v5.5.0). KHÔNG build/up, không cần daemon. Lưu ý: output `config` vẫn hiện 8 dòng `REDIS_*`/file vì chúng được render từ `env_file: .env` (file local gitignored), KHÔNG phải từ YAML — 2 YAML nguồn grep = 0 hit.
+
+### Code xoá (5 module + 1 pkg ≈ 2118 dòng)
+- `cache/redis_cache.py` (504), `cache/session_manager.py` (434), `cache/cache_manager.py` (398), `cache/serialization.py` (276), `cache/config.py` (266), `memory/short_term/` (441) + dọn stale `.pyc`.
+- **`cache/config.py` XOÁ được** (plan dự kiến "giữ nếu cần"): grep xác nhận consumer duy nhất = `dependencies._init_cache_config` (ghi attribute không ai đọc), `cache_manager` (đã xoá), tests (đã xoá). `MemoryCache`/`CachePort` KHÔNG cần `CacheConfig`/`CacheTier`. `memory_cache.py` GIỮ (standalone, 0 import config/serialization).
+
+### Code sửa
+- `dependencies.py`: bỏ **6** `_init_*` (serialization/cache_config/redis_cache/cache_manager/session_manager/short_term_memory) + 6 attributes + TYPE imports + 4 entry shutdown; `_init_ports` CachePort → `CacheAdapter(self.memory_cache)` (xoá class inline `_MemCacheAdapter` — trùng y hệt `CacheAdapter`, cùng duck-type `Any`).
+- `memory_manager.py`: bỏ import `get_short_term_memory` + `self.short_term` + mọi nhánh `if self.short_term`; bỏ `window_size` khỏi `MemoryConfig`; `add_interaction` = **no-op trả `False`** + log debug (giữ method để 4 call-site `agent.py` không đổi); `search_memory` default tiers = `[]` (giữ nguyên hành vi degraded cũ: redis absent cũng trả `{}`); `_perform_cleanup` = no-op (hook của background loop, `ponytail:` comment).
+- `summary_updater.py`: bỏ nhánh `mgr.short_term`; còn merge entities/topics + fallback regex ticker, trả `updated_at: None`.
+- `memory/__init__.py`, `cache/__init__.py`: rút export (bỏ ShortTermMemory/RedisCache/CacheManager/SessionManager/Serialization*/config getters).
+- `shared/config.py`: bỏ block `REDIS_HOST/REDIS_PORT`. `.env.example`: bỏ 3 dòng `REDIS_*`.
+- `interfaces/api/app.py`: comment rate-limiter "Redis-backed" → "shared external store" (AC1 cần 0 chữ "redis" trong `src/`).
+- `interfaces/api/routes/memory.py`: description tiers → chỉ `episodic`.
+- `pyproject.toml`: bỏ `redis>=5.0.0` + `msgpack>=1.0.0`; thêm per-file-ignore `ARG002` cho `memory_manager.py` + `summary_updater.py` (giữ signature public).
+- **`.venv`: `pip uninstall -y redis msgpack` OK** (Required-by chỉ chính package editable này).
+
+### Tests (xoá 5 file / −97 test; sửa 6 file)
+- XOÁ: `test_redis_cache.py` (33), `test_cache_config.py` (29), `test_serialization.py` (15), `test_conversation_memory.py` (12), `test_cache_manager.py` (8).
+- SỬA: `unit/conftest.py` (bỏ fixture `mock_redis_client`/`mock_redis_cache`), `test_infrastructure_dependencies.py` (32→21 test), `test_memory_tiers.py` (8→6, chỉ episodic), `test_memory_manager.py` (6→7, add_interaction = no-op), `test_summary_updater.py` (5→4), `integration/test_memory_reformulation_prep.py` (3→1, giữ `test_episodic_against_embedded_qdrant`, bỏ `_redis_available` + 2 test redis).
+
+### Bằng chứng gate (đo trên tree sau implement)
+| Gate | Baseline | Sau | KQ |
+|---|---|---|---|
+| full `pytest src/tests -q` | 832 passed / 19 skipped | **722 passed / 17 skipped / 0 failed** (155s) | PASS |
+| `ruff check src/` | 0 | **All checks passed (0)** | PASS |
+| `black --check src/` | 0 | **284 unchanged (0)** | PASS |
+| `mypy src/ --ignore-missing-imports --no-strict-optional` | 0 (295 file) | **Success — 284 file (0)** | PASS |
+| boot `import interfaces.api.app` + TestClient `/health` | — | **BOOT_OK 200** (`agent_ready: false` vì TestClient không chạy lifespan) | PASS |
+| `docker compose config` ×2 | — | **exit 0** | PASS |
+
+- **Chứng minh test giảm KHÔNG mất test xanh** (đếm tĩnh `git show HEAD:<file>`): collected **851 → 739 = −112** = file xoá (97) + file sửa (15: 32→21, 8→6, 6→7, 5→4, 3→1). Khớp 100% với delta thực đo (832+19 → 722+17). 2 skip giảm = đúng 2 test redis của integration bị xoá.
+- **AC1 grep (case-insensitive "redis")** trên `src/**/*.py` + `docker-compose.yml` + `docker-compose.dev.yml` + `.env.example` + `pyproject.toml` = **0 hit** — phải dọn thêm 21 stale `.pyc` của file đã xoá + sửa 4 câu docstring có chữ "Redis" mới đạt 0.
+- `mypy src/` trần (không cờ) cho 27 lỗi pre-existing — **đó không phải lệnh gate**; lệnh CI/gate là `mypy src/ --ignore-missing-imports --no-strict-optional` (khớp `.github/workflows/ci.yml:44`) = 0.
+
+### Ngoài AC — cố ý để nguyên (không tính là hit AC1)
+- `.env` local (gitignored, không tracked): còn `REDIS_HOST/PORT` (dòng 29-30) → output `docker compose config` vẫn render chúng qua `env_file`; vô hại (0 code đọc). Xoá 2 dòng nếu muốn output sạch tuyệt đối.
+- `README.md`, `docs/UA_ONBOARDING.md`, `docs/pipeline_full_outline.md`, `evals/run_reformulation_eval.py` (comment "no Redis needed") — prose/tài liệu, ngoài phạm vi AC.
+- **2 DEBT (đề xuất xử lý batch sau, không tự mở rộng scope):**
+  1. `agent._update_summary_state` **vứt** return value ⇒ `SummaryUpdater` từ nay là code chết (chỉ extract ticker rồi bỏ). Nên xoá `summary_updater.py` + `_update_summary_state` + 2 call-site, hoặc rewire sang summary khác.
+  2. `agent._build_memory_context` (agent.py:641) đọc `mem_results.get("short_term")` ⇒ nay LUÔN trả `""` (memory context rỗng trong prompt). Plan chốt "KHÔNG viết replacement mới"; batch sau có thể xoá method hoặc rewire `memory_tiers=["episodic"]`.
+
+## Current Status (redis-removal — IMPLEMENT DONE 18/10/2026)
+- Implement trọn plan: compose ×2, xoá 5 module + 1 pkg, sửa 8 file code + pyproject + .env.example, xoá 5 test + sửa 6 test, venv bỏ `redis`/`msgpack`.
+- **AC1-AC6 đạt**: grep 0 hit; test 722 passed/0 failed/17 skipped; ruff 0; black 0; mypy 0; boot `/health` 200 không cần redis; `docker compose config` exit 0 ×2.
+- Đã commit **1 gói** `refactor(cache): remove redis tier (service + code) per user` (30 file, +215/−3835; `main` ahead `origin/main` **1**). Hash chốt ghi ở nhịp sau bằng `git log -1` (hash tự tham chiếu nên không ghi được vào chính commit này). **KHÔNG push** (gộp push sau với dep-removal nếu user duyệt).
+- Không đụng docker build/up (đúng RAM constraint); không sửa file nào ngoài phạm vi redis.
+
+## Next Agent (redis-removal → reviewer)
+- Reviewer soi diff commit `refactor(cache): remove redis tier (service + code) per user`, trọng tâm:
+  1. AC1 grep = 0 hit **đúng phạm vi** (và các hit ngoài scope ở Notes là hợp lý).
+  2. Không mất test xanh — đối chiếu bảng collected 851→739 (−112).
+  3. `CacheAdapter(MemoryCache)` thay `_MemCacheAdapter` có tương đương hành vi (get/set/delete + ttl_hours kwarg).
+  4. `memory_manager.add_interaction` no-op trả `False` + log debug — không nuốt lỗi im lặng.
+  5. 2 debt ở Notes: đồng ý để lại hay bắt xử lý ngay trong gói này.

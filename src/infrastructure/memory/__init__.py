@@ -2,21 +2,18 @@
 Memory architecture for the financial insight agent.
 
 Tiers:
-- working / sliding: Redis-backed short-term turns (last-turn payload + window).
 - episodic: Qdrant-backed semantic retrieval over past turns.
 """
 
-__all__ = ["Episode", "EpisodicStore", "MemoryManager", "ShortTermMemory"]
+__all__ = ["Episode", "EpisodicStore", "MemoryManager"]
 
 
 def __getattr__(name):
     import importlib
 
     _LAZY = {
-        "ShortTermMemory": ".short_term.memory",
         "MemoryManager": ".memory_manager",
         "memory_manager": ".memory_manager",
-        "short_term": ".short_term.memory",
         "EpisodicStore": ".episodic.store",
         "Episode": ".episodic.schemas",
         "episodic": ".episodic.store",

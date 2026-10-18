@@ -1,25 +1,5 @@
 import pytest
-from unittest.mock import MagicMock
 import pandas as pd
-
-
-@pytest.fixture
-def mock_redis_client():
-    client = MagicMock()
-    client.ping.return_value = True
-    client.keys.return_value = []
-    return client
-
-
-@pytest.fixture
-def mock_redis_cache(mock_redis_client, monkeypatch):
-    monkeypatch.setattr(
-        "infrastructure.cache.redis_cache.redis.Redis", lambda **kw: mock_redis_client
-    )
-    from infrastructure.cache.redis_cache import RedisCache
-
-    cache = RedisCache(host="localhost", port=6379)
-    return cache
 
 
 @pytest.fixture

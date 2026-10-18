@@ -38,7 +38,7 @@ _guardrail_pipeline: GuardrailPipeline | None = None
 
 # Global IP-based rate limiter for endpoints without guardrails (health, ping)
 # NOTE: In-memory only — does not survive restarts and not shared across workers.
-# For multi-worker deployments, replace with Redis-backed rate limiter.
+# For multi-worker deployments, back it with a shared external store.
 _ip_request_counts: dict[str, deque[float]] = {}
 _ip_lock: asyncio.Lock = asyncio.Lock()
 _IP_RATE_LIMIT = 60  # requests

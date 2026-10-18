@@ -9,24 +9,12 @@ class TestDependencies:
     def test_init_defaults_are_none(self):
         deps = Dependencies()
         assert deps.memory_cache is None
-        assert deps.redis_cache is None
-        assert deps.cache_config is None
-        assert deps.cache_manager is None
-        assert deps.serialization_manager is None
-        assert deps.session_manager is None
-        assert deps.short_term_memory is None
         assert deps.memory_manager is None
         assert deps.llm_provider is None
         assert deps.metrics_collector is None
         assert deps.alert_manager is None
 
-    @patch("infrastructure.dependencies.Dependencies._init_serialization")
     @patch("infrastructure.dependencies.Dependencies._init_memory_cache")
-    @patch("infrastructure.dependencies.Dependencies._init_cache_config")
-    @patch("infrastructure.dependencies.Dependencies._init_redis_cache")
-    @patch("infrastructure.dependencies.Dependencies._init_cache_manager")
-    @patch("infrastructure.dependencies.Dependencies._init_session_manager")
-    @patch("infrastructure.dependencies.Dependencies._init_short_term_memory")
     @patch("infrastructure.dependencies.Dependencies._init_memory_manager")
     @patch("infrastructure.dependencies.Dependencies._init_llm_provider")
     @patch("infrastructure.dependencies.Dependencies._init_observability")
@@ -55,10 +43,6 @@ class TestDependencies:
     def test_shutdown_calls_close_on_services(self):
         deps = Dependencies()
         for attr in (
-            "short_term_memory",
-            "session_manager",
-            "cache_manager",
-            "redis_cache",
             "memory_cache",
             "llm_provider",
         ):
@@ -66,10 +50,6 @@ class TestDependencies:
             setattr(deps, attr, mock)
         deps.shutdown()
         for attr in (
-            "short_term_memory",
-            "session_manager",
-            "cache_manager",
-            "redis_cache",
             "memory_cache",
             "llm_provider",
         ):
@@ -79,83 +59,14 @@ class TestDependencies:
         deps = Dependencies()
         mock = MagicMock()
         mock.close.side_effect = RuntimeError("boom")
-        deps.short_term_memory = mock
+        deps.memory_cache = mock
         deps.shutdown()
-
-    @patch("infrastructure.cache.serialization.SerializationManager")
-    def test_init_serialization_success(self, mock_mgr):
-        deps = Dependencies()
-        deps._init_serialization()
-        assert deps.serialization_manager is not None
-
-    @patch("infrastructure.cache.serialization.SerializationManager", side_effect=Exception("fail"))
-    def test_init_serialization_failure(self, mock_mgr):
-        deps = Dependencies()
-        deps._init_serialization()
-        assert deps.serialization_manager is None
 
     @patch("infrastructure.cache.memory_cache.MemoryCache")
     def test_init_memory_cache_success(self, mock_cache):
         deps = Dependencies()
         deps._init_memory_cache()
         assert deps.memory_cache is not None
-
-    @patch("infrastructure.cache.config.CacheConfig")
-    def test_init_cache_config_success(self, mock_cfg):
-        deps = Dependencies()
-        deps._init_cache_config()
-        assert deps.cache_config is not None
-
-    @patch("infrastructure.cache.config.CacheConfig", side_effect=Exception("cfg fail"))
-    def test_init_cache_config_graceful(self, mock_cfg):
-        deps = Dependencies()
-        deps._init_cache_config()
-        assert deps.cache_config is None
-
-    @patch("infrastructure.cache.redis_cache.RedisCache")
-    def test_init_redis_cache_no_client(self, mock_redis):
-        mock_redis.return_value.get_raw_client.return_value = None
-        deps = Dependencies()
-        deps._init_redis_cache()
-        assert deps.redis_cache is None
-
-    @patch("infrastructure.cache.redis_cache.RedisCache")
-    def test_init_redis_cache_with_client(self, mock_redis):
-        mock_redis.return_value.get_raw_client.return_value = MagicMock()
-        deps = Dependencies()
-        deps._init_redis_cache()
-        assert deps.redis_cache is not None
-
-    @patch("infrastructure.cache.redis_cache.RedisCache", side_effect=Exception("conn refused"))
-    def test_init_redis_cache_graceful(self, mock_redis):
-        deps = Dependencies()
-        deps._init_redis_cache()
-        assert deps.redis_cache is None
-
-    def test_init_cache_manager_skipped_when_no_redis(self):
-        deps = Dependencies()
-        deps.redis_cache = None
-        deps._init_cache_manager()
-        assert deps.cache_manager is None
-
-    @patch("infrastructure.cache.cache_manager.CacheManager")
-    def test_init_cache_manager_success(self, mock_mgr):
-        deps = Dependencies()
-        deps.redis_cache = MagicMock()
-        deps._init_cache_manager()
-        assert deps.cache_manager is not None
-
-    def test_init_session_skipped_when_no_redis(self):
-        deps = Dependencies()
-        deps.redis_cache = None
-        deps._init_session_manager()
-        assert deps.session_manager is None
-
-    def test_init_short_term_skipped_when_no_redis(self):
-        deps = Dependencies()
-        deps.redis_cache = None
-        deps._init_short_term_memory()
-        assert deps.short_term_memory is None
 
     @patch("infrastructure.memory.memory_manager.MemoryManager")
     def test_init_memory_manager_starts_background(self, mock_mm):
