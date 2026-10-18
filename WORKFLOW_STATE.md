@@ -2381,7 +2381,10 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 
 ## Next Agent (R4d embed-slim)
 - **reviewer** — soi commit R4d: embedder NVIDIA-only (bỏ 2 fallback + raise rõ), pyproject (bỏ st, eval += transformers/torch), sentiment compose ×2 (backend + mcp_server) + `.env.example`, docs 1-liner, test mới; gates + full suite + `docker compose config` bên trên. Lưu ý **note `.env` override**.
-- C2 RESUME UV1-UV7 vẫn treo, chạy sau (build nhẹ hơn).
+- [Planner chốt 18/10: **BỎ nhịp reviewer R4d** — tiền lệ dep-removal: diff chủ yếu xoá, gates full-suite + test mới + CI xanh là bằng chứng đủ. Không còn điểm chặn R4d.]
+- [Planner note: `OPENAI_EMBEDDING_MODEL` còn chết ở `shared/config.py:64` + `.env:34` — vô hại, chỉ dọn khi tiện.]
+- [PENDING USER: `.env:49` `SENTIMENT_ENGINE=hf` → sửa `llm` (hoặc xoá dòng) nếu muốn docker chạy LLM; hiện docker-local sẽ rơi keyword degrade vì image không còn transformers. KHÔNG tự đụng `.env`.]
+- [C2 dispatch lại 18/10: chạy tiếp **UV2→UV7** từ UV1 (UV1 đã DONE trước khi session con chết I-SE). Build giờ no-torch → nhẹ.]
 
 ## Implementation Notes (C2-RESUME — implementor 18/10/2026) — ĐANG CHẠY
 
@@ -2389,4 +2392,59 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - Keep-alive: `setsid nohup sleep 5400` launched (warning `systemd user session for root` — pre-existing, vô hại như C2). VM **đã active sẵn** (poll đầu `docker info` = **READY** ngay, không cần chờ 5 phút buildkit).
 - `docker ps -a` = **rỗng** (không container cũ, không stack người khác). RAM baseline free: **14140 MB available** / 14988 total (thừa so ngưỡng 1GB).
 - Điều kiện đầu: HEAD `704a808` == origin/main (**0/0**); `WORKFLOW_STATE.md` M (chính section C2 RESUME này, commit ở UV7). Untracked cố ý để nguyên: `evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`.
+- **[UV2 re-dispatch 18/10] HEAD khi resume = `77a9a78`** (R4d `ba930d2` + 2 docs commit đã push) == origin/main **0/0**; vẫn 3 untracked cố ý.
+
+### UV1B DONE (resume check — docker READY, RAM thừa)
+- `docker info` = **READY** ngay (VM active sẵn, keep-alive `sleep 5400` cũ 18/10 còn hiệu lực — KHÔNG relaunch, KHÔNG kill).
+- `free -m`: **14137 MB available** / 14988 total (thừa xa ngưỡng 1GB). `docker ps -a` = **rỗng**.
+
+### UV2 — build (images TRƯỚC)
+- `docker images` TRƯỚC: `backend` **6.69GB**, `mcp_server` **6.69GB** (bản cũ còn torch/sentence-transformers). `frontend` 189MB (KHÔNG build — dùng image cũ).
+- Lệnh chạy: `docker compose build backend mcp_server` (timeout 900000, KHÔNG `--parallel`).
+- **UV2 DONE:** build **OK** cả 2 image (pip install xong ~264s, KHÔNG có torch/sentence-transformers trong danh sách cài — đúng R4d). `docker images` SAU: `backend` **729MB**, `mcp_server` **729MB** → **6.69GB → 729MB** (giảm ~5.9GB/image). `frontend` 189MB giữ nguyên (không build).
+
+### UV3 DONE (up -d → healthy + RAM lần 2)
+- `docker compose up -d` OK → 5 container: postgres/qdrant/mcp/backend/frontend. `up` log cho thấy backend **Healthy** ngay (postgres/mcp gate trước).
+- Health: `backend /health` = **200**; `frontend /api/health` = **200**; `backend /api/health` = **404** (path đúng là `/health`; C5 note `/api/health` là của frontend).
+- RAM lần 2: **13355 MB available** / 14988 (thừa xa ngưỡng 1GB) → không pause.
+- **Bonus boot log (ENABLE_RATES_SCHEDULER default true):** `Rates scheduler started — weekly Asia/Ho_Chi_Minh` (2 process) + `Rates policy refresh done: skipped=True` + `Rates purge done: {'deposit_listed': 16, 'lending_listed': 6, 'avg_rates_monthly': 0, 'policy_rates': 0, 'vnibor_daily': 6, 'banks_meta': 0}` — scheduler THỰC SỰ chạy khi boot (xác nhận wiring `app.py`).
+- **Lưu ý (pre-existing, không phải R4d):** container `finsight-frontend` giữ status `health: starting` vì healthcheck trong container `wget http://localhost:3000/api/health` resolve `localhost` → `[::1]:3000` (IPv6) **connection refused**; app thật bind IPv4 `0.0.0.0:3000` (`✓ Ready in 0ms`) → từ host `curl localhost:3000/api/health` = **200**. Ảnh hưởng UI verify: KHÔNG (browser đi port 3000 IPv4 bình thường).
+
+### UV4 DONE (API sanity — login + get_rates 6/6 + 2 trace disposable)
+- Login admin `POST /api/v1/auth/login` = **200**, `access_token` len **245**.
+- MCP `get_rates` (streamable-http `mcp_server:8001/mcp`, chạy trong container backend): `TOOLS_COUNT 19`, `HAS_GET_RATES True`; **6/6 group `isError=False`** — policy(918B) / deposit(95B) / lending(95B) / avg(497B) / vnibor(94B) / banks(996B).
+- Trace count do `trace_middleware` sinh ra từ chính các request authed: **167 → 169, DELTA +2**.
+- 2 trace disposable: **`f70e7be4-fd9f-446e-a07c-6c646f203e05`** (dùng cho DELETE) + **`9b1f1add-bf6b-4b01-9f35-262f04bbbdba`** (dùng cho PATCH); cả 2 `root_name` = `http GET /api/v1/traces`.
+- Ghi nhận (KHÔNG phải lỗi R4d): `deposit`/`lending`/`vnibor` trả `data: []` + `stale: true` — seed đã bị **R5 purge** xoá lúc boot (`deposit_listed 16, lending_listed 6, vnibor_daily 6`); daily ingester chưa chạy (follow-up đã biết).
+
+### UV5 DONE (browser verify — DELETE qua UI thật + PATCH qua fetch trong page context)
+- Toolset agent **KHÔNG có browser/chrome-devtools tool** → chạy **Puppeteer headless trong WSL** (node v20.20.2 sẵn có; script tạm `uv5_verify.mjs` đặt trong `.claude/skills/chrome-devtools/scripts/` và **đã xoá sau khi chạy** — không để lại file mới trong repo).
+- Login UI (`/login`, next-auth credentials, `admin@finsight.vn`/`admin123`) → **OK**, redirect `/chat` (`AFTER_LOGIN_URL http://localhost:3000/chat`).
+- `/traces`: search `Tìm trace_id…` + Enter → row trace #1 hiện (`FOUND_ROW f70e7be4-fd9`).
+- **(A) DELETE qua UI thật:** tick checkbox row → button `Xóa (1)` → **AlertDialog** (`CONFIRM_DIALOG_OPEN`) → bấm action `Xóa`. Network (origin thật `localhost:3000` → `localhost:8000`):
+  - `OPTIONS /api/v1/traces/f70e7be4-…` = **200** (preflight)
+  - `DELETE  /api/v1/traces/f70e7be4-…` = **200**
+  - refetch list: `OPTIONS /api/v1/traces` **200** + `GET /api/v1/traces` **200**; `ROW_GONE_AFTER_DELETE = true`.
+- **(B) PATCH meta:** frontend **KHÔNG có UI** nào gọi `PATCH /{id}/meta` (grep `frontend/src` = 0 hit; chỉ DELETE có UI) → theo ràng buộc "KHÔNG sửa frontend code", PATCH được verify đúng bằng đường CORS mà một nút UI sẽ đi: **`fetch` trong chính page context** (origin thật, token lấy từ `/api/auth/session`, `TOKEN_PRESENT true len 245`):
+  - `OPTIONS /api/v1/traces/9b1f1add-…/meta` = **200** (preflight)
+  - `PATCH   /api/v1/traces/9b1f1add-…/meta` = **200** → body `{"trace_id":"9b1f1add-…","updated":true}`
+- **Console: 0 lỗi CORS.** Có 1 `pageerror` **KHÔNG liên quan CORS**: `React error #418` (hydration mismatch text — pre-existing ở frontend; nhịp này KHÔNG sửa + KHÔNG rebuild frontend nên giữ nguyên).
+- → **AC3 của cors-fix (UI writes không bị CORS) đóng trọn ở cả DELETE và PATCH.**
+
+### UV6 DONE (get_rates lần 2 + persist check + down sạch)
+- MCP `get_rates` lần 2: `TOOLS_COUNT 19`; **6/6 group `isError=False`** (policy 918 / deposit 95 / lending 95 / avg 497 / vnibor 94 / banks 996) — khớp UV4.
+- **Persist check (độc lập, không dựa counter):** `GET /api/v1/traces/{#1}` = **404** (DELETE đã vào DB) + `DELETE` lại = **404**; `GET /api/v1/traces/{#2}` = **200** với meta đã lưu `{"env":"uv5-cors-test","tags":"uv5","version":null,"session_id":null,"user_id":null}` (PATCH đã vào DB).
+- **Cleanup:** xoá luôn trace #2 (disposable) → `{"deleted":true}`.
+- Counter trace **chỉ mang tính tham khảo** (mọi request admin cũng bị trace → total tăng trong lúc verify: 200 → 203 sau vài GET/DELETE) — **không phải lỗi**; bằng chứng thật là 404 + meta persist ở trên.
+- `docker compose down` (**KHÔNG** `-v`/`--rmi`): 5 container stopped+removed, network removed. `docker ps -a` = **rỗng**.
+- Images nguyên vẹn: `backend` **729MB**, `mcp_server` **729MB**, `frontend` **189MB** (khớp UV2).
+
+## Current Status (C2 RESUME docker UI-writes — VERIFY DONE 18/10/2026)
+- UV1 / UV1B / UV2 / UV3 / UV4 / UV5 / UV6 **đều PASS**. **0 thay đổi code** (nhịp này chỉ verify + ghi state) → commit duy nhất = `WORKFLOW_STATE.md`.
+- AC đối chiếu: (1) DELETE từ UI thật → OPTIONS **200** + DELETE **200** + row mất + **0 CORS error** → **PASS**; (2) PATCH meta → OPTIONS **200** + PATCH **200** + meta persist trong DB → **PASS** (qua fetch trong page context vì frontend không có UI PATCH — không sửa frontend); (3) `get_rates` **6/6** hai lần độc lập → **PASS**; (4) RAM đỉnh ~**13.4GB available** (thừa xa ngưỡng 1GB) → **PASS**; (5) `down` sạch: `docker ps -a` rỗng, image giữ **729/729/189MB**, volumes `app_data` không xoá → **PASS**.
+- Findings (KHÔNG chặn): frontend thiếu UI PATCH meta; `React #418` hydration warn pre-existing; frontend container healthcheck IPv6 pre-existing; `deposit`/`lending`/`vnibor` rỗng do R5 purge (daily ingester là follow-up).
+- PENDING USER (KHÔNG tự đụng `.env`): `.env:49` `SENTIMENT_ENGINE=hf` → `llm` nếu muốn docker local chạy LLM (image đã bỏ transformers → hiện rơi keyword degrade).
+
+## Next Agent (C2 RESUME)
+- **reviewer** — soi báo cáo verify UV2→UV6 ở trên (bằng chứng network từng request, 404 + meta persist, down sạch). **Không có code diff** để review (chỉ state doc) → kỳ vọng: xác nhận **đóng Ship C** (AC cors-fix end-to-end PASS), rồi bàn giao tester/CI watch.
 
