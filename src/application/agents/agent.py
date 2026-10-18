@@ -110,7 +110,6 @@ class AgentState(TypedDict):
     iterations: int
     original_query: str
     request_id: str
-    memory_context: str
     active_chart_spec: str | None  # compact dashboard summary (P4) — None khi không có chart pinned
     tool_call_history: list[str]
     tool_call_cache: dict[str, str]
@@ -283,7 +282,7 @@ class StockAgent:
         """Split static (cacheable) vs dynamic system messages for prompt caching.
 
         - Static: agent_system (MCP-minimal ~213t) — cacheable prefix, no per-request variance.
-        - Dynamic: Current date + memory_context — volatile, sent as second SystemMessage.
+        - Dynamic: Current date — volatile, sent as second SystemMessage.
         - Temporal: per-ticker end_date — appended after tool results as third SystemMessage.
         This avoids mixing volatile data into the cacheable prefix (anti-pattern).
         """
@@ -291,7 +290,6 @@ class StockAgent:
         from application.prompts import PromptRegistryError, get_registry
 
         messages = list(state["messages"])
-        memory_context = state.get("memory_context", "")
         current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
         temporal_ctx = self._build_temporal_context(messages, current_date)
@@ -322,10 +320,7 @@ class StockAgent:
             # 1) Static cacheable prefix — never includes date/memory
             static_msg = SystemMessage(content=system_text)
             # 2) Dynamic per-request context — volatile, not cached
-            dynamic_parts = [f"Current date: {current_date}"]
-            if memory_context:
-                dynamic_parts.append(f"Context from past interactions:\n{memory_context}")
-            dynamic_msg = SystemMessage(content="\n\n".join(dynamic_parts))
+            dynamic_msg = SystemMessage(content=f"Current date: {current_date}")
             messages = [static_msg, dynamic_msg, *messages]
             import os as _os
 
@@ -587,17 +582,14 @@ class StockAgent:
     # Shared preamble: memory + split
     # ------------------------------------------------------------------
 
-    def _prepare_and_split(
-        self, query: str, user_id: str | None = None
-    ) -> tuple[str, list[str], dict]:
-        """Build memory context, rewrite follow-up, and split into sub-queries.
+    def _prepare_and_split(self, query: str, user_id: str | None = None) -> tuple[list[str], dict]:
+        """Rewrite follow-up and split into sub-queries.
 
-        Returns (memory_context, sub_queries, reform) where reform holds
+        Returns (sub_queries, reform) where reform holds
         {"reformulated", "entities", "topics"}. The raw query stays the source
         of truth for guardrails/synthesizer; the rewritten form feeds the
         splitter and the ReAct loop.
         """
-        memory_context = self._build_memory_context(query, user_id=user_id)
         reformulated: str = query
         entities: list[str] = []
         topics: list[str] = []
@@ -618,7 +610,6 @@ class StockAgent:
         if not sub_queries:
             sub_queries = [reformulated]
         return (
-            memory_context,
             sub_queries,
             {
                 "reformulated": reformulated,
@@ -631,56 +622,10 @@ class StockAgent:
     # Multi-query fan-out via HybridQuerySplitter
     # ------------------------------------------------------------------
 
-    def _build_memory_context(self, query: str, user_id: str | None = None) -> str:
-        """Search past interactions for context relevant to the current query."""
-        memory_mgr = get_memory_manager()
-        if not memory_mgr:
-            return ""
-        try:
-            mem_results = memory_mgr.search_memory(query=query, top_k=3, user_id=user_id)
-            tier_data = mem_results.get("short_term", {})
-            if not tier_data or "error" in tier_data:
-                return ""
-            snippets = []
-            for ia in tier_data.get("interactions", [])[:2]:
-                if isinstance(ia, dict):
-                    uq = ia.get("user_query", "")
-                    ar = ia.get("agent_response", "")
-                    if uq and ar:
-                        snippets.append(f"Q: {uq}\nA: {ar[:300]}")
-            return "\n\n".join(snippets) if snippets else ""
-        except Exception as mem_err:
-            logger.warning("Failed to search memory", extra={"error": str(mem_err)})
-            return ""
-
-    def _update_summary_state(
-        self,
-        user_id: str | None,
-        entities: list,
-        topics: list,
-        raw_query: str,
-        rewritten_query: str,
-    ) -> None:
-        """Best-effort summary update via SummaryUpdater (Phase 3 module)."""
-        try:
-            from application.agents.summary_updater import SummaryUpdater
-
-            updater = SummaryUpdater()
-            updater.update(
-                user_id=user_id,
-                entities=entities,
-                topics=topics,
-                raw_query=raw_query,
-                rewritten_query=rewritten_query,
-            )
-        except Exception as e:
-            logger.warning("Summary update failed", extra={"error": str(e)})
-
     def _run_single(
         self,
         query: str,
         rid: str,
-        memory_context: str = "",
         user_id: str | None = None,
         active_chart_summary: str | None = None,
     ) -> str:
@@ -697,7 +642,6 @@ class StockAgent:
                 "iterations": 0,
                 "original_query": query,
                 "request_id": rid,
-                "memory_context": memory_context,
                 "active_chart_spec": active_chart_summary,
                 "tool_call_history": [],
                 "tool_call_cache": {},
@@ -741,7 +685,7 @@ class StockAgent:
         active_chart_spec: dict | None = None,
     ) -> str:
         try:
-            memory_context, sub_queries, reform = self._prepare_and_split(query, user_id=user_id)
+            sub_queries, reform = self._prepare_and_split(query, user_id=user_id)
             effective_query = reform.get("reformulated") or query
             active_summary = _summarize_chart_spec(active_chart_spec)
 
@@ -754,7 +698,6 @@ class StockAgent:
                 result = self._run_single(
                     effective_query,
                     rid,
-                    memory_context=memory_context,
                     user_id=user_id,
                     active_chart_summary=active_summary,
                 )
@@ -764,7 +707,6 @@ class StockAgent:
                     return self._run_single(
                         q,
                         r,
-                        memory_context=memory_context,
                         user_id=user_id,
                         active_chart_summary=active_summary,
                     )
@@ -792,13 +734,6 @@ class StockAgent:
                             "reformulated": effective_query,
                         },
                         user_id=user_id,
-                    )
-                    self._update_summary_state(
-                        user_id=user_id,
-                        entities=reform.get("entities") or [],
-                        topics=reform.get("topics") or [],
-                        raw_query=query,
-                        rewritten_query=effective_query,
                     )
                 except Exception as mem_err:
                     logger.warning(
@@ -871,7 +806,6 @@ class StockAgent:
         self,
         query: str,
         rid: str,
-        memory_context: str = "",
         user_id: str | None = None,
         active_chart_summary: str | None = None,
     ):
@@ -895,7 +829,6 @@ class StockAgent:
             "iterations": 0,
             "original_query": query,
             "request_id": rid,
-            "memory_context": memory_context,
             "active_chart_spec": active_chart_summary,
             "tool_call_history": [],
             "tool_call_cache": {},
@@ -957,9 +890,7 @@ class StockAgent:
             ) as span:
                 start_time = time.time()
                 collected: list[str] = []
-                memory_context, sub_queries, reform = self._prepare_and_split(
-                    query, user_id=user_id
-                )
+                sub_queries, reform = self._prepare_and_split(query, user_id=user_id)
                 effective_query = reform.get("reformulated") or query
                 active_summary = _summarize_chart_spec(active_chart_spec)
                 if span is not None:
@@ -974,7 +905,6 @@ class StockAgent:
                         for token in self._run_single_stream(
                             effective_query,
                             rid,
-                            memory_context=memory_context,
                             user_id=user_id,
                             active_chart_summary=active_summary,
                         ):
@@ -1039,13 +969,6 @@ class StockAgent:
                                     "reformulated": effective_query,
                                 },
                                 user_id=user_id,
-                            )
-                            self._update_summary_state(
-                                user_id=user_id,
-                                entities=reform.get("entities") or [],
-                                topics=reform.get("topics") or [],
-                                raw_query=query,
-                                rewritten_query=effective_query,
                             )
                     except Exception as mem_err:
                         logger.warning(

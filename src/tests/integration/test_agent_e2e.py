@@ -52,23 +52,6 @@ def test_agent_resolve_request_id(agent_with_mocks):
     assert len(rid2) > 0
 
 
-@patch("application.agents.agent.get_memory_manager")
-def test_agent_build_memory_context_no_memory(mock_mem):
-    mock_mem.return_value = None
-    with (
-        patch("application.agents.agent.LLMProvider"),
-        patch("infrastructure.mcp.loader.load_mcp_tools_sync", return_value=[]),
-        patch("application.agents.agent.CustomToolNode"),
-        patch("application.agents.agent.ResponseSynthesizer"),
-        patch("application.agents.agent.HybridQuerySplitter"),
-    ):
-        from application.agents.agent import StockAgent
-
-        agent = StockAgent()
-        ctx = agent._build_memory_context("test query")
-        assert ctx == ""
-
-
 @patch("application.agents.agent.get_output_guardrails")
 def test_agent_output_guardrails_sanitizes(mock_guardrails):
     mock_gr = MagicMock()

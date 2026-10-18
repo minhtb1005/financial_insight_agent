@@ -118,17 +118,6 @@ def test_reason_node_success_no_tool_calls():
     assert result["next_tool_call"] is None
 
 
-def test_reason_node_with_memory_context():
-    agent = _make_agent(llm_available=True)
-    mock_response = AIMessage(content="answer", tool_calls=[{"name": "t", "args": {}, "id": "1"}])
-    agent.llm.invoke.return_value = mock_response
-    state = _state([HumanMessage(content="test")])
-    state["memory_context"] = "User previously asked about VCB"
-    result = agent._reason_node(state)
-    assert result["iterations"] == 1
-    assert result["next_tool_call"] is not None
-
-
 def test_reason_node_empty_llm_response():
     agent = _make_agent(llm_available=True)
     agent.llm.invoke.return_value = AIMessage(

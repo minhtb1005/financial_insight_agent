@@ -164,11 +164,9 @@ lines-after-imports = 2
 "src/interfaces/api/routes/traces.py" = ["TCH"]
 "src/interfaces/api/routes/memory.py" = ["TCH"]
 "src/application/agents/agent.py" = ["ARG002"]
-# add_interaction/search_memory keep their public signatures after the Redis
+# add_interaction/search_memory keep their public signatures after the
 # short-term tier removal, so some params are intentionally unused.
 "src/infrastructure/memory/memory_manager.py" = ["ARG002"]
-# update() keeps user_id in its signature for callers; nothing persists now.
-"src/application/agents/summary_updater.py" = ["ARG002"]
 
 [tool.mypy]
 python_version = "3.13"

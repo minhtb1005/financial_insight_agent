@@ -121,7 +121,6 @@ def _make_state(messages, iterations=0, query="test query", rid="test-rid", next
         iterations=iterations,
         original_query=query,
         request_id=rid,
-        memory_context="",
         tool_call_history=[],
         tool_call_cache={},
         tool_call_retries={},

@@ -60,7 +60,6 @@ def test_build_messages_injects_dashboard_context():
         "iterations": 0,
         "original_query": "Vì sao đoạn tháng 3 giảm?",
         "request_id": "rid-1",
-        "memory_context": "",
         "active_chart_spec": "Active dashboard: candlestick VNM",
     }
     messages = agent._build_messages(state)  # type: ignore[typeddict-item]
@@ -75,7 +74,6 @@ def test_build_messages_without_spec_has_no_dashboard():
         "iterations": 0,
         "original_query": "Giá VCB?",
         "request_id": "rid-2",
-        "memory_context": "",
     }
     messages = agent._build_messages(state)  # type: ignore[typeddict-item]
     assert not any("Dashboard" in m.content for m in messages if isinstance(m, SystemMessage))
@@ -85,7 +83,7 @@ def test_execute_graph_threads_active_spec_to_single():
     agent = _make_agent()
     captured = {}
 
-    def fake_run_single(query, rid, memory_context="", user_id=None, active_chart_summary=None):
+    def fake_run_single(query, rid, user_id=None, active_chart_summary=None):
         captured["summary"] = active_chart_summary
         return "ok"
 
@@ -94,7 +92,6 @@ def test_execute_graph_threads_active_spec_to_single():
             agent,
             "_prepare_and_split",
             return_value=(
-                "",
                 ["only query"],
                 {"reformulated": "only query", "entities": [], "topics": []},
             ),
@@ -112,7 +109,7 @@ def test_execute_graph_without_spec_passes_none():
     agent = _make_agent()
     captured = {}
 
-    def fake_run_single(query, rid, memory_context="", user_id=None, active_chart_summary=None):
+    def fake_run_single(query, rid, user_id=None, active_chart_summary=None):
         captured["summary"] = active_chart_summary
         return "ok"
 
@@ -121,7 +118,6 @@ def test_execute_graph_without_spec_passes_none():
             agent,
             "_prepare_and_split",
             return_value=(
-                "",
                 ["only query"],
                 {"reformulated": "only query", "entities": [], "topics": []},
             ),
