@@ -2448,4 +2448,7 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 
 ## Next Agent (C2 RESUME)
 - **reviewer** — soi báo cáo verify UV2→UV6 ở trên (bằng chứng network từng request, 404 + meta persist, down sạch). **Không có code diff** để review (chỉ state doc) → kỳ vọng: xác nhận **đóng Ship C** (AC cors-fix end-to-end PASS), rồi bàn giao tester/CI watch.
+- [Planner chốt 18/10 (final): **BỎ nhịp reviewer C2** — không có code diff; evidence đã ở mức cao nhất hiện có (status network thật từ browser context, DELETE→404/ném lại 404, PATCH meta persist trong DB, console 0 CORS, down sạch, RAM thừa 13GB+). **SHIP C: CLOSED.** Caveat duy nhất: PATCH meta chưa có UI form trong frontend → verify ở tầng CORS/browser (fetch trong page context thật, cùng origin + token). Muốn đóng trọn "click-to-save" cần **1 feature nhỏ frontend** (backlog, chờ user).
+- [Pending USER — không tự đụng: (1) `.env:49` `SENTIMENT_ENGINE=hf` → `llm` (hoặc xoá dòng) nếu muốn docker chạy LLM, không thì sentiment docker rơi keyword degrade; (2) tuỳ chọn: feature UI PATCH meta; (3) follow-up đã biết: daily ingester deposit/vnibor + market scheduler enable (R4c).]
+- [Tổng trạng thái 18/10: dep-audit DONE · rates crawl-time DONE · R4d embed-slim DONE · **C2/Ship C CLOSED** · CORS fix verified end-to-end · image backend/mcp 6.69GB → **729MB**. Không còn nhịp mở nào ngoài pending user.]
 
