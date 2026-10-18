@@ -2235,3 +2235,49 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - **Chờ user** chốt dep-audit (KEEP/DROP 5 dep đề xuất) — đây là điểm chặn duy nhất còn lại trước khi push.
 - Sau khi user duyệt → **push gộp** `main` (ahead `origin/main` **2**: `ee9522e` redis-removal + `57d213d` follow-up). **KHÔNG push** trước khi user duyệt.
 - (Tùy chọn) **reviewer** soi lại `57d213d` (thuần deletion, zero behavior) nếu muốn khép vòng; gate đã xanh sẵn.
+
+## Files To Change (dep-removal — USER ĐÃ DUYỆT 5 dep, 18/10/2026)
+- `pyproject.toml` — bỏ 5 dòng, KHÔNG đụng dep nào khác:
+  - main: `passlib[bcrypt]>=1.7.4` (dòng 47), `python-multipart>=0.0.9` (50), `email-validator>=2.1.0` (51).
+  - dev: `pytest-mock>=3.14.0` (60), `reportlab>=4.2.0` (67).
+  - GIỮ: `bcrypt>=4.1.0` (password.py import trực tiếp), `pydantic[email]>=2.0.0` (EmailStr auth.py).
+- `.venv`: `pip uninstall -y passlib pytest-mock reportlab`. **KHÔNG** gỡ `python-multipart`/`email-validator` khỏi venv (là dep của fastapi/pydantic — chỉ bỏ khai báo trong pyproject).
+- KHÔNG sửa code/test nào khác (0 usage xác nhận trước khi bỏ).
+
+## Implementation Notes (dep-removal — implementor 18/10/2026)
+
+### Điều kiện đầu
+- HEAD `aeb5079`, `main` ahead `origin/main` **3** (`ee9522e`, `57d213d`, `aeb5079`); `git status` sạch ngoài pyproject + 3 untracked (`evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`) — không đụng.
+- Baseline (theo state reviewed): pytest 716/0/17, ruff 0, black 0, mypy gate 0.
+
+### D1 — grep verify TRƯỚC khi bỏ (điều kiện STOP)
+- `grep -n "passlib|mocker|reportlab|UploadFile|Form\(|File\("` trên `src/`: **0 hit thật**.
+  - 5 match thô là false-positive substring của stdlib `tempfile.NamedTemporaryFile(` trong `src/tests/unit/application/services/portfolio/test_portfolio_services.py` (không phải `File(` của FastAPI). Re-grep có word-boundary `\bForm\(|\bFile\(` → **No files found** → xác nhận 0.
+- Repo-wide `import reportlab|from reportlab|pytest_mock|passlib`: chỉ 2 hit — chính chú thích proposal trong WORKFLOW_STATE.md + khai báo `pyproject.toml:47`. **0 usage trong code** → an toàn bỏ.
+- `python-multipart`: 0 endpoint `Form/File/UploadFile` → bỏ khai báo OK (gói vẫn nằm trong venv vì fastapi cần).
+- `email-validator`: trùng `pydantic[email]` (giữ 1) → bỏ bản standalone OK.
+
+### D3 — diff (đúng 5 dòng, không lẫn)
+- `git diff pyproject.toml`: −`passlib[bcrypt]`, −`python-multipart`, −`email-validator` (main); −`pytest-mock`, −`reportlab` (dev). Không đổi gì khác.
+
+### D2 — Bằng chứng gate (đo trên tree sau implement, interpreter `.venv\Scripts\python.exe`)
+| Gate | Lệnh | Baseline | Sau | KQ |
+|---|---|---|---|---|
+| pytest | `python -m pytest src/tests -q` | 716/0/17 | **716 passed / 17 skipped / 0 failed** (72.66s) | PASS |
+| ruff | `python -m ruff check src` | 0 | **All checks passed** | PASS |
+| black | `python -m black --check src` | 0 | **282 files would be left unchanged** | PASS |
+| mypy (gate) | `python -m mypy src --ignore-missing-imports --no-strict-optional` | 0 | **Success: no issues found in 282 source files** | PASS |
+- **Cảnh báo trung thực:** `python -m mypy src` **trần (không cờ)** = **27 lỗi pre-existing** (15 file) — **KHÔNG phải lệnh gate** (khớp ghi chú redis-removal dòng 2160 + `.github/workflows/ci.yml:44`). Đã chứng minh pre-existing bằng cách `git stash` pyproject → mypy trần cũng **27 lỗi** y hệt (delta 0). Không regression.
+- Không chạy docker (đúng RAM constraint user).
+
+### Notes
+- `scenario` so sánh giữ nguyên: full suite 716/0/17 khớp baseline, không test nào vỡ do bỏ dep.
+
+## Current Status (dep-removal — IMPLEMENT DONE 18/10/2026)
+- Bỏ đúng 5 dep khỏi `pyproject.toml` (3 main + 2 dev); venv gỡ `passlib`/`pytest-mock`/`reportlab`; GIỮ `python-multipart`+`email-validator` trong venv (fastapi/pydantic cần, chỉ bỏ khai báo).
+- Gate xanh toàn bộ: pytest **716/0/17**, ruff **0**, black **0**, mypy gate **0**. Không sửa code/test nào khác.
+- Commit + push gộp (3 commit redis-removal/follow-up đang treo + commit dep này) — **hash + CI ghi ở nhịp D4/D5 bên dưới**.
+
+## Next Agent (dep-removal → reviewer)
+- **@reviewer**: soi commit dep-removal (diff `pyproject.toml` 5 dòng + xác nhận 0 usage + gate). Chạy lại gate bằng `.venv\Scripts\python.exe`; lưu ý mypy phải dùng cờ gate (`--ignore-missing-imports --no-strict-optional`) — mypy trần có 27 lỗi pre-existing, không phải regression.
+- Sau review → khép vòng dep-audit; không còn điểm chặn.
