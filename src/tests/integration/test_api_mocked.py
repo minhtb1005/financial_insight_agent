@@ -1,5 +1,27 @@
 import json
 
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def _auth_override():
+    """/api/v1/ask-stream requires JWT + a DB user; this mocked suite has neither.
+
+    Path fix alone leaves these requests at 401 (route auth), not 404. Override
+    the auth dependency with a dummy user — the suite only exercises the
+    request/response plumbing, everything else is already mocked in conftest.
+    """
+    from types import SimpleNamespace
+
+    from infrastructure.auth.dependencies import get_current_user
+    from interfaces.api.app import app
+
+    app.dependency_overrides[get_current_user] = lambda: SimpleNamespace(
+        id="test-user", email="test@example.com", role="user"
+    )
+    yield
+    app.dependency_overrides.pop(get_current_user, None)
+
 
 def _parse_sse_events(response) -> list[dict]:
     """Parse SSE response into a list of {event, data} dicts."""
@@ -32,7 +54,7 @@ class TestApiEndpointsMocked:
         assert response.json()["status"] == "ok"
 
     def test_ask_stream_valid_query_success(self, client):
-        response = client.post("/ask-stream", json={"query": "Giá VCB hôm qua"})
+        response = client.post("/api/v1/ask-stream", json={"query": "Giá VCB hôm qua"})
         assert response.status_code == 200
         assert response.headers["content-type"].startswith("text/event-stream")
         events = _parse_sse_events(response)
@@ -46,15 +68,15 @@ class TestApiEndpointsMocked:
         assert isinstance(data["latency_ms"], (int, float))
 
     def test_ask_stream_empty_query_returns_422(self, client):
-        response = client.post("/ask-stream", json={"query": ""})
+        response = client.post("/api/v1/ask-stream", json={"query": ""})
         assert response.status_code == 422
 
     def test_ask_stream_whitespace_query_returns_422(self, client):
-        response = client.post("/ask-stream", json={"query": "   "})
+        response = client.post("/api/v1/ask-stream", json={"query": "   "})
         assert response.status_code == 422
 
     def test_ask_stream_missing_query_field_returns_422(self, client):
-        response = client.post("/ask-stream", json={})
+        response = client.post("/api/v1/ask-stream", json={})
         assert response.status_code == 422
 
     def test_health_agent_ready_flag(self, client):
@@ -63,14 +85,14 @@ class TestApiEndpointsMocked:
         assert "agent_ready" in data
 
     def test_ask_stream_has_chunk_and_final_events(self, client):
-        response = client.post("/ask-stream", json={"query": "Giá VCB hôm qua"})
+        response = client.post("/api/v1/ask-stream", json={"query": "Giá VCB hôm qua"})
         assert response.status_code == 200
         assert response.headers["content-type"].startswith("text/event-stream")
         assert "event: chunk" in response.text or "event: final" in response.text
 
     def test_ask_stream_long_query_success(self, client):
         response = client.post(
-            "/ask-stream", json={"query": "Cho tôi giá cổ phiếu " + "VCB " * 100}
+            "/api/v1/ask-stream", json={"query": "Cho tôi giá cổ phiếu " + "VCB " * 100}
         )
         assert response.status_code == 200
         events = _parse_sse_events(response)
@@ -80,5 +102,5 @@ class TestApiEndpointsMocked:
         assert "answer" in data
 
     def test_ask_stream_empty_body_returns_422(self, client):
-        response = client.post("/ask-stream", json={})
+        response = client.post("/api/v1/ask-stream", json={})
         assert response.status_code == 422

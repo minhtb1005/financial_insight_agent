@@ -1429,10 +1429,50 @@ APPROVE. Không có vấn đề blocking. Implementation đúng Clarified Scope 
 - **typecheck FAIL — 142 lỗi mypy pre-existing**: logger/alerting/services/agent/client… Chỉ 1 lỗi trong file ta đụng: `app.py:444 var-annotated` — dòng cũ, xa dòng 275 ta sửa.
 - **Vì sao mới lộ**: các run CI trước chết 14–19s ở Install dependencies (vnstock PyPI quarantine) → lint/typecheck chưa bao giờ chạy tới trên codebase này. Fix vendor-index cho CI đi tận cùng → nợ lint/type legacy lần đầu lộ diện (không phải regress của cors-fix).
 
-## Next Agent (CI debt — chờ user quyết, không mở tự ý)
-- A) Mở round lint/typefix: 145 ruff (đa số auto-fixable; PLR0917 + override `_fetch_single` cần quyết thiết kế hoặc noqa) + 142 mypy.
-- B) Gỡ khối lint/type ra CI trước (grace), làm sạch dần — repo áp gate test xanh trước.
-- C) Bỏ qua (CI red do nợ legacy, test xanh — ghi known-leftover).
+## Clarified Scope (cleanup-v — user chốt 18/10: merge v1.2 + stale test + UI-writes docker + latent nhỏ)
+1. **F — merge v1.2**: commit + 26 scenes + 2 modified json (curriculum + index). `audio/` CẮM PHÉP khỏi commit (quy ước repo binary ngoài git — note vào state).
+2. **G — stale test**: sửa `src/tests/integration/test_api_mocked.py` 7 test POST `/ask-stream` → `/api/v1/ask-stream`; kỳ vọng full suite 0 fail (mock vẫn hoạt động); nếu test mâu thuẫn mock không phải path-only → dừng ghi báo.
+3. **I — latent nhỏ** (từ Review Findings E2/E3; chính sách: chỉ tay vào phần đủ nhỏ — lớn hơn thì ghi, KHÔNG sửa):
+   - I1 `run_full_refresh(force=)` không dùng: đọc caller vs signature — nếu caller truyền kwarg không tồn tại (bug scheduler thật) → thêm tham số (hoặc bỏ kwarg đúng nghĩa); lớn hơn → note.
+   - I2 `get_indicators(years=)` không forward: đọc flow; mức nhỏ (đích 1 dòng forward) → sửa; thay đổi hợp đồng dữ liệu → note.
+   - I3 `shared/price_data.py` shim no-op params: shim bỏ lặng args — mức nhỏ: xử lý loud (raise/log) hoặc forward nguyên tắc nhỏ nhất; lỗi architecture → note only.
+   - I4 `agent.py` `.content`-as-list latent: guard an toàn (nếu content list → join/extract str hợp nghĩa NG) — KHÔNG đổi protocol khác.
+3.5. **H — docker UI-writes re-verify** (đóng bug CORS end-to-end): rebuild backend image (src mới: CORS fix + latents mới), `up -d`, UI thật xác nhận DELETE trace + PATCH meta preflight 200 (console không rớt CORS error), `down` sạch. KHÔNG chạy lại full smoke C5 (đã PASS), KHÔNG đụng M1L1.
+4. Ship: push TOÀN BỘ commits round (merge v1.2 + stale-test + latents + state) sau khi reviewer B approve; theo dõi run CI mới trên main kỳ vọng xanh; F1' nit Current Status (thêm `shared/price_data.py` shim vào leftover list — I3 xử lý ở mục này).
+
+## Plan cleanup-v (18/10)
+- A (implementor): **F** commit merge v1.2 (stage chính xác 28 file — message `feat(lessons): merge curriculum v1.2 scenes (26 files) — audio untracked`); **G** sửa path 7 test + chạy `pytest src/tests` FULL kỳ vọng **0 failed / ~828 pass / 19 skip** (sai → report trung thực); **I1-I4** mỗi cái đọc code → sửa mức nhỏ → unit gate; commit tách rời: `fix(tests): stale ask-stream path in mocked integration suite`, `fix(latents): small latent cleanups per review findings`. Ghi state sau mỗi mục (kèm hash).
+- A KHÔNG docker; KHÔNG push. KHÔNG đụng audio/, out/, logs, evals, .env.
+- Reviewer B (nhẹ): review commits của A: scope sạch, unit khớp, các fix latent đúng policy ("đủ nhỏ"), merge v1.2 đúng 28 file + không audio, stale test thật sự chỉ path-fix + mock còn hoạt động.
+- C (implementor): **H** docker: keep-alive WSL trước (`nohup sleep` bên trong WSL, 1 lệnh `wsl -d` mỗi bash-call), đợi docker daemon active (~5 phút sau boot), rebuild image backend + mcp_server, `up -d`, đợi healthy; verify UI-writes trên browser: chọn 1 trace disposable (nếu thiếu → tạo 1 trace nhỏ qua backend API trước), trong UI bấm DELETE + confirm → preflight OPTIONS 200, không console CORS error, row biến mất; PATCH meta qua edit form → 200 + giá trị đổi; xong `down` sạch (KHÔNG `-v`/`--rmi` — giữ volumes/images, nhất là app_data); xác nhận rates 6/6 + traces còn nguyên sau up/down.
+- C tiếp: PUSH toàn bộ (commits của A + state + verify C) → `gh run list` watch run mới trên main → kỳ vọng 3 job xanh (typecheck/lint/test); nếu đỏ chỗ khác → log + báo (KHÔNG tự mở round mới).
+- Reviewer D (nhẹ): ship verify — push clean (0/0), CI run xanh trên đúng sha, state trung thực F/G/H/I.
+- Quy tắc chung: python qua `.venv`; 1 lệnh `wsl -d` mỗi bash-call + timeout 900000ms khi docker; NEVER kill keep-alive sleep; cấm `git add -A`; cấm force-push; secrets/.env chỉ chỗ đúng; sau MỖI mục lớn ghi state ngay.
+
+## Files To Change (cleanup-v)
+- F: `data/lessons/curriculum_tai_chinh_ca_nhan.json`, `frontend/trau-video/public/lessons/index.json`, + 26 `frontend/trau-video/public/lessons/M*_L*_scenes.json` (add từng explicit path; audio KHÔNG).
+- G: `src/tests/integration/test_api_mocked.py`.
+- I (đọc trước, có thể thêm): `src/application/services/market/*scheduler*|pipeline*` (run_full_refresh caller), `get_indicators` churn file chỗ gọi, `src/shared/price_data.py`, `src/application/agents/agent.py`.
+- H: state only (docker, không thay đổi code trừ khi verify lộ bug).
+- KHÔNG: pyproject, compose, Dockerfile gì mới, frontend code.
+- **Actual (cleanup-v A round):**
+  - **F** — `7254731` (đã commit session trước): `data/lessons/curriculum_tai_chinh_ca_nhan.json` + `frontend/trau-video/public/lessons/index.json` + 26 `frontend/trau-video/public/lessons/*_scenes.json` (**28 file**). Không tạo commit mới.
+  - **G** — `src/tests/integration/test_api_mocked.py` (7 path-fix) — **STOPPED, chưa commit** (blocker auth).
+  - **I** — `1f1ddda` = **5 file**: `src/application/agents/agent.py`, `src/application/services/market/indicator_service.py`, `src/interfaces/api/routes/market.py`, `src/shared/price_data.py`, `src/tests/unit/application/agents/test_agent_node.py`.
+  - **H** — KHÔNG làm (ngoài nhịp). **C** — KHÔNG push (ngoài nhịp).
+
+## Acceptance Criteria (cleanup-v)
+1. Merge v1.2 commit đúng 28 file (2 modified + 26 scenes); audio KHÔNG vào commit, vẫn untracked.
+2. Full test suite **0 failed** (mocked path fix).
+3. Latents I1-I4: mỗi cái unit PASS sau fix hoặc được note trung thực vì quá lớn; KHÔNG phát sinh lỗi mypy/ruff/black mới (3 gates = 0).
+4. Trên docker: DELETE + PATCH từ UI **không bị CORS** (preflight 200, không console CORS error); data rates/market còn nguyên; down sạch.
+5. Push sạch 0/0 fast-forward + run CI mới trên main xanh cả 3 job (nếu có lỗi chỗ khác ngoài scope → ghi rõ).
+6. WORKFLOW_STATE trung thực per mục + hash + commit message.
+
+## Next Agent (CI debt — LỊCH SỬ, đã quyết A; giữ lưu vết)
+- A) Mở round lint/typefix: 145 ruff (đa số auto-fixable; PLR0917 + override `_fetch_single` cần quyết thiết kế hoặc noqa) + 142 mypy. [ĐÃ LÀM — round lint-typefix]
+- B) Gỡ khối lint/type ra CI trước (grace), làm sạch dần — repo áp gate test xanh trước. [không dùng]
+- C) Bỏ qua (CI red do nợ legacy, test xanh — ghi known-leftover). [không dùng]
 
 ## Clarified Scope (lint-typefix — user chốt 18/10 "A: mở round sửa dần")
 1. Mục tiêu honest-green 3 job CI (trên commit mới): `ruff check src/` = 0, `black --check src/` = 0, `mypy src/ --ignore-missing-imports --no-strict-optional` = 0, test unit giữ xanh (794/0), rồi push + xác nhận run CI thật xanh.
@@ -1645,5 +1685,248 @@ Không có vấn đề blocking. Code đúng, gates xanh độc lập, scope s�
 - Reviewer E4 verdict: **APPROVE** (commit/push/CI verify độc lập khớp báo cáo; xem Review Findings E4). Chỉ 1 nit doc non-blocking (F1′ list leftover thiếu `price_data` shim).
 - E1→E4 hoàn tất. Còn lại ngoài scope (không block): merge v1.2 commit riêng; test stale `test_api_mocked.py` (7 fail pre-existing full-suite); re-verify UI-writes trên docker (CORS đã fix); latent backlog (E2: `run_full_refresh(force)` unused, `get_indicators years` không forward, `shared/price_data` shim no-op; E3: `.content`-list, `for_duration_seconds` chưa đọc, `redis_cache` param chưa type; `_to_sync_url` plain URL, `trace_middleware` làm bẩn trace DB).
 
+## Request mới (18/10/2026 — đóng treo: reviewer batches + lặt vặt)
+- User chốt (xác nhận sau khi local-smoke đóng): nhịp này = đóng 3 review treo (**Plan 7 A→B3**, **shadcn B1→B3**, **Plan 8 R1/R2/R4ab/R5**) + 4 mục **lặt vặt** (M3L2 điền số, test stale name, stale path `/ask-stream`, purge approx). **docker-fix r2** để nhịp sau.
+- Ghi chú đóng mục cũ: merge v1.2 đã commit `7254731` + state `7bdf330` (18/10) → mục "merge v1.2 commit riêng" trong E4-leftover đã đóng; pnpm files đã xoá theo user (dev sau dùng `--config.verify-deps-before-run=false`).
+
+## Plan (đóng treo 18/10 — Approved; debate bỏ qua vì RV read-only + IMP mechanical, scope đã chốt bởi audit 15/10 + Q3b user — user muốn debate thì nói)
+- Trình tự (một writer cho state): **RV1 → RV2 → RV3 → IMP → TESTER**; findings blocking của RV fold vào IMP.
+- **RV1** reviewer — Plan 7 A→B3 (6 commits `faa231e/adb374b/c81a0d5/4c6b7c0/a3c8e9c/0a3316b`): đối chiếu AC7 #2–5; smoke mắt (từng BLOCKED) nay có bằng chứng thay thế = local smoke 18/10 (traces list/detail/feedback/UI pass); findings + verdict ghi state. KHÔNG sửa code.
+- **RV2** reviewer — shadcn B1→B3 (`7a5f18d`, 27 files): swap thật + Toaster + Skeleton/Badge/Separator; re-verify grep AC (0 native ngoài `ui/`, 0 `window.confirm|alert`); đối chiếu gate B3 (tsc/eslint/build 9 routes); visual đã cover bởi local smoke. Findings + verdict. KHÔNG sửa code.
+- **RV3** reviewer — Plan 8 R1+R2+R4a/b+R5 (`8dc7e24/e82e6a2/fac5dd4`): rates seed-snapshot đạt tối thiểu (16/6/2/6/5 rows, source rõ) + `get_rates` 6 nhóm; traces Batch2 (7 cột nullable idempotent + comments + selection + DAG + virtualized-conditional + DELETE) + backward-compat; universe VN30 30/30 + intraday caveat resolution; M1L1 mp4 local + V2 số khớp. R3-docker + R4c + V3 vẫn ngoài. Findings + verdict. KHÔNG sửa code.
+- **IMP** implementor — lặt vặt 4 mục (sau RV1–3; fold findings blocking nếu có):
+  1. `frontend/trau-video/public/lessons/M3L2_scenes.json`: điền `[[TÍNH BẰNG CÔNG CỤ]]` (S7 on_screen_text + V1 entry + verify_note) bằng chạy THẬT `src/application/services/education/calculators.py::compare_repayment`; giả định (min_payment/budget) đọc từ curriculum M3L2 trước — không có thì chọn giả định đơn giản + ghi rõ; điền `illustrative_numbers` (structured) + V1 status→confirmed; giữ label "Số liệu minh họa" (V2/S9); dán raw tool output vào Notes; KHÔNG sửa VO (VO cố ý không chứa số); không re-TTS/render. Cập nhật `index.json` M3L2 (open_placeholders/status) nếu convention rõ.
+  2. `src/tests/unit/mcp_server/test_mcp_tools.py:10` rename `test_mcp_has_13_tools`→`test_mcp_has_19_tools` (chỉ tên).
+  3. `src/tests/integration/{test_api_mocked,test_api_endpoints}.py`: `/ask-stream`→`/api/v1/ask-stream` (9 chỗ; xác nhận route app.py trước; mục tiêu test_api_mocked 7 fail→pass).
+  4. `src/infrastructure/rates_store/store.py` (`purge_expired`): 30d/tháng approx → month arithmetic chính xác (stdlib `year*12+month` thuần số nguyên; xoá note `ponytail:` khi xong; giữ chữ ký/API).
+- **TESTER** — verify sau IMP: `pytest src/tests/integration/test_api_mocked.py` (7 fail→0); unit mcp rename xanh; rates unit xanh (+edge month-end nếu rẻ); M3L2: JSON parse + 0 placeholder + recompute độc lập số = tool output; full unit không regression (ghi số mới).
+
+## Files To Change (đóng treo)
+- Sửa: `frontend/trau-video/public/lessons/M3L2_scenes.json` (+ `index.json` entry M3L2 nếu convention rõ), `src/tests/unit/mcp_server/test_mcp_tools.py`, `src/tests/integration/test_api_mocked.py`, `src/tests/integration/test_api_endpoints.py`, `src/infrastructure/rates_store/store.py` (+ unit test rates nếu cần).
+- Không đụng: M6L1/M4L2 + các bài khác còn placeholder (ngoài scope — báo tồn kho trong Notes), `.env`, audio/out, code ngoài 4 mục.
+
+## Acceptance Criteria (đóng treo)
+1. RV1–3: verdict + findings có bằng chứng (file:line / git show / số liệu) trong state; không sửa code ngoài state.
+2. M3L2: 0 `[[TÍNH BẰNG CÔNG CỤ]]` còn lại trong file; S7 có số + giữ nhãn minh họa; V1 confirmed; raw tool output trong Notes; JSON valid; VO byte-nguyên.
+3. Tests: test_api_mocked 7/7 pass sau fix path; unit mcp xanh (tên mới); rates unit xanh; full unit ≥794 không regression (số ghi rõ).
+4. purge_expired: arithmetic tháng chính xác; edge month-end test nếu rẻ (<10 dòng).
+5. Không commit/push trừ khi user yêu cầu; khi đó stage chọn lọc (không `add -A`).
+
 ## Next Agent (lint-typefix E4)
 - **tester** — xác nhận ship E4 không regression (round docs/noqa: 4 commit `ae9bb76→945266b→bf95b79→9e45ea1`; unit suite đã 794/0 + CI test job xanh trên `9e45ea1`; không cần test mới — thuần format/lint/typing, behavior-preserving). Chạy lại `src/tests/unit` là đủ.
+
+## Implementation Notes (cleanup-v — implementor A round: F+G+I, 18/10/2026)
+Nhịp này CHỈ mục A (F + G + I). KHÔNG docker (H), KHÔNG push (C). Python qua `.venv\Scripts\python.exe` (CẤM global/miniconda).
+
+### F — merge v1.2 commit — PASS (đã commit ở session trước, KHÔNG cần commit mới)
+- **Kết quả chẩn đoán:** `git status --porcelain` KHÔNG hiện 2 modified json + 26 untracked scenes như dispatch mô tả. Tra `git log` phát hiện **merge v1.2 ĐÃ commit + push** trong session local-smoke close trước đó (xem Current Status local-smoke: "commit & push merge v1.2 + state → `7254731`").
+- **Commit `7254731`** `feat(lessons): merge v1.2 - 26 bài mới + curriculum M1-M10 (56 bài)` = **đúng 28 file** (`git show --stat`): `data/lessons/curriculum_tai_chinh_ca_nhan.json` (+1415/-…) + `frontend/trau-video/public/lessons/index.json` (30→56) + **26 `*_scenes.json`** mới (M1L5-7, M2L5, M3L6-7, M4L5, M6L4, M8L4-10, M9L1-5, M10L1-6). `28 files changed`.
+- **`audio/` KHÔNG vào commit** — vẫn `?? frontend/trau-video/public/audio/` (untracked, đúng quy ước binary ngoài git).
+- **Verify nội dung ổn định (chạy lại độc lập):** cả 2 json parse OK; `index.json` = `count:56` / 56 entries; 56 `*_scenes.json` trên đĩa; **0 index entry thiếu file**; 4 scenes random (M1L3/M6L4/M9L4/M9L1) parse OK.
+- **Trạng thái git:** HEAD = `origin/main` = `7bdf330` (in sync); working tree chỉ `M WORKFLOW_STATE.md` + 3 untracked cố ý (report-gpt41.json, frontend.dev.log, audio/). → **F satisfied, không tạo commit mới** (tránh commit rỗng/trùng).
+
+### G — STOPPED / BLOCKED (nguyên nhân thật KHÔNG phải path). KHÔNG commit.
+- **Đã sửa 7 path** trong `src/tests/integration/test_api_mocked.py` (dòng 35/49/53/57/66/73/83): `/ask-stream` → **`/api/v1/ask-stream`**. Kiểm prefix trước khi sửa: `src/interfaces/api/app.py:270` `api_router = APIRouter(prefix="/api/v1")` + route `@api_router.post("/ask-stream")` tại `app.py:406` ⇒ path thật = `/api/v1/ask-stream` (đúng).
+- **Kết quả: 404 → 401** (`python -m pytest src/tests/integration/test_api_mocked.py -q` = **7 failed / 3 passed**). Việc 404 biến mất **chứng minh path đã ĐÚNG**; lỗi còn lại **KHÔNG phải path**.
+- **Blocker thật (đã truy vết):** route yêu cầu JWT auth — `ask_stock_agent_stream(..., current_user: User = Depends(get_current_user))` (`app.py:419`). `get_current_user` (`src/infrastructure/auth/dependencies.py:18`) đòi `HTTPBearer` token hợp lệ **+ tra user trong DB** (401 "Not authenticated" khi thiếu token). Fixture mocked (`src/tests/integration/conftest.py`) chỉ mock `StockAgent`/`GuardrailPipeline`/`init_deps`/`shutdown_deps`, **KHÔNG mock auth** và client không gửi token ⇒ mọi request 401. ⇒ **Test này KHÔNG thể sửa chỉ bằng path**; cần thêm **auth override** vào fixture (vd `app.dependency_overrides[get_current_user] = lambda: <fake User>`).
+- **Theo nhịp dispatch** (G: "chỉ path; mock/fixture KHÔNG đổi"; fail-do-không-phải-path → **DỪNG, report trung thực, chốt không sửa vì cần quyết**) ⇒ **DỪNG G, KHÔNG sửa fixture, KHÔNG commit G** (AC2 "0 failed" chưa đạt).
+- **Full suite (dispatch step 2):** `python -m pytest src/tests -q` = **7 failed / 821 passed / 19 skipped** (215.79s). **Cả 7 fail = đúng 7 test ask-stream mocked** (giờ 401) — KHÔNG có fail nào khác.
+- **Trạng thái file:** path-fix 7 chỗ **để lại trong working tree nhưng CHƯA commit** (`M src/tests/integration/test_api_mocked.py`) — không tạo commit G. Nếu human quyết fix trọn (thêm auth override), commit cùng nhịp đó; nếu muốn tree sạch thì `git checkout -- src/tests/integration/test_api_mocked.py`.
+- **Ghi chú phụ (ngoài 7 test này):** `src/tests/integration/test_api_endpoints.py` cũng còn 2 path stale (`/ask-stream` dòng 31 + 114) nhưng **mọi test ask-stream ở file đó là `@pytest.mark.skipif(OPENAI_API_KEY)`** ⇒ bị skip, không lộ lỗi. Plan G (đóng treo) có liệt kê file này "9 chỗ"; nhịp này chỉ đụng `test_api_mocked.py` theo dispatch ⇒ khi mở lại G nên sửa nốt 2 chỗ ở sibling cho nhất quán.
+- **Cần quyết (để mở lại G):** chọn 1 trong (a) override `get_current_user` trong `conftest.py` mocked, hoặc (b) phát token thật qua endpoint login, hoặc (c) bỏ auth cho route trong test-mode. → chờ human/planner quyết. **KHÔNG tự chọn** (dispatch cấm đổi fixture nhịp này).
+
+### G quyết planner (18/10): chọn (a) — `dependency_overrides` cho `get_current_user` trong fixture mocked
+- Lý do: pattern chuẩn FastAPI testing, test-only (không đụng prod code), không cần token thật/DB user; (b) rườm rà (login thật + DB seed chỉ để mock LLM call), (c) đổi hành vi prod — CẤM.
+- Bước: trong `src/tests/integration/conftest.py` (_fixture mocked): thêm override `app.dependency_overrides[get_current_user] = lambda: <User shape khớp model>` trong setup + `dependency_overrides.clear()`/pop trong teardown (scope chắc chắn, không rỉ ra test khác); đọc shape User mà route thật dùng (`app.py:419` + route body) để fake đủ field, không mock thừa.
+- Sửa nốt 2 path stale sibling `src/tests/integration/test_api_endpoints.py:31,114` (`/ask-stream` → `/api/v1/ask-stream`) cho nhất quán — các test đó vẫn `skipif(OPENAI_API_KEY)` nên không đổi số pass/fail, nhưng path phải đúng khi được bật.
+- Commit G: stage 2 file test (mocked + sibling) — message `fix(tests): mock auth in ask-stream mock suite + sibling stale paths`. Gate: `pytest src/tests -q` FULL kỳ vọng **0 failed** (~824-831 passed — đếm thật; unit hiện 797/0); nếu fail khác path/auth-override → đọc, sửa đúng trọng tâm, tối đa 2 vòng.
+- Note trung thực: ATS nhắm seek-stream + guardrail; mock auth không làm test mất giá trị vì auth được cover riêng (nếu có). Nếu không có test auth riêng → ghi vào state (nhánh sau có thể thêm — không bắt buộc nhịp này).
+
+### G — RE-OPENED theo quyết planner (implementor 18/10/2026) — **PASS**, commit.
+- **Bug dính (đã biết từ A):** path-fix `/ask-stream`→`/api/v1/ask-stream` là ĐÚNG (404→401) nhưng chưa đủ — route `POST /api/v1/ask-stream` có `current_user: User = Depends(get_current_user)` (`app.py:419`) + dùng `current_user.id` ở `check_guardrails(..., user_id=current_user.id)` (`app.py:434`); `get_current_user` (`infrastructure/auth/dependencies.py:18`) đòi JWT bearer + tra user DB ⇒ fixture mocked (conftest) không mock auth ⇒ 401. **Không có bug mới phát sinh** sau fix.
+- **Fix (test-only, KHÔNG đụng prod code):** autouse fixture `_auth_override` trong `src/tests/integration/test_api_mocked.py` (đầu file) — `app.dependency_overrides[get_current_user] = lambda: SimpleNamespace(id="test-user", email="test@example.com", role="user")`; teardown `app.dependency_overrides.pop(get_current_user, None)` (pop đúng 1 key, KHÔNG `clear()` — an toàn nếu có override khác). Fake đủ field route cần (`id`; thêm `email`/`role` cho khớp shape `User`), không mock thừa. KHÔNG mock `HTTPBearer`/lỗi cấp dưới (đúng ràng buộc dispatch).
+- **DELTA nhỏ so với câu chữ planner bước 1:** override đặt trong **`test_api_mocked.py`** (autouse, scope function) chứ KHÔNG `conftest.py` — khớp danh sách stage của chính planner (conftest KHÔNG nằm trong 3 file commit) + là diff nhỏ hơn (chỉ suite mocked cần auth; sibling `test_api_endpoints.py` các test ask-stream đều `skipif(OPENAI_API_KEY)` nên không cần auth). `conftest.py` **không bị sửa** (vẫn nguyên `M`-free).
+- **Sibling path:** `src/tests/integration/test_api_endpoints.py:31` (`make_ask_stream`) + `:114` (`test_api_ask_stream_returns_sse`) đã là `/api/v1/ask-stream` (2 chỗ, diff 4 dòng) — nhất quán với mocked suite.
+- **Gate (đo trên `.venv\Scripts\python.exe`, KHÔNG global/miniconda):**
+  - Targeted `pytest src/tests/integration/test_api_mocked.py -q` = **10 passed / 0 failed** (23.31s) — 7 ask-stream trước đây 401 nay xanh.
+  - Full `pytest src/tests -q` = **832 passed / 0 failed / 19 skipped** (158.58s) — 7 fail cũ (404/401) **đã hết** ⇒ **AC2 "0 failed" ĐẠT**. Con số > khoảng dự kiến 824–831 vì tree còn 6 file dirty của round **IMP lặt vặt** khác (rates unit +4 test, xem dưới) — 0 failed là điều cần.
+  - Lint 3 tools: `ruff check src/` = **All checks passed (0)**; `black --check src/` = **295 unchanged (0)**; `mypy src/ --ignore-missing-imports --no-strict-optional` = **Success, no issues in 295 files (0)**.
+- **Commit G:** stage CHỈ `src/tests/integration/test_api_mocked.py` + `src/tests/integration/test_api_endpoints.py` + `WORKFLOW_STATE.md` — message `fix(tests): mock auth in ask-stream mock suite + sibling stale paths`. KHÔNG push, KHÔNG `git add -A`.
+- **Cần quyết / ghi trung thực:** tree lúc commit **KHÔNG chỉ có G** — còn **6 file `M` KHÁC round** (không thuộc G, KHÔNG stage): `frontend/trau-video/public/lessons/M3L2_scenes.json` + `index.json` (IMP #1 điền số M3L2), `src/infrastructure/rates_store/{ingest,store}.py` + `src/tests/unit/infrastructure/rates_store/test_rates_store.py` (IMP #4 purge month-arithmetic + fold F1/F2 RV3), `src/tests/unit/mcp_server/test_mcp_tools.py` (IMP #2 rename 13→19). Đây là **round IMP lặt vặt đang dở** (chưa commit) — cần nhịp IMP riêng, KHÔNG trộn vào G.
+
+### I — latent nhỏ I1-I4 — I2/I3/I4 DONE, I1 NOTE. Commit `1f1ddda`.
+- **Gate (đo trên tree sau I, khớp lệnh CI):** `ruff check src/` = **All checks passed (0)**; `black --check src/` = **295 unchanged (0)**; `mypy src/ --ignore-missing-imports --no-strict-optional` = **Success: no issues found in 295 source files (0)**; `pytest src/tests/unit -q` = **797 passed / 0 failed** (794 baseline + 3 test mới cho `_content_to_text`); targeted `agents + market + price_data_shim` = **123 passed / 0 failed**.
+- **I1 `run_full_refresh(force=)` — NOTE (KHÔNG sửa).** `src/infrastructure/rag/pipeline.py:44` có param `force: bool = False` (`# noqa: ARG001`); 3 caller đều truyền `force=`: `routes/rag.py:52` (`force=body.force`), `scheduler.py:32` (`force=False`), `cli.py:26` (`force=args.force`). ⇒ **KHÔNG phải "kwarg không tồn tại"** (param có, không TypeError) — dispatch nhánh "bug scheduler thật" KHÔNG áp dụng. `force` là **no-op thật**: pipeline luôn `ensure_collection(collection, dim=dim, recreate=True)` (dòng 185) + comment chết `# if exists and not force, add suffix` (dòng 66). Wiring `force` (vd `recreate=force or not exists`) = **đổi hành vi blue/green collection** → nhánh "lớn hơn → note" ⇒ để nguyên.
+- **I2 `get_indicators(years=)` không forward — FIX.** Flow thật **lớn hơn "1 dòng"**: `years` rơi ở **cả 3 tầng** — `handle_indicator_query` (indicator_service.py:237) + `IndicatorService.handle_query` (:34) + `_fetch_single` (:63) đều KHÔNG có `years`; base `_build_time_params` ĐÃ hỗ trợ `years` (`base_service.py:64` khai báo + `:76` xử lý) ⇒ chỉ thiếu plumbing. Đã thêm `years: int | None = None` (đặt sau `months`, mirror `handle_price_query`/`_build_time_params`) + forward ở cả 3 tầng (2 file) + route `get_indicators` (`routes/market.py`) forward `years=years` (bỏ `# noqa: ARG001` giờ không còn đúng). **Additive/backward-compat:** 100% caller dùng keyword (`call_service(**kwargs)`, `for_each_ticker` lambda kwargs, test `handle_indicator_query(tickers=..., indicator=...)`) ⇒ không phá positional; cả 3 hàm đã có `# noqa: PLR0917` nên thêm param không làm đỏ lint.
+  - **KHÔNG đụng `get_candles`** (dòng 76/86 — cùng class latent: có `years` query param nhưng không forward xuống indicator): ở đó `days` default non-None (30) **+** `years` ⇒ ngã ba precedence days-vs-years trong `TimeProcessor` chưa verify ⇒ **note, không đoán** (đúng policy "note nếu không chắc").
+- **I3 `shared/price_data.py` shim no-op params — FIX (xử lý loud).** `MarketDataPort.get_price_data(ticker, start, end, interval)` (`shared/ports/market_data_port.py:11`) **KHÔNG có cache knobs** ⇒ **không thể forward** `cache_namespace`/`ttl_hours`. Chọn "loud": `if cache_namespace != "price" or ttl_hours != 0.5: warnings.warn("... ignored by this deprecated shim ...", DeprecationWarning)` ⇒ caller phụ thuộc 2 param này không còn bị bỏ lặng; gỡ 2 `# noqa: ARG001` (param giờ được dùng thật).
+- **I4 `agent.py` `.content`-as-list — FIX (guard an toàn).** Thêm helper module-level `_content_to_text(content: str | list[Any]) -> str` (str → as-is; list → join phần `str` + dict `{"text": ...}`). Thay **7 `cast("str", *.content)`** (dòng 453/481/508/533/534/538/706 cũ) + **2 chỗ dùng `response.content` trực tiếp** (default `sanitized_response` + so sánh `sanitized_text != response.content`) → dùng helper. Gỡ `cast` khỏi import typing (unused sau khi thay) + thêm `Any`. **KHÔNG đổi stream protocol**: `yield chunk.content` (`:906`) giữ nguyên; `_build_temporal_context` đã có guard `isinstance(tm.content, str)` giữ nguyên. Thêm 3 unit test `test_content_to_text_{str_passthrough,list_of_parts,empty}`.
+- **Commit I = `1f1ddda`** `fix(latents): small latent cleanups per review findings` — **5 file**: `src/application/agents/agent.py`, `src/application/services/market/indicator_service.py`, `src/interfaces/api/routes/market.py`, `src/shared/price_data.py`, `src/tests/unit/application/agents/test_agent_node.py` (`5 files changed, 73 insertions(+), 14 deletions(-)`). Stage chọn lọc explicit (KHÔNG `git add -A`); **KHÔNG** gồm `test_api_mocked.py` (G dở) / `WORKFLOW_STATE.md` (state ghi riêng sau commit).
+- **Đính chính scope I2 so với Plan:** Plan chỉ nêu route `get_indicators`; thực tế phải sửa cả tầng service (`handle_query` + `_fetch_single`) vì `years` rơi ở đó — additive, mirror `months`, ghi rõ (không lệch policy).
+
+## Review Findings (đóng treo — RV1 Plan 7 A→B3, reviewer 18/10/2026)
+**VERDICT: APPROVE_WITH_FOLLOWUPS**
+- Nguyên tắc: review độc lập 6 commit `faa231e/adb374b/c81a0d5/4c6b7c0/a3c8e9c/0a3316b` (đối chiếu AC7 #2–5 + Files 7) trên HEAD `7bdf330`; không sửa code. Smoke mắt (từng BLOCKED) dùng **bằng chứng thay thế = local-smoke 18/10** (traces list/detail/feedback/UI PASS — "## Review Findings (local-smoke)"). Re-check rẻ tự chạy: `pytest src/tests/unit/infrastructure/rates_store + observability + mcp_server` = **64 passed / 0 failed (22.4s)**.
+- **Hygiene (cả 6 commit):** `git diff-tree --name-only` KHÔNG có `.db/.sqlite/.mp3/.mp4/.wav/.log/.env/.pem/.key`, không `out/`, không `audio/` → 0 artifact lọt commit. Secret pattern-scan (`sk-…`, `AKIA…`, `nvapi-…`, `-----BEGIN`, `password=…`) = **0 match**. `.env.example` chỉ thêm `AGENT_MODE=full` (không secret); `.gitignore` +`.impeccable/`. 3 untracked cố ý vẫn ngoài git (đúng).
+- **V1 `faa231e` (edu/RAG):** calculators thuần (amortize/snowball-avalanche/future_value/retirement/PIT-2026/50-30-20/zero-based, kèm cite + effective_date cho số thuế) + 4 `@mcp.tool` wrapper + tutor allowlist 6 tool + `_apply_agent_mode_filter` (chạy trước ToolNode/bind) + TUTOR_ADDENDUM; `.env.example`/`config.py` `AGENT_MODE`. Đúng Files 7. (WORKFLOW_STATE + curriculum staged chung commit theo plan.)
+- **V2 `adb374b` (video):** thêm `@remotion/media-utils` (package.json + package-lock khớp); `SceneView` dùng `useAudioData`+`getWaveformPortion` drive `energy`/`mouthOpen`; `Mascot`/`Trau(svg)` mouth-morph; **null-safe** (audioData null → 0, stills giữ nguyên hành vi cũ). Đúng scope (visual verify thuộc smoke/UI).
+- **V3 `c81a0d5` (traces Batch1):** backend — `_SORTABLE` whitelist + `sort_dir` validate; `_escape_like` (\\ % _) + `ESCAPE '\'`; NULL-last (`duration_ms IS NULL ASC, duration_ms {dir}`); `count_traces` total cùng filter. Frontend — `TracesTable` sort/search/date/pagination+total; `TraceWaterfall` cycle-guard (`pid!==span_id`, `seen`/`visited`), orphan→depth0; `containsTruncated` đệ quy + `seen` (default `Set` per-call). Khớp AC #4.
+- **V4 `4c6b7c0` (infra):** pyproject vnstock>=4.0.6 + mcp<2 + langchain-mcp-adapters<0.2 (comment clash core) + psycopg2-binary + feedparser; news sentiment + rss adapter + market_store pilot; nhiều fix lan rộng. **Test churn** (test_alert/forecast/sector/portfolio net-giảm) thuộc gom "pre-existing fixes", gate unit 789/0 phủ. Ngoài phạm vi AC #2–5.
+- **V5 `a3c8e9c` (rates — AC#2):** 6 bảng + `RETENTION_MONTHS` {deposit 12, lending 12, avg None, policy None, vnibor 6, banks None}; cột `date/effective_date/year` hợp lệ theo bảng (`month`/`updated_at`) + `crawled_at` + `source`; `purge_older_than` whitelist `_DATE_COL` (bảng lạ → ValueError) + `purge_expired`; `STALE_HOURS` 24/168/720; scheduler **opt-in** `ENABLE_RATES_SCHEDULER` weekly; `get_rates` 1 tool (đăng ký `tools/__init__`; README "19 tools" — đếm decorator thật = **19** ✓, khớp test + smoke MCP 19 tool). Re-check `rates_store` 13 passed.
+- **V6 `0a3316b` (feedback — AC#3):** `feedback(...)` IF NOT EXISTS + `CHECK(score BETWEEN 1 AND 5)` + index `trace_id` (đúng chỗ: alembic chỉ quản User/postgres); `add_feedback/list_feedback`; POST/GET **admin-only** (`get_current_admin_user`), author=admin email, 422 ngoài 1–5, **POST 404** trace lạ; e2e `test_traces_e2e.py` (list search/sort/total + detail tree depth + feedback roundtrip) + 3 unit feedback. Frontend tab "Đánh giá" (5 tabs), initial từ server shell + reload sau submit (không fetch-in-effect).
+- **AC#4/#5:** e2e file tồn tại + cover đúng 3 flow; smoke thay thế local-smoke 18/10 PASS. Gate: unit 789/0 tại thời điểm commit, tester trên HEAD báo 794/0; `tsc`/`eslint traces` sạch **theo state** — reviewer KHÔNG re-chạy tsc (tin state; frontend còn đổi ở shadcn `7a5f18d` → RV2 cover).
+- **Evolution (KHÔNG tính lỗi commit này):** R1 `8dc7e24` thêm 5 hàm seed-verify + hash-skip cho 5 nhóm (ngoài `a3c8e9c`); traces Batch2 `e82e6a2` (7 cột nullable + comments + DAG + DELETE). Tại `a3c8e9c`, `_shape` chỉ đọc `crawled_at` → `data_as_of`=None cho nhóm `banks` (dùng `updated_at`) — R1 đã fix bằng `crawled_at or updated_at`; **không còn sai at HEAD**.
+
+**Findings (non-blocking):**
+- **F1 (LOW — behavior, still at HEAD):** `GET /traces/{id}/feedback` (và `/comments`) **không 404** với trace lạ — trả 200 `{"feedback":[]}` (không có `get_trace` check; `routes/traces.py` get_feedback, 0a3316b→HEAD), trong khi POST 404. Claim state "404 trace lạ" chỉ đúng cho POST. → **backlog** (không cùng file với mục IMP lặt vặt).
+- **F2 (LOW — dead code, still at HEAD):** `KNOWN_POLICY_RATES` (`src/infrastructure/rates_store/ingest.py:30`) định nghĩa nhưng không dùng (grep 1 match, cả tại `a3c8e9c` và HEAD). Xoá 1 khối. → **backlog / fold rẻ** cùng IMP mục purge (cùng vùng `rates_store/`).
+- **F3 (LOW — freshness semantics, still at HEAD):** `cached_adapter.get("policy")` luôn trả `stale=False` và `source="db"` kể cả khi stale-triggered refresh vừa chạy (chỉ `force_refresh` mới nhãn "refreshed"); nếu refresh fail (suppress) vẫn nhãn cũ → caller không phân biệt được policy cũ. `_shape` policy không truyền `stale`. → **backlog** (đụng logic adapter, không mechanical).
+- **F4 (INFO — process):** Plan 7 yêu cầu rates "2 nhịp" (nhịp 2 chỉ khi nhịp 1 xanh) nhưng B1 + nhịp-2 (cached_adapter/scheduler/tool) gộp vào **1 commit** `a3c8e9c`; outcome vẫn đạt AC (unit + ingest thật xanh). Chỉ ghi nhận.
+- **F5 (INFO):** `TraceWaterfall` mutual-cycle (A↔B cùng có parent) → không node nào thành root ⇒ không render (guard chống crash đúng cho self/mutual); DB spans acyclic nên vô hại — đồ thị thật đã có ở DAG view Batch 2.
+- **F6 (INFO):** 4 file test service viết lại net-giảm trong `4c6b7c0` (churn do vnstock v4), ngoài AC #2–5.
+
+**Blocking issues:** none.
+
+## Review Findings (đóng treo — RV2 shadcn B1→B3, reviewer 18/10/2026)
+**VERDICT: APPROVE_WITH_FOLLOWUPS**
+- Nguyên tắc: review độc lập commit `7a5f18d` (27 files) trên HEAD `7bdf330`; KHÔNG sửa code file nào (chỉ state). `git diff 7a5f18d..HEAD -- frontend/src` = **rỗng** → code được review == HEAD y nguyên (commit sau chỉ thêm lesson JSON v1.2 + trau-video). Bằng chứng thay thế visual = local-smoke 18/10 (traces list/detail/tabs/feedback + delete-confirm dialog open→cancel PASS).
+- **V1 — AC1 (grep):** native `<input|<button|<select|<checkbox|<textarea` ngoài `ui/` = **0** (chỉ 2 primitive `ui/input.tsx`, `ui/textarea.tsx`). `window\.(confirm|alert)` = **0**; bare `alert(`/`confirm(` = **0**. ✔
+- **V2 — AC2 (Toaster/AlertDialog/toast):** `<Toaster/>` mount đúng 1 lần ở `layout.tsx:27` (import trực tiếp `ui/sonner`, Server Component render Client Component — hợp lệ); wrapper `ui/sonner.tsx` đọc `.dark` bằng `MutationObserver` trên `documentElement`, **không next-themes**, theme-toggle giữ nguyên. `AlertDialog` cho confirm xóa ở `TracesTable.tsx` (state `confirmOpen` + `doDeleteSelected` tách từ handler inline) và `TraceDetailTabs.tsx`; `window.alert`→`toast.error` + thêm `toast.success` (chỉ TraceDetailTabs có alert gốc). ✔
+- **V3 — AC3 (Skeleton/Badge/Separator):** khớp đúng B2 — TracesTable loading→5 Skeleton rows `colSpan=cols.length+1`, empty-state `!loading && length===0`; `DataSourceBadge` nội bộ PriceChart (loading/error/live/mock) + Badge inline ở PortfolioCard/PriceTable/SectorView; Skeleton first-load (`loading && !data`) ở PortfolioCard/PriceTable/SectorView + ChartRenderer dynamic fallback `h-[380px]` + MessageBubble pending + login/signup Button. Separator ở page.tsx (2 chỗ: sparkline ~195 + FAQ ~450), layout footer, header `md:hidden`, ChatContainer input area. **ChatContainer `border-t lg:border-t-0 lg:border-l` (giờ dòng 181) CÒN NGUYÊN** — đúng chủ đích "giữ". ✔
+- **V4 — AC4 (gates):** **tự chạy lại `frontend\node_modules\.bin\tsc.cmd --noEmit` = exit 0, 0 output** (độc lập, ≤3 phút). eslint 0 errors 0 warnings + `next build` Turbopack 9/9 routes theo state — KHÔNG re-run (cold-start ghi nhận ~240s + 600s). ✔ (caveat: eslint/build chỉ tin state, không tự chạy).
+- **V5 — diff scope / "element swap only":** 27 files đúng; 6 ui mới (alert-dialog/checkbox/select/separator/skeleton/sonner) + 18 file app sửa element + layout/toaster + package.json/lock + state. Handler/logic giữ nguyên: `setStatus` (sentinel `all`↔`""`), `overrideChartType`, `setRange`, `setTicker`, `toggleCol`, select-all/row `onCheckedChange` (`v===true`), DELETE fetch (URL/method/headers/`router.push`/error) — chỉ đổi element + tách `doDeleteSelected`. Không đụng theme toggle/`globals.css`/charts-lib (`next` 16.3.4, `react` 19.2.8, `recharts` 3.10.1 bất biến). ✔
+- **V6 — hygiene:** secret-scan toàn diff (`sk-…`/`nvapi-`/`AKIA`/`BEGIN`/`password=`/`api_key=`) = **0 match**; 0 `console.log/debug` thêm. ✔
+- **V7 — deps:** `package.json` +5 dep đúng Scope 6 (`@radix-ui/react-alert-dialog ^1.2.1`, `react-checkbox ^1.4.1`, `react-select ^2.4.1`, `react-separator ^1.2.0`, `sonner ^2.0.8`); lock chỉ thêm radix + `@floating-ui/*` (dep react-popper cho select) + sonner — hợp lý.
+
+**Findings (non-blocking):**
+- **F1 (LOW — UX/scope):** nút **Lọc** ở TracesTable vẫn hiện chữ `Đang tải…` (`TracesTable.tsx:230`), KHÔNG đổi sang Skeleton dù Request 16/10 có liệt "nút filter … loading"→Skeleton (AC6 lại không nhắc). Đã bù bằng 5 Skeleton rows trong bảng → không chặn. → backlog (tùy chọn, rẻ).
+- **F2 (LOW — behavior):** Skeleton thay rows mỗi khi `loading` (kể cả re-filter), ẩn data đang có thay vì giữ rows cũ (trước luôn render rows). Chấp nhận được. → ghi nhận, không cần action.
+- **F3 (LOW — lock churn):** `package.json` không đổi nhưng npm re-resolve nâng **minor** các package radix đang dùng sẵn: `@radix-ui/react-dialog 1.1.23→1.3.1`, `react-primitive 2.1.10→2.2.0` (+context/compose-refs/label…). Trong caret range, không phải lib biểu đồ; nhưng state không nêu → nên initial hoá tường minh. → backlog (rủi ro thấp).
+- **F4 (INFO — visual coverage gap):** bằng chứng thay thế (local smoke) phủ **traces pages**; **dashboard widgets** (PriceChart `Select`+Badge, PortfolioCard/PriceTable/SectorView Badge+Skeleton, DashboardControls `Select`+`Input`+Separator) chưa chạy mắt. Bù bằng tsc sạch + element-swap thuần. → liếc nhanh dashboard khi có môi trường.
+- **F5 (INFO):** `TraceWaterfall` Button thứ 2 không override `h-9` mặc định (chỉ px/py/text), row waterfall có thể cao hơn nút gốc; component này không nằm trong bằng chứng visual. → ghi nhận.
+
+**Blocking issues:** none.
+
+## Next Agent (đóng treo)
+- reviewer (RV3 — Plan 8 R1+R2+R4a/b+R5, commits 8dc7e24/e82e6a2/fac5dd4; findings section RV3)
+
+## Review Findings (đóng treo — RV3 Plan 8 R1/R2/R4ab/R5, reviewer 18/10/2026)
+**VERDICT: APPROVE_WITH_FOLLOWUPS**
+- Nguyên tắc: review độc lập 3 commit `8dc7e24/e82e6a2/fac5dd4` (cả 3 là ancestor của HEAD `7bdf330`, verified `git merge-base --is-ancestor`), đối chiếu AC8 #1/#2/#4/#5 + Plan 8 + "Plan (đóng treo 18/10)". **KHÔNG sửa code file nào** (chỉ state). Bằng chứng behavioral thay thế = local-smoke 18/10 (L2d MCP `get_rates` 6/6, L2e comments/feedback/meta/DELETE roundtrip, L2f UI). Mọi truy vấn DB dùng **sqlite3 read-only URI** (`file:…?mode=ro`), không ghi.
+- **V1 — R1 DB (read-only):** `data/rates_store.db` → deposit_listed **16** (ACB/BIDV/CTG/VCB × 4 kỳ) / lending_listed **6** / avg_rates_monthly **2** / vnibor_daily **6** / banks_meta **5** / policy_rates **3** — khớp **chính xác** claim state. 100% deposit `source='seed:deposit_listed_2025-10'`; đủ meta hash keys (deposit/lending/avg/vnibor/banks + policy). `pytest src/tests/unit/infrastructure/rates_store -q` = **13 passed**. ✔
+- **V2 — R1 get_rates:** test mới `test_r1_minimums_all_groups_seed` phủ adapter 5 nhóm + policy test riêng (`test_adapter_policy_db_first_with_freshness`); local-smoke MCP `get_rates` 6/6 nhóm OK live. Fix `_shape` `crawled_at or updated_at` (cached_adapter.py:79-83) đúng cho `banks` (dùng `updated_at`). ✔
+- **V3 — R2 storage (read-only):** `PRAGMA table_info(traces)` = đủ 7 cột nullable (session_id/user_id/version/env/cost/scores/tags) — `_ensure_extra_cols` (storage.py:103-108) đã migrate idempotent trên DB thật; bảng `comments` tồn tại. `pytest .../infrastructure/observability -q` = **34 passed** (test_traces_api 9, gồm 4 Batch2). ✔
+- **V4 — R2 routes/delete:** comments POST/GET + PATCH meta + DELETE đều `Depends(get_current_admin_user)` (**admin-only**); POST-comment & PATCH-meta 404 với trace lạ; `delete_trace` (storage.py:422-433) chỉ xoá theo `trace_id` đã cho (spans/feedback/comments/traces) — không chạm trace khác. `update_trace_meta` whitelist cột từ `_EXTRA_TRACE_COLS` → không SQLi. ✔
+- **V5 — R2 backward-compat + frontend HEAD:** `TraceSummary` +7 Optional (unit test assert null-default). Tại HEAD (sau shadcn `7a5f18d`, RV2 cover) còn đủ: TracesTable selection + AlertDialog confirm + `doDeleteSelected`; TraceDetailTabs `TraceDag` SVG + `DeleteTraceButton`; FeedbackTab comments per node. ✔
+- **V6 — R4 DB (read-only):** `data/market_store.db` VN30 **30/30** symbols, **0** symbol ≤400 rows, `max_date=2026-10-15`; `prices_intraday` **5 mã × 62 rows** (VCB/HPG/FPT/VNM/BID, 2026-07-17→2026-10-15, tổng 310) — khớp claim. 62 phiên/3 tháng ⇒ resolution daily (caveat đã ghi, **không** tính finding). `MarketStore.demo()` chạy OK. (Hiện prices_daily = 62,629 rows/31 ticker — đã tăng sau commit, không phải sai.) ✔
+- **V7 — R5:** `frontend/trau-video/out/M1L1.mp4` = **27,530,184 B (27.5 MB)**, 15/10. Recompute độc lập `budget_50_30_20(12_000_000)` = **6,000,000 / 3,600,000 / 2,400,000** → 6.0/3.6/2.4tr, khớp VO S3 ("sáu triệu, ba phẩy sáu triệu và hai phẩy bốn triệu"). `M1L1_scenes.json`: **0** `[[` placeholder, `illustrative_numbers=null`, status `draft_ready_for_review`. V3 human-review vẫn open (ngoài scope). ✔
+- **V8 — Hygiene:** mỗi commit `git diff-tree --name-only` sạch (11 file: code + state; KHÔNG `.db/.mp4/.mp3/.wav/.log/.env/.pem`, không `out/`, không `audio/`); secret-scan diff hợp nhất (sk-/nvapi-/AKIA/BEGIN/password=/api_key=/ghp_/xox) = **0 match**. ✔
+- **Ghi nhận working tree (ngoài 3 commit):** `git status` có `M WORKFLOW_STATE.md` + **5 file `src/**` dirty** (multimodal content coercion in-flight: agent.py/indicator_service.py/market.py/price_data.py/test_agent_node.py) + `M src/tests/integration/test_api_mocked.py` (G leftover, đã ghi ở cleanup-v) + 3 untracked. KHÔNG thuộc RV3 — **không trộn vào IMP**.
+
+**Findings (non-blocking):**
+- **F1 (MEDIUM, latent — cùng vùng IMP#4):** seed snapshot dates = **2025-10** (deposit/lending `2025-10-15`, vnibor `2025-10-14`, avg `2025-09`) trong khi crawl/commit = **2026-10-15** (banks `updated_at=2026-10-15T16:24Z`) → **lệch 1 năm**. Hệ quả: (a) `purge_expired(today=now 2026-10-18)` tính cutoff 12m/6m = `2025-10-23`/`2026-04-21` < seed date ⇒ deposit/lending/vnibor nằm **dưới cutoff, sẽ bị xoá ở lần purge đầu** (đè AC8 #1 "rates ≥ tối thiểu"); (b) filter `get_rates("deposit", start>=2026-01-01)` trả rỗng. Hiện `purge_expired` **KHÔNG có caller production** (scheduler.py `job()` chỉ ingest policy) ⇒ latent, chưa active. Bằng chứng: ingest.py:89-91, DB read-only ở V1-V2, store.py:77-84/335-350. → **fold vào IMP #4** (cùng `rates_store/store.py` + seed `ingest.py`): chốt re-date seed → 2026-10, HOẶC exempt seed rows / dùng crawl-time cho retention. *(Đây KHÁC mục "approx 30d/month" đã queue, không mâu thuẫn ghi chú planner.)*
+- **F2 (LOW — từ RV1, vẫn ở HEAD):** `KNOWN_POLICY_RATES` (ingest.py:30-34) dead code (grep 1 match). Xoá. → fold IMP #4 (cùng file `rates_store/ingest.py`).
+- **F3 (LOW):** bulk delete `TracesTable.tsx:193` dùng `${id}` thô (không `encodeURIComponent`), lệch single-delete (có encode); không xử lý lỗi từng DELETE. An toàn hiện tại (trace_id = UUID, DB verified 0 non-urlsafe) nhưng nên encode + xử lý lỗi. → backlog.
+- **F4 (LOW — trùng RV1 F1):** `GET /{trace_id}/comments` không 404 trace lạ (chỉ POST 404); RV1 F1 đã cover cho cả `/feedback`+`/comments`. → backlog (đã ghi).
+- **F5 (INFO/doc):** comment `store.py:250` gợi ý chạy `python -m src.infrastructure.market_store.store` — **fail** (import absolute cần `PYTHONPATH=src`); đúng phải là `PYTHONPATH=src python -m infrastructure.market_store.store` (đã verify chạy OK). → sửa comment khi tiện.
+- **F6 (INFO):** `test_r1_minimums_all_groups_seed` chỉ verify adapter 5 nhóm (policy test riêng) — không thiếu, chỉ ghi nhận "get_rates 6 nhóm" ở state gộp từ 2 test.
+
+**Blocking issues:** none.
+
+## Current Status (đóng treo — RV3 xong 18/10/2026)
+- RV3 DONE: Plan 8 R1/R2/R4ab/R5 = **APPROVE_WITH_FOLLOWUPS**, 0 blocking. F1 (seed date 2025-10 vs retention/purge) + F2 (dead code) cùng vùng → fold IMP #4. RV1+RV2 đã xong. 5 file `src/**` dirty ngoài 3 commit + `test_api_mocked.py` (G leftover) KHÔNG thuộc RV3.
+
+## Next Agent (đóng treo)
+- **implementor** (IMP lặt vặt — 4 mục theo "## Plan (đóng treo 18/10)"; fold **F1+F2 RV3** vào mục #4 purge (`rates_store/store.py` + seed `ingest.py`) vì cùng vùng; F3/F4/F5 chỉ backlog, không bắt buộc).
+
+## Implementation Notes (đóng treo — IMP lặt vặt, implementor 18/10/2026)
+Không commit/push (đúng yêu cầu). Python qua `.venv\Scripts\python.exe`; `PYTHONPATH=src`. RV1–RV3 không sửa lại.
+
+### Item 1 — M3L2 điền số (từ công cụ thật)
+- **Curriculum grep:** `data/lessons/curriculum_tai_chinh_ca_nhan.json:367` có entry M3L2 nhưng CHỈ `id/title/topics/activity` ("Mô phỏng 3 khoản nợ bằng cả hai chiến lược trên bảng tính") — **KHÔNG có** min_payment / monthly_budget / `product_mapping.gaps` / giả định mô phỏng. ⇒ phải tự chọn giả định minh họa (đã ghi rõ là minh họa; KHÔNG bịa số thật).
+- **Giả định chọn + lý do (SIMPLE):** `min_payment = 5% dư nợ/tháng` → A 250.000đ (5tr×5%), B 1.000.000đ (20tr×5%), C 100.000đ (2tr×5%), tổng tối thiểu 1.350.000đ/tháng. Lý do: 5% là mức trả tối thiểu phổ biến ở VN (thẻ tín dụng/khoản vay) và ra số tròn đúng dispatch gợi ý; `monthly_budget = 3.000.000đ/tháng` (= tổng tối thiểu + 1.650.000đ dư, ≈2,2× tối thiểu — hợp lý cho người nợ 27tr), simulation hội tụ 10 tháng.
+- **Lệnh chạy THẬT + raw output** (`src/application/services/education/calculators.py::compare_repayment`):
+  - Cmd: `PYTHONPATH=src python -c "from application.services.education.calculators import compare_repayment; import json; debts=[{'name':'A','balance':5000000,'annual_rate_pct':30,'min_payment':250000},{'name':'B','balance':20000000,'annual_rate_pct':12,'min_payment':1000000},{'name':'C','balance':2000000,'annual_rate_pct':18,'min_payment':100000}]; print(json.dumps(compare_repayment(debts, 3000000), ensure_ascii=False, indent=2))"`
+  - Raw: `{"snowball": {"payoff_order": ["C","A","B"], "months": 10, "total_interest": 1686294.0, "total_paid": 28686294.0}, "avalanche": {"payoff_order": ["A","C","B"], "months": 10, "total_interest": 1633573.0, "total_paid": 28633573.0}, "cheaper": "avalanche", "interest_saved": 52721.0}`
+- **Sửa `frontend/trau-video/public/lessons/M3L2_scenes.json`:**
+  - S7 `on_screen_text`: `"Tổng lãi hai cách: [[TÍNH BẰNG CÔNG CỤ]]"` → `"Tổng lãi hai cách: Snowball ~1,69tr · Avalanche ~1,63tr"` (1.686.294→~1,69tr; 1.633.573→~1,63tr; làm tròn 2 số thập phân triệu). **Đã xoá key `"blocked_by": "V1"`.**
+  - `illustrative_numbers`: `null` → object self-describing `{assumptions{min_payment, monthly_budget_vnd}, debts[A/B/C balance+rate+min], monthly_budget:3000000, snowball_total_interest:1686294, avalanche_total_interest:1633573, interest_saved:52721, months_to_payoff:10, payoff_order{snowball:[C,A,B], avalanche:[A,C,B]}, tool:"compare_repayment", method:"education calculator run 18/10/2026"}` — số **khớp chính xác** raw tool output.
+  - V1: `status "open"→"confirmed"`, `type` giữ `"placeholder"`, `blocks:["S7"]` giữ; text ghi đã điền bằng `compare_repayment` 18/10/2026 + giả định + trỏ `illustrative_numbers`.
+  - `verify_note_from_script`: bỏ placeholder `[[...]]`, viết lại ghi số đã tính bằng `compare_repayment` 18/10/2026 dưới giả định đã ghi.
+  - **Thêm 1 chỉnh ngoài 4 mục (nhất quán, ghi rõ):** top-level `"status"` `draft_blocked_pending_verification` → `draft_ready_for_review` (khớp `index.json` + tiền lệ M1L1: V2/V3 còn `open` nhưng status ready khi 0 placeholder).
+- **`frontend/trau-video/public/lessons/index.json` — convention RÕ, đã cập nhật:** cross-tab chính xác 56 entry = `(draft_ready_for_review, open_placeholders=0)`×35 **và** `(draft_blocked_pending_verification, 1/2/3)`×21 — không ngoại lệ. M3L2: `open_placeholders 1→0`, `status draft_blocked_pending_verification→draft_ready_for_review`. (V3 `recompute`/V4 `review` vẫn `open` — đúng data: M1L1 cũng có V2/V3 open mà vẫn ready, nên status KHÔNG buộc theo V3/V4.)
+- **Validate:** `json.load` cả 2 file OK; `M3L2_scenes.json` count `[[` = **0** (trước 3); grep `[[TÍNH BẰNG CÔNG CỤ]]` trong file = **0**.
+- **VO byte-nguyên:** `git diff -- M3L2_scenes.json` **không có hunk nào chạm `"vo"`** (chỉ 4 hunk: status, S7 on_screen_text, illustrative_numbers+verify_note+V1, — không đụng `vo.text` của bất kỳ cảnh nào). Không re-TTS/render.
+
+### Item 2 — rename test stale
+- `src/tests/unit/mcp_server/test_mcp_tools.py:10`: `test_mcp_has_13_tools` → `test_mcp_has_19_tools` (chỉ tên, assertion giữ `== 19`). `pytest src/tests/unit/mcp_server/test_mcp_tools.py -q` = **7 passed**.
+
+### Item 3 — path stale `/ask-stream` (+ blocker auth thật)
+- **Route verify (không đoán):** `src/interfaces/api/app.py:270` `api_router = APIRouter(prefix="/api/v1")` + `:405-406` `@api_router.post("/ask-stream")` ⇒ path thật `/api/v1/ask-stream`. `_GUARDRAIL_PATHS = {"/api/v1/ask-stream"}` (`:273`) xác nhận.
+- **9 path đã sửa:** `test_api_mocked.py` 7 chỗ (đã nằm trong working tree từ vòng cleanup-v G, chưa commit) + `test_api_endpoints.py` 2 chỗ (dòng 31 + 114). Grep: 0 path `/ask-stream` trần còn lại; 10 lần `/api/v1/ask-stream`.
+- **BLOCKER thật khi chỉ sửa path: route yêu cầu JWT** — `app.py:419` `current_user: User = Depends(get_current_user)` (`infrastructure/auth/dependencies.py:18`, cần `HTTPBearer` + tra User trong DB). Chạy path-only = **7 failed** (401, không còn 404 → chứng minh path đã đúng). Fixture mocked (`conftest.py`) không mock auth.
+- **Fix tối thiểu (trong file được phép sửa `test_api_mocked.py`):** thêm `@pytest.fixture(autouse=True) _auth_override()` override `app.dependency_overrides[get_current_user] = lambda: SimpleNamespace(id=..., email=..., role=...)` rồi pop. **Kết quả: `pytest src/tests/integration/test_api_mocked.py -q` = 10 passed / 0 failed** (7 test từng fail nay pass).
+- `pytest src/tests/integration/test_api_endpoints.py -q` = **1 passed / 7 skipped** (7 test ask-stream skip do thiếu `OPENAI_API_KEY` — không NEW failure từ path).
+- **Lệch nhịp (khai báo):** dispatch ghi "chỉ sửa path"; thực tế path-only để lại 401 (đã verify) nên phải thêm auth override trong file test được phép sửa để đạt gate "0 fail". Không đụng `conftest.py` (ngoài danh sách file được phép).
+
+### Item 4 — purge_expired tháng chính xác + fold F1/F2
+- **Semantics mới (stdlib, không dep):** cutoff = **cùng ngày N tháng trước, kẹp vào ngày cuối tháng đích** (vd 2026-03-31 − 1 tháng → 2026-02-28). Dùng `y*12+(m-1)-months` + `divmod`, `calendar.monthrange` để clamp ngày. Chữ ký/API giữ nguyên; xoá comment `ponytail: 30d/month approx` + bỏ local-import `timedelta`.
+- **Edge test mới:** `test_purge_expired_month_end_clamps_to_last_day` (2026-05-31 − 6 tháng → 2025-11-30; vnibor 2025-11-29 bị xoá, 2025-11-30 giữ). `pytest src/tests/unit/infrastructure/rates_store -q` = **14 passed** (13 cũ + 1 mới); test cũ `test_purge_expired_vnibor_6mo_vs_policy_forever` vẫn pass (cutoff 2025-04-15, kết quả y hệt bản approx).
+- **F2 DONE (removed):** grep toàn repo `KNOWN_POLICY_RATES` = chỉ có định nghĩa + WORKFLOW_STATE/Review prose ⇒ truly unused ⇒ **xoá khối** khỏi `src/infrastructure/rates_store/ingest.py` (thay bằng comment 1 dòng trỏ seed `sbv_policy_rates` trong connectors).
+- **F1 — DOCUMENT ONLY (không đổi code/ngày):** seed snapshots giữ nguyên ngày thật (deposit/lending `2025-10-15`, vnibor `2025-10-14`, avg `2025-09`) — intentional, KHÔNG relabel.
+  - **Cutoff tính chính xác tại hôm nay 2026-10-18:** deposit/lending (retention 12m) → **2025-10-18**; vnibor (6m) → **2026-04-18**; avg/policy/banks = None (keep forever).
+  - **Ảnh hưởng (verify bằng in-memory store + seed thật):** `purge_expired(today="2026-10-18")` = `{deposit_listed:16, lending_listed:6, vnibor_daily:6, avg:0, policy:0, banks:0}` ⇒ **28 rows bị xoá** ở lần purge đầu; sau purge deposit/lending/vnibor = 0. Seed date `2025-10-14/15` < cả 2 cutoff (2025-10-18 & 2026-04-18) ⇒ **kể cả bản approx cũ cũng xoá y hệt** (approx cutoff 2025-10-23 vẫn > 2025-10-15) → đổi arithmetic không làm F1 nặng/thêm.
+  - **(b) `purge_expired` KHÔNG có caller production:** grep `purge_expired` toàn repo = chỉ `store.py:335` (định nghĩa) + `test_rates_store.py` (test) ⇒ latent, chưa active.
+  - **(c)** `get_rates` windowed `deposit, start>=2026-01-01` = `[]` (seed cũ hơn mốc) — limitation trung thực đã biết.
+  - **(d) OPEN QUESTION cho user (KHÔNG tự quyết):** có làm mới seed snapshots (`SEED_SNAPSHOT_DATE`/`SEED_VNIBOR_DATE`/`SEED_AVG_MONTH`) sang dữ liệu mới hơn không? Hiện chưa — chờ user.
+
+### Gate summary (chạy trên working tree 18/10/2026)
+1. `pytest src/tests/integration/test_api_mocked.py -q` = **10 passed / 0 failed** (7 test từng fail nay pass).
+2. `pytest .../mcp_server/test_mcp_tools.py -q` = **7 passed**.
+3. `pytest src/tests/unit/infrastructure/rates_store -q` = **14 passed** (13 cũ + 1 edge).
+4. `json.load` 2 lesson JSON = OK; `M3L2_scenes.json` còn **0** `[[` / `[[TÍNH BẰNG CÔNG CỤ]]`.
+5. `git diff --numstat` = 9 file: `WORKFLOW_STATE.md` +265/−4 (state, gồm các vòng trước chưa commit), `M3L2_scenes.json` **+51/−8**, `index.json` +2/−2, `rates_store/ingest.py` +1/−7, `rates_store/store.py` +10/−5, `test_api_endpoints.py` +2/−2, `test_api_mocked.py` +29/−7 (gồm 7 path từ G + fixture auth), `test_rates_store.py` +11/−0, `test_mcp_tools.py` +1/−1. `git diff` M3L2 **không chạm `vo`**.
+- Phụ: `ruff check` + `black --check` + `mypy --ignore-missing-imports --no-strict-optional` trên 6 file `.py` đã sửa = **0 lỗi** (không tạo nợ CI mới).
+
+### Deviations / Uncertainties
+- **Auth override (Item 3)** là thay đổi *thêm* so với dispatch "chỉ path" — bắt buộc để đạt gate 0 fail (path-only = 401 đã verify). Chỉ trong file test được phép sửa; không đụng conftest.
+- **M3L2_scenes.json top-level `status`** cũng đổi sang `draft_ready_for_review` (ngoài 4 mục a–d) để khớp `index.json` + tiền lệ M1L1; nếu reviewer muốn giữ `draft_blocked_pending_verification` thì revert 1 dòng.
+- V1 giữ `type: "placeholder"` (chỉ đổi status/text theo dispatch) — hơi lệch ngữ nghĩa nhưng không đổi schema.
+- Giả định M3L2 (5% dư nợ, 3tr/tháng) là **minh họa** do curriculum không có số — đã ghi rõ trong file + Notes; user có thể chốt giả định khác (chạy lại `compare_repayment` là ra số mới).
+- F1 vẫn là **OPEN QUESTION** (refresh seed) — không tự quyết.
+
+## Current Status (đóng treo 18/10/2026)
+- IMP lặt vặt DONE: (1) M3L2 điền số thật từ `compare_repayment` (S7 ~1,69tr vs ~1,63tr; `illustrative_numbers` đầy đủ; V1 confirmed; 0 placeholder; VO byte-nguyên) + `index.json`/scenes status → `draft_ready_for_review`; (2) rename `test_mcp_has_19_tools` (7 passed); (3) 9 path `/api/v1/ask-stream` + auth override → mocked 10/0, endpoints 1 passed/7 skipped; (4) `purge_expired` month-arithmetic chính xác + edge test (14 passed), F2 dead code xoá, F1 document + open question. **Không commit/push** (đúng yêu cầu). Next: tester verify.
+- Working tree dirty khác (không do nhịp này): `WORKFLOW_STATE.md` (state), 3 untracked cố ý (`evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`).
+- V3 `recompute` / V4 `review` của M3L2 vẫn `open` (không thuộc mục IMP; M1L1 cũng ready với V2/V3 open).
+
+## Next Agent (đóng treo)
+- tester — verify: integration `test_api_mocked` (0 fail), unit mcp (7) + rates (14, incl. new edge), M3L2 JSON valid + 0 placeholder + **recompute độc lập** số qua `compare_repayment` khớp giá trị đã điền, full unit suite **≥794 / 0 regression** (report exact count).
+- Sau tester: (tuỳ chọn) user quyết **F1 open question** (refresh seed snapshots) — không tự mở.
+
+## Current Status (cleanup-v — implementor A round 18/10/2026: F PASS, G STOPPED/BLOCKED, I DONE)
+Nhịp này CHỈ cleanup-v mục A (F + G + I). Đã ghi chi tiết ở "## Implementation Notes (cleanup-v ...)" (mục ### F / ### G / ### I).
+- **F = PASS (không tạo commit mới):** merge v1.2 ĐÃ nằm ở commit **`7254731`** (28 file: 2 modified + 26 scenes; `audio/` KHÔNG vào commit, vẫn untracked) — xác minh lại nội dung OK (index `count:56` ↔ 56 scenes, 0 entry thiếu file). Không tạo commit (tránh trùng/rỗng).
+- **G = STOPPED / BLOCKED — KHÔNG commit.** Đã sửa 7 path `/ask-stream`→**`/api/v1/ask-stream`** trong `src/tests/integration/test_api_mocked.py` (**404 → 401** ⇒ **path ĐÚNG**). Lỗi còn lại **KHÔNG phải path**: route `POST /api/v1/ask-stream` có `current_user: User = Depends(get_current_user)` (`interfaces/api/app.py:419`); `get_current_user` (`infrastructure/auth/dependencies.py:18`) đòi JWT bearer + DB user; fixture mocked KHÔNG mock auth ⇒ 401. Dispatch cấm đổi mock/fixture + nhánh "fail-không-phải-path → DỪNG, không sửa, cần quyết" ⇒ **dừng G**. Full suite: **7 failed / 821 passed / 19 skipped** (đúng 7 test ask-stream mocked, giờ 401).
+- **I = DONE — commit `1f1ddda`** `fix(latents): small latent cleanups per review findings`. I1 = **NOTE** (`force` no-op, wiring = đổi hành vi blue/green); I2 = **FIX** (forward `years` qua `routes/market.py` → `handle_indicator_query` → `IndicatorService.handle_query` → `_fetch_single` → `_build_time_params`, additive/keyword-safe); I3 = **FIX** (shim `price_data.py` warn loud khi cache params khác default); I4 = **FIX** (helper `_content_to_text` thay 7 `cast("str", *.content)` + 2 chỗ dùng `.content` trực tiếp; KHÔNG đổi stream protocol; +3 unit test). Gate: `ruff check src/`=0, `black --check src/`=0, `mypy src/ --ignore-missing-imports --no-strict-optional`=0, `pytest src/tests/unit -q` = **797 passed / 0 failed**.
+- **KHÔNG làm (đúng nhịp):** H (docker UI-writes), C (push). KHÔNG đụng `audio/`/`out/`/logs/evals/.env.
+- **Working tree cuối round:** `M WORKFLOW_STATE.md` + `M src/tests/integration/test_api_mocked.py` (G dở, chưa commit, giữ theo dispatch) + 3 untracked cố ý (`evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`).
+- **G RE-OPENED (18/10, sau quyết planner chọn (a)) = PASS.** Fixture `_auth_override` (autouse) trong `test_api_mocked.py` override `get_current_user`; sibling `test_api_endpoints.py` 2 path đã đúng. Gate: targeted **10/10**; full `pytest src/tests -q` = **832 passed / 0 failed / 19 skipped**; ruff/black/mypy = **0**. Commit `fix(tests): mock auth in ask-stream mock suite + sibling stale paths` (3 file: 2 test + state). Chi tiết: "### G — RE-OPENED theo quyết planner".
+- **Tree sau commit G KHÔNG chỉ untracked:** còn 6 file `M` của round **IMP lặt vặt dở** (M3L2_scenes.json/index.json, rates_store/{ingest,store}.py, test_rates_store.py, test_mcp_tools.py) — KHÔNG thuộc G, KHÔNG stage, cần nhịp IMP riêng.
+
+## Next Agent (G re-open → reviewer) — nhịp hiện tại
+- **@reviewer** — review nhịp **G re-open** (KHÔNG sửa code): commit `fix(tests): mock auth in ask-stream mock suite + sibling stale paths`.
+  1. Xác nhận override là **test-only** (không prod code): `test_api_mocked.py` fixture `_auth_override` autouse, `app.dependency_overrides[get_current_user]` + `pop` teardown; `conftest.py` **không đổi**; route prod `app.py:419` vẫn `Depends(get_current_user)`.
+  2. Xác nhận sibling `test_api_endpoints.py:31,114` = `/api/v1/ask-stream` (2 chỗ) và vẫn `skipif(OPENAI_API_KEY)`.
+  3. Tự chạy lại gate: `pytest src/tests/integration/test_api_mocked.py -q` = 10/10; `pytest src/tests -q` = 832/0/19; `ruff`/`black`/`mypy` = 0.
+  4. Xác nhận commit chỉ 3 file (2 test + WORKFLOW_STATE.md), không lẫn 6 file IMP-round, không `.env`/DB/artifact; không push.
+- **Sau reviewer:** còn **round IMP lặt vặt** (6 file `M` dở: M3L2 numbers, mcp test rename, purge arithmetic + F1/F2 RV3) + **nhịp C** (docker verify + push + CI) chờ quyết.
+
+## Next Agent (cleanup-v → reviewer) — (lịch sử, đã xử lý)
+- **@reviewer (B, nhẹ)** — review nhịp **cleanup-v** của A (KHÔNG sửa code):
+  1. **F:** xác nhận merge v1.2 = commit **`7254731`** đúng **28 file** (2 modified json + 26 `*_scenes.json`), `audio/` KHÔNG vào commit (vẫn `?? untracked`), `index.json` `count:56` khớp **56** file scenes trên đĩa.
+  2. **I:** review commit **`1f1ddda`** — đúng **5 file, 100% `src/`** (scope sạch, không secret, không `frontend/data/pyproject`). Kiểm: I2 `years` đi hết chuỗi plumbing (additive, không phá positional); I3 loud-warn; I4 `_content_to_text` xử lý `str`/`list[str|dict]` + KHÔNG đổi `yield chunk.content`. Tự chạy lại gate `ruff`/`black`/`mypy` = 0 + `pytest src/tests/unit -q` = 797/0 để khớp báo cáo.
+  3. **G:** **xác minh finding** — route thật `POST /api/v1/ask-stream` có `Depends(get_current_user)` (`app.py:419`) ⇒ test mocked 401 vì thiếu auth, **KHÔNG path-only như Plan giả định**; xác nhận A đã **DỪNG đúng** (không sửa fixture, không commit G). File `test_api_mocked.py` còn `M` (path-fix chưa commit) — reviewer xác nhận có nên giữ (để commit kèm auth-fix) hay revert.
+  4. **AC cleanup-v:** AC1 ✅ (F), **AC2 ✗ — blocked ở G (không do A)**, AC3 ✅ (I, gates xanh, không phát sinh mypy/ruff/black), AC4/AC5 **ngoài nhịp** (H/C không làm), AC6 ✅ trung thực.
+- **Sau reviewer:** chờ **human/planner** quyết **G** (chọn: override `get_current_user` trong conftest mocked / phát token thật / bỏ auth test-mode) + có mở **H (docker)** / **C (push)** không. **KHÔNG tự push.**
+- **Round khác còn treo (không lẫn vào cleanup-v):** "## Next Agent (đóng treo)" phía trên — **IMP lặt vặt 4 mục** (M3L2 numbers, mcp test rename, `test_api_endpoints.py` path, purge month-arithmetic + F1/F2 RV3) vẫn chờ riêng.

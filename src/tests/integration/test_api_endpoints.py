@@ -28,7 +28,7 @@ def _parse_sse_final(response) -> dict:
 
 
 def make_ask_stream(client, question: str):
-    return client.post("/ask-stream", json={"query": question})
+    return client.post("/api/v1/ask-stream", json={"query": question})
 
 
 def test_api_health_agent_ready(client):
@@ -111,7 +111,7 @@ def test_api_aggregate(client):
 @pytest.mark.skipif(_API_KEY_MISSING, reason=_SKIP_REASON)
 def test_api_ask_stream_returns_sse(client):
     response = client.post(
-        "/ask-stream",
+        "/api/v1/ask-stream",
         json={"query": "Giá VCB hôm nay"},
     )
     assert response.status_code == 200
