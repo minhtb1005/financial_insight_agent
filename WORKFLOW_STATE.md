@@ -2270,13 +2270,22 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - **Cảnh báo trung thực:** `python -m mypy src` **trần (không cờ)** = **27 lỗi pre-existing** (15 file) — **KHÔNG phải lệnh gate** (khớp ghi chú redis-removal dòng 2160 + `.github/workflows/ci.yml:44`). Đã chứng minh pre-existing bằng cách `git stash` pyproject → mypy trần cũng **27 lỗi** y hệt (delta 0). Không regression.
 - Không chạy docker (đúng RAM constraint user).
 
+### D4 — Push gộp (DONE)
+- `git log origin/main..HEAD --oneline` = **4** đúng dự kiến: `48609c9` (dep) + `aeb5079` + `57d213d` + `ee9522e`.
+- `git push` = exit 0 (`7de13db..48609c9`). `git rev-parse HEAD` = `git rev-parse origin/main` = `48609c91e4e6d277029ca5d14d36a077e25a462c`; `git status -sb` = `## main...origin/main` (**0/0**).
+
+### D5 — CI (DONE, GREEN)
+- Run **`39100711810`** `push` trên sha `48609c9`, url https://github.com/minhtb105/financial_insight_agent/actions/runs/39100711810 → **completed / success**.
+- 3 job đều **success**: `typecheck`, `test`, `lint`.
+
 ### Notes
 - `scenario` so sánh giữ nguyên: full suite 716/0/17 khớp baseline, không test nào vỡ do bỏ dep.
+- 3 untracked còn lại (`evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`) — ngoài phạm vi, KHÔNG stage.
 
-## Current Status (dep-removal — IMPLEMENT DONE 18/10/2026)
+## Current Status (dep-removal — IMPLEMENT DONE + PUSHED + CI GREEN 18/10/2026)
 - Bỏ đúng 5 dep khỏi `pyproject.toml` (3 main + 2 dev); venv gỡ `passlib`/`pytest-mock`/`reportlab`; GIỮ `python-multipart`+`email-validator` trong venv (fastapi/pydantic cần, chỉ bỏ khai báo).
 - Gate xanh toàn bộ: pytest **716/0/17**, ruff **0**, black **0**, mypy gate **0**. Không sửa code/test nào khác.
-- Commit + push gộp (3 commit redis-removal/follow-up đang treo + commit dep này) — **hash + CI ghi ở nhịp D4/D5 bên dưới**.
+- Commit dep **`48609c9`** (2 file: `pyproject.toml` −5, `WORKFLOW_STATE.md` +46); push gộp 4 commit; `origin/main` = HEAD = `48609c9` (**0/0**); CI run **`39100711810` success** (typecheck/test/lint).
 
 ## Next Agent (dep-removal → reviewer)
 - **@reviewer**: soi commit dep-removal (diff `pyproject.toml` 5 dòng + xác nhận 0 usage + gate). Chạy lại gate bằng `.venv\Scripts\python.exe`; lưu ý mypy phải dùng cờ gate (`--ignore-missing-imports --no-strict-optional`) — mypy trần có 27 lỗi pre-existing, không phải regression.
