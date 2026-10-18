@@ -1,0 +1,337 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M4L5",
+  "module_id": "M4",
+  "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
+  "title": "Rà soát và hủy sản phẩm tài chính không dùng",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 145.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hà",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Hai thẻ ngủ quên, một gói bảo hiểm bán kèm và một gói tin nhắn số dư vẫn lặng lẽ thu phí.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ngăn kéo có hai thẻ, một hợp đồng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ngăn kéo của Hà có hai thẻ tín dụng lâu không dùng, một gói bảo hiểm mua kèm khi vay và một gói tin nhắn số dư. Chúng vẫn lặng lẽ thu phí mỗi năm, và Hà gần như đã quên.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí cứ trừ mà không ai nhớ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Dòng phí tự gia hạn lặp lại",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sản phẩm tài chính thường tự gia hạn và tự trừ phí. Ta mở vì khuyến mãi, hoặc vì được mời lúc đang làm thủ tục, rồi quên mất. Bước đầu tiên là biết chính xác mình đang có những gì.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bước 1: biết mình đang có gì",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Sao kê ba tháng, các dòng lặp được đánh dấu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy lập danh sách mọi thẻ, tài khoản, gói dịch vụ và hợp đồng bảo hiểm của bạn. Nguồn dễ nhất là sao kê ba tháng gần nhất: tìm các khoản trừ lặp lại và các khoản phí thường niên.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Sao kê 3 tháng → danh sách",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Bốn dòng phí hiện ra",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử Hà có hai thẻ, mỗi thẻ phí thường niên ba trăm nghìn. Gói tin nhắn số dư mười một nghìn mỗi tháng, tức một trăm ba mươi hai nghìn mỗi năm. Bảo hiểm bán kèm một triệu hai trăm nghìn mỗi năm.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "2 × 300k + 132k + 1,2tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Tổng phí cộng lại, hiện số lớn",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cộng lại là một triệu chín trăm ba mươi hai nghìn đồng mỗi năm. Nếu Hà thực sự không dùng cả bốn thứ này, đó là gần hai triệu đồng đang chảy đi mỗi năm mà không mua được gì.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "600k + 132k + 1,2tr = 1,932tr/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ba hộp: Giữ, Hủy, Tìm hiểu thêm",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy hỏi từng món: mình có dùng trong ba tháng qua không, nó có làm điều mà thứ khác không làm được không, và nếu bỏ đi thì mất gì. Rồi xếp vào ba nhóm: giữ, hủy, hoặc tìm hiểu thêm.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giữ · Hủy · Tìm hiểu thêm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Giữ",
+            "Hủy",
+            "Tìm hiểu thêm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Danh sách câu hỏi trước khi hủy",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước khi hủy, hãy đọc điều kiện: có phí hủy không, phần phí đã đóng có được hoàn không, thời hạn cân nhắc là bao lâu. Với thẻ tín dụng, hãy hỏi ngân hàng việc đóng thẻ ảnh hưởng thế nào đến lịch sử tín dụng.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí hủy · Hoàn phí · Lịch sử tín dụng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Phí hủy",
+            "Hoàn phí",
+            "Lịch sử tín dụng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Tấm khiên bảo hiểm có dấu hỏi",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với bảo hiểm, đừng hủy vội chỉ vì thấy phí. Hãy xem quyền lợi, thời gian chờ và việc bạn có đang cần được bảo vệ không. Nếu chưa chắc, hãy hỏi lại đơn vị cung cấp và đề nghị trả lời bằng văn bản.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hiểu quyền lợi trước khi hủy",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Trâu Tí cầm bút gạch ba dòng trên sao kê",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy mở sao kê tháng gần nhất và gạch ra ba khoản bạn không nhận ra hoặc không dùng. Hỏi rõ rồi mới hủy, và giữ lại xác nhận. Đây là ví dụ minh họa, không khuyên bạn hủy sản phẩm cụ thể nào.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "rà sao kê và gạch ba khoản không dùng",
+    "button_label": "Rà soát sản phẩm",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "2 thẻ × 300.000đ; gói tin nhắn 11.000đ × 12; bảo hiểm bán kèm 1,2tr/năm",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: 2 thẻ × 300.000đ; gói tin nhắn 11.000đ × 12; bảo hiểm bán kèm 1,2tr/năm."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L7",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Vay tiêu dùng, ứng dụng vay và tín dụng đen",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 145.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Cần gấp mười triệu. Một ứng dụng quảng cáo duyệt trong năm phút. Nhưng cái giá thật của sự nhanh gọn là bao nhiêu?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Màn hình ứng dụng: Duyệt trong 5 phút",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cần gấp mười triệu, và một ứng dụng quảng cáo duyệt trong năm phút, không cần gặp, không cần giấy tờ phức tạp. Nghe rất tiện. Nhưng cái giá thật của sự nhanh gọn đó là bao nhiêu?",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Duyệt nhanh, giá thật là bao nhiêu?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Năm thẻ dấu hiệu cảnh báo",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu của tín dụng đen: lãi và phí không nói rõ bằng văn bản, trừ phí ngay khi giải ngân, hợp đồng mập mờ, đòi quyền đọc danh bạ và ảnh, và đe dọa người thân khi chậm trả.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí không rõ · Trừ phí trước · Đòi danh bạ · Đe dọa",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Phí không rõ",
+            "Trừ phí trước",
+            "Đòi danh bạ",
+            "Đe dọa"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Lời mời A: bảng vay mười triệu, ba tháng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy so sánh hai lời mời với số giả định. Lời mời A: vay mười triệu trong ba tháng, lãi một phần trăm mỗi tháng trên số vay ban đầu. Lãi là ba trăm nghìn đồng, tổng trả mười triệu ba trăm nghìn.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "A: 10tr × 1% × 3 = 0,3tr → trả 10,3tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Lời mời B: ghi mười triệu, nhận tám triệu rưỡi",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lời mời B từ một ứng dụng ghi vay mười triệu, nhưng trừ phí duyệt và phí dịch vụ một triệu rưỡi ngay khi giải ngân. Bạn chỉ nhận tám triệu rưỡi, và phải trả đủ mười triệu sau ba mươi ngày.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "B: nhận 8,5tr · trả 10tr sau 30 ngày",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "B: nhận 8,5tr",
+            "trả 10tr sau 30 ngày"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Phép chia 1,5 trên 8,5",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bạn nhận tám triệu rưỡi mà phải trả mười triệu, tức trả thêm một triệu rưỡi chỉ sau một tháng. Chia ra là gần mười tám phần trăm số tiền thực nhận, cho chỉ ba mươi ngày.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1,5tr ÷ 8,5tr ≈ 17,6% trong 1 tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Hai thanh chi phí: A thấp, B vọt cao",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lời mời A tốn khoảng một phần trăm mỗi tháng trên số vay. Lời mời B tốn gần mười tám phần trăm trong một tháng. Khác biệt lớn như vậy thường nằm trong phần phí, không nằm ở con số lãi được quảng cáo.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phí ẩn nằm ngoài con số lãi quảng cáo",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 18.8,
+      "visual": {
+        "description": "Cuốn luật, thước đo lãi suất",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giữa cá nhân với nhau, Bộ luật Dân sự quy định lãi theo thỏa thuận không được vượt hai mươi phần trăm một năm, và cho vay lãi gấp năm lần trở lên có thể bị xử lý hình sự. Hãy tra lại điều khoản và hỏi người có chuyên môn.",
+        "word_count": 51,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi thỏa thuận không quá 20%/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Giỏ hàng trả góp 0% kèm phí chuyển đổi",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ngoài tín dụng đen còn có bẫy nhẹ hơn: trả góp không phần trăm nhưng có phí chuyển đổi, mua trước trả sau dễ khiến chi tiêu quá tay, quà tặng kèm điều kiện. Luôn hỏi: tổng số tiền tôi phải trả cuối cùng là bao nhiêu?",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tổng cuối cùng phải trả là bao nhiêu?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Trâu Tí cầm bảng hai câu hỏi",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy nhớ một câu hỏi trước khi vay: sau khi trừ mọi phí, tôi nhận được bao nhiêu và phải trả tổng cộng bao nhiêu? Nếu người cho vay không trả lời rõ bằng văn bản, hãy dừng lại.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tự hỏi: sau khi trừ mọi phí tôi nhận bao nhiêu và phải trả tổng cộng bao nhiêu",
+    "button_label": "Tính chi phí vay thực",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "A: 10tr × 1%/tháng × 3 tháng = 0,3tr, trả 10,3tr; B: nhận 8,5tr, trả 10tr sau 30 ngày, 1,5 ÷ 8,5 ≈ 17,6%",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: A: 10tr × 1%/tháng × 3 tháng = 0,3tr, trả 10,3tr; B: nhận 8,5tr, trả 10tr sau 30 ngày, 1,5 ÷ 8,5 ≈ 17,6%."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Trần lãi suất 20%/năm (Điều 468 Bộ luật Dân sự 2015) áp dụng cho vay giữa cá nhân; ngưỡng cho vay nặng lãi theo Điều 201 Bộ luật Hình sự là gấp 5 lần mức đó. Tổ chức tín dụng, công ty tài chính có quy định riêng, cần tra thêm trước khi nói về họ."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Khẳng định pháp lý chỉ ở mức khái quát, cần người có chuyên môn duyệt."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

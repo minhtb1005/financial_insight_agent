@@ -1,0 +1,344 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M2L5",
+  "module_id": "M2",
+  "module_title": "Quỹ khẩn cấp & thói quen tiết kiệm",
+  "title": "Quỹ khẩn cấp khi thu nhập không ổn định",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 131.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Dũng",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Tháng này nhận hai mươi triệu, tháng sau chỉ sáu triệu. Chi tiêu thì tháng nào cũng đến.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Biểu đồ thu nhập lên xuống thất thường",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tháng này Dũng nhận hai mươi triệu từ khách, tháng sau chỉ sáu triệu. Làm tự do thì chủ động, nhưng chi tiêu thì tháng nào cũng đến. Thu nhập thất thường cần một cách tính quỹ khẩn cấp khác.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu nhập lên xuống, chi tiêu đều",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Sáu cột thu nhập",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước một: nhìn sáu tháng gần nhất. Thu nhập của Dũng lần lượt là tám, mười lăm, sáu, mười hai, hai mươi và chín triệu. Tổng là bảy mươi triệu, trung bình khoảng mười một triệu bảy trăm nghìn mỗi tháng.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "8 · 15 · 6 · 12 · 20 · 9 = 70tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "8",
+            "15",
+            "6",
+            "12",
+            "20",
+            "9 = 70tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Vạch chi thiết yếu cắt qua các cột",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trung bình nhìn khá ổn, nhưng không phải tháng nào cũng bằng trung bình. Dũng chi thiết yếu chín triệu mỗi tháng. Có hai tháng thu thấp hơn, tám triệu và sáu triệu, thiếu tổng cộng bốn triệu.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chi thiết yếu 9tr · thiếu 1tr + 3tr = 4tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chi thiết yếu 9tr",
+            "thiếu 1tr + 3tr = 4tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Bể chứa nhận tiền vào, vòi chảy đều 9 triệu",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước hai: dùng một tài khoản làm bể chứa. Mọi khoản thu đều vào bể, và mỗi tháng Dũng chỉ rút chín triệu như một khoản lương cho mình. Tháng nhiều thì bể đầy, tháng ít thì lấy từ bể.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu → Bể chứa → Lương cho mình 9tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Bể còn 16 triệu sau sáu tháng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sáu tháng, thu bảy mươi triệu, rút lương cho mình năm mươi bốn triệu, bể còn dư mười sáu triệu. Nhờ bể chứa, các tháng thiếu được bù từ các tháng dư, và Dũng không phải đi vay.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "70tr − 54tr = 16tr dư",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Thanh quỹ khẩn cấp cao hơn bình thường",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước ba: với thu nhập thất thường, bạn có thể cân nhắc quỹ khẩn cấp lớn hơn, ví dụ sáu tháng chi thiết yếu thay vì ba tháng. Với Dũng, đó là năm mươi bốn triệu đồng.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "6 × 9tr = 54tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 12.7,
+      "visual": {
+        "description": "Hộp riêng cho thuế và chi phí công việc",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy tách ngay khi nhận tiền phần dành cho thuế và chi phí công việc nếu có, vì đó không phải tiền để tiêu. Chỉ phần còn lại mới vào bể chứa của bạn.",
+        "word_count": 34,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tách phần thuế và chi phí trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Kế hoạch B: ba biểu tượng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước bốn: có kế hoạch B cho tháng thu thấp bất thường. Những khoản có thể cắt giảm ngay, nguồn thu phụ có thể kích hoạt, và ngưỡng báo động, ví dụ khi bể chứa xuống dưới ba tháng chi tiêu.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cắt giảm · Nguồn thu phụ · Ngưỡng báo động",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Cắt giảm",
+            "Nguồn thu phụ",
+            "Ngưỡng báo động"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Trâu Tí cầm bảng sáu tháng thu nhập",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy ghi thu nhập sáu tháng gần nhất của bạn và so với chi thiết yếu. Bạn sẽ thấy ngay tháng nào thiếu, tháng nào dư, và bể chứa cần dày bao nhiêu.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "nhập thu nhập 6 tháng của bạn và tính lương cố định cho mình",
+    "button_label": "Tính quỹ cho thu nhập thất thường",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Thu 8, 15, 6, 12, 20, 9 = 70tr (TB ≈ 11,7tr); chi thiết yếu 9tr; thiếu 1 + 3 = 4tr; lương cho mình 9tr × 6 = 54tr; dư 16tr; quỹ 6 × 9 = 54tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Thu 8, 15, 6, 12, 20, 9 = 70tr (TB ≈ 11,7tr); chi thiết yếu 9tr; thiếu 1 + 3 = 4tr; lương cho mình 9tr × 6 = 54tr; dư 16tr; quỹ 6 × 9 = 54tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

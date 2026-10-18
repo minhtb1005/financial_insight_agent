@@ -1,0 +1,361 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M6L4",
+  "module_id": "M6",
+  "module_title": "Thuế thu nhập cá nhân & nghĩa vụ tài chính",
+  "title": "Lương, hợp đồng và phúc lợi khi đi làm lần đầu",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 144.8,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Linh",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Hai lời mời làm việc, một nơi trả 12 triệu, nơi kia 11 triệu nhưng có phụ cấp và thưởng.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hai tờ thư mời việc đặt cạnh nhau",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hai lời mời làm việc. Một nơi trả mười hai triệu mỗi tháng. Nơi kia trả mười một triệu nhưng có phụ cấp và thưởng. Nơi nào tốt hơn? Câu trả lời nằm ở tổng gói, không chỉ con số lương.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nơi nào tốt hơn?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Một dòng lương bị trừ dần còn một nửa",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước hết, hãy phân biệt lương gộp và lương thực nhận. Lương gộp là mức ghi trong hợp đồng, trước khi trừ các khoản bắt buộc như bảo hiểm và thuế. Thực nhận mới là số tiền về tài khoản của bạn.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lương gộp ≠ thực nhận",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Hợp đồng với bốn ô được tô sáng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi đọc hợp đồng, hãy tìm bốn mục: mức lương và cách trả, thời gian thử việc, các khoản phụ cấp và thưởng được ghi thành chữ, và số ngày nghỉ phép. Lời hứa bằng miệng nên được ghi vào văn bản.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lương · Thử việc · Phụ cấp, thưởng · Phép",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lương",
+            "Thử việc",
+            "Phụ cấp, thưởng",
+            "Phép"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Lời mời A: 12tr × 12",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy so sánh theo năm. Lời mời A trả mười hai triệu mỗi tháng, không thưởng, tức một trăm bốn mươi bốn triệu đồng mỗi năm. Rất dễ nhìn, nhưng cũng chỉ có đúng một con số.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "A: 12tr × 12 = 144tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Lời mời B: ba khoản cộng lại",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lời mời B trả mười một triệu mỗi tháng, cộng phụ cấp ăn trưa bảy trăm ba mươi nghìn mỗi tháng, và thưởng tháng mười ba bằng một tháng lương. Cộng lại là một trăm năm mươi mốt triệu bảy trăm sáu mươi nghìn mỗi năm.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "B: 132tr + 8,76tr + 11tr = 151,76tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hai cột A và B, chênh lệch hiện ra",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước thuế và bảo hiểm, lời mời B hơn gần tám triệu mỗi năm, dù lương tháng thấp hơn một triệu. Nhưng phụ cấp và thưởng có thể có điều kiện, và mỗi khoản có thể bị tính thuế khác nhau.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "B hơn A: 7,76tr/năm (trước thuế)",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Ba mảnh ghép chuẩn bị đàm phán",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu muốn đàm phán, hãy chuẩn bị ba thứ: mức chi phí sống tối thiểu của bạn, mức lương tham khảo cho vị trí tương tự từ nguồn đáng tin, và những giá trị bạn mang lại. Hãy hỏi cả phụ cấp, đào tạo và giờ làm, không chỉ lương.",
+        "word_count": 50,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chi phí sống · Mức tham khảo · Giá trị của bạn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chi phí sống",
+            "Mức tham khảo",
+            "Giá trị của bạn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Hai bong bóng hội thoại lịch sự",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi nói chuyện, hãy lịch sự và cụ thể. Ví dụ: với những gì em chuẩn bị và vai trò này, em mong mức này, anh chị thấy có thể điều chỉnh không? Nếu họ từ chối, hãy hỏi xem có khoản nào khác có thể bù.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lịch sự · Cụ thể · Hỏi khoản bù",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lịch sự",
+            "Cụ thể",
+            "Hỏi khoản bù"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Trâu Tí cầm bảng so sánh hai lời mời",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lần tới nhận lời mời làm việc, hãy lập bảng so sánh theo năm và đọc kỹ hợp đồng trước khi ký. Các số trong video chỉ để minh họa, hãy dùng số của chính bạn.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng so sánh tổng gói theo năm",
+    "button_label": "So sánh lời mời làm việc",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "A: 12tr × 12 = 144tr; B: 11tr × 12 + 0,73tr × 12 + 11tr (tháng 13) = 151,76tr (trước thuế và bảo hiểm)",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: A: 12tr × 12 = 144tr; B: 11tr × 12 + 0,73tr × 12 + 11tr (tháng 13) = 151,76tr (trước thuế và bảo hiểm)."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Rà lại các khẳng định về lương gộp/thực nhận, thuế, bảo hiểm và hợp đồng theo quy định hiện hành trước khi xuất bản (nguồn: văn bản pháp luật hoặc cơ quan có thẩm quyền)."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Không đưa mức lương thị trường cụ thể vào video khi chưa có nguồn khảo sát đáng tin."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

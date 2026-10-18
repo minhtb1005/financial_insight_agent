@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L4",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Bảng tài sản ròng và báo cáo dòng tiền cá nhân",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 138.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Số dư tài khoản hai mươi lăm triệu. Nhưng cô còn khoản trả góp và tiền nợ bạn. Vậy thật sự cô đang có bao nhiêu?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Màn hình số dư 25 triệu, hai khoản nợ lấp ló",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cuối tháng, tài khoản của Lan còn hai mươi lăm triệu và cô thấy yên tâm. Nhưng cô còn khoản trả góp điện thoại và tiền nợ bạn bè. Vậy thật sự Lan đang có bao nhiêu?",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số dư ≠ mình có bao nhiêu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Cân hai đĩa: tài sản và nợ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bảng tài sản ròng trả lời câu hỏi đó. Công thức rất đơn giản: tài sản trừ nợ phải trả. Nó chụp lại tình hình tài chính của bạn tại một thời điểm, giống như con số cân nặng trên một chiếc cân.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tài sản ròng = Tài sản − Nợ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Ba món tài sản xếp vào cột trái",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy liệt kê tài sản theo giá bạn có thể bán thực tế. Lan có hai mươi lăm triệu trong tài khoản, chiếc xe máy ước tính mười tám triệu và chiếc laptop mười triệu. Tổng tài sản là năm mươi ba triệu đồng.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "25 + 18 + 10 = 53tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Hai khoản nợ xếp vào cột phải",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tiếp theo là nợ: phần trả góp điện thoại còn sáu triệu và bốn triệu nợ bạn bè. Tổng nợ là mười triệu đồng. Hãy ghi hết, kể cả những khoản vay nhỏ giữa người quen.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "6 + 4 = 10tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Phép trừ cho ra số lớn ở giữa",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tài sản năm mươi ba triệu trừ nợ mười triệu, tài sản ròng của Lan là bốn mươi ba triệu đồng. Con số này quan trọng hơn số dư tài khoản, vì nó tính cả những gì bạn còn phải trả.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "53tr − 10tr = 43tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Dòng nước vào ra một bể: thu 12, chi 9,5",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Báo cáo dòng tiền cho thấy tiền chảy thế nào trong một tháng. Lan nhận mười hai triệu và chi chín triệu rưỡi, dòng tiền ròng là hai triệu rưỡi. Đây là phần tiền bạn có thể dành cho mục tiêu.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12tr − 9,5tr = +2,5tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Đồng hồ đo: bao nhiêu tháng chi tiêu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một chỉ số hữu ích: tiền mặt chia chi tiêu hằng tháng. Hai mươi lăm triệu chia chín triệu rưỡi là khoảng hai phẩy sáu tháng. Nghĩa là nếu mất thu nhập, Lan đủ chi tiêu hơn hai tháng rưỡi.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "25 ÷ 9,5 ≈ 2,6 tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Ba biểu tượng: có thật, mỗi quý, xu hướng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Vài lưu ý: không cộng tài sản mơ ước, chỉ cộng thứ có thật. Cập nhật mỗi quý một lần. Và đừng quá lo khi tài sản ròng còn thấp, điều quan trọng là xu hướng có đang đi lên hay không.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Có thật · Mỗi quý · Nhìn xu hướng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Có thật",
+            "Mỗi quý",
+            "Nhìn xu hướng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Trâu Tí cầm tờ giấy kẻ hai cột",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy lấy một tờ giấy kẻ hai cột tài sản và nợ, rồi điền số của bạn. Mười lăm phút thôi. Kết quả không để đánh giá bản thân, chỉ để biết điểm xuất phát của mình.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "điền bảng tài sản và nợ của bạn",
+    "button_label": "Lập bảng tài sản ròng",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Tài sản 25 + 18 + 10 = 53tr; nợ 6 + 4 = 10tr; tài sản ròng 43tr; thu 12tr, chi 9,5tr; 25 ÷ 9,5 ≈ 2,6 tháng",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Tài sản 25 + 18 + 10 = 53tr; nợ 6 + 4 = 10tr; tài sản ròng 43tr; thu 12tr, chi 9,5tr; 25 ÷ 9,5 ≈ 2,6 tháng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

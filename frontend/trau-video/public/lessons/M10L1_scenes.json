@@ -1,0 +1,348 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M10L1",
+  "module_id": "M10",
+  "module_title": "Tài chính gia đình & quan hệ tiền bạc",
+  "title": "Mô hình quản lý tiền trong cặp đôi",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 139.5,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hà và Nam",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Hà và Nam sắp sống chung. Câu hỏi đầu tiên không phải mua gì, mà là tiền của ai và quản lý thế nào.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Hai chiếc ví cạnh nhau",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hà và Nam sắp sống chung. Hà có thu nhập hai mươi triệu, Nam mười hai triệu. Câu hỏi đầu tiên không phải mua gì, mà là tiền của ai, và hai người quản lý nó thế nào.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiền của ai? Quản lý thế nào?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Ba hộp: chung hết, riêng hết, kết hợp",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có ba cách phổ biến: gộp chung hoàn toàn, tách riêng hoàn toàn, hoặc kết hợp một quỹ chung cho chi phí sống và mỗi người giữ phần riêng. Không có mô hình đúng cho mọi cặp đôi, quan trọng là cả hai hiểu và đồng ý.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chung hết · Riêng hết · Quỹ chung + riêng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chung hết",
+            "Riêng hết",
+            "Quỹ chung + riêng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Hai cột thu nhập, một cột chi chung",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử chi phí chung mỗi tháng là mười sáu triệu: nhà, ăn uống, điện nước, đi lại. Tổng thu nhập hai người là ba mươi hai triệu. Chi phí chung chiếm đúng một nửa.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu 20 + 12 = 32tr · Chi chung 16tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Thu 20 + 12 = 32tr",
+            "Chi chung 16tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Chia đều: tám và tám",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách một là chia đều, mỗi người tám triệu. Hà còn lại mười hai triệu, Nam còn lại bốn triệu. Nghe công bằng về con số, nhưng phần còn lại của Nam mỏng hơn nhiều.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "8 + 8 → Hà còn 12tr · Nam còn 4tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "8 + 8 → Hà còn 12tr",
+            "Nam còn 4tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Chia theo tỷ lệ: mười và sáu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách hai là chia theo tỷ lệ thu nhập. Hà chiếm sáu mươi hai phẩy năm phần trăm nên đóng mười triệu, Nam ba mươi bảy phẩy năm phần trăm nên đóng sáu triệu. Mỗi người còn lại lần lượt mười và sáu triệu.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hà 62,5% = 10tr · Nam 37,5% = 6tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Hà 62,5% = 10tr",
+            "Nam 37,5% = 6tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Cán cân hai cách",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chia theo tỷ lệ giúp phần còn lại của hai người cân đối hơn với thu nhập. Nhưng có cặp thích chia đều vì thấy đơn giản. Điều quan trọng là bàn rõ, thay vì để một người âm thầm chịu thiệt.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bàn rõ, đừng để ai âm thầm chịu thiệt",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Một tài khoản chung, hai tài khoản riêng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Về tài khoản, mô hình kết hợp thường gồm một tài khoản chung cho chi phí sống, và mỗi người một tài khoản riêng cho chi tiêu cá nhân không cần báo cáo. Khoản riêng tạo sự tự chủ, khoản chung tạo sự minh bạch.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chung = minh bạch · Riêng = tự chủ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chung = minh bạch",
+            "Riêng = tự chủ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Lịch có ngày khoanh tròn",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy đặt ngày xem lại. Thu nhập thay đổi, có con, hay một người nghỉ việc đều có thể khiến tỷ lệ chia cần điều chỉnh. Một mô hình tốt là mô hình có thể sửa mà không gây xung đột.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đặt ngày xem lại mô hình",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí cầm bảng hai cách chia",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hai người hãy ngồi cùng nhau, liệt kê chi phí chung mỗi tháng, thử cả hai cách chia và chọn một cách để thử trong ba tháng. Đây là số minh họa, hãy dùng số của hai bạn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "liệt kê chi phí chung, thử cả hai cách chia và chọn một cách thử ba tháng",
+    "button_label": "Thử hai cách chia",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Thu 20tr + 12tr = 32tr; chi chung 16tr; chia đều 8tr/8tr (còn 12tr và 4tr); theo tỷ lệ 62,5% = 10tr, 37,5% = 6tr (còn 10tr và 6tr)",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Thu 20tr + 12tr = 32tr; chi chung 16tr; chia đều 8tr/8tr (còn 12tr và 4tr); theo tỷ lệ 62,5% = 10tr, 37,5% = 6tr (còn 10tr và 6tr)."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

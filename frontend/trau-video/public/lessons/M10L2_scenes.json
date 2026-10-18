@@ -1,0 +1,337 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M10L2",
+  "module_id": "M10",
+  "module_title": "Tài chính gia đình & quan hệ tiền bạc",
+  "title": "Phân công trách nhiệm, ngưỡng chi lớn và họp tài chính tháng",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 132.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hà và Nam",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Một người mua đồ giá cao mà không nói, người kia đóng tiền điện hai lần. Không ai xấu, chỉ là không ai biết ai làm gì.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Hóa đơn điện đóng hai lần, hộp tai nghe mới",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nam mua một chiếc tai nghe giá cao mà không nói, còn Hà đóng tiền điện hai lần vì tưởng Nam chưa đóng. Không ai xấu cả, chỉ là không ai biết ai đang làm gì.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Không ai biết ai làm gì",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Bảng ba cột: khoản, người phụ trách, hạn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước một là phân công: ai trả tiền thuê, ai trả điện nước, ai theo dõi quỹ chung, ai lo bảo hiểm. Hãy viết ra thành bảng ba cột: khoản, người phụ trách và hạn.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khoản · Người phụ trách · Hạn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Khoản",
+            "Người phụ trách",
+            "Hạn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Hai bàn tay cùng giữ một tay lái",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Phân công không có nghĩa là một người quyết định hết. Người phụ trách chịu trách nhiệm thực hiện và báo cáo, còn các quyết định lớn vẫn là của hai người.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Phụ trách ≠ quyết định một mình",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Vạch ngưỡng 2 triệu",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước hai là đặt ngưỡng chi lớn. Ví dụ khoản trên hai triệu đồng thì hai người bàn trước, dưới ngưỡng thì tự quyết, không cần xin phép. Ngưỡng giúp tránh cả hai thái cực: kiểm soát từng đồng và giấu giếm.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trên 2tr → bàn trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Ba ô: số dư, nợ, mục tiêu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Minh bạch không bắt buộc phải biết từng khoản chi riêng, mà là biết bức tranh chung: số dư quỹ chung, các khoản nợ và các mục tiêu. Mỗi người cần nhìn được những điều này bất cứ lúc nào.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số dư · Nợ · Mục tiêu",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Số dư",
+            "Nợ",
+            "Mục tiêu"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Đồng hồ 30 phút, bốn mục chương trình",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước ba là họp tài chính ba mươi phút mỗi tháng. Chương trình ngắn: xem số dư, so thu chi với kế hoạch, kiểm tra tiến độ mục tiêu, và bàn khoản lớn sắp tới. Chọn lúc thoải mái, không phải lúc đang cãi nhau.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Họp 30 phút mỗi tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Hai bong bóng thoại: câu nên và không nên",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách nói chuyện cũng quan trọng. Hãy bắt đầu bằng con số và mục tiêu chung, tránh mở đầu bằng em lại tiêu quá. Dùng câu như: mình thấy khoản này tăng, mình cùng xem nhé.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bắt đầu bằng con số và mục tiêu chung",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Một người vượt ngưỡng, người kia hỏi nhẹ",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu một người vượt ngưỡng mà không báo, hãy hỏi lý do trước khi kết luận. Có thể ngưỡng quá thấp, có thể họ chưa hiểu, hoặc có áp lực chưa nói ra. Điều chỉnh quy tắc thay vì trách người.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hỏi lý do trước, sửa quy tắc sau",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí cầm lịch họp đầu tiên",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hai người hãy lập bảng phân công và đặt một ngưỡng chi lớn, rồi hẹn lịch họp tài chính đầu tiên trong tháng tới. Ngưỡng hai triệu chỉ là ví dụ, hãy chọn mức hợp với hai bạn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng phân công, đặt ngưỡng chi lớn và hẹn họp tài chính đầu tiên",
+    "button_label": "Lập bảng phân công",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Ngưỡng ví dụ: chi trên 2 triệu thì bàn trước; họp 30 phút mỗi tháng",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Ngưỡng ví dụ: chi trên 2 triệu thì bàn trước; họp 30 phút mỗi tháng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L5",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Chi phí của sự tiện lợi",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 140.5,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Mỗi lần bấm giao hàng chỉ tốn thêm vài chục nghìn. Cộng cả năm thì sao?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ngón tay Lan trên điện thoại, nút Đặt hàng sáng lên",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan bấm đặt đồ ăn gần như mỗi ngày. Mỗi lần chỉ tốn thêm vài chục nghìn đồng tiền giao hàng và phụ phí, nên cô chẳng thấy gì đáng kể. Nhưng những khoản nhỏ ấy có thật sự nhỏ không?",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khoản nhỏ có thật sự nhỏ?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Định nghĩa hiện dần trên nền ứng dụng giao hàng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chi phí của sự tiện lợi là phần tiền ta trả thêm để đỡ công sức hoặc thời gian: phí giao hàng, phí đặt xe, phí dịch vụ. Món ăn có giá riêng của nó, còn phần này chỉ là tiền trả cho sự nhanh gọn.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiện lợi = tiền trả thêm để đỡ công sức",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hoá đơn giao hàng, lịch một tuần đánh dấu năm ngày",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử mỗi lần đặt đồ ăn, Lan trả thêm hai mươi lăm nghìn đồng tiền giao hàng và phụ phí. Mỗi tuần cô đặt năm lần. Một tuần là một trăm hai mươi lăm nghìn đồng, nghe vẫn nhẹ nhàng.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "25.000đ × 5 lần = 125.000đ/tuần",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Tờ lịch lật từ tuần 1 đến tuần 52",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhưng một năm có năm mươi hai tuần. Một trăm hai mươi lăm nghìn nhân năm mươi hai là sáu triệu rưỡi đồng. Đó mới chỉ là phần phí, chưa tính tiền của bất kỳ món ăn nào.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "125.000đ × 52 = 6.500.000đ/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Xe công nghệ thay cho xe buýt, số chuyến mỗi tuần",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thêm nữa, ba buổi mỗi tuần Lan gọi xe công nghệ thay vì đi xe buýt, chênh khoảng ba mươi nghìn mỗi chuyến. Một tuần là chín mươi nghìn, một năm là bốn triệu sáu trăm tám mươi nghìn đồng.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "30.000đ × 3 × 52 = 4.680.000đ/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Hai cột tiền cộng lại thành một cột cao",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cộng hai khoản lại, Lan trả thêm hơn mười một triệu đồng mỗi năm chỉ cho sự tiện lợi. Không khoản nào lớn, nhưng gộp lại thì thành một con số rất đáng để nghĩ.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "6,5tr + 4,68tr = 11,18tr/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Ba tình huống: ốm, kẹt hạn nộp, mệt sau ca làm",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điều này không có nghĩa là tiện lợi là xấu. Có lúc nó đáng tiền, như khi bạn ốm, kẹt hạn nộp bài, hay quá mệt sau ca làm. Câu hỏi là khoản trả thêm này có đang mua đúng thứ mình cần không.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đáng tiền khi mua được thời gian, sức khỏe",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Ba biểu tượng: ngưỡng tháng, đồng hồ 24 giờ, ngôi sao giữ lại",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có ba cách nhẹ nhàng. Một, đặt ngưỡng tiện lợi mỗi tháng. Hai, chờ hai mươi bốn giờ trước khi bấm đặt khoản không gấp. Ba, chọn một hai dịch vụ thật sự đáng tiền, rồi bớt phần còn lại.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ngưỡng tháng · Chờ 24 giờ · Giữ cái đáng tiền",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ngưỡng tháng",
+            "Chờ 24 giờ",
+            "Giữ cái đáng tiền"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Trâu Tí chỉ vào điện thoại, hiện ô nhập một con số",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy mở ứng dụng giao hàng và đặt xe, cộng các khoản phí của tháng vừa rồi. Chỉ cần một con số. Có con số, bạn sẽ biết sự tiện lợi của mình đang tốn bao nhiêu, rồi tự quyết giữ hay bớt.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "đếm tổng phí tiện lợi của tháng vừa rồi",
+    "button_label": "Tính phí tiện lợi",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Phí giao hàng 25.000đ × 5 lần/tuần; chênh lệch xe công nghệ 30.000đ × 3 chuyến/tuần; 52 tuần/năm",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Phí giao hàng 25.000đ × 5 lần/tuần; chênh lệch xe công nghệ 30.000đ × 3 chuyến/tuần; 52 tuần/năm."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

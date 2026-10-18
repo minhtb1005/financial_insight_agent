@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M9L5",
+  "module_id": "M9",
+  "module_title": "An ninh tài chính số & phòng chống lừa đảo",
+  "title": "Lừa đảo từ người quen và áp lực làm ăn chung",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 141.6,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Tin nhắn từ chị họ: em cho chị mượn năm triệu, chiều chị gửi lại. Tên đúng, ảnh đúng, nhưng đó có thật là chị không?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Cuộc trò chuyện với ảnh đại diện của chị họ",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tin nhắn từ chị họ: em cho chị mượn năm triệu, chiều chị gửi lại. Tên đúng, ảnh đúng, giọng quen. Lừa đảo kiểu này đánh vào lòng tin, không phải vào sự cẩn thận của bạn.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tên quen, ảnh quen",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Hai tài khoản: tên chị họ và tên người lạ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kẻ gian chiếm tài khoản mạng xã hội của một người quen, rồi nhắn cho cả danh sách bạn bè xin vay tiền gấp. Số tài khoản nhận tiền thường mang tên khác, kèm lý do như tài khoản của mình đang bị lỗi.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tên quen, tài khoản nhận lạ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Điện thoại gọi lại số đã lưu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách xử lý đơn giản: gọi điện bằng số bạn đã lưu từ trước, hoặc hỏi một câu chỉ người thật biết. Kiểm tra tên chủ tài khoản nhận tiền có đúng người đó không. Nếu không khớp, đừng chuyển.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gọi lại số đã lưu · Kiểm tra tên người nhận",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Gọi lại số đã lưu",
+            "Kiểm tra tên người nhận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Bàn họp nhỏ, tờ ý tưởng làm ăn chung",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tình huống thứ hai: bạn bè hoặc họ hàng rủ góp vốn làm ăn chung. Không phải ai rủ cũng là lừa đảo, nhưng hãy hỏi: tiền vào đâu, ai chịu rủi ro, có hợp đồng rõ ràng không, và nếu mất tiền thì sao.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiền vào đâu? · Ai chịu rủi ro? · Có hợp đồng?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tiền vào đâu?",
+            "Ai chịu rủi ro?",
+            "Có hợp đồng?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Thẻ cảnh báo: lãi cố định, giục quyết nhanh",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy cẩn thận nếu người rủ hứa lợi nhuận cố định cao, giục quyết nhanh, hoặc nói đây là cơ hội chỉ dành cho người nhà. Tin nhau là tốt, nhưng tiền bạc cần giấy tờ và giới hạn rõ ràng như với người lạ.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi cố định cao · Giục nhanh · Cơ hội riêng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lãi cố định cao",
+            "Giục nhanh",
+            "Cơ hội riêng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Bữa cơm đông người, một người im lặng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Áp lực khó nhất đến từ chữ tin nhau. Từ chối có thể bị coi là không tin người nhà. Hãy nhớ rằng giữ ranh giới tài chính không có nghĩa là thiếu tình cảm.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giữ ranh giới ≠ thiếu tình cảm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 18.1,
+      "visual": {
+        "description": "Ba bong bóng thoại lịch sự",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Vài câu từ chối lịch sự mà rõ ràng. Để em xem lại tài chính của mình rồi báo anh. Hoặc: em có quy tắc là không cho vay và không góp vốn khi chưa có hợp đồng. Hoặc: em muốn gọi lại để chắc chắn đúng là anh.",
+        "word_count": 49,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Để em xem lại · Em có quy tắc · Em gọi lại nhé",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Để em xem lại",
+            "Em có quy tắc",
+            "Em gọi lại nhé"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Bảng giới hạn: số tiền chấp nhận không lấy lại",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu bạn vẫn muốn giúp, hãy đặt giới hạn trước: chỉ số tiền bạn chấp nhận không lấy lại được, và không động vào quỹ khẩn cấp. Ghi lại thỏa thuận bằng tin nhắn hoặc giấy, kể cả với người thân.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giới hạn trước · Ghi lại thỏa thuận",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Giới hạn trước",
+            "Ghi lại thỏa thuận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí cầm bút, câu từ chối được tô sáng",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn một câu từ chối ở trên, chỉnh lại cho đúng giọng của bạn và lưu vào ghi chú. Khi cần, bạn chỉ việc dán vào, không phải nghĩ trong lúc bị áp lực.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chuẩn bị câu trả lời trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "chọn một câu từ chối, chỉnh theo giọng của bạn và lưu vào ghi chú",
+    "button_label": "Soạn câu từ chối",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Câu mẫu chỉ là gợi ý; không đưa ra kết luận pháp lý về hợp đồng góp vốn."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

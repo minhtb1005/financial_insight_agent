@@ -1,0 +1,342 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L7",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Quyết định mua sắm lớn: tổng chi phí sở hữu",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 139.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Giá niêm yết chỉ là phần nổi. Một chiếc xe máy ba mươi triệu thật sự tốn bao nhiêu sau năm năm?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Tem giá 30 triệu trên chiếc xe, phần chìm dưới nước",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giá niêm yết chỉ là phần nổi. Một chiếc xe máy giá ba mươi triệu thật sự tốn bao nhiêu sau năm năm? Bài này giúp bạn nhìn tổng chi phí sở hữu trước khi bấm mua.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giá niêm yết chỉ là phần nổi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Công thức ba phần hiện dần",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tổng chi phí sở hữu gồm giá mua, cộng chi phí sử dụng như nhiên liệu, bảo dưỡng, gửi xe, rồi trừ đi số tiền bạn có thể thu lại khi bán. Khoản cuối cùng thường chỉ là ước tính.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giá mua + Chi phí dùng − Giá bán lại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Xe 30 triệu, giá bán lại 12 triệu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử xe giá ba mươi triệu và sau năm năm bán lại được mười hai triệu. Phần mất đi là mười tám triệu đồng. Con số này đã khác khá xa giá niêm yết.",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "30tr − 12tr = 18tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Ba khoản chi dùng hằng năm",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chi phí dùng mỗi năm: xăng ba triệu sáu, bảo dưỡng một triệu hai, gửi xe và các khoản lặt vặt một triệu. Tổng là năm triệu tám trăm nghìn mỗi năm, và năm năm là hai mươi chín triệu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5,8tr × 5 năm = 29tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Tổng 47 triệu hiện ra",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cộng lại, năm năm sở hữu tốn bốn mươi bảy triệu đồng, tức khoảng chín triệu bốn trăm nghìn mỗi năm, hay bảy trăm tám mươi ba nghìn mỗi tháng. Cao hơn nhiều con số ba mươi triệu ban đầu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "47tr ≈ 783k/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Phép chia theo ngày",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chia theo ngày thì dễ hình dung hơn. Bốn mươi bảy triệu chia cho một nghìn tám trăm hai mươi lăm ngày là khoảng hai mươi lăm nghìn tám trăm đồng mỗi ngày. Nếu bạn ít đi xe, chi phí mỗi lần dùng sẽ cao hơn nhiều.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "47tr ÷ 1.825 ngày ≈ 25.800đ/ngày",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Một xấp tiền chia thành nhiều hướng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Rồi đến chi phí cơ hội: ba mươi triệu đó, nếu không mua xe, có thể dùng làm gì? Bù quỹ khẩn cấp còn thiếu, trả một khoản nợ, hay học một khóa nghề. Câu hỏi này không có đáp án chung, nhưng đáng được hỏi.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số tiền này còn làm được gì khác?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Bốn bước trên danh sách kiểm",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một khung nhanh trước khi mua đồ lớn: một, ghi tổng chi phí sở hữu. Hai, kiểm tra quỹ khẩn cấp còn đủ sau khi mua. Ba, chờ ba mươi ngày. Bốn, nếu trả góp thì tính tổng lãi và phí.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "TCO · Quỹ khẩn cấp · Chờ 30 ngày · Tổng lãi, phí",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "TCO",
+            "Quỹ khẩn cấp",
+            "Chờ 30 ngày",
+            "Tổng lãi, phí"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Trâu Tí cầm máy tính bỏ túi",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn một món đồ lớn bạn đang muốn mua và tính tổng chi phí sở hữu trong năm năm. Con số có thể khiến bạn đổi ý, hoặc yên tâm hơn. Cả hai đều là kết quả tốt.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính tổng chi phí sở hữu món đồ bạn đang muốn mua",
+    "button_label": "Tính tổng chi phí sở hữu",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Mua 30tr, bán lại 12tr; chi phí dùng 3,6 + 1,2 + 1,0 = 5,8tr/năm; 5 năm: 18 + 29 = 47tr; 47tr ÷ 60 ≈ 783k; 47tr ÷ 1.825 ngày ≈ 25.800đ",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Mua 30tr, bán lại 12tr; chi phí dùng 3,6 + 1,2 + 1,0 = 5,8tr/năm; 5 năm: 18 + 29 = 47tr; 47tr ÷ 60 ≈ 783k; 47tr ÷ 1.825 ngày ≈ 25.800đ."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Giá bán lại 12tr và các chi phí dùng là giả định minh họa, không phải số liệu thị trường."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

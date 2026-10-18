@@ -1,0 +1,351 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M10L5",
+  "module_id": "M10",
+  "module_title": "Tài chính gia đình & quan hệ tiền bạc",
+  "title": "Cho người thân vay tiền: nên hay không?",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 141.7,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Anh họ nhắn: em cho anh mượn hai mươi triệu, vài tháng anh trả. Từ chối thì ngại, cho thì lo.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Tin nhắn xin vay hai mươi triệu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Anh họ nhắn: em cho anh mượn hai mươi triệu, vài tháng anh trả. Từ chối thì ngại, cho thì lo. Cho người thân vay tiền cần một quy tắc để bảo vệ cả tiền lẫn quan hệ.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quy tắc bảo vệ tiền và quan hệ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Hộp tiền có nhãn Chấp nhận không lấy lại",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quy tắc thứ nhất: chỉ cho vay số tiền bạn có thể chấp nhận không lấy lại. Nhiều người mất cả tiền lẫn quan hệ vì cho vay vượt khả năng. Hãy coi khoản này như một món quà có thể được trả lại.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chỉ cho vay số chấp nhận không lấy lại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Thanh quỹ 30tr, vạch mục tiêu 24tr",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan có ba mươi triệu quỹ khẩn cấp, mục tiêu là hai mươi bốn triệu. Phần vượt là sáu triệu. Anh họ xin hai mươi triệu, vượt xa mức Lan có thể chấp nhận, và Lan không nên động vào quỹ khẩn cấp.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "30tr − 24tr = 6tr phần dư",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Ba ngả đường",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lan có ba lựa chọn: từ chối nhẹ nhàng, giúp một phần nhỏ nằm trong sáu triệu, hoặc giúp cách khác như cùng tìm nguồn hỗ trợ phù hợp. Giúp ít hơn so với đề nghị vẫn là giúp.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Từ chối · Giúp một phần · Giúp cách khác",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Từ chối",
+            "Giúp một phần",
+            "Giúp cách khác"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Tin nhắn thỏa thuận có số tiền và ngày",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu cho vay, hãy thỏa thuận rõ: số tiền, ngày trả, trả một lần hay chia kỳ, và ghi lại bằng tin nhắn hoặc giấy viết tay. Việc ghi lại không phải thiếu tin tưởng, mà để hai bên cùng nhớ giống nhau.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số tiền · Ngày trả · Ghi lại",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Số tiền",
+            "Ngày trả",
+            "Ghi lại"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Biên lai chuyển khoản có nội dung Cho vay",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nên chuyển khoản thay vì đưa tiền mặt để có dấu vết, và ghi rõ trong nội dung là cho vay. Nếu khoản vay lớn, hãy tìm hiểu thêm về thủ tục pháp lý phù hợp.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chuyển khoản · Ghi rõ là cho vay",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Chuyển khoản",
+            "Ghi rõ là cho vay"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Bong bóng thoại từ chối nhẹ nhàng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách từ chối khéo: em hiểu anh đang khó, nhưng em có quy tắc không cho vay vượt quá phần dư của mình, và hiện em chưa có khoản đó. Em có thể giúp anh tìm cách khác. Rõ ràng, ngắn gọn, không bịa lý do.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Rõ ràng · Ngắn gọn · Không bịa lý do",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Rõ ràng",
+            "Ngắn gọn",
+            "Không bịa lý do"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Lịch trả hẹn bị trễ, tin nhắn nhắc nhẹ",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu người vay không trả đúng hạn, hãy nhắc nhẹ nhàng bằng tin nhắn và đề nghị chia nhỏ khoản trả. Đừng cho vay thêm khi khoản cũ chưa xong, và nhớ rằng bạn đã coi đó là số tiền có thể mất.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhắc nhẹ · Chia nhỏ · Không vay thêm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Nhắc nhẹ",
+            "Chia nhỏ",
+            "Không vay thêm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Trâu Tí cầm máy tính, số 6tr được tô sáng",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy tính phần dư của bạn so với mục tiêu quỹ khẩn cấp. Đó là mức tối đa bạn nên cân nhắc cho người khác vay. Lưu con số lại để lần sau trả lời nhanh và bình tĩnh.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính phần dư của bạn so với mục tiêu quỹ khẩn cấp",
+    "button_label": "Tính mức tối đa có thể giúp",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Quỹ 30tr, mục tiêu 24tr, dư 6tr; xin vay 20tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Quỹ 30tr, mục tiêu 24tr, dư 6tr; xin vay 20tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

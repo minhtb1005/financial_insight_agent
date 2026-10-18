@@ -1,0 +1,339 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M9L2",
+  "module_id": "M9",
+  "module_title": "An ninh tài chính số & phòng chống lừa đảo",
+  "title": "Tám dấu hiệu cảnh báo và thói quen xác minh",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 135.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Nếu chỉ nhớ một điều: kẻ gian cần bạn hành động nhanh, trước khi bạn kịp nghĩ.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Đồng hồ cát chạy nhanh bên chiếc điện thoại",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu chỉ nhớ một điều về lừa đảo, hãy nhớ điều này: kẻ gian cần bạn hành động nhanh, trước khi bạn kịp nghĩ. Bài này cho bạn tám dấu hiệu chung và một thói quen xác minh đơn giản.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cần bạn hành động nhanh",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Hai thẻ cảnh báo đầu tiên",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu một: tạo áp lực thời gian, như hôm nay hết hạn hoặc tài khoản sắp bị khóa. Dấu hiệu hai: yêu cầu chuyển tiền gấp, nhất là vào tài khoản cá nhân hoặc ví không chính thức.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1. Áp lực thời gian · 2. Chuyển tiền gấp",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "1. Áp lực thời gian",
+            "2. Chuyển tiền gấp"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Hai thẻ cảnh báo tiếp theo",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu ba: không cho bạn thời gian hay cách xác minh, như đừng cúp máy. Dấu hiệu bốn: dọa hậu quả, như bị khóa tài khoản hay bị điều tra, để bạn sợ mà làm theo.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3. Không cho xác minh · 4. Dọa hậu quả",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "3. Không cho xác minh",
+            "4. Dọa hậu quả"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Hai thẻ cảnh báo tiếp theo",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu năm: hứa lợi ích quá lớn so với công sức, như lãi cao mà không rủi ro. Dấu hiệu sáu: xin thông tin nhạy cảm như mã OTP, mật khẩu hay mã PIN, vốn không ai chính đáng được hỏi.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5. Lợi quá lớn · 6. Xin OTP, mật khẩu",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "5. Lợi quá lớn",
+            "6. Xin OTP, mật khẩu"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hai thẻ cảnh báo cuối",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu bảy: bảo bạn giữ bí mật, đừng nói với người thân hay nhân viên ngân hàng. Dấu hiệu tám: gửi đường link, mã QR hoặc yêu cầu cài ứng dụng điều khiển từ xa trên điện thoại của bạn.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "7. Giữ bí mật · 8. Link, QR, cài ứng dụng lạ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "7. Giữ bí mật",
+            "8. Link, QR, cài ứng dụng lạ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ba bước xác minh nối nhau",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thói quen xác minh gồm ba bước. Dừng lại. Tự liên lạc qua kênh chính thức, như số hotline in trên thẻ hoặc trong ứng dụng ngân hàng, không gọi số do người lạ đưa. Và không bấm link họ gửi.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dừng · Tự gọi lại · Không bấm link",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Dừng",
+            "Tự gọi lại",
+            "Không bấm link"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Hai người đang trò chuyện bên tách trà",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy hỏi người thứ ba. Kể tình huống cho một người thân hoặc bạn bè. Kẻ gian thường dặn bạn giữ bí mật, vì chỉ cần người ngoài nhìn vào, câu chuyện sẽ lộ ra những chỗ vô lý.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Kể cho người thứ ba nghe",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Nút Chuyển tiền bị giữ lại bởi một chiếc khóa",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy tạo một khoảng dừng trước mọi yêu cầu chuyển tiền bất ngờ, đủ để gọi xác minh. Nếu là việc thật, người thật sẽ chờ được. Nếu họ càng giục, đó là thêm một dấu hiệu cảnh báo.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Họ giục thêm = thêm một dấu hiệu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Trâu Tí cầm điện thoại, ghi chú hiện ra",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chép tám dấu hiệu này vào ghi chú điện thoại, và lưu sẵn số hotline chính thức của ngân hàng bạn đang dùng. Chuẩn bị trước giúp bạn khỏi phải nghĩ khi đang hoảng.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lưu sẵn hotline chính thức",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "chép 8 dấu hiệu vào ghi chú điện thoại và lưu hotline chính thức của ngân hàng",
+    "button_label": "Lập checklist phòng vệ",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Đối chiếu cách xác minh với hướng dẫn chính thức của ngân hàng và cơ quan chức năng trước khi xuất bản."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

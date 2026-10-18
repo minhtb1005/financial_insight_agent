@@ -1,0 +1,345 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L6",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Quy trình hoạch định tài chính cá nhân 6 bước",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 137.6,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Nhiều người đặt mục tiêu rất to rồi bỏ cuộc sau hai tuần. Không phải thiếu ý chí, mà thiếu một quy trình.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Danh sách mục tiêu dài, một nửa bị gạch",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều người đặt mục tiêu rất to rồi bỏ cuộc sau hai tuần. Không phải vì thiếu ý chí, mà vì thiếu một quy trình. Sáu bước dưới đây biến một mong muốn mơ hồ thành kế hoạch làm được.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thiếu quy trình, không phải thiếu ý chí",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Sáu bậc cầu thang",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sáu bước là: đặt mục tiêu, thu thập số liệu, phân tích, lập kế hoạch hành động, thực hiện, và theo dõi điều chỉnh. Không cần hoàn hảo, chỉ cần đi hết vòng một lần rồi lặp lại.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mục tiêu · Số liệu · Phân tích · Kế hoạch · Thực hiện · Theo dõi",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mục tiêu",
+            "Số liệu",
+            "Phân tích",
+            "Kế hoạch",
+            "Thực hiện",
+            "Theo dõi"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Thẻ mục tiêu: 36tr, 18 tháng, học phí",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước một, đặt mục tiêu rõ ràng. Thay vì muốn có tiền, hãy nói: tiết kiệm ba mươi sáu triệu trong mười tám tháng cho khoản học phí. Mục tiêu tốt có con số, có thời hạn và có lý do.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "36tr · 18 tháng · học phí",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "36tr",
+            "18 tháng",
+            "học phí"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Hai bảng số liệu từ bài trước",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước hai, thu thập số liệu. Dùng bảng tài sản ròng và báo cáo dòng tiền ở bài trước. Lan có dòng tiền ròng hai triệu rưỡi mỗi tháng và quỹ khẩn cấp đủ hơn hai tháng rưỡi chi tiêu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dòng tiền ròng +2,5tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Phép chia và so sánh với 2,5tr",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước ba, phân tích. Ba mươi sáu triệu chia mười tám tháng là hai triệu mỗi tháng. Hai triệu nằm trong mức hai triệu rưỡi còn dư, nên mục tiêu khả thi, còn lại năm trăm nghìn làm đệm.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "36tr ÷ 18 = 2tr ≤ 2,5tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Lệnh chuyển tiền tự động sau ngày lương",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước bốn, lập kế hoạch hành động cụ thể. Lan đặt lệnh chuyển hai triệu vào một tài khoản riêng ngay sau ngày nhận lương, và đặt tên khoản đó là học phí. Tự động hóa giúp bạn không phải nhớ.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chuyển tự động ngày nhận lương",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Lịch xem lại 15 phút mỗi tháng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước năm là thực hiện, bước sáu là theo dõi. Mỗi tháng, mười lăm phút xem lại: có đủ hai triệu không, có khoản chi bất thường không? Nếu thu nhập đổi, hãy điều chỉnh thời hạn thay vì bỏ cuộc.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Xem lại mỗi tháng 15 phút",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Ba biển báo lỗi thường gặp",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ba lỗi hay gặp: đặt quá nhiều mục tiêu cùng lúc, quên quỹ khẩn cấp khi dồn tiền cho mục tiêu, và không có ngày xem lại. Hãy bắt đầu với một mục tiêu và giữ quỹ khẩn cấp trước.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1 mục tiêu · Giữ quỹ khẩn cấp · Có ngày xem lại",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "1 mục tiêu",
+            "Giữ quỹ khẩn cấp",
+            "Có ngày xem lại"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Trâu Tí cầm tờ kế hoạch một trang",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn đúng một mục tiêu và đi qua sáu bước trên một trang giấy. Bước nào chưa có số thì ghi dấu hỏi để tìm sau. Kế hoạch dù chưa hoàn hảo vẫn tốt hơn chưa có kế hoạch.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "đi qua 6 bước với một mục tiêu của bạn",
+    "button_label": "Lập kế hoạch 6 bước",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "36tr ÷ 18 tháng = 2tr/tháng; dòng tiền ròng 2,5tr/tháng; đệm còn 0,5tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: 36tr ÷ 18 tháng = 2tr/tháng; dòng tiền ròng 2,5tr/tháng; đệm còn 0,5tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

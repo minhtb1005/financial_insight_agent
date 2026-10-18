@@ -1,0 +1,371 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L8",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Thuê nhà hay mua nhà: phân tích dòng tiền và rủi ro",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 154.1,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hai vợ chồng trẻ",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Thuê hay mua nhà là một trong những quyết định tài chính lớn nhất.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Ngôi nhà và chiếc chìa khóa, dòng chữ lưu ý",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thuê hay mua nhà là một trong những quyết định tài chính lớn nhất. Bài này chỉ phân tích khả năng chi trả và rủi ro tài chính cá nhân, không khuyên mua hay bán bất động sản.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Không khuyến nghị mua bán bất động sản",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Hai biển: nhu cầu ở và đầu tư",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhà ở là nhu cầu sống, còn đầu tư bất động sản là chuyện khác. Ở đây ta không bàn giá có tăng hay giảm, không bàn thời điểm xuống tiền, chỉ nhìn dòng tiền thực tế và những rủi ro đi kèm.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhu cầu ở ≠ đầu tư",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Thẻ giả định hiện từng dòng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử căn nhà giá hai tỷ, trả trước sáu trăm triệu, vay một tỷ bốn trong hai mươi năm với lãi chín phần trăm một năm. Thu nhập hộ gia đình là bốn mươi triệu mỗi tháng. Tất cả đều là số giả định.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhà 2 tỷ · Trả trước 600tr · Vay 1,4 tỷ · 20 năm · 9%/năm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Nhà 2 tỷ",
+            "Trả trước 600tr",
+            "Vay 1,4 tỷ",
+            "20 năm",
+            "9%/năm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Hai khoản cộng thành khoản trả tháng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khoản trả mỗi tháng khoảng mười hai triệu sáu trăm nghìn đồng, cộng bảo trì và phí khoảng một triệu sáu trăm sáu mươi bảy nghìn, tổng gần mười bốn triệu ba trăm nghìn. Đó là khoảng ba mươi sáu phần trăm thu nhập.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12,6tr + 1,67tr ≈ 14,3tr ≈ 36% thu nhập",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Thước đo tỷ lệ và thanh quỹ khẩn cấp",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều người dùng một khung tham khảo là khoản trả nợ không nên quá khoảng một phần ba thu nhập, nhưng hãy đối chiếu với tư vấn chính thức của ngân hàng. Quan trọng hơn là sau khi trả trước, bạn còn giữ đủ quỹ khẩn cấp không.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quỹ khẩn cấp còn đủ sau khi trả trước?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Mũi tên lãi suất đi lên từ 9% đến 11%",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Rủi ro đầu tiên là lãi suất tăng. Nếu lãi lên mười một phần trăm, khoản trả hằng tháng tăng thêm khoảng một triệu tám trăm năm mươi nghìn đồng, lên khoảng mười bốn triệu bốn trăm năm mươi nghìn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "9% → 11%: +1,85tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Hai cột năm năm: mua và thuê",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhìn năm năm đầu: tiền lãi và phí bảo trì khoảng sáu trăm chín mươi tám triệu, là tiền không lấy lại. Nếu thuê căn tương đương với mười hai triệu mỗi tháng, năm năm là bảy trăm hai mươi triệu. Hai con số này khá gần nhau.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mua: ≈ 698tr · Thuê: 720tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mua: ≈ 698tr",
+            "Thuê: 720tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 19.9,
+      "visual": {
+        "description": "Chiếc khóa gắn vào tiền: bị khóa 758 triệu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhưng mua còn khóa khoảng bảy trăm năm mươi tám triệu vào căn nhà, gồm tiền trả trước và phần gốc đã trả. Số tiền đó khó rút ra khi cần gấp, còn giá bán lại thế nào thì bài này không bàn. Thuê thì linh hoạt hơn, nhưng giá thuê có thể tăng.",
+        "word_count": 54,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mua: khóa ≈ 758tr · Thuê: linh hoạt, giá thuê có thể tăng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mua: khóa ≈ 758tr",
+            "Thuê: linh hoạt, giá thuê có thể tăng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Trâu Tí cầm bảng so sánh, dòng chữ lưu ý nhỏ",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy tự lập bảng với số của bạn: khoản trả hằng tháng, tỷ lệ trên thu nhập, quỹ khẩn cấp còn lại và kịch bản lãi tăng hai phần trăm. Bài này không khuyên bạn thuê hay mua, chỉ giúp bạn nhìn rõ chi phí và rủi ro.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Bài học này chỉ phân tích dưới góc độ khả năng chi trả và rủi ro tài chính cá nhân, không đưa ra khuyến nghị mua bán bất động sản.",
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng thuê và mua bằng số của bạn",
+    "button_label": "Lập bảng thuê và mua",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Nhà 2 tỷ, trả trước 600tr, vay 1,4 tỷ/20 năm/9%: trả ≈ 12,6tr/tháng; +1,67tr phí và bảo trì; thu nhập 40tr; ở 11%: ≈ 14,45tr; 5 năm: lãi ≈ 598tr + phí ≈ 100tr ≈ 698tr; thuê 12tr × 60 = 720tr; khóa ≈ 758tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Nhà 2 tỷ, trả trước 600tr, vay 1,4 tỷ/20 năm/9%: trả ≈ 12,6tr/tháng; +1,67tr phí và bảo trì; thu nhập 40tr; ở 11%: ≈ 14,45tr; 5 năm: lãi ≈ 598tr + phí ≈ 100tr ≈ 698tr; thuê 12tr × 60 = 720tr; khóa ≈ 758tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tính lại khoản trả hằng tháng, lãi và gốc 5 năm bằng công cụ vay trả góp chuẩn trước khi dựng."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Khung 'một phần ba thu nhập' là quy ước tham khảo; cần nguồn hoặc đối chiếu với ngân hàng trước khi xuất bản."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Giữ nguyên disclaimer: không khuyến nghị mua bán bất động sản, không bàn giá tăng/giảm."
+    },
+    {
+      "id": "V6",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "required_disclaimer": "Bài học này chỉ phân tích dưới góc độ khả năng chi trả và rủi ro tài chính cá nhân, không đưa ra khuyến nghị mua bán bất động sản."
+}

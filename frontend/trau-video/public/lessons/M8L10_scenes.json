@@ -1,0 +1,377 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L10",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Ranh giới giữa tiết kiệm, đầu tư và đầu cơ",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 149.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Bài này không dạy bạn đầu tư. Nó chỉ giúp bạn biết dừng đúng chỗ.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Biển báo ranh giới giữa hai vùng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bài này không dạy bạn đầu tư, và cũng không khuyến nghị bất kỳ sản phẩm sinh lời nào. Nó chỉ giúp bạn biết dừng đúng chỗ, và nhận ra khi một lời mời đang đi quá ranh giới.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chỉ nhận diện ranh giới và rủi ro",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 19.9,
+      "visual": {
+        "description": "Ba hộp: Tiết kiệm, Đầu tư, Đầu cơ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tiết kiệm là giữ tiền cho mục tiêu, ưu tiên an toàn và rút được khi cần. Đầu tư là chấp nhận rủi ro có thể mất một phần tiền để mong có lợi nhuận trong thời gian dài. Đầu cơ là đặt cược vào biến động ngắn hạn, với rủi ro rất cao.",
+        "word_count": 54,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiết kiệm · Đầu tư · Đầu cơ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tiết kiệm",
+            "Đầu tư",
+            "Đầu cơ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Bốn câu hỏi hiện lần lượt",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Để phân biệt, hãy hỏi bốn điều: mục tiêu là gì, mức rủi ro ra sao, kỳ hạn bao lâu, và có thể mất gốc không. Nếu không ai nói rõ được khả năng mất gốc, đó đã là một dấu hiệu đáng lo.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mục tiêu · Rủi ro · Kỳ hạn · Mất gốc?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mục tiêu",
+            "Rủi ro",
+            "Kỳ hạn",
+            "Mất gốc?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Phép nhân cộng dồn mười hai tháng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Thử một phép tính kiểm tra. Nếu ai đó cam kết lãi mười lăm phần trăm mỗi tháng, một năm cộng dồn lên hơn bốn trăm ba mươi phần trăm. Lợi nhuận rất cao và chắc chắn cùng lúc thường không đi với nhau.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1,15¹² ≈ 5,35 → +435%/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Bốn tấm biển Tưởng là an toàn",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Những thứ thường bị gọi là an toàn nhưng chứa rủi ro cao: cam kết lợi nhuận cố định rất cao, gửi tiền sinh lời ngoài hệ thống được giám sát, góp vốn không có hợp đồng rõ, và hình thức vay rồi đầu tư giúp.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi cố định cao · Ngoài giám sát · Không hợp đồng · Vay rồi đầu tư giúp",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lãi cố định cao",
+            "Ngoài giám sát",
+            "Không hợp đồng",
+            "Vay rồi đầu tư giúp"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Bốn thẻ cờ đỏ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dấu hiệu cảnh báo: hứa lợi nhuận cao mà ít rủi ro, giục quyết nhanh, không giải thích được rủi ro bằng lời đơn giản, và yêu cầu chuyển tiền vào tài khoản cá nhân hoặc ví không chính thức.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lợi cao ít rủi ro · Giục nhanh · Không giải thích được · Tài khoản cá nhân",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Lợi cao ít rủi ro",
+            "Giục nhanh",
+            "Không giải thích được",
+            "Tài khoản cá nhân"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Năm viên gạch nền móng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi nào mới nên bắt đầu học? Chỉ khi nền tảng đã vững: quỹ khẩn cấp đủ, không còn nợ lãi cao, kiểm soát được dòng tiền hằng tháng, có mục tiêu dài hạn rõ ràng, và chấp nhận được khả năng mất một phần tiền.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quỹ khẩn cấp · Không nợ lãi cao · Dòng tiền · Mục tiêu dài hạn · Chấp nhận rủi ro",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Quỹ khẩn cấp",
+            "Không nợ lãi cao",
+            "Dòng tiền",
+            "Mục tiêu dài hạn",
+            "Chấp nhận rủi ro"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Bản vẽ ngôi nhà, phần móng được tô sáng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đó mới chỉ là điều kiện nền tảng để học, chưa phải lời khuyên làm. Việc đúng lúc này là hoàn thiện ngân sách, quỹ khẩn cấp, nợ, bảo hiểm và thuế, trước khi tìm hiểu bất kỳ hình thức sinh lời nào.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nền tảng trước, sinh lời sau",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Trâu Tí cầm checklist, dòng lưu ý nhỏ",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy lập một checklist tám đến mười tiêu chí cho câu hỏi: tôi đã sẵn sàng học đầu tư chưa? Tiêu chí nào chưa đạt thì xem đó là việc cần làm tiếp, không phải thất bại.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Không khuyến nghị sản phẩm đầu tư",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Bài học này chỉ giúp nhận diện ranh giới và rủi ro. Curriculum không hướng dẫn, không khuyến nghị bất kỳ hình thức đầu tư hay sản phẩm sinh lời cụ thể nào.",
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập checklist 8–10 tiêu chí tự đánh giá nền tảng",
+    "button_label": "Lập checklist nền tảng",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Lãi cam kết 15%/tháng: 1,15^12 ≈ 5,35 → +435%/năm",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Lãi cam kết 15%/tháng: 1,15^12 ≈ 5,35 → +435%/năm."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Giữ nguyên disclaimer: không hướng dẫn, không khuyến nghị sản phẩm sinh lời cụ thể; không tính lợi nhuận kỳ vọng; không so sánh các kênh."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Định nghĩa tiết kiệm, đầu tư, đầu cơ ở mức khái quát; cần người có chuyên môn duyệt."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "required_disclaimer": "Bài học này chỉ giúp nhận diện ranh giới và rủi ro. Curriculum không hướng dẫn, không khuyến nghị bất kỳ hình thức đầu tư hay sản phẩm sinh lời cụ thể nào."
+}

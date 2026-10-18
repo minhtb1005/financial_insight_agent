@@ -1,0 +1,345 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M3L6",
+  "module_id": "M3",
+  "module_title": "Quản lý nợ & tín dụng",
+  "title": "Dùng tiết kiệm hay đi vay?",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 139.8,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Lan",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Laptop hỏng, sửa hết mười hai triệu. Dùng quỹ khẩn cấp hay đi vay?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Chiếc laptop hỏng, hóa đơn sửa 12 triệu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Laptop của Lan hỏng giữa tháng, sửa hết mười hai triệu đồng. Cô có ba mươi triệu tiết kiệm, nhưng đó là quỹ khẩn cấp. Dùng tiền tiết kiệm hay đi vay? Không có câu trả lời chung.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dùng quỹ hay vay?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Ba câu hỏi hiện lần lượt",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có ba câu hỏi giúp quyết định. Khoản này có thật sự cần không? Nếu dùng tiết kiệm thì còn lại bao nhiêu tháng chi tiêu? Và nếu vay thì tổng chi phí là bao nhiêu, thu nhập hằng tháng có trả nổi không?",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cần thật? · Còn lại mấy tháng? · Tổng phí vay?",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Cần thật?",
+            "Còn lại mấy tháng?",
+            "Tổng phí vay?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Laptop làm việc, điện thoại đời mới bị gạch",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu một: laptop là công cụ làm việc, nên khoản này cần thật. Nếu chỉ là chiếc điện thoại đời mới, ta nên chờ và để dành. Phân loại đúng nhu cầu và mong muốn là bước lọc đầu tiên.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhu cầu hay mong muốn?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Thanh quỹ khẩn cấp 30tr giảm còn 18tr",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu hai: Lan chi thiết yếu tám triệu mỗi tháng, mục tiêu quỹ là ba tháng, tức hai mươi bốn triệu. Dùng mười hai triệu thì quỹ còn mười tám triệu, chỉ hơn hai tháng chi tiêu.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "30tr − 12tr = 18tr ≈ 2,25 tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Hai triệu mỗi tháng nạp lại thanh quỹ",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu dùng quỹ, Lan cần bù lại. Mỗi tháng để dành hai triệu thì sáu tháng sau quỹ đầy trở lại. Trong sáu tháng đó, quỹ mỏng hơn mục tiêu, nên nếu mất thu nhập, cô sẽ khó đỡ hơn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "2tr × 6 tháng = 12tr bù lại",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 17.4,
+      "visual": {
+        "description": "Bảng khoản vay: 12tr, 6 tháng, lãi 1,5%/tháng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Câu ba: giả sử vay mười hai triệu trong sáu tháng, lãi một phẩy năm phần trăm mỗi tháng tính trên số vay ban đầu. Tiền lãi là một triệu không trăm tám mươi nghìn, tổng phải trả là mười ba triệu không trăm tám mươi nghìn.",
+        "word_count": 47,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "12tr × 1,5% × 6 = 1,08tr lãi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Sáu ô trả góp bằng nhau",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chia đều sáu tháng, mỗi tháng Lan trả hai triệu một trăm tám mươi nghìn đồng. Quỹ vẫn nguyên ba mươi triệu, nhưng cô trả thêm khoảng một triệu phí vay và có thêm một khoản phải trả đúng hạn mỗi tháng.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "13,08tr ÷ 6 = 2,18tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hai cán cân: đệm mỏng và phí vay",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dùng tiết kiệm không tốn lãi nhưng làm mỏng đệm an toàn. Vay giữ được đệm, nhưng tốn phí và ràng buộc hằng tháng. Hãy xem việc làm của bạn ổn định tới đâu và đệm còn lại có đủ không.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiết kiệm: không phí, đệm mỏng · Vay: giữ đệm, tốn phí",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tiết kiệm: không phí, đệm mỏng",
+            "Vay: giữ đệm, tốn phí"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Trâu Tí cầm bút, hai cột phương án trên giấy",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lần tới cần một khoản lớn, hãy trả lời ba câu hỏi này trên giấy, rồi tính tổng phí vay bằng công cụ trước khi quyết. Bài này chỉ giúp bạn so sánh, không khuyên bạn chọn cách nào.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "so sánh hai phương án bằng số của bạn",
+    "button_label": "So sánh dùng quỹ và vay",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Chi thiết yếu 8tr/tháng; quỹ 30tr; cần 12tr; lãi giả định 1,5%/tháng trên số vay ban đầu, 6 tháng",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Chi thiết yếu 8tr/tháng; quỹ 30tr; cần 12tr; lãi giả định 1,5%/tháng trên số vay ban đầu, 6 tháng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Lãi suất trong video giả định tính trên số vay ban đầu. Khi dùng số thật, kiểm tra cách tổ chức cho vay công bố lãi (trên số vay ban đầu hay trên dư nợ giảm dần) và tính lại tổng phí bằng công cụ."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

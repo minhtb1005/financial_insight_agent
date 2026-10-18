@@ -1,0 +1,369 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L9",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Khi muốn khởi nghiệp nhỏ: bảo vệ tài chính cá nhân trước",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 151.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "An",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Nhiều quán đông khách mà chủ vẫn lỗ, vì tiền quán và tiền nhà lẫn vào nhau.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Quán cà phê đông khách, chủ nhìn sổ sách rối",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều quán đông khách mà chủ vẫn lỗ, vì tiền quán và tiền nhà lẫn vào nhau. Bài này không dạy kinh doanh hay đánh giá mô hình quán, chỉ giúp bạn bảo vệ tài chính cá nhân khi khởi nghiệp nhỏ.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chỉ bảo vệ tài chính cá nhân, không hướng dẫn kinh doanh",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Tiền vào quán chảy đi nhiều hướng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Quán đông khách chưa chắc có lãi. Tiền thu về phải trả nguyên liệu, mặt bằng, nhân công, rồi mới tới phần của chủ. Nếu ta lấy tiền quán chi cá nhân, hoặc ngược lại, rất khó biết quán đang thật sự ra sao.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đông khách ≠ có lãi",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ba ô nguyên tắc",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ba nguyên tắc tách bạch: một, dùng tài khoản riêng cho quán. Hai, tự trả cho mình một khoản lương cố định thay vì rút tiền tùy hứng. Ba, ghi chép mọi lần tiền đi qua đi lại giữa hai bên.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tài khoản riêng · Lương cố định · Ghi chép",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tài khoản riêng",
+            "Lương cố định",
+            "Ghi chép"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Thanh tiết kiệm 80tr, vạch quỹ khẩn cấp 60tr",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử An có tám mươi triệu tiết kiệm, chi tiêu cá nhân mười triệu mỗi tháng. Quỹ khẩn cấp sáu tháng là sáu mươi triệu. Vậy phần có thể cân nhắc đưa vào quán, nếu có, chỉ là hai mươi triệu.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "80tr − 60tr = 20tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Sáu ô tháng trống, mỗi ô trừ 10 triệu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu An bỏ việc và quán chưa có lãi trong sáu tháng, chi tiêu cá nhân sáu tháng là sáu mươi triệu, đúng bằng toàn bộ quỹ khẩn cấp. Nghĩa là mọi thứ dựa vào đệm, không còn chỗ cho sự cố nào khác.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "6 × 10tr = 60tr = toàn bộ quỹ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Bốn nguồn vốn, mỗi nguồn có biển cảnh báo",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy cẩn thận với nguồn tiền. Dùng toàn bộ tiết kiệm, vay nóng, hay vay người thân đều chuyển rủi ro của quán sang đời sống cá nhân. Đừng dùng tài sản riêng để bảo lãnh nếu chưa hiểu mình phải chịu trách nhiệm tới đâu.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiết kiệm · Vay nóng · Người thân · Bảo lãnh",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tiết kiệm",
+            "Vay nóng",
+            "Người thân",
+            "Bảo lãnh"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Danh sách kiểm bốn dòng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Checklist sẵn sàng về tài chính cá nhân: quỹ khẩn cấp còn nguyên sau khi bỏ vốn, không có nợ lãi cao đang phải trả, có nguồn thu cá nhân đủ chi sống, và người thân đã biết mức rủi ro. Thiếu ý nào thì chuẩn bị thêm.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quỹ nguyên · Không nợ lãi cao · Có nguồn thu · Người thân biết",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Quỹ nguyên",
+            "Không nợ lãi cao",
+            "Có nguồn thu",
+            "Người thân biết"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Bảng tuần: thu, chi, tồn quỹ",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Sáu tháng đầu, mỗi tuần hãy xem một bảng đơn giản: thu bao nhiêu, chi bao nhiêu, còn trong quỹ bao nhiêu. Chưa cần báo cáo phức tạp, chỉ cần không để đến cuối tháng mới biết tiền đã đi đâu.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Thu · Chi · Tồn quỹ mỗi tuần",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Thu",
+            "Chi",
+            "Tồn quỹ mỗi tuần"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 19.5,
+      "visual": {
+        "description": "Trâu Tí cầm bút bên ba câu hỏi",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Trước khi bỏ vốn, hãy tự trả lời ba câu: dùng tối đa bao nhiêu tiền cá nhân, quỹ khẩn cấp còn lại bao nhiêu, và chi phí cá nhân nào bị ảnh hưởng nếu sáu tháng chưa có lãi. Đây là số minh họa, không đánh giá tính khả thi của quán.",
+        "word_count": 53,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Bài học này không hướng dẫn kinh doanh hay đánh giá tính khả thi của mô hình quán, chỉ tập trung vào việc bảo vệ tài chính cá nhân khi bạn quyết định khởi nghiệp nhỏ.",
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "trả lời ba câu hỏi bảo vệ tài chính cá nhân",
+    "button_label": "Kiểm tra mức sẵn sàng",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Tiết kiệm 80tr; chi sống 10tr/tháng; quỹ khẩn cấp 6 tháng = 60tr; phần vượt = 20tr; 6 × 10tr = 60tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Tiết kiệm 80tr; chi sống 10tr/tháng; quỹ khẩn cấp 6 tháng = 60tr; phần vượt = 20tr; 6 × 10tr = 60tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Giữ nguyên disclaimer: không hướng dẫn kinh doanh, không đánh giá tính khả thi mô hình quán."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Nếu thêm nội dung về trách nhiệm pháp lý/bảo lãnh, cần nguồn pháp luật hiện hành và người có chuyên môn duyệt."
+    },
+    {
+      "id": "V5",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "required_disclaimer": "Bài học này không hướng dẫn kinh doanh hay đánh giá tính khả thi của mô hình quán, chỉ tập trung vào việc bảo vệ tài chính cá nhân khi bạn quyết định khởi nghiệp nhỏ."
+}

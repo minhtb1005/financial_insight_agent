@@ -1,0 +1,357 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M9L4",
+  "module_id": "M9",
+  "module_title": "An ninh tài chính số & phòng chống lừa đảo",
+  "title": "Khi đã bị lừa hoặc nghi ngờ bị tấn công",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 149.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Bạn vừa chuyển tiền xong thì nhận ra đó là lừa đảo. Điều quan trọng lúc này là hành động đúng thứ tự, và hành động sớm.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Màn hình biên lai chuyển tiền, bàn tay run",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bạn vừa chuyển tiền xong thì nhận ra đó là lừa đảo. Tim đập nhanh, đầu trống rỗng. Lúc này điều quan trọng không phải là tự trách mà là hành động đúng thứ tự, và hành động sớm.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Bình tĩnh, làm đúng thứ tự",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Biển Dừng, nút Chặn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước một: dừng liên lạc với kẻ gian và không chuyển thêm đồng nào, dù họ hứa hoàn tiền hay đòi thêm phí để lấy lại tiền. Hãy chặn liên lạc nhưng đừng xóa tin nhắn, vì đó là chứng cứ.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1. Dừng · Không chuyển thêm · Giữ tin nhắn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "1. Dừng",
+            "Không chuyển thêm",
+            "Giữ tin nhắn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Điện thoại gọi hotline ngân hàng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước hai: liên hệ ngay ngân hàng qua đường dây nóng chính thức hoặc đến chi nhánh. Báo rõ giao dịch bị lừa để ngân hàng tra soát. Nếu lộ mã OTP hoặc mật khẩu, hãy yêu cầu khóa tài khoản.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "2. Gọi hotline · Báo giao dịch · Khóa nếu lộ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "2. Gọi hotline",
+            "Báo giao dịch",
+            "Khóa nếu lộ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Ảnh chụp màn hình xếp thành chồng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước ba: giữ chứng cứ. Chụp màn hình tin nhắn, số điện thoại, tài khoản nhận tiền, biên lai chuyển tiền và đường link. Ghi lại thời gian và số tiền. Đừng sửa hay xóa gì trên điện thoại.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3. Giữ chứng cứ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 19.2,
+      "visual": {
+        "description": "Trụ sở công an, hồ sơ và giấy tờ tùy thân",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước bốn: trình báo công an nơi bạn cư trú về hành vi lừa đảo chiếm đoạt tài sản trên không gian mạng, mang theo giấy tờ tùy thân và các chứng cứ đã giữ. Bạn cũng có thể tra cứu cảnh báo trên cổng thông tin không gian mạng quốc gia.",
+        "word_count": 52,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "4. Trình báo công an nơi cư trú",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Tài khoản mạng xã hội bị khóa, thiết bị bị đăng xuất",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu tài khoản mạng xã hội hay Zalo bị chiếm, hãy đổi mật khẩu, đăng xuất mọi thiết bị, báo cho nền tảng, và nhắn người thân qua một kênh khác để họ không chuyển tiền cho kẻ gian.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đổi mật khẩu · Đăng xuất mọi thiết bị · Báo người thân",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Đổi mật khẩu",
+            "Đăng xuất mọi thiết bị",
+            "Báo người thân"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Điện thoại mất, SIM bị khóa",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu mất điện thoại hoặc nghi lộ thông tin, hãy báo nhà mạng khóa SIM, khóa ứng dụng ngân hàng và đổi mật khẩu các dịch vụ quan trọng. Thấy giao dịch lạ, hãy báo ngân hàng ngay và nói rõ bạn không thực hiện.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khóa SIM · Khóa ứng dụng · Đổi mật khẩu",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Khóa SIM",
+            "Khóa ứng dụng",
+            "Đổi mật khẩu"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 19.5,
+      "visual": {
+        "description": "Ba biển cấm: dịch vụ lấy lại tiền, chuyển thêm, giấu người thân",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Những việc không nên làm khi hoảng: tìm các dịch vụ quảng cáo lấy lại tiền bị lừa, vì đó thường là một vòng lừa mới. Không chuyển thêm tiền để xử lý hồ sơ. Và đừng giấu người thân vì xấu hổ, lừa đảo có thể xảy ra với bất kỳ ai.",
+        "word_count": 53,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Không tin dịch vụ lấy lại tiền · Không chuyển thêm · Đừng giấu",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Không tin dịch vụ lấy lại tiền",
+            "Không chuyển thêm",
+            "Đừng giấu"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Trâu Tí cầm ghi chú ba bước",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy viết sẵn ba bước đầu vào ghi chú: gọi hotline ngân hàng, chụp chứng cứ, trình báo công an. Và lưu số hotline. Việc thu hồi tiền không được đảm bảo, nên phòng ngừa vẫn là lớp bảo vệ quan trọng nhất.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Gọi ngân hàng · Chụp chứng cứ · Trình báo",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Gọi ngân hàng",
+            "Chụp chứng cứ",
+            "Trình báo"
+          ]
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "viết sẵn ba bước đầu vào ghi chú và lưu hotline",
+    "button_label": "Viết kịch bản xử lý",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Quy trình và cơ quan tiếp nhận (công an nơi cư trú, cổng thông tin không gian mạng quốc gia) dựa trên hướng dẫn của ngân hàng và tài liệu pháp lý công khai; cần đối chiếu hướng dẫn chính thức hiện hành của Bộ Công an và ngân hàng trước khi xuất bản."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Không hứa khả năng thu hồi tiền. Không nêu quyền được bồi thường cụ thể khi chưa có nguồn pháp lý rõ."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

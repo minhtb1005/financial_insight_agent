@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M9L1",
+  "module_id": "M9",
+  "module_title": "An ninh tài chính số & phòng chống lừa đảo",
+  "title": "Bảy kiểu lừa đảo tài chính phổ biến",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 152.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hà",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Một giọng nói lịch sự tự xưng nhân viên ngân hàng báo tài khoản của bạn sắp bị khóa.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Điện thoại đổ chuông, màn hình hiện số lạ",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điện thoại reo, một giọng lịch sự tự xưng nhân viên ngân hàng báo tài khoản của bạn sắp bị khóa. Lừa đảo hiện nay không còn vụng về như trước, nên ta cần biết những kiểu phổ biến để nhận ra sớm.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lừa đảo không còn vụng về",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Ba biểu tượng: ngân hàng, công an, viện kiểm sát",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ nhất là giả danh ngân hàng, công an hay viện kiểm sát. Họ gọi điện hoặc nhắn Zalo, nói bạn liên quan một vụ việc, rồi yêu cầu chuyển tiền để kiểm tra. Các cơ quan chính thức cảnh báo không làm việc kiểu đó qua điện thoại.",
+        "word_count": 50,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1. Giả danh cơ quan",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Khuôn mặt người thân bị méo nhẹ trong cuộc gọi video",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ hai là giả giọng và giả mặt. Kẻ gian có thể dùng công nghệ tạo video hoặc giọng nói giống người thân rồi xin vay tiền gấp. Nhìn và nghe giống chưa đủ để tin, ta cần xác minh bằng một kênh khác.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "2. Giả giọng, giả mặt",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Tin tuyển dụng, nút Nộp tiền cọc nhấp nháy",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ ba là lừa việc làm: cộng tác viên, shipper, làm nhiệm vụ trực tuyến. Ban đầu họ trả tiền nhỏ để tạo lòng tin, rồi yêu cầu nạp số tiền lớn hơn. Công việc thật thường không bắt bạn nộp tiền trước.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3. Việc làm: nộp tiền trước",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ứng dụng vay tiền xin quyền truy cập danh bạ",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ tư là ứng dụng vay tiền và tín dụng đen. Duyệt rất nhanh, nhưng lãi và phí không rõ, lại xin quyền đọc danh bạ để đòi nợ. Một bài sau trong khóa sẽ phân tích kỹ phần này.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "4. App vay, tín dụng đen",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Lời mời có dòng chữ lãi cao chắc chắn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ năm là lời mời đầu tư hứa lãi cao mà ít rủi ro, hoặc đa cấp biến tướng. Khi ai đó cam kết lợi nhuận cố định rất cao, đó là lúc cần dừng lại và kiểm tra, không phải lúc quyết định nhanh.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5. Hứa lãi cao, ít rủi ro",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Đường link giả, mã QR lạ, ô nhập OTP",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ sáu là link giả, mã QR lạ và xin mã OTP. Trang giả có thể giống hệt trang ngân hàng, nhập thông tin là mất. Mã OTP là lớp khóa cuối cùng, và không ai chính đáng có quyền hỏi bạn.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "6. Link giả, QR lạ, xin OTP",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Tin nhắn từ tên bạn bè, ảnh đại diện quen",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Kiểu thứ bảy là chiếm tài khoản của người quen rồi nhắn bạn vay tiền. Tin đến từ đúng tên và ảnh của bạn bè nên rất dễ tin. Hãy gọi lại bằng số điện thoại bạn đã lưu trước khi chuyển bất kỳ khoản nào.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "7. Người quen bị chiếm tài khoản",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Trâu Tí giơ biển Dừng, ba bước hiện ra",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điểm chung của cả bảy kiểu là tạo cảm giác gấp, sợ hoặc tham. Hôm nay, hãy chọn kiểu bạn dễ dính nhất và kể cho một người thân nghe. Thủ đoạn thay đổi nhanh, nên nội dung này cần được cập nhật định kỳ.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Dừng · Kiểm tra · Xác minh",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Dừng",
+            "Kiểm tra",
+            "Xác minh"
+          ]
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "chọn kiểu lừa đảo bạn dễ dính nhất và kể cho một người thân",
+    "button_label": "Phân loại tình huống",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Mọi nhận định về cách làm việc của cơ quan nhà nước và ngân hàng phải đối chiếu cảnh báo chính thức của cơ quan chức năng trước khi xuất bản (nguồn, ngày)."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Thủ đoạn thay đổi nhanh: lập lịch rà soát nội dung ít nhất mỗi quý."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

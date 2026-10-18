@@ -1,0 +1,323 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M10L3",
+  "module_id": "M10",
+  "module_title": "Tài chính gia đình & quan hệ tiền bạc",
+  "title": "Nói chuyện tiền bạc trước hôn nhân và xử lý xung đột",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 129.8,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Hà và Nam",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Nhiều cặp đôi bàn kỹ nơi tổ chức đám cưới nhưng chưa từng nói về nợ của nhau.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Thiệp cưới đẹp, một dấu hỏi lơ lửng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhiều cặp đôi bàn kỹ nơi tổ chức đám cưới nhưng chưa từng nói về nợ của nhau. Chuyện tiền bạc nên được nói trước khi nó trở thành chuyện cãi vã.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nói trước khi thành cãi vã",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 12.4,
+      "visual": {
+        "description": "Bốn nhóm chủ đề",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có bốn nhóm cần nói: quan niệm về tiền, tình trạng tài chính hiện tại gồm thu nhập, tiết kiệm và nợ, mục tiêu chung, và quan hệ với hai bên gia đình.",
+        "word_count": 33,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quan niệm · Hiện trạng · Mục tiêu · Gia đình",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Quan niệm",
+            "Hiện trạng",
+            "Mục tiêu",
+            "Gia đình"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Hai người, hai cách nhìn một đồng tiền",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mỗi người lớn lên với một cách nhìn về tiền. Người lớn lên trong thiếu thốn có thể muốn tiết kiệm triệt để, người khác coi tiền là để tận hưởng. Khác biệt này không đúng hay sai, nhưng cần được nói ra.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khác biệt không đúng, không sai",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Bảng thu nhập, tiết kiệm, nợ đặt giữa bàn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy chia sẻ thật về thu nhập, tiết kiệm và nợ, kể cả khoản nợ cũ hoặc khoản trả góp. Giấu nợ rồi để lộ sau thường gây tổn thương nhiều hơn chính khoản nợ đó.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nói thật về thu nhập, tiết kiệm, nợ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Hai ngôi nhà hai bên gia đình",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy bàn trước về việc hỗ trợ cha mẹ hai bên: mức cố định hay tùy tình hình, và ai quyết định khi có yêu cầu đột xuất. Có quy tắc từ đầu giúp tránh cảm giác bên nào cũng bị ép.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mức hỗ trợ · Ai quyết khi đột xuất",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Mức hỗ trợ",
+            "Ai quyết khi đột xuất"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Hai người, một câu hỏi lơ lửng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi xung đột xảy ra, như một người muốn tiết kiệm còn người kia thích chi tiêu, hãy bắt đầu bằng việc hỏi: điều gì khiến bạn lo hoặc vui về khoản này? Nhu cầu phía sau thường dễ thỏa thuận hơn lập trường bên ngoài.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hỏi nhu cầu phía sau",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Hai hũ: tự do cá nhân và tiết kiệm chung",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một cách thường dùng là cho mỗi người một khoản tự do hằng tháng không cần giải trình, và đặt chung phần tiết kiệm cho mục tiêu chung. Người thích chi tiêu có khoảng của mình, người thích tiết kiệm yên tâm có phần cố định.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tự do cá nhân + tiết kiệm chung",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 12.0,
+      "visual": {
+        "description": "Đồng hồ tạm dừng giữa cuộc nói chuyện nóng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu cuộc nói chuyện nóng lên, hãy tạm dừng và hẹn lại. Đừng quyết khoản lớn khi đang giận, đừng nhắc chuyện cũ, và tránh những câu như lần nào cũng thế.",
+        "word_count": 32,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tạm dừng · Không nhắc chuyện cũ",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tạm dừng",
+            "Không nhắc chuyện cũ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 11.3,
+      "visual": {
+        "description": "Trâu Tí cầm bốn lá bài chủ đề",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn một trong bốn nhóm chủ đề và hẹn một buổi nói chuyện ngắn. Bạn không cần giải quyết hết trong một lần, chỉ cần bắt đầu.",
+        "word_count": 30,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Chọn 1 trong 4 nhóm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "chọn một trong bốn nhóm chủ đề và hẹn một buổi nói chuyện ngắn",
+    "button_label": "Soạn kịch bản đối thoại",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M10L4",
+  "module_id": "M10",
+  "module_title": "Tài chính gia đình & quan hệ tiền bạc",
+  "title": "Có nên cho con tiêu tiền quá sớm?",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 150.6,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Phụ huynh",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Con sáu tuổi đòi tiền mua quà vặt. Cho thì sợ con tiêu bậy, không cho thì sợ sau này con không biết quản lý tiền.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Đứa trẻ đứng trước quầy quà vặt",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Con sáu tuổi đòi tiền mua quà vặt. Cho thì sợ con tiêu bậy, không cho thì sợ sau này con không biết quản lý tiền. Thực ra điều quan trọng không phải một độ tuổi chuẩn, mà là cho tiền có chủ đích.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quan trọng là có chủ đích",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Hai hướng đi ngược nhau",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có hai quan điểm. Một là cho sớm, để con học bằng trải nghiệm với số tiền nhỏ. Hai là giữ tiền hộ đến khi con lớn, để tránh chi tiêu bốc đồng. Mỗi gia đình có thể chọn khác nhau, miễn là có chủ đích.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cho sớm · Giữ hộ đến lớn",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Cho sớm",
+            "Giữ hộ đến lớn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 18.1,
+      "visual": {
+        "description": "Con chọn giữa hai món",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lợi ích của việc cho số tiền nhỏ có hướng dẫn: con hiểu tiền là hữu hạn, tập lựa chọn giữa các món, và làm quen với việc để dành. Sai lầm nhỏ khi còn nhỏ thường có giá thấp hơn nhiều so với sai lầm khi đã lớn.",
+        "word_count": 49,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Hiểu tiền hữu hạn · Tập chọn · Tập để dành",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Hiểu tiền hữu hạn",
+            "Tập chọn",
+            "Tập để dành"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Nhóm bạn khoe đồ mới",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Rủi ro cũng có: chi tiêu bốc đồng, so sánh với bạn bè, hoặc con coi tiền là phần thưởng cho mọi việc. Vì vậy cần quy tắc rõ ràng: được mua gì, không được mua gì, và hết tiền thì sao.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Quy tắc rõ ràng từ đầu",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Ba hình thức cho tiền",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có ba cách cho tiền: tiền tiêu vặt cố định, tiền thưởng cho việc nhà làm thêm, và tiền biếu dịp sinh nhật hay lễ. Nhiều gia đình coi việc nhà cơ bản là trách nhiệm chung, chỉ thưởng cho việc làm thêm.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiêu vặt · Thưởng việc thêm · Tiền biếu",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tiêu vặt",
+            "Thưởng việc thêm",
+            "Tiền biếu"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Ba hũ cho trẻ sáu đến chín tuổi",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ví dụ cho trẻ sáu đến chín tuổi: hai mươi nghìn đồng mỗi tuần, chia ba hũ. Mười nghìn để tiêu, tám nghìn để dành, hai nghìn để chia sẻ hoặc tặng. Con tự chọn mua gì từ hũ tiêu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "20.000đ = 10.000 + 8.000 + 2.000",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Ba hũ cho trẻ mười đến mười hai tuổi",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với trẻ mười đến mười hai tuổi: một trăm năm mươi nghìn mỗi tháng. Chín mươi nghìn để tiêu, bốn mươi lăm nghìn để dành, mười lăm nghìn để chia sẻ. Tỷ lệ chỉ là gợi ý, mỗi gia đình điều chỉnh theo hoàn cảnh.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "150.000đ = 90.000 + 45.000 + 15.000",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Hũ tiêu trống giữa tháng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi con hết tiền giữa kỳ, hãy kiên nhẫn đừng bù ngay. Cảm giác hết tiền và phải chờ là một bài học nhỏ nhưng nhớ lâu. Hãy trò chuyện: lần sau con muốn làm gì khác, rồi giữ đúng quy tắc đã thỏa thuận.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đừng bù ngay · Trò chuyện · Giữ quy tắc",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Đừng bù ngay",
+            "Trò chuyện",
+            "Giữ quy tắc"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Trâu Tí cầm bảng quy tắc gia đình",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy lập bảng quy tắc tiền bạc cho độ tuổi của con: số tiền mỗi tuần, được hoặc không được mua gì, tỷ lệ ba hũ, và cách xử lý khi hết tiền. Các con số chỉ là ví dụ minh họa.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng quy tắc tiền bạc gia đình cho độ tuổi của con",
+    "button_label": "Lập bảng quy tắc",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "6–9 tuổi: 20.000đ/tuần = 10.000 tiêu + 8.000 để dành + 2.000 chia sẻ; 10–12 tuổi: 150.000đ/tháng = 90.000 + 45.000 + 15.000",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: 6–9 tuổi: 20.000đ/tuần = 10.000 tiêu + 8.000 để dành + 2.000 chia sẻ; 10–12 tuổi: 150.000đ/tháng = 90.000 + 45.000 + 15.000."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Không nêu một độ tuổi 'chuẩn' hay kết luận nghiên cứu khi chưa có nguồn; giữ giọng gợi ý và để mỗi gia đình quyết định."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

@@ -1,0 +1,337 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M9L3",
+  "module_id": "M9",
+  "module_title": "An ninh tài chính số & phòng chống lừa đảo",
+  "title": "Bảo mật nhiều lớp cho tài khoản và ví điện tử",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 147.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Mật khẩu mạnh là chưa đủ. Bảo mật tài khoản giống khóa nhiều lớp cho cửa nhà.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Cánh cửa có nhiều ổ khóa, kẻ gian dừng ở ổ đầu",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Mật khẩu mạnh là chưa đủ. Bảo mật tài khoản ngân hàng và ví điện tử giống như khóa nhiều lớp cho cửa nhà: kẻ gian vượt được một lớp vẫn bị chặn ở lớp sau.",
+        "word_count": 36,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Khóa nhiều lớp",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Ô mã OTP có biển Không chia sẻ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lớp một: mã OTP và mã PIN. Không chia sẻ cho bất kỳ ai, kể cả người tự xưng nhân viên ngân hàng. Ngân hàng thật không cần hỏi mã của bạn để làm giao dịch mà bạn không yêu cầu.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1. OTP, PIN: không chia sẻ",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 21.0,
+      "visual": {
+        "description": "Khuôn mặt và vân tay gắn với một điện thoại",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lớp hai: sinh trắc học. Theo quy định của Ngân hàng Nhà nước, chuyển tiền giá trị lớn cho người khác thường phải xác thực bằng khuôn mặt hoặc vân tay, với ngưỡng trên mười triệu đồng mỗi giao dịch hoặc trên hai mươi triệu đồng mỗi ngày. Hãy đăng ký trên thiết bị của chính bạn.",
+        "word_count": 57,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "2. Sinh trắc học trên thiết bị của bạn",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Thanh hạn mức kéo xuống thấp",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lớp ba: hạn mức giao dịch. Hãy đặt hạn mức chuyển tiền thấp hơn nhu cầu thường ngày và chỉ tăng tạm thời khi cần. Nếu kẻ gian có vào được tài khoản, số tiền họ lấy được cũng bị giới hạn.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3. Hạn mức thấp, tăng khi cần",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Điện thoại có ổ khóa, ứng dụng lạ bị gạch",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lớp bốn: thiết bị tin cậy. Chỉ đăng nhập trên điện thoại của mình, khóa màn hình bằng mật khẩu, chỉ tải ứng dụng từ kho chính thức, và không cài ứng dụng điều khiển từ xa theo hướng dẫn của người lạ.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "4. Thiết bị tin cậy",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Chuông thông báo biến động số dư",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lớp năm: thông báo biến động số dư. Bật thông báo giao dịch trên ứng dụng để biết ngay khi có khoản lạ. Phát hiện càng sớm, bạn càng có nhiều thời gian báo ngân hàng để được hỗ trợ.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5. Bật thông báo biến động số dư",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Wifi công cộng bị gạch chéo, nút Đăng xuất",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lớp sáu là những thói quen nhỏ: đăng xuất khi dùng máy lạ, tránh giao dịch qua wifi công cộng, dùng mật khẩu khác nhau cho từng dịch vụ, và đổi mật khẩu ngay khi nghi ngờ bị lộ.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "6. Đăng xuất · Tránh wifi lạ · Mật khẩu riêng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "6. Đăng xuất",
+            "Tránh wifi lạ",
+            "Mật khẩu riêng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 17.0,
+      "visual": {
+        "description": "Ví điện tử nhỏ cho chi tiêu hằng ngày",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với ví điện tử cũng vậy. Kiểm tra ví đang liên kết với những tài khoản nào, gỡ liên kết với dịch vụ không dùng, và đặt hạn mức riêng. Một ví nhỏ cho chi tiêu hằng ngày an toàn hơn một ví chứa nhiều tiền.",
+        "word_count": 46,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ví nhỏ cho chi tiêu hằng ngày",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Trâu Tí cầm điện thoại, ba ô tích xanh",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy mở ứng dụng ngân hàng và ví của bạn, kiểm tra ba thứ: sinh trắc học đã đăng ký đúng thiết bị chưa, hạn mức là bao nhiêu, và thông báo biến động số dư đã bật chưa. Mười phút là đủ.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Sinh trắc học · Hạn mức · Thông báo",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Sinh trắc học",
+            "Hạn mức",
+            "Thông báo"
+          ]
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "kiểm tra sinh trắc học, hạn mức và thông báo biến động số dư",
+    "button_label": "Kiểm tra bảo mật",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": null,
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Ngưỡng xác thực sinh trắc học (trên 10 triệu mỗi giao dịch chuyển cho người khác, hoặc tổng trên 20 triệu mỗi ngày) lấy từ Quyết định 2345/QĐ-NHNN, hiệu lực từ 1/7/2024. Cần tra lại văn bản và các sửa đổi hiện hành, ghi ngày hiệu lực trước khi xuất bản."
+    },
+    {
+      "id": "V2",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tên các tính năng (hạn mức, thông báo biến động) khác nhau theo từng ngân hàng; không nêu tên ngân hàng cụ thể."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

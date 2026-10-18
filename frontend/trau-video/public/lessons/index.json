@@ -1,5 +1,5 @@
 {
-  "count": 30,
+  "count": 56,
   "lessons": [
     {
       "lesson_id": "M1L1",
@@ -46,6 +46,39 @@
       "hand_tuned": false
     },
     {
+      "lesson_id": "M1L5",
+      "title": "Chi phí của sự tiện lợi",
+      "file": "M1L5_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 140.5,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M1L6",
+      "title": "Quản lý tiền khi còn là sinh viên",
+      "file": "M1L6_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 142.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M1L7",
+      "title": "Chia tiền khi ở chung với bạn",
+      "file": "M1L7_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 138.0,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
       "lesson_id": "M2L1",
       "title": "Quỹ khẩn cấp: khoản tiền không ai muốn dùng",
       "file": "M2L1_scenes.json",
@@ -86,6 +119,17 @@
       "scenes": 8,
       "claimed_sec": 115,
       "estimate_sec": 115.2,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M2L5",
+      "title": "Quỹ khẩn cấp khi thu nhập không ổn định",
+      "file": "M2L5_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 131.2,
       "open_placeholders": 0,
       "hand_tuned": false
     },
@@ -145,6 +189,28 @@
       "hand_tuned": false
     },
     {
+      "lesson_id": "M3L6",
+      "title": "Dùng tiết kiệm hay đi vay?",
+      "file": "M3L6_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 139.8,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M3L7",
+      "title": "Vay tiêu dùng, ứng dụng vay và tín dụng đen",
+      "file": "M3L7_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 145.2,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
       "lesson_id": "M4L1",
       "title": "Tài khoản thanh toán hay tiết kiệm?",
       "file": "M4L1_scenes.json",
@@ -186,6 +252,17 @@
       "claimed_sec": 115,
       "estimate_sec": 113.7,
       "open_placeholders": 1,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M4L5",
+      "title": "Rà soát và hủy sản phẩm tài chính không dùng",
+      "file": "M4L5_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 145.4,
+      "open_placeholders": 0,
       "hand_tuned": false
     },
     {
@@ -252,6 +329,17 @@
       "claimed_sec": 110,
       "estimate_sec": 108.8,
       "open_placeholders": 2,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M6L4",
+      "title": "Lương, hợp đồng và phúc lợi khi đi làm lần đầu",
+      "file": "M6L4_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 144.8,
+      "open_placeholders": 0,
       "hand_tuned": false
     },
     {
@@ -329,6 +417,204 @@
       "claimed_sec": 140,
       "estimate_sec": 118.0,
       "open_placeholders": 1,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L4",
+      "title": "Bảng tài sản ròng và báo cáo dòng tiền cá nhân",
+      "file": "M8L4_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 138.0,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L5",
+      "title": "Giá trị thời gian của tiền và lạm phát",
+      "file": "M8L5_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 143.8,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L6",
+      "title": "Quy trình hoạch định tài chính cá nhân 6 bước",
+      "file": "M8L6_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 137.6,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L7",
+      "title": "Quyết định mua sắm lớn: tổng chi phí sở hữu",
+      "file": "M8L7_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 139.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L8",
+      "title": "Thuê nhà hay mua nhà: phân tích dòng tiền và rủi ro",
+      "file": "M8L8_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 154.1,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L9",
+      "title": "Khi muốn khởi nghiệp nhỏ: bảo vệ tài chính cá nhân trước",
+      "file": "M8L9_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 151.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M8L10",
+      "title": "Ranh giới giữa tiết kiệm, đầu tư và đầu cơ",
+      "file": "M8L10_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 149.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M9L1",
+      "title": "Bảy kiểu lừa đảo tài chính phổ biến",
+      "file": "M9L1_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 152.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M9L2",
+      "title": "Tám dấu hiệu cảnh báo và thói quen xác minh",
+      "file": "M9L2_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 135.0,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M9L3",
+      "title": "Bảo mật nhiều lớp cho tài khoản và ví điện tử",
+      "file": "M9L3_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 147.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M9L4",
+      "title": "Khi đã bị lừa hoặc nghi ngờ bị tấn công",
+      "file": "M9L4_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 149.0,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M9L5",
+      "title": "Lừa đảo từ người quen và áp lực làm ăn chung",
+      "file": "M9L5_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 141.6,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M10L1",
+      "title": "Mô hình quản lý tiền trong cặp đôi",
+      "file": "M10L1_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 139.5,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M10L2",
+      "title": "Phân công trách nhiệm, ngưỡng chi lớn và họp tài chính tháng",
+      "file": "M10L2_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 132.4,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M10L3",
+      "title": "Nói chuyện tiền bạc trước hôn nhân và xử lý xung đột",
+      "file": "M10L3_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 129.8,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M10L4",
+      "title": "Có nên cho con tiêu tiền quá sớm?",
+      "file": "M10L4_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 150.6,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M10L5",
+      "title": "Cho người thân vay tiền: nên hay không?",
+      "file": "M10L5_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 141.7,
+      "open_placeholders": 0,
+      "hand_tuned": false
+    },
+    {
+      "lesson_id": "M10L6",
+      "title": "Hỗ trợ cha mẹ và sống chung với bố mẹ khi đã đi làm",
+      "file": "M10L6_scenes.json",
+      "status": "draft_ready_for_review",
+      "scenes": 9,
+      "claimed_sec": null,
+      "estimate_sec": 146.2,
+      "open_placeholders": 0,
       "hand_tuned": false
     }
   ]

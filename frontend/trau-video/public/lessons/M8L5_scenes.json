@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M8L5",
+  "module_id": "M8",
+  "module_title": "Lập kế hoạch tài chính cá nhân dài hạn (không đầu tư)",
+  "title": "Giá trị thời gian của tiền và lạm phát",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 143.8,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Bạn",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Một trăm triệu hôm nay và năm năm nữa có mua được cùng một thứ không?",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Xấp tiền 100 triệu hôm nay và năm năm sau",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một trăm triệu đồng hôm nay và một trăm triệu đồng năm năm nữa có mua được cùng một thứ không? Thường là không. Chuyện này không chỉ của nhà đầu tư, nó ảnh hưởng đến mọi mục tiêu tiết kiệm của bạn.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "100tr hôm nay = 100tr sau 5 năm?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Giỏ hàng nhỏ dần theo thời gian",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Lạm phát là mức giá chung tăng dần theo thời gian, khiến cùng một số tiền mua được ít hơn. Mỗi năm nó thường nhỏ nên ta khó nhận ra, nhưng cộng dồn qua nhiều năm thì khá rõ.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lạm phát = tiền mua được ít dần",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Nhãn: giả định 4%/năm",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Để tính, ta giả định lạm phát bốn phần trăm mỗi năm. Đây chỉ là số minh họa, không phải dự báo. Khi làm thật, bạn nên tra số liệu thống kê chính thức và thử nhiều mức khác nhau.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giả định: 4%/năm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Giá món đồ tăng qua từng năm",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một món đồ giá một trăm triệu hôm nay, sau năm năm có thể cần khoảng một trăm hai mươi mốt triệu bảy trăm nghìn đồng. Cách tính là nhân một trăm triệu với một phẩy không bốn, năm lần.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "100tr × 1,04⁵ ≈ 121,7tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Xấp tiền 100tr co lại thành 82tr",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nhìn ngược lại: một trăm triệu giữ nguyên trong năm năm chỉ còn sức mua của khoảng tám mươi hai triệu đồng hôm nay. Số tiền vẫn là một trăm triệu, nhưng nó mua được ít hơn.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "100tr ÷ 1,04⁵ ≈ 82,2tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 18.8,
+      "visual": {
+        "description": "Hai thanh để dành mỗi tháng so sánh",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Điều này đổi cách đặt mục tiêu. Muốn có một trăm hai mươi mốt triệu bảy trăm nghìn sau sáu mươi tháng, bạn cần để dành khoảng hai triệu không trăm hai mươi tám nghìn mỗi tháng, thay vì một triệu sáu trăm sáu mươi bảy nghìn nếu quên lạm phát.",
+        "word_count": 51,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "2,03tr so với 1,67tr mỗi tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 18.1,
+      "visual": {
+        "description": "Hai mũi tên: lãi 5%, lạm phát 4%",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tiền để yên sẽ mất dần sức mua. Nếu một khoản cho lãi năm phần trăm một năm, trong khi lạm phát bốn phần trăm, thì sức mua thực tế chỉ tăng chưa đến một phần trăm. Đây là phép tính, không phải lời khuyên chọn sản phẩm nào.",
+        "word_count": 49,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Lãi 5% − lạm phát 4% ≈ +1% sức mua",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Mục tiêu ngắn và mục tiêu dài trên trục thời gian",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Áp dụng vào đời sống: khi đặt mục tiêu dài hơn hai ba năm, hãy cộng thêm một khoản đệm cho giá tăng. Với các mục tiêu ngắn, tác động nhỏ hơn, không cần phức tạp hóa.",
+        "word_count": 37,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Mục tiêu dài → cộng đệm giá",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Trâu Tí chỉ vào công cụ tính với ba nút thấp, vừa, cao",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy chọn một mục tiêu của bạn, nhập giá hiện tại và số năm vào công cụ tính, rồi thử ba mức lạm phát thấp, vừa và cao. Kết quả dùng để lập kế hoạch, không phải dự báo chính xác.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "tính mục tiêu của bạn với ba mức lạm phát",
+    "button_label": "Tính mục tiêu có lạm phát",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Lạm phát giả định 4%/năm; 1,04^5 ≈ 1,2167; 100tr → 121,7tr; 100tr ÷ 1,2167 ≈ 82,2tr; 121,7 ÷ 60 ≈ 2,03tr; 100 ÷ 60 ≈ 1,67tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Lạm phát giả định 4%/năm; 1,04^5 ≈ 1,2167; 100tr → 121,7tr; 100tr ÷ 1,2167 ≈ 82,2tr; 121,7 ÷ 60 ≈ 2,03tr; 100 ÷ 60 ≈ 1,67tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Mức lạm phát 4% là giả định minh họa, không phải dự báo. Khi dùng số thật, tra số liệu chính thức hiện hành."
+    },
+    {
+      "id": "V4",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

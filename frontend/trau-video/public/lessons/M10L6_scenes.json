@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M10L6",
+  "module_id": "M10",
+  "module_title": "Tài chính gia đình & quan hệ tiền bạc",
+  "title": "Hỗ trợ cha mẹ và sống chung với bố mẹ khi đã đi làm",
+  "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 146.2,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Minh",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Minh đi làm, vẫn ở cùng bố mẹ. Cậu muốn đóng góp nhưng không biết bao nhiêu thì đủ.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Bữa cơm gia đình, Minh nhìn phong bì",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Minh đi làm, vẫn ở cùng bố mẹ. Cậu muốn đóng góp nhưng không biết bao nhiêu thì đủ, và vẫn muốn dành tiền cho mục tiêu của mình. Chuyện này cần nói rõ, vì ngại nói thường thành hiểu lầm.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ngại nói thường thành hiểu lầm",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Trái tim và con số",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đóng góp cho gia đình xuất phát từ tình cảm nên khó nói thành con số. Nhưng nếu không có con số, bạn dễ vừa cho quá nhiều, vừa thấy mình không còn gì để lo cho tương lai.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tình cảm cần có con số",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Ba phần thu nhập 15 triệu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Giả sử thu nhập mười lăm triệu. Minh đề xuất ba phần: ba triệu đóng góp cho gia đình, tức hai mươi phần trăm, ba triệu để dành cho mục tiêu riêng, hai mươi phần trăm, và chín triệu cho chi tiêu cá nhân, sáu mươi phần trăm.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3tr + 3tr + 9tr = 15tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Hai bong bóng thoại với bố mẹ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cách mở lời: con muốn đóng góp đều đặn cho gia đình, và con muốn để dành một phần cho kế hoạch của con. Bố mẹ thấy mức này thế nào? Hãy nói về mục tiêu chung, đừng nói như một yêu cầu hay một lời từ chối.",
+        "word_count": 48,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nói về mục tiêu chung",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Cha mẹ lớn tuổi, danh sách nhu cầu thật",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Với cha mẹ không còn thu nhập ổn định, hãy xem nhu cầu thực: y tế, sinh hoạt, và những gì họ đã có. Hãy bàn với anh chị em để cùng chia sẻ, thay vì một mình gánh. Hỗ trợ bền vững tốt hơn hỗ trợ lớn rồi ngưng.",
+        "word_count": 50,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhu cầu thực · Chia sẻ với anh chị em",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Nhu cầu thực",
+            "Chia sẻ với anh chị em"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Hai cánh cửa phòng, một bếp chung",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi ở chung, hãy thống nhất những điều nhỏ nhưng dễ gây căng thẳng: ai trả điện nước, ai mua đồ dùng chung, và việc bạn tự chi cho sở thích hay đồ dùng riêng không cần giải trình.",
+        "word_count": 39,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Điện nước · Đồ dùng chung · Chi riêng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Điện nước",
+            "Đồ dùng chung",
+            "Chi riêng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Thanh quỹ khẩn cấp được viền khiên",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Dù đóng góp, vẫn cần quỹ khẩn cấp cho bản thân. Nếu bạn cạn tiền vì hỗ trợ gia đình, khi có sự cố chính bạn sẽ khó giúp ai nữa. Bảo vệ nền tảng của mình cũng là bảo vệ gia đình.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giữ quỹ khẩn cấp của chính mình",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Lịch sáu tháng một lần",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy xem lại mức đóng góp mỗi sáu tháng, hoặc khi có thay đổi lớn như tăng lương, chuyển việc hay gia đình có việc lớn. Một thỏa thuận linh hoạt dễ bền hơn một thỏa thuận cứng.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Xem lại mỗi 6 tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Trâu Tí cầm bảng chia ba phần",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy thử chia thu nhập của bạn thành ba phần: gia đình, để dành, và cá nhân. Tỷ lệ hai mươi, hai mươi, sáu mươi chỉ là ví dụ, hãy chọn mức hợp với hoàn cảnh của bạn.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập bảng chia thu nhập ba phần của bạn",
+    "button_label": "Lập bảng chia thu nhập",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Thu 15tr = 3tr (20%) gia đình + 3tr (20%) để dành + 9tr (60%) cá nhân",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Thu 15tr = 3tr (20%) gia đình + 3tr (20%) để dành + 9tr (60%) cá nhân."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

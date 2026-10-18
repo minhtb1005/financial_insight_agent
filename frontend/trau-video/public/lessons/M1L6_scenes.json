@@ -1,0 +1,339 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L6",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Quản lý tiền khi còn là sinh viên",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 142.4,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Minh",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Minh làm thêm cuối tuần, gia đình vẫn gửi tiền, vậy mà cuối tháng vẫn hết sạch.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 13.1,
+      "visual": {
+        "description": "Minh nhìn ví gần trống ở cuối tháng",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Minh là sinh viên năm hai. Gia đình gửi tiền mỗi tháng, cậu làm thêm cuối tuần, vậy mà cuối tháng vẫn hết sạch. Tiền đi đâu, và làm sao để tháng sau khác đi?",
+        "word_count": 35,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Cuối tháng lại hết tiền?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Hai dòng tiền chảy vào một chiếc ví",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước đầu là gom hết nguồn thu. Mỗi tháng Minh nhận ba triệu từ gia đình và hai triệu từ làm thêm, tổng cộng năm triệu đồng. Hãy ghi riêng hai nguồn, vì thu nhập làm thêm có thể đổi theo lịch học.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "3tr + 2tr = 5tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 16.0,
+      "visual": {
+        "description": "Sáu ô chi tiêu lần lượt hiện",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Tiếp theo là các khoản chi chính: nhà trọ một triệu tám, ăn uống một triệu bảy, đi lại bốn trăm nghìn, học tập ba trăm nghìn, điện thoại một trăm năm mươi nghìn, giao lưu bạn bè bốn trăm năm mươi nghìn.",
+        "word_count": 43,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Trọ 1,8tr · Ăn 1,7tr · Đi lại 0,4tr · Học 0,3tr · Điện thoại 0,15tr · Bạn bè 0,45tr",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Trọ 1,8tr",
+            "Ăn 1,7tr",
+            "Đi lại 0,4tr",
+            "Học 0,3tr",
+            "Điện thoại 0,15tr",
+            "Bạn bè 0,45tr"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Cán cân: thu 5tr, chi 4,8tr",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Cộng lại là bốn triệu tám trăm nghìn đồng, nên mỗi tháng chỉ còn dư hai trăm nghìn. Nhìn thì ổn, nhưng chỉ cần một tháng đi chơi nhiều hơn là âm ngay, và không có đệm nào để đỡ.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "5tr − 4,8tr = 0,2tr dư",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Lịch học kỳ, ô giáo trình và lệ phí thi",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Có những khoản không đến mỗi tháng mà theo kỳ, như giáo trình hay lệ phí thi chứng chỉ, giả sử một triệu hai trăm nghìn mỗi kỳ. Chia cho sáu tháng, mỗi tháng cần để riêng hai trăm nghìn đồng, đúng bằng số dư.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "1,2tr ÷ 6 tháng = 0,2tr/tháng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.7,
+      "visual": {
+        "description": "Nhóm bạn rủ đi ăn, một chiếc hũ giao lưu",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Áp lực bạn bè là phần khó nhất. Đi ăn, đi chơi, mua quà sinh nhật đều khiến ta ngại nói không. Hãy đặt một khoản giao lưu cố định, hết khoản đó thì đề xuất hoạt động rẻ hơn, không cần giải thích dài.",
+        "word_count": 45,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Giao lưu có ngân sách riêng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Tin tuyển dụng có dấu cảnh báo đỏ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Khi làm thêm, hãy tính cả tiền đi lại và thời gian học bị mất, không chỉ tiền công. Và cẩn thận với việc đòi đặt cọc hay nộp phí trước khi nhận việc, đó là dấu hiệu lừa đảo thường gặp.",
+        "word_count": 42,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đòi nộp phí trước khi nhận việc = cảnh báo",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hai chiếc hũ: tiền gia đình, tiền tự kiếm",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Một cách thử: coi tiền gia đình gửi là phần chi thiết yếu, còn tiền tự kiếm là phần linh hoạt cho mục tiêu riêng của bạn. Nhìn riêng hai nguồn giúp bạn thấy mình đang tự lập được tới đâu.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiền gia đình → thiết yếu · Tiền tự kiếm → linh hoạt",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Tiền gia đình → thiết yếu",
+            "Tiền tự kiếm → linh hoạt"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Trâu Tí cầm sổ, bảng ngân sách trống chờ điền",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy mở bảng tính và lập ngân sách một tháng theo năm bước: ghi nguồn thu, ghi chi cố định, trừ ra số dư, chia khoản theo kỳ, rồi đặt ngân sách giao lưu. Mất khoảng mười lăm phút.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "lập ngân sách tháng của sinh viên giả định",
+    "button_label": "Lập ngân sách sinh viên",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Thu 3tr + 2tr; chi 1,8 + 1,7 + 0,4 + 0,3 + 0,15 + 0,45 = 4,8tr; khoản theo kỳ 1,2tr ÷ 6 tháng",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Thu 3tr + 2tr; chi 1,8 + 1,7 + 0,4 + 0,3 + 0,15 + 0,45 = 4,8tr; khoản theo kỳ 1,2tr ÷ 6 tháng."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}

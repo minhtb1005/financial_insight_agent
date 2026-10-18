@@ -1,0 +1,346 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "M1L7",
+  "module_id": "M1",
+  "module_title": "Quản lý ngân sách & theo dõi chi tiêu",
+  "title": "Chia tiền khi ở chung với bạn",
+  "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
+  "status": "draft_ready_for_review",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "format": {
+    "aspect_ratio": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30
+  },
+  "duration": {
+    "claimed_sec_in_script_doc": null,
+    "estimate_sec": 138.0,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+  },
+  "characters_detected": [
+    "Ba bạn ở chung",
+    "Trâu Tí"
+  ],
+  "mascot_poses_required": [
+    "happy",
+    "idle",
+    "point",
+    "think"
+  ],
+  "voice": {
+    "language": "vi-VN",
+    "style": "thân thiện, ngắn, không giáo huấn",
+    "pace": "vừa phải",
+    "provider": null
+  },
+  "hook": "Ba bạn thuê chung nhà. Đến ngày đóng điện, ai cũng nghĩ người kia đã đóng.",
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Ba chiếc cốc, ba thông báo tiền điện",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Ba bạn thuê chung một căn hộ. Đến ngày đóng tiền điện, ai cũng nghĩ người kia đã đóng. Chuyện tiền với bạn cùng phòng hiếm khi vỡ vì số tiền lớn, mà vì không ai nói rõ từ đầu.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ai đóng tiền điện?",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Bảng khoản chung hiện từng dòng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước một là viết ra mọi khoản chung. Giả sử tiền thuê chín triệu, điện nước một triệu hai, wifi ba trăm nghìn và đồ dùng chung ba trăm nghìn mỗi tháng. Tổng là mười triệu tám trăm nghìn đồng.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "9 + 1,2 + 0,3 + 0,3 = 10,8tr",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Chia ba, ba phần bằng nhau",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Chia đều ba người, mỗi người ba triệu sáu trăm nghìn đồng. Nhưng chia đều có công bằng không? Nếu một bạn bật điều hòa suốt đêm hoặc ở phòng rộng hơn, hãy thống nhất cách tính khác ngay từ đầu.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "10,8tr ÷ 3 = 3,6tr/người",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Tin nhắn nhóm ghim ba quy tắc",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Bước hai là chốt ba quy tắc: ai đóng cho ai và vào ngày nào, tiền đặt cọc đứng tên ai, và khoản nào được tính là chung. Hãy viết vào tin nhắn nhóm để ai cũng đọc lại được.",
+        "word_count": 40,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Ngày đóng · Tiền cọc · Khoản chung",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Ngày đóng",
+            "Tiền cọc",
+            "Khoản chung"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Một người cầm hóa đơn, ba người nhìn",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nên cử một người làm đầu mối thu tiền và gửi ảnh hóa đơn lên nhóm. Người này chỉ làm đầu mối, không phải gánh phần của ai. Mỗi vài tháng có thể đổi vòng để công bằng.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Đầu mối thu · Ảnh hóa đơn · Đổi vòng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Đầu mối thu",
+            "Ảnh hóa đơn",
+            "Đổi vòng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Lịch hạn đóng, một người nói sớm",
+        "mascot_pose": "think",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Nếu một bạn chưa đủ tiền đúng hạn thì sao? Hãy thỏa thuận trước, ví dụ cho trễ tối đa bảy ngày và nói sớm thay vì im lặng. Đừng để người đứng tên hóa đơn tự bù mà không có ngày hoàn lại.",
+        "word_count": 44,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Nói sớm · Hẹn ngày trả · Không bù ngầm",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Nói sớm",
+            "Hẹn ngày trả",
+            "Không bù ngầm"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hợp đồng thuê, biên nhận tiền cọc",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hãy đọc kỹ hợp đồng thuê và giữ biên nhận tiền cọc. Nếu một người dọn đi giữa chừng, ai trả phần của họ và ai nhận lại tiền cọc là điều cần ghi rõ từ trước khi chuyện xảy ra.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Biên nhận cọc · Dọn đi giữa chừng",
+          "position": "auto",
+          "appear": "scene_start",
+          "split_hint": [
+            "Biên nhận cọc",
+            "Dọn đi giữa chừng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Hai hũ tiền: chung và riêng",
+        "mascot_pose": "idle",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Đừng trộn tiền chung với tiền cá nhân. Nếu thu qua tài khoản của mình, hãy ghi sổ riêng. Khi tiền chung và tiền riêng lẫn vào nhau, rất khó biết ai nợ ai, và tình bạn dễ bị ảnh hưởng.",
+        "word_count": 41,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiền chung ≠ tiền riêng",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 14.2,
+      "visual": {
+        "description": "Trâu Tí giơ bảng ba cột",
+        "mascot_pose": "happy",
+        "characters": [
+          "Trâu Tí"
+        ],
+        "background": null,
+        "animation_notes": null
+      },
+      "vo": {
+        "text": "Hôm nay, hãy soạn một bảng ba cột gồm khoản chi, người đóng và hạn đóng, rồi gửi vào nhóm. Năm phút chuẩn bị bây giờ sẽ đỡ cho cả nhà rất nhiều lần khó xử về sau.",
+        "word_count": 38,
+        "tts_numeric_tokens": []
+      },
+      "on_screen_text": [
+        {
+          "text": "Số liệu minh họa",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "fade_to_end_card"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3.0,
+    "on_screen_text": [
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+    ]
+  },
+  "cta": {
+    "action": "soạn bảng chi phí chung và gửi vào nhóm",
+    "button_label": "Soạn bảng chia tiền",
+    "tool": null,
+    "tool_status": "chưa gán; xem product_mapping.gaps của module",
+    "chatbot_prompt": null
+  },
+  "illustrative_numbers": "Thuê 9tr + điện nước 1,2tr + wifi 0,3tr + đồ dùng 0,3tr = 10,8tr; chia 3 = 3,6tr",
+  "verify_note_from_script": null,
+  "verification": [
+    {
+      "id": "V1",
+      "type": "label",
+      "status": "required",
+      "blocks": [
+        "S9"
+      ],
+      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+    },
+    {
+      "id": "V2",
+      "type": "recompute",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng. Số dùng: Thuê 9tr + điện nước 1,2tr + wifi 0,3tr + đồ dùng 0,3tr = 10,8tr; chia 3 = 3,6tr."
+    },
+    {
+      "id": "V3",
+      "type": "review",
+      "status": "open",
+      "blocks": [
+        "all"
+      ],
+      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ]
+}
