@@ -2376,7 +2376,7 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - Sentiment: code default giữ `hf`; compose ×2 (backend + mcp_server) + `.env.example` set `llm`.
 - Gates xanh: focused **22 passed**; full suite **717/0/17** (= baseline 716 + 1 test mới); ruff/black/mypy = **0**; `docker compose config` ×2 **RC 0**.
 - Note: `.env` local pin `SENTIMENT_ENGINE=hf` → docker local vẫn hf (xem Note R4d); user chỉnh `.env` nếu muốn llm.
-- Commit + push + CI: **<pending — điền sau commit>**.
+- Commit **`ba930d2`** `refactor(rag): drop embedding fallbacks — NVIDIA-only (slim docker, no torch)` (11 file: embedder.py −102/+27, pyproject, compose ×2, .env.example, news_sentiment_service.py, test, 3 docs, WORKFLOW_STATE) → push `704a808..ba930d2 main -> main`; HEAD==origin/main **0/0**; CI run **`39116943157`** = **success** (lint/typecheck/test 3/3 xanh).
 - **C2 RESUME (docker UI-writes) chạy SAU nhịp này** — lúc đó `docker compose build` nhẹ hơn nhiều (no torch/sentence-transformers).
 
 ## Next Agent (R4d embed-slim)
