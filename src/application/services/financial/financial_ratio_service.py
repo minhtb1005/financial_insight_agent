@@ -49,7 +49,7 @@ class FinancialRatioService(BaseService):
         # side-effect the real data/market_store.db via write-back.
         return self._store
 
-    def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:  # type: ignore[override]
+    def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:  # type: ignore[override]  # subclass specialises the base signature by design
         # DB-first: snapshot read-through (quarterly cadence, never worse
         # than live — miss falls through to the port + cache path below).
         store = self._store_or_none()

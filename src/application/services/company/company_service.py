@@ -18,7 +18,7 @@ class CompanyService(BaseService):
             return err
         return self.for_each_ticker(tickers, lambda t: self._fetch_single(t, field))
 
-    def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:  # type: ignore[override]
+    def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:  # type: ignore[override]  # subclass specialises the base signature by design
         getter = _FIELD_GETTERS.get(field, _FIELD_GETTERS["shareholders"])
         return self._cached_fetch(
             "company",

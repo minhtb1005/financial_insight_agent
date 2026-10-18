@@ -836,7 +836,7 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 - Data local sẵn sàng cho smoke: `data/traces/traces.db` 2.5MB (+wal/shm), `rates_store.db` 78KB, `market_store.db` 9.9MB, `app.db` 16KB, `qdrant_local*`, `rag/registry.db`.
 - `.venv` mới sẽ cho `interfaces`/`mcp_server` importable mọi nơi (editable `pip install -e .`, hatch `packages=["src"]`) — không cần `--app-dir`/`PYTHONPATH` nữa.
 
-## Plan (local-smoke r2 — 17/10, sau debate; 4 điểm bắt buộc + 4 optional đã áp)
+## Plan (local-smoke r2 — 17/10, sau debate; 4 điểm bắt buộc + 4 optional đã áp) — DELTAS 18/10: xem "## Env re-check trước implement" (SKIP recreate venv; mọi lệnh python cần PYTHONPATH=src; redis chỉ start+PING; kết quả smoke = advisory vì E3 in-flight)
 - L1 Env prep:
   a) Pre-check: port 3000/8000/8001/6379 free; `frontend/trau-video/out/M1L1.mp4` tồn tại (27.5MB, fail-fast).
   b) Venv: `Remove-Item -Recurse -Force .venv` (.gitignore dòng 30 ignore `.venv/`) → `F:\miniconda3\python.exe -m venv .venv` → `.venv\Scripts\python.exe -m pip install -U pip` → `.venv\Scripts\python.exe -m pip install -e ".[dev]" --extra-index-url https://vnstocks.com/api/simple` — **BẮT BUỘC truyền `timeout` ≥1,800,000 ms** (mặc định 2 phút của tool sẽ giết giữa chừng); ưu tiên chạy detached theo cơ chế L2-PROC (Start-Process + 2 log `.out`/`.err`) + poll; log `%TEMP%\opencode\venv-install.log`; pip cache giúp retry rẻ. `[dev]` GIỮ (pytest cho reviewer batch sau). Verify: `pip show financial_insight_agent` (editable); import `interfaces.api.app` + `mcp_server.server` + `vnstock` + `redis` (đo thời gian; cold ~2.5–3 phút).
@@ -872,12 +872,13 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 - Không commit secrets/DB/audio/out/log/node_modules (+ pnpm-lock mới nếu sinh ra thì hỏi user trước khi track); không force-push.
 - Kết quả smoke + việc làm nốt ghi WORKFLOW_STATE.
 
-## Current Status (local-smoke — plan r2 chốt 17/10, chờ implement)
-- Debate DONE — verdict REVISE (4 bắt buộc + 4 optional) đã áp TOÀN BỘ vào plan r2 (trace cô lập `smoke-test-*` + bỏ DELETE nếu không tạo được; L2-PROC detached 2 log; kill port-owner fallback; timeout pip ≥1.8M ms; login `/api/v1/auth/login`; .gitignore dòng 30; URL redis zkteco-home; bỏ "DAG data" dư). Không có điểm nào cần challenge — debater verify bằng chứng đầy đủ.
-- Plan + Files + AC sẵn sàng; chờ implementor.
+## Current Status (local-smoke — implement INTERRUPTED 18/10; env re-check xong; deltas chốt — re-dispatch)
+- Task implementor dispatch 18/10 bị tool interrupt — **không chạy gì** (không notes, ports free, `.venv`/git nguyên trạng).
+- Env re-check xong (section "## Env re-check trước implement"): venv đã OK từ 17/10 (**SKIP recreate** — chỉ verify), **PYTHONPATH=src bắt buộc** cho mọi lệnh python, redis zip+extract+hash sẵn (**chỉ start + PING**), **E3 lint-typefix đang chạy song song** (36 file src dirty + 2 mypy proc) → smoke = advisory, không đụng E3.
+- DELTAS đã ghi; Next Agent = implementor (re-dispatch với deltas).
 
 ## Next Agent (local-smoke)
-- implementor: chạy Plan local-smoke r2 L1→L4 (recreate `.venv` + pip `timeout ≥1.8M ms`/detached → redis portable 8.10.2 verify SHA256 → MCP 8001/backend 8000/frontend 3000 theo L2-PROC → API smoke `/api/v1` + trace cô lập `smoke-test-*` → UI best-effort → kill PID+port-owner → ghi pass/fail + PID/log vào WORKFLOW_STATE). KHÔNG đụng merge v1.2 (26 scene untracked + 3 M), không commit/push, không lẫn docker-fix.
+- implementor (RE-DISPATCH 18/10 theo DELTAS): L1 verify venv (`pip show financial_insight_agent vnstock redis` + find_spec với `$env:PYTHONPATH="F:\financial_insight_agent\src"`) + start redis (`%LOCALAPPDATA%\redis\8.10.2\redis-server.exe` + `redis-cli ping`=PONG) → L2 MCP 8001/backend 8000/frontend 3000 (Start-Process detached 2 log `.out`/`.err`, env PYTHONPATH=src) → API smoke `/api/v1` + trace cô lập `smoke-test-*` → UI best-effort → kill PID+port-owner (KHÔNG kill 2 mypy proc của E3) → ghi pass/fail + PID/log vào WORKFLOW_STATE (advisory vì E3 in-flight). KHÔNG đụng merge v1.2 (26 scene untracked + 3 M) / file-proc E3, không commit/push, không lẫn docker-fix.
 
 ## Debate Notes (local-smoke — debater, 17/10/2026)
 **VERDICT: REVISE** (hướng đúng — KHÔNG viết lại; 4 điểm bắt buộc + 4 optional). Đã tự verify rẻ: đọc `.venv`/`pyproject.toml`/`routes/auth.py`/`routes/traces.py`/`app.py`/`agent.py`/`storage.py`/`tracer.py`/`vector_store.py`/`.env`(tên key)/`frontend/package.json` + đếm row sqlite + test thật background-process + websearch redis-windows.
@@ -907,6 +908,15 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 **KHÔNG đổi (đúng, giữ nguyên):** recreate `.venv` + redis portable + kill sạch (user yêu cầu); bỏ postgres (đúng vì sqlite); không đụng merge v1.2 (26 scene untracked + 3 M) / docker-fix / không commit-push; giữ UI best-effort (chrome-devtools có sẵn) nhưng phụ thuộc điểm #2.
 
 **PONYTAIL CẮT:** giữ `[dev]` (đừng cắt — reviewer cần); KHÔNG cắt redis/kill/recreate (user yêu cầu); giữ fallback redis (rủi ro DLL msys2 là thật); bỏ "DAG data" dư; gộp writes+delete quanh 1 trace tổng hợp (ít thao tác + an toàn hơn mượn trace thật).
+
+## Env re-check trước implement (planner 18/10/2026 — task implementor bị interrupt)
+- **Task implementor dispatch 18/10 bị tool interrupt — không chạy gì** (không Implementation Notes, ports 3000/8000/8001/6379 free, `.venv`/git nguyên trạng).
+- **F1 — `.venv` đã được dựng lại 17/10 9:31–9:59** (log `%TEMP%\opencode\venv-install.out`; `.venv` mtime 17/10 9:59:34): editable `financial_insight_agent 0.1.1` + **vnstock 4.0.9** + vnai + redis 8.1.0 + mcp 1.30.0 + fastapi/uvicorn/langchain (pip show verified). → **DELTA: SKIP recreate** (recreate cho y hệt `.pth`, tốn ~30 phút, đang bị session E3 dùng). Chỉ verify lại.
+- **F2 — import cần `PYTHONPATH=src` (by-design, không phải venv hỏng):** `.pth` editable trỏ **root repo**; pyproject:84-85 `packages=["src"]`, pyproject:189-191 pytest `pythonpath=["src"]` (CI/docker chạy theo cùng cơ chế). Verified 18/10: `find_spec('interfaces'/'mcp_server'/'interfaces.api.app')` = True khi `$env:PYTHONPATH="F:\financial_insight_agent\src"`. → **DELTA: MỌI lệnh python trong L2 đặt `$env:PYTHONPATH="F:\financial_insight_agent\src"`** (kể cả Start-Process — child kế thừa env; và script trace cô lập).
+- **F3 — E3 (lint-typefix mypy) đang chạy SONG SONG:** 36 file `src/**` dirty (+1909/−251; gồm `interfaces/api/app.py`, `mcp_server/server.py`), 2 proc `python -m mypy src/ --ignore-missing-imports --no-strict-optional` từ `.venv` (start 18/10 07:26). HEAD=`945266b` (E1/E2 committed). → **DELTA: smoke trên tree mid-flight = kết quả ADVISORY**; KHÔNG kill/đụng 2 mypy proc; KHÔNG revert/sửa file của E3; nếu backend import fail → ghi rõ "khả năng do E3 in-flight" + retry sau khi E3 xong.
+- **F4 — redis sẵn sàng:** zip `Redis-8.10.2-Windows-x64-msys2.zip` đã tải (hash **verified khớp `7C8CEBD5…EE85`** hôm nay 18/10 bằng Get-FileHash), đã giải nén `C:\Users\DELL\AppData\Local\redis\8.10.2\` (redis-server.exe + redis-cli.exe + DLLs msys2), từng chạy OK 17/10 9:36 (redis.out "Ready to accept connections tcp"; warning maxclients vô hại). → **DELTA: L1c = chỉ start + `redis-cli ping` → PONG.**
+- **F5 — data traces.db nguyên vẹn: 514 traces / 3412 spans** (tăng từ 489/3387 do trace_middleware trace mọi HTTP request khi session cors-fix chạy UI tests 18/10 — đúng cơ chế D5). Bảng: traces/spans/feedback/comments. Synthetic trace mới = +1 trace.
+- Precheck sẵn: `%TEMP%\opencode\smoke_precheck.py` (py version, find_spec, đếm traces/spans).
 
 ## Fix GLM max_steps (17/10/2026 — DONE, ngoài scope project)
 - User báo OpenCode + GLM 5.3 Flash lỗi `unknown_parameter: json: unknown field "max_steps"`.
@@ -1252,7 +1262,7 @@ Checklist user hỏi:
 5. Push thành công origin/main (đủ 4+ commit), ghi hash.
 6. WORKFLOW_STATE: đính chính overstated + pass/fail trung thực.
 
-## Implementation Notes (cors-fix — implementor 18/10/2026, DANG CHAY D1→D9)
+## Implementation Notes (cors-fix — implementor 18/10/2026, D1→D9 XONG)
 - **D1 DONE:** `src/interfaces/api/app.py:275` `allow_methods=["GET","POST"]` → `["GET","POST","PATCH","DELETE"]` (KHÔNG thêm PUT — reviewer xác nhận không có route PUT).
 - **D2 DONE (3 file, tối thiểu):** `config.py:_to_sync_url` `postgresql+asyncpg://` → `postgresql+psycopg2://` (không còn plain `postgresql://`); `alembic/env.py` thêm nhánh `postgresql://` → `postgresql+psycopg2://` (+ asyncpg → psycopg2) để mọi sync URL driver-qualified; `.env.example:55` `DATABASE_SYNC_URL` → `postgresql+psycopg2://`. KHÔNG đụng `DATABASE_URL` asyncpg (giữ nguyên runtime). Xem xét `infrastructure/db/base.py:39` (sync→async reverse) — **bỏ qua có chủ ý**: nhánh đó chết (chỉ chạy khi DATABASE_URL env rỗng, mà config luôn default sqlite) nên không thêm code (ponytail).
 - **D3 DONE:** `.github/workflows/ci.yml` thêm workflow-level `env: PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` (1 dòng, cả 3 job kế thừa).
@@ -1262,4 +1272,249 @@ Checklist user hỏi:
   - **D6(a) Unit suite: 794 passed / 0 failed** (`pytest src/tests/unit`, 157.77s) — khớp kỳ vọng ~794, KHÔNG regression do D1/D2/D3.
   - **D6(a) Full `src/tests`: 821 passed / 7 failed / 19 skipped** (352.66s). 7 failed **toàn bộ** ở `src/tests/integration/test_api_mocked.py` (các test `POST /ask-stream` — route thật là `/api/v1/ask-stream`, test cũ dùng thiếu prefix). **ĐÃ CHỨNG MINH pre-existing, KHÔNG liên quan D1/D2/D3:** `git stash push` 5 file code (app.py/config.py/env.py/.env.example/ci.yml) → chạy lại 1 test → fail y hệt 404 (rồi `git stash pop`). Đây là test stale có sẵn, ngoài scope cors-fix — chỉ ghi nhận, không sửa.
   - **D6(b) CORS preflight verify (local uvicorn 8765, PID 620, `interfaces.api.app:app`, boot OK degraded-mode do Redis absent) — PASS:** `GET /health` 200; `OPTIONS /api/v1/traces/x` (Origin `http://localhost:3000`, `Access-Control-Request-Method: DELETE`) → **200** + `access-control-allow-methods: GET, POST, PATCH, DELETE` + `allow-origin: http://localhost:3000` + `allow-headers: Accept,…,Authorization,…,Content-Type`; `PATCH /api/v1/traces/x/meta` → **200** + cùng header; sanity: `POST` preflight **200**, `PUT` preflight **400** (không nằm trong allow_methods — xác nhận middleware validate + không cần route PUT). Kill uvicorn + verify port 8765 free; ghi chú: process python leftover `9844` (start 17/10) bị kill lẫn trong cleanup.
-- (D7→D9 chờ chạy)
+- **D7 DONE:** commit **`216e9f5`** `fix(cors): allow PATCH/DELETE methods + driver-qualified psycopg2 sync url + CI vendor index` — 6 files, +113/-8 (`src/interfaces/api/app.py`, `src/shared/config.py`, `alembic/env.py`, `.env.example`, `.github/workflows/ci.yml`, `WORKFLOW_STATE.md`). Stage chọn lọc (KHÔNG `git add -A`); unstaged giữ nguyên `data/lessons/curriculum_*.json` + `frontend/trau-video/public/lessons/index.json` (merge v1.2) + untracked scenes/audio/report/log (đúng convention artifact). Scan cached diff: không secret (chỉ `POSTGRES_PASSWORD=finsight` placeholder có sẵn trong `.env.example`).
+- **D8 DONE (push):** `git push origin main` → **`7a5f18d..216e9f5  main -> main`** (exit 0, không force). Đẩy đủ **4 commit**: `216e9f5` cors-fix + `8343418` compose psycopg2 + `346570e` docs r2 + `35440f2` Dockerfile extra-index. Verify: `git status -sb` = `## main...origin/main` (in sync), `git log origin/main --oneline -5` top = `216e9f5` khớp HEAD, `rev-list --left-right --count origin/main...HEAD` = **`0 0`**.
+- **D9 DONE:** ghi WORKFLOW_STATE (mục này + Current Status + Next Agent bên dưới). Ghi chú: bản final D9 để **uncommitted** (đúng ràng buộc D8 = đúng 4 commit; không thêm commit thứ 5) — giống convention state working-doc. Unstaged còn lại không đụng: `data/lessons/curriculum_*.json` + `frontend/trau-video/public/lessons/index.json` (merge v1.2 chờ commit riêng) + untracked scenes/audio/report/log.
+
+## Review Findings (cors-fix — reviewer 18/10/2026)
+**VERDICT: APPROVE toàn bộ — commit `216e9f5` + push 4 commit + gate + AC1-6. Không cần sửa. Next Agent = tester.**
+
+### 1. Commit `216e9f5` — APPROVE
+- `--numstat` xác nhận **đúng 6 file**, khớp kỳ vọng: `src/interfaces/api/app.py` (+1/-1), `src/shared/config.py` (+1/-1), `alembic/env.py` (+5/-2), `.env.example` (+1/-1), `.github/workflows/ci.yml` (+2/-0), `WORKFLOW_STATE.md` (+103/-3). Không lẫn file khác; unstaged còn lại đúng merge v1.2 (`curriculum`+`index`) + untracked artifact → không có dấu vết `git add -A`.
+- **D1** `app.py:275` = `allow_methods=["GET","POST","PATCH","DELETE"]` — đúng, **không thêm PUT** (không có route PUT; r3 xác nhận).
+- **D2** driver-qualified: `config.py:111` `postgresql+asyncpg://`→`postgresql+psycopg2://`; `alembic/env.py:19-24` thêm nhánh plain `postgresql://`→psycopg2 (thứ tự an toàn — `postgresql+asyncpg://` KHÔNG match `postgresql://` vì ký tự sau "postgresql" là `+`); `.env.example:55`→psycopg2. `DATABASE_URL` asyncpg **giữ nguyên** ✅.
+- **D3** `ci.yml` workflow-level `PIP_EXTRA_INDEX_URL: https://vnstocks.com/api/simple` (2 dòng) — cả 3 job kế thừa.
+- **Không secret:** scan diff chỉ match placeholder có sẵn `POSTGRES_PASSWORD=finsight`/`REDIS_PASSWORD=` (`.env.example`) + prose; 0 secret thật.
+
+### 2. Push — APPROVE
+- `git log origin/main --oneline -5` khớp local, top = `216e9f5`. **Đúng 4 commit**: `35440f2`, `346570e`, `8343418`, `216e9f5` (`merge-base --is-ancestor` = true cả 4).
+- `git status -sb` = `## main...origin/main`; `rev-list --left-right --count origin/main...HEAD` = **`0 0`**. `7a5f18d` là ancestor `216e9f5` → fast-forward; reflog tuyến tính (không `reset`/`rebase`) → **không force-push**.
+
+### 3. Gate evidence — TRUNG THỰC
+- (a) Reviewer **tự chạy lại** `pytest src/tests/unit -q` = **794 passed / 0 failed** (64.11s) — khớp kỳ vọng, không regression do D1/D2/D3.
+- (b) CORS preflight **verify độc lập** (dựng `CORSMiddleware` config y hệt `app.py:275` + TestClient): `OPTIONS` `DELETE`/`PATCH`/`POST` → **200** (`access-control-allow-methods: GET, POST, PATCH, DELETE`, allow-origin đúng); `PUT` → **400**. Khớp evidence implementor (uvicorn 8765).
+- (c) **7 fail full-suite = pre-existing, xác nhận độc lập:** 7 method trong `test_api_mocked.py` POST `/ask-stream`; route thật `@api_router.post("/ask-stream")` + prefix `/api/v1` (`app.py:267,403`) → `/api/v1/ask-stream` ⇒ test 404. `test_api_endpoints.py` dùng cùng path nhưng có `@pytest.mark.skipif(_API_KEY_MISSING)` (no OPENAI key) → **skip** (giải thích 19 skipped). Commit cors-fix **không đụng routing** (chỉ CORS/sync-url/CI) → không thể gây 7 fail. Stash evidence trong state khớp.
+
+### 4. AC cors-fix 1-6
+| AC | Verdict |
+|----|---------|
+| 1 OPTIONS DELETE/PATCH 200 | **PASS** (verify độc lập 200; PUT 400 đúng) |
+| 2 full unit suite 0 fail | **PASS** (794/0, tự chạy lại) |
+| 3 mọi đường sync URL driver-qualified | **PASS** (config `_to_sync_url` + alembic env + .env.example) |
+| 4 CI có `PIP_EXTRA_INDEX_URL` | **PASS** (workflow-level, 3 job) |
+| 5 push origin/main đủ 4 commit | **PASS** (`7a5f18d..216e9f5`, 0/0) |
+| 6 WORKFLOW_STATE đính chính + trung thực | **PASS** (mục 5) |
+
+### 5. D4/D5 honesty
+- **D4 đính chính TRUNG THỰC & ĐÚNG.** Verify độc lập: POST preflight = **200** (POST luôn nằm trong `allow_methods`) → POST feedback/comment từ UI **chạy được** ⇒ câu cũ "...POST feedback/comment có header đều không chạy được ở UI" thật sự SAI. Impact browser thật = **đúng 2**: DELETE trace (`traces.py:234`) + PATCH meta (`traces.py:219`) — khớp grep route. `memory.py:42` là `@router.delete` nhưng **không bị ảnh hưởng** (`frontend/src/app/api/memory/route.ts` tồn tại → Next server route, fetch server-side, không áp CORS). ✅
+- **D5 có căn cứ code thật.** `app.py:317-328` `trace_middleware` mở root span cho **mọi** HTTP request (`start_span(f"http {method} {path}", …)`); nhánh `if path not in ("/health","/ping",*guardrail)` (line 333) chỉ bỏ **rate-limit**, KHÔNG bỏ tracing ⇒ count trace tăng đơn điệu theo request/thời điểm đo (C4 77 < C5 82 < C6 112/116 nhất quán). Claim "3 scheduler + call-chain 0 tracer": grep `src/infrastructure` xác nhận tracer chỉ xuất hiện ở `observability/*`, `llm_provider.py`, `langchain_handler.py` — **0 ref** trong rag/market_store/rates_store scheduler + pipeline/ingest ⇒ bác bỏ hypothesis scheduler là ĐÚNG. ✅
+
+### 6. Minor (non-blocking — note vòng sau, không sửa nhịp này)
+- `_to_sync_url` (`config.py:109-114`) chuẩn hoá `postgresql+asyncpg://` nhưng **không** xử lý plain `postgresql://` (khác `alembic/env.py` có nhánh đó). Rủi ro thấp: consumer duy nhất của `config.DATABASE_SYNC_URL` hiện **không có** (grep chỉ ra definition) + alembic đọc env trực tiếp và tự normalize; chỉ latent nếu sau này có code dùng plain URL.
+- `base.py:39` (reverse `postgresql://`→asyncpg) implementor **cố ý bỏ qua** — hợp lý: nhánh chết (config luôn default sqlite) và nếu chạm thì convert sang asyncpg (đúng cho async engine), không phải bug psycopg.
+- WORKFLOW_STATE.md còn `M` (bản D9 final) chưa commit — **đúng ràng buộc D8 "đúng 4 commit"**, không phải sót.
+
+### 7. Kết luận
+APPROVE. Không có vấn đề blocking. Implementation đúng Clarified Scope + Plan D1→D9 + Files To Change (6 file), gate evidence trung thực, push sạch không force. Minor ở mục 6 chỉ là note.
+
+## Current Status (cors-fix — REVIEWED 18/10/2026, APPROVE)
+- Reviewer độc lập: commit `216e9f5` **APPROVE** (đúng 6 file scope, không secret, không lẫn file, không `add -A`); push `7a5f18d..216e9f5` **APPROVE** (4 commit, 0/0, fast-forward không force).
+- Gate re-verify: unit **794/0** (tự chạy lại), CORS preflight DELETE/PATCH **200** + PUT **400** (verify độc lập), full-suite 7 fail **pre-existing xác nhận** (stale `/ask-stream` thiếu `/api/v1`; commit không đụng routing).
+- AC1-6 **PASS toàn bộ**. D4 đính chính + D5 giải thích **trung thực, có căn cứ code**.
+- Minor non-blocking: `_to_sync_url` chưa xử lý plain `postgresql://` (consumer hiện không dùng); `base.py:39` dead-branch bỏ qua hợp lý; WORKFLOW_STATE `M` (D9) uncommitted có chủ ý.
+- Việc còn (ngoài scope, không block): merge v1.2 commit riêng; test stale `test_api_mocked.py`; re-verify UI-writes trên docker (CORS đã fix); `trace_middleware` làm bẩn trace DB (note).
+
+## Next Agent (cors-fix)
+- **tester** — verify độc lập phần chạy được: (1) full unit suite xanh (đã 794/0, có thể chạy lại); (2) smoke CORS preflight end-to-end trên stack (backend local/docker) `OPTIONS` DELETE/PATCH → 200 + `Access-Control-Allow-Methods` chứa PATCH/DELETE; (3) tuỳ chọn re-verify UI-writes trên docker (DELETE trace + PATCH meta) để đóng bug CORS end-to-end; (4) đối chiếu 7 fail `test_api_mocked.py` là pre-existing (đã chứng minh bằng đọc code + route; không cần sửa).
+- Sau tester: (tuỳ chọn) commit merge v1.2 khi user cho phép; (tuỳ chọn) sửa test stale `test_api_mocked.py`; (tuỳ chọn) gộp note mục 6 vào vòng nhỏ kế tiếp.
+
+## CI Check sau push (planner, 18/10/2026 — run 39073578256 trên `216e9f5`)
+- **Job test PASS (5m32s)** — `pip install -e .` + unit tests xanh trên CI thật: phần cors-fix liên quan CI (vendor index) **hoạt động đúng mục tiêu**. Câu dự phòng cũ "push sẽ đỏ vì vnstock" KHÔNG còn đúng — chỉ còn nợ lint/mypy.
+- **lint FAIL — 145 lỗi ruff pre-existing**: ARG001/002/005, PLR0917, SIM108, B905, B007, RUF022… (local `ruff check src/` khớp CI). Không lỗi nào nằm trên dòng cors-fix sửa (`PTH118` ở `alembic/env.py:10` là dòng sys.path cũ ngoài diff).
+- **typecheck FAIL — 142 lỗi mypy pre-existing**: logger/alerting/services/agent/client… Chỉ 1 lỗi trong file ta đụng: `app.py:444 var-annotated` — dòng cũ, xa dòng 275 ta sửa.
+- **Vì sao mới lộ**: các run CI trước chết 14–19s ở Install dependencies (vnstock PyPI quarantine) → lint/typecheck chưa bao giờ chạy tới trên codebase này. Fix vendor-index cho CI đi tận cùng → nợ lint/type legacy lần đầu lộ diện (không phải regress của cors-fix).
+
+## Next Agent (CI debt — chờ user quyết, không mở tự ý)
+- A) Mở round lint/typefix: 145 ruff (đa số auto-fixable; PLR0917 + override `_fetch_single` cần quyết thiết kế hoặc noqa) + 142 mypy.
+- B) Gỡ khối lint/type ra CI trước (grace), làm sạch dần — repo áp gate test xanh trước.
+- C) Bỏ qua (CI red do nợ legacy, test xanh — ghi known-leftover).
+
+## Clarified Scope (lint-typefix — user chốt 18/10 "A: mở round sửa dần")
+1. Mục tiêu honest-green 3 job CI (trên commit mới): `ruff check src/` = 0, `black --check src/` = 0, `mypy src/ --ignore-missing-imports --no-strict-optional` = 0, test unit giữ xanh (794/0), rồi push + xác nhận run CI thật xanh.
+2. Baseline đã đo: ruff **145** (ARG*, PLR0917, SIM108, B905, B007, RUF022…); black **140/295 file** cần reformat (gate chưa bao giờ chạy trước nay); mypy **142** (log run 39073578256).
+3. "Sửa dần" được hiểu: chia phase commit riêng để review dễ (format → lint → typing), KHÔNG phải nửa vời để CI vẫn đỏ.
+
+## Plan lint-typefix (18/10)
+- POLICY chung: chỉ tay vào `src/` (scope CI); KHÔNG đổi cấu hình pyproject để "lách" gate; không phá behavior — gate unit 794/0 sau MỖI phase; file/data ngoài src (frontend, scenes, curriculum, audio) KHÔNG đụng.
+- E1 FMT (formatting debt): `black src/` (140 file, diff thuần cơ chế); chạy `git diff --stat` ghi tổng; chạy unit suite → PASS → commit `style: black format src/ (CI gate)`.
+- E2 RUFF: `ruff check src/ --fix` (auto-fixable); residuals xử lý tay theo chính sách:
+  - ARG001/002/005 (arg/lambda không dùng): đổi tên thành `_name` GIỮ vị trí tham số (an toàn với override/trừu tượng); nếu tham số bắt buộc giữ vị trí và tên có ý nghĩa API → `# noqa: ARG002` kèm lý do ngắn.
+  - PLR0917 (quá nhiều tham số vị trí, API công khai): `# noqa: PLR0917` — không đổi chữ ký service (rủi ro behavior/compat).
+  - SIM108 (ternary), B905 (zip strict), B007 (biến loop), RUF022 (sort `__all__`): sửa đàng hoàng.
+  - Kết thúc phase: `ruff check src/` 0; chạy lại `black --check src/` = 0 (ruff fix không phá format; nếu phá chạy black lại); unit PASS → commit `style: ruff clean src/`.
+- E3 MYPY (142, cần quyết từng nhóm — đọc code trước khi sửa):
+  - Unused `type: ignore` (3): bỏ comment.
+  - `logger.py` (3 + FileHandler append): annotation đúng loại (float | None, handler list kiểu đúng).
+  - `alerting/manager.py` `for_duration_seconds` (5) + `_last_eval_time` (1): **nghi là bug thật** (pydantic v2 từ chối kwarg lạ lúc runtime) — đọc AlertRule; nếu thiếu field, THÊM field `for_duration_seconds: float | None = None` (hoặc đúng nghĩa nghiệp vụ) + `_last_eval_time` nếu cần — fix thật, không noqa.
+  - `portfolio_service.py:261` assignment dict→int: đọc logic — nếu latent bug sửa thật; nếu pattern hợp lệ → annotation/cast.
+  - `price_service`/`indicator_service` override `_fetch_single` (2): quyết nhỏ nhất: broaden base signature sang kiểu union khớp subclass HOẶC noqa kèm lý do "subclass chuyên biệt hoá chữ ký có chủ ý".
+  - `agent.py` Pregel `config` arg-type + `tier_data`/`get` union (6-7): `cast(RunnableConfig, ...)`/annotation phù hợp, không đổi logic stream.
+  - `vn_stock_client` strftime (2), `financial_adapter` iloc (1), `app.py:444 async_queue` (1), còn lại theo file: annotation/cast/TypeGuard hợp túi tiền; noqa chỉ khi đổi type sẽ loãng contract, kèm lý do.
+  - Kết thúc: `mypy src/ --ignore-missing-imports --no-strict-optional` 0; unit PASS → commit `fix(typing): mypy clean src/`.
+- E4 SHIP: push 3 commit lên origin/main; đợi `gh run list -L 1` mới → kỳ vọng 4 job xanh (lint, typecheck, test — +build hiện có); nếu đỏ chỗ khác → log và báo, KHÔNG tự mở round mới.
+- Quy ước: sau MỖI phase ghi Implementation Notes vào WORKFLOW_STATE (số file/số lỗi còn lại); nếu bị ngắt, tiếp theo nhận lại từ state; CẤM `git add -A` (stage `src/` + file cụ thể); KHÔNG force-push.
+
+## Files To Change (lint-typefix)
+- Modify-only trong `src/` (~140 file black + file ruff/mypy chỉ ra). Không đụng: pyproject.toml, compose, frontend, data, tests (trừ khi test cần ghép type mới — không lường trước).
+- Thực tế đã chạm: E1 = **140 file** (toàn bộ dưới `src/`); E2 = **68 file** (toàn bộ dưới `src/`, gồm 1 file integration test + 4 file unit test trong `src/tests/` vì CI lint quét cả `src/tests/`). Danh sách file: `git show 945266b --stat`.
+- Thực tế E3 (typing) = **33 file**, 100% dưới `src/` (không có file test nào — khác E1/E2). Danh sách: `git diff --stat -- src/` tại HEAD E3 (xem Implementation Notes E3).
+
+## Acceptance Criteria (lint-typefix)
+1. `ruff check src/` 0 lỗi (khớp lệnh CI).
+2. `black --check src/` 0 (khớp lệnh CI).
+3. `mypy src/ --ignore-missing-imports --no-strict-optional` 0 lỗi (khớp lệnh CI).
+4. Unit suite 794/0 sau mỗi phase (không behavior change; chạy lại cuối cùng một lần tổng).
+5. Push đủ 3 commit style/typing; về 0/0; run CI mới trên origin/main xanh cả lint + typecheck + test (nếu đỏ chỗ khác → ghi rõ nguyên nhân).
+6. WORKFLOW_STATE trung thực: số lỗi từng phase + noqa list + push hash.
+
+## Implementation Notes (lint-typefix — implementor 18/10/2026, E1+E2)
+- **E1 FMT — PASS.** `python -m black src/` (venv project `black 26.10.1`): **140 files reformatted, 155 left unchanged** (`git diff --stat -- src/` = **140 files changed, 2726 insertions(+), 1023 deletions(-)**). Gate: `pytest src/tests/unit -q` = **794 passed / 0 failed** (56.8s) — không regression (diff thuần cơ chế format).
+- Commit E1: **`ae9bb76`** `style(black): format src/ to satisfy CI lint gate` — stage CHỈ `src/` (140 file tracked-modified; `git status --porcelain -- src/` không có `??` untracked; non-src staged = rỗng). KHÔNG `git add -A`.
+- **E2 RUFF — PASS.** `python -m ruff check src/ --fix` = **40 fixed / 109 remaining**; phần còn lại xử lý tay theo POLICY:
+  - Auto-fix phạm vi hẹp `--select SIM105,PLW0108,B905,RUF005,SIM108,B007,TC001,TC003 --fix --unsafe-fixes` = **26 fixed** (9 rule này chỉ có unsafe-fix). Riêng `news_adapter.py` (SIM401+B023 cùng dòng) sửa tay: bỏ lambda thừa → `get = row.get` (Series pandas luôn có `.get`).
+  - **1 regression do auto-fix — đã sửa và verify**: `indicator_service.py` inline `calc_fn` thành `calculate_sma/rsi` → **F821 undefined-name** (dict module-level eval TRƯỚC `def`) → revert về `lambda data, p: ...` + `# noqa: PLW0108 - forward ref` (2 noqa, lý do đúng bản chất).
+  - **PLR0917 (42 diagnostics)**: `ruff check src/ --select PLR0917 --add-noqa` → 45 directive `# noqa: PLR0917` (KHÔNG đổi chữ ký), rồi gắn lý do `- keep public signature` (1 lượt replace cơ học trên 30 file, verify lại bằng `ruff`+`black`; black re-split 2 `def` làm noqa rời dòng → đã đưa noqa về đúng dòng diagnostic).
+  - **ARG005 ×7**: `lambda row, market` → `_market` — chỉ 7/10 chỗ được rename; 3 chỗ (`pe`, `pb`, `dividend_yield`) THỰC SỰ dùng `market` nên GIỮ NGUYÊN (grep `lambda row, market` = 10 match trước khi sửa; sửa từng block theo `"key": ...` để không phá 3 chỗ kia).
+  - **ARG001/ARG002 rename `_name`** (giữ vị trí; đã grep caller xác nhận không bị gọi bằng keyword): `_original_query` (`fact_verifier._loose_check`), `_query_type` (`memory_manager.search_memory`), `_parsed` (`get_financial_ratios`), `_format` (`redis_cache.get_cache_with_format`, chỉ 1 caller gọi positional).
+  - **ARG001 noqa kèm lý do** (tên chính là API contract / caller gọi keyword): `financial_ratio_service.py:420 cache` (`cache=`), `rag/pipeline.py:45 force` (3 caller `force=`), `routes/market.py:144 years` (tên query param FastAPI), `shared/price_data.py:24-25 cache_namespace/ttl_hours` (shim deprecated giữ tên param legacy).
+  - **RUF001/RUF002 ×9**: thay ký tự ambiguous bằng ASCII — `−`→`-`, `–`→`-` (seed text SBV/TT11 trong `connectors.py`, docstring `tracing/storage.py`, schema `description` ở `traces.py`) và `×`→`x` (`rates_store/ingest.py`, `shared/service_helpers.py`). Chỉ sửa text trong source; KHÔNG đụng DB/artifact đã ingest.
+  - Còn lại: RUF005 ×4 (`[*a, *b]`), B905 ×2 (`strict=False`), B007 ×1, SIM108 ×1 (ternary), E741 ×2 (`l`→`line`), ERA001 ×2 (reword comment thành prose — `# Ports (strict)`/`# Ports: strict` vẫn bị coi là code nên dùng "Strict port bindings"), B904 ×2 (`raise ... from None`), B006 ×1 (`visualize.generate_chart_spec` default `symbols=["VNM"]` → `None`; body đã có sẵn `if symbols else ["VNM"]`), RUF012 ×3 (`ClassVar` trong test), RUF059 ×1 (`svc`→`_svc`), TC001 ×2 + TC003 ×2 (import vào `if TYPE_CHECKING:` — an toàn vì cả 4 file đều có `from __future__ import annotations`).
+  - **Tổng noqa THÊM bởi commit E2 = 52** = 45 `PLR0917` + 5 `ARG001` + 2 `PLW0108` (đo bằng parse `git diff ae9bb76 HEAD -- src/`). Tree hiện có **62** directive noqa trong `src/` (52 mới + 8 `F401` + 2 `ARG002` legacy).
+  - Gate phụ sau mỗi bước: `ruff check src/` → 0 **và** `black --check src/` → 0 (ruff fix/noqa phá format thì chạy lại `black src/`, rồi kiểm lại ruff — đã phải lặp 1 vòng cho `redis_cache.py`, `education.py`, `test_metrics_duplicates.py`).
+- **Gate E2 (đo trên `945266b`)**: `ruff check src/` = **All checks passed (0)**; `black --check src/` = **295 files unchanged (0)**; `pytest src/tests/unit -q` = **794 passed / 0 failed** (82.7s) — khớp baseline E1, không behavior change.
+- Commit E2: **`945266b`** `style(ruff): clean src/ per CI lint gate (noqa kèm lý do)` — staged = **68 file, 100% dưới `src/`** (non-src staged rỗng; `WORKFLOW_STATE.md`, `data/`, `frontend/` giữ nguyên unstaged/untracked). Diff: **68 files changed, 181 insertions(+), 190 deletions(-)**.
+- **Khai báo lệch nhỏ so với plan**: (a) message commit plan ghi `(noqa sẻn lý do)` — typo, đã dùng `(noqa kèm lý do)`; (b) 9 file trong `src/tests/` (1 integration + 8 unit — đúng theo reviewer F1: test_vnstock_contract, test_market_services, test_golden_dataset, test_metrics_duplicates, test_rag_metrics, test_run_benchmark, test_episodic_memory, test_sentiment_engines, test_financial_adapter) có sửa noqa/`ClassVar`/biến `_svc` vì CI lint quét cả `src/` (không đổi assertion nào). [đính chính từ "5 file" sau review F1]
+- **Nợ/latent phát hiện khi sửa (KHÔNG fix trong round này — ngoài scope lint, cần user quyết)**: (1) `rag/pipeline.py run_full_refresh(force=...)` — `force` KHÔNG được dùng trong thân hàm dù 3 caller truyền `force=`; (2) `routes/market.py get_indicators` — query param `years` khai báo nhưng KHÔNG forward xuống `handle_indicator_query` (7 tham số còn lại đều forward); (3) `shared/price_data.py` (shim deprecated) — `cache_namespace`/`ttl_hours` là no-op; (4) E3 MYPY (**142 lỗi**) CHƯA làm.
+
+## Review Findings (lint-typefix — reviewer 18/10/2026, độc lập trên `945266b`)
+**Verdict tổng: APPROVE** (E1 `ae9bb76` + E2 `945266b`). Mọi gate tự chạy lại độc lập, behavior-preserving, noqa đúng.
+- **P1 Scope sạch — APPROVE.** Cả 2 commit modify-only, 100% dưới `src/` (`git diff --name-status` không có A/D/rename; non-`src/` rỗng). `pyproject.toml`/`.github/workflows/ci.yml`/`.env*`/docker-compose/frontend/data KHÔNG bị chạm. Quét secret (API_KEY/SECRET/TOKEN/`sk-`/`nvapi-`) trên cả 2 diff: sạch.
+- **P2 Gates — APPROVE (khớp lệnh CI).** `ci.yml`: `ruff check src/`, `black --check src/`, `pytest src/tests/unit/` (PYTHON_VERSION=3.13). Chạy lại: `ruff check src/` = **0** (exit 0); `black --check src/` = **0** (295 unchanged); `pytest src/tests/unit -q` = **794 passed / 0 failed** (56.9s).
+- **P3 noqa đúng — APPROVE.** Diff parse: **52 mới** = 45 `PLR0917` + 5 `ARG001` + 2 `PLW0108`; cả 52 đều có lý do trên dòng (` - …`), không có noqa trần. 45 `PLR0917` nằm đúng dòng `def` (không đổi chữ ký). `RUF` nằm trong `select` ⇒ RUF100 (unused-noqa) bật trong lệnh CI; probe noqa giả → RUF100 báo lỗi ⇒ **`ruff src/ = 0` chứng minh mọi noqa nằm đúng dòng có diagnostic thật**. Tổng noqa trong `src/` = 62 (khớp báo cáo).
+- **P4 ARG005 — APPROVE.** 7 chỗ `lambda row, market` → `_market` (roe/eps/current_ratio/debt_to_equity/profit_margin/quick_ratio/asset_turnover — thân chỉ dùng `row`). 3 chỗ giữ `market` (pe:218, pb:228, dividend_yield:309) — đều đọc `market.get("current_price")`. Đúng, không sót.
+- **P5 Semantic edits — APPROVE.** (a) `news_adapter` `get = row.get`: vòng lặp là `df.iterrows()` ⇒ luôn pandas Series (có `.get`), gọi `get(k, "")` — tương đương, bỏ lambda-in-loop (B023). (b) `visualize.generate_chart_spec` default `["VNM"]`→`None` + annotation `list[str]|None`; thân dòng 133 `… if symbols else ["VNM"]` ⇒ hành vi y hệt, sửa bug B006 default mutable. (c) 4 `TYPE_CHECKING` move (market_store/ingest.py, ingest_ratios.py, rag/ingestion/connectors.py, mcp_server/tools/helpers.py): cả 4 có `from __future__ import annotations`; symbol move (MarketDataPort/FinancialPort/Path/Callable) chỉ dùng trong signature ⇒ runtime-safe, unit suite xanh. (d) 2 `raise … from None` (mcp/loader.py:77, cli/console.py): chỉ ẩn traceback chaining, không đổi type/exit code — chấp nhận. (e) PLW0108 revert `indicator_service` (sma/rsi) về `lambda …  # noqa: PLW0108 - forward ref`: đúng (registry module-level eval trước `def` ⇒ F821 nếu inline); `F` được select & ruff=0 nên không sót F821.
+- **P6 black pure-format — APPROVE (mạnh hơn sample).** So AST-dump **cả 140** file `.py` trước (`216e9f5`) vs sau (`ae9bb76`): **140/140 identical, 0 diff non-format/parse-error**. Không có assert nào đổi nội dung (chỉ re-wrap).
+- **P7 Latent — ACKNOWLEDGED.** `run_full_refresh(force=…)` unused, `routes/market.get_indicators years` không forward, `shared/price_data` shim no-op params, E3 mypy 142 chưa làm — **đều pre-existing**, không do round này tạo. Ghi nhận backlog, KHÔNG đòi sửa trong phase này.
+- **P8 AC verdict.** AC1 ✅ (ruff 0), AC2 ✅ (black 0), AC4-từng-phase ✅ (E2 re-run live 794/0; E1 AST-identical ⇒ suite không đổi), AC6 đạt phần lớn (xem F1). AC3 (mypy) + AC5 (push/CI xanh) hoãn đúng nhịp.
+- **Findings nhỏ (non-blocking, không cần sửa code E1/E2):**
+  - **F1 (độ chính xác tài liệu — cần sửa):** Notes ghi E2 chạm "**5** file trong `src/tests/` (1 integration + 4 unit)" — thực tế là **9** (1 integration + 8 unit): `test_vnstock_contract`, `test_market_services`, `test_golden_dataset`, `test_metrics_duplicates`, `test_rag_metrics`, `test_run_benchmark`, `test_episodic_memory`, `test_sentiment_engines`, `test_financial_adapter`. Sửa số đếm để AC6 trung thực.
+  - **F2 (lệch scope, chấp nhận):** Plan ghi "không đụng tests" nhưng E1 reformat ~42 file test + E2 sửa 9 file dưới `src/tests/`. Bất khả kháng (CI `ruff`/`black` quét cả `src/` incl. `src/tests/`); E1 test AST-identical (không đổi hành vi), E2 test chỉ đụng noqa/`ClassVar`/`_svc` (**0 thay đổi `assert`** — đã kiểm). Implementor ghi rõ. **Chấp nhận.**
+  - **F3 (maintainability, tuỳ chọn):** E2 gỡ 3 comment `# noqa: BLE001 — <lý do>` (ingest_ratios ×2, rss_news_adapter ×1) — đúng (BLE không trong `select`), nhưng mất ngữ nghĩa "vì sao bắt except rộng" ⇒ cân nhắc thêm lại dạng comment thường. Ngoài ra `get_financial_ratios(cache=…)` là param nhận mà không dùng (đã noqa) — vestigial pre-existing.
+  - **F4 (wording nit):** lý do noqa "keep public signature" áp cả cho method private (`_where_clause`, `_open_span`, `_fetch_single`, `_try_provider`) và helper test (`scroll`) — vô hại.
+  - **F5 (awareness):** `mcp/loader.py` đổi `except asyncio.TimeoutError` → `except TimeoutError` (UP041) — **chỉ an toàn vì target-version=py313 + CI py3.13** (`asyncio.TimeoutError is TimeoutError` = True); trên py≤3.10 sẽ không bắt được timeout. Không cần hành động, chỉ để biết.
+
+## Current Status (lint-typefix — E1+E2 DONE 18/10/2026, REVIEWED APPROVE)
+- E1 (black) + E2 (ruff) XONG, commit riêng từng phase: **`ae9bb76`** (140 file) và **`945266b`** (68 file). Gate tái xác nhận độc lập: `ruff check src/` = 0, `black --check src/` = 0, `pytest src/tests/unit -q` = **794 passed / 0 failed**.
+- Reviewer verdict: **APPROVE** (xem Review Findings). Không cần sửa code; chỉ 1 chỉnh tài liệu (F1).
+- Nhịp được giao cho vòng này CHỈ gồm E1+E2. **E3 (mypy 142 lỗi) và E4 (push 3 commit + xác nhận CI thật) CHƯA mở** — chờ user/planner cấp nhịp.
+- Working tree ngoài `src/` vẫn dirty như trước khi vào round (không do round này): `M WORKFLOW_STATE.md`, `M data/lessons/curriculum_tai_chinh_ca_nhan.json`, `M frontend/trau-video/public/lessons/index.json` + nhóm untracked `frontend/...`, `evals/dashboard/v1/report-gpt41.json`.
+- AC lint-typefix: **AC1 ✅, AC2 ✅, AC4 ✅**; **AC6 đạt phần lớn (cần sửa số đếm F1)**; **AC3 (mypy) + AC5 (push/CI xanh)** chưa đạt do ngoài nhịp.
+
+## Next Agent (lint-typefix → tester)
+- **Tester**: xác nhận E1+E2 không regression (unit suite đã xanh 794/0; chạy lại `src/tests/unit` + tùy chọn integration/contract như thường lệ). Không cần test mới — round này thuần format/lint, behavior-preserving (E1 AST-identical; E2 không đổi `assert`).
+- **Trước/kèm**: sửa F1 trong WORKFLOW_STATE (E2 chạm **9** file `src/tests/`, không phải 5) để AC6 trung thực.
+- **Sau đó**: chờ user quyết mở **E3 (mypy, 142 lỗi)** và **E4 (push + verify CI run mới)** — KHÔNG tự mở, KHÔNG tự push.
+
+## Implementation Notes E3 (lint-typefix — implementor 18/10/2026)
+- **E3 MYPY — PASS.** `python -m mypy src/ --ignore-missing-imports --no-strict-optional` = **142 → 0** (`Success: no issues found in 295 source files`). Baseline tự đo lại trước khi sửa = **142 lỗi / 33 file** (khớp log run CI 39073578256 + plan).
+- **Gate cuối (đo trên working tree sau E3, khớp lệnh CI)**: `mypy src/ --ignore-missing-imports --no-strict-optional` = **0**; `ruff check src/` = **All checks passed (0)**; `black --check src/` = **0** (295 files unchanged); `pytest src/tests/unit -q` = **794 passed / 0 failed** (183.7s).
+- **Diff E3**: **33 file, 180 insertions(+), 121 deletions(-)** — 100% dưới `src/` (`git diff --name-status` không có A/D/rename; non-`src/` staged = rỗng). KHÔNG `git add -A`.
+- Nhóm xử lý (theo plan E3, ghi rõ các chỗ lệch):
+  1. **Unused `# type: ignore` (50 lỗi → 0)**: bỏ comment — `dependencies.py` (32: dòng 74-79, 298,302,305,308,311,314,318,325,326,331,332,333,341,342,348,379-387,394-396), `rag/pipeline.py` (7), `rag/vector_store.py` (1), `rag/embedder.py` (2), `shared/base_service.py`, `shared/service_helpers.py`, `market/sector_service.py`, `portfolio/news_sentiment_service.py`, `memory/memory_manager.py`, `mcp_server/server.py` (2), `mcp_server/tools/knowledge.py`, `rag/processing/chunker.py`, `rag/ingestion/crawler.py`.
+  2. **`logger.py`**: `PerformanceTimer.start_time/end_time` → `float = 0.0` (bỏ `None`; chỉ dùng nội bộ `__exit__`, đã grep xác nhận không ai đọc ngoài); `handlers: list[logging.Handler] = []` (trước bị infer `list[StreamHandler]`).
+  3. **`alerting/manager.py` — BUG THẬT ĐÃ FIX**: `AlertRule` là `@dataclass` **thuần** (KHÔNG phải pydantic như plan nghi) và **thiếu** field `for_duration_seconds` (5 caller default-rule truyền) ⇒ `AlertManager()` raise `TypeError` lúc runtime. Đã thêm `for_duration_seconds: float | None = None` + `_last_eval_time: float = field(default=0.0, init=False, repr=False)` (import `field`). **Smoke verify**: `AlertManager()` tạo **5 rule** OK, `_last_eval_time=0.0`.
+  4. **`_fetch_single` override ×4** (`market/price_service.py:109`, `market/indicator_service.py:63`, `financial/financial_ratio_service.py:52`, `company/company_service.py:21`): chọn `# type: ignore[override]` + lý do "subclass chuyên biệt hoá chữ ký", **KHÔNG** broaden base — vì 4 subclass có **tên tham số khác nhau** (`field`/`indicator_params`/…), broaden base sang union vẫn fail name-compat và làm loãng contract chung.
+  5. **TTL int→float**: `BaseService._cached_fetch(ttl_hours: int=24)` → `float=24`; `MemoryCache.__init__(default_ttl_hours: int=1)` → `float=1`; `MemoryCache.set(ttl_hours: int|None)` → `float|None`. Lý do gốc: `CachePort.set(ttl_hours: float=1.0)` và `cache_manager` truyền `l1_ttl_hours=0.5` (int() sẽ truncate 0.5→0 = hết hạn ngay ⇒ KHÔNG dùng cast).
+  6. **`dependencies.py:314`**: `_MemCacheAdapter` giữ **duck-typed** + `# type: ignore[assignment]  # duck-typed CachePort`. (Đã thử `class _MemCacheAdapter(CachePort)` — ruff **TC004** phát hiện `CachePort` chỉ import trong `if TYPE_CHECKING:` ⇒ sẽ **NameError runtime** ⇒ revert. Đây là 1 phát hiện nhờ gate ruff sau E3.)
+  7. **`agent.py`**: thêm `cast` + `RunnableConfig` (**đặt trong `if TYPE_CHECKING:`** đúng TC002 — đã test: local-var annotation KHÔNG được eval runtime nên an toàn); `cast(str, …content)` ×6 (450/478/505/530/535/701); tách annotation `reformulated: str` / `entities: list[str]` / `topics: list[str]`; `stream_config: RunnableConfig | None` ×2 (663/862); bỏ annotation `tier_data` sau khi sửa `search_memory`.
+  8. **Cache/Redis**: `redis_cache._client: redis.Redis | None`; broaden `_deserialize(data: Any)`; nhánh else đổi `data`→`raw`; `cast` cho `hset` (`dict[Any, Any]`) & `setex` (`str`); `set_members() -> AbstractSet[Any]` (tên `set` bị **shadow bởi chính method `RedisCache.set`** trong class body nên `-> set[Any]` là lỗi type); `serialization._deserialize_{json,msgpack,redis_hash}(data: Any)`.
+  9. **Memory**: `short_term/memory.py` `cast(str, …)` ×2 + rename `facts_data`→`facts_map` (nhánh else); `memory_manager`: `_cleanup_task: threading.Thread | None`, `stats: dict[str, Any]`, `search_memory(...) -> dict[str, Any]` (annotation cũ `dict[str, list[Any]]` **sai** — thân hàm trả dict của dict: `{"short_term": {interactions, facts, count}}`).
+  10. **Khác**: `sentiment/engines.py` `_hf_pipe: Any` (trước bị infer từ `None`); `metrics/collector.py` `result: dict[str, Any]`; `custom_tool_node.execute_one(tool_call: Any)`; `fact_verifier` guard `isinstance(content, str)` + `numbers_found: list[dict[str, Any]]`; `financial_adapter` `closes: Any`; `vn_stock_client` `cast(Any, start/end)`; `portfolio_service` `allocation: dict[str, Any]`; `news_sentiment_service` `result`/`query` annotation + `BaseService.for_each_ticker(fetch_fn: Callable[[str], Any])`; `llm_provider` `_method/_primary/_fallback/llm: Any` + `ChatGroq(model=)`→`(model_name=)` (**đã verify** `populate_by_name=True` trong langchain-groq đã cài ⇒ runtime tương đương) + `with_structured_output(method: Any)`; `rag/embedder.py` 4 attr `Any` (+ import `Any`); `rag/ingestion/crawler.py` guard `isinstance(href, str)`; `rag/vector_store.py` `ops: list[Any]` + ignore `[attr-defined]` cho `create_alias` (fallback client cũ); `interfaces/api/app.py` `async_queue: asyncio.Queue[str | None]`.
+- **Ruff auto-fix sau E3**: `ruff check src/ --fix` = **11 fixed** (toàn bộ **TC006** "cast cần quote type-expression") — cơ học, không đổi logic. Sau đó `black src/` reformat **1 file** (`dependencies.py`, do bỏ ignore làm dòng ngắn lại → re-wrap).
+- **Số `# type: ignore` THÊM bởi E3 = 6**, tất cả kèm lý do trên dòng. Ban đầu chỉ 4/6 kèm lý do: 2 `[override]` ở `financial_ratio_service.py:52` + `company_service.py:21` **thiếu lý do** (đúng như reviewer F1 chỉ ra) → **đã vá ở nhịp E4/F1** bằng lý do "subclass specialises the base signature by design". Phân loại: 4 `[override]` (`_fetch_single` ×4) + 1 `[assignment]` (`dependencies._MemCacheAdapter`) + 1 `[attr-defined]` (`vector_store.create_alias`).
+- **Latent phát hiện thêm khi làm E3 (KHÔNG fix ngoài scope — cần user/planner quyết)**: (5) `AlertRule.for_duration_seconds` **chưa được đọc ở đâu** (chỉ truyền) ⇒ nghiệp vụ "phải duy trì N giây mới báo" chưa cài; (6) `redis_cache.set_members/delete_multi/…` còn tham số `keys: list`/`value` chưa khai báo type — pre-existing, không nằm trong 142 lỗi nên để nguyên.
+- **Commit E3**: **`bf95b79`** `fix(typing): resolve 142 mypy errors in src/ (annotations, casts, AlertRule field)` — staged = **33 file, 180 insertions(+), 121 deletions(-)**, 100% dưới `src/` (đã kiểm `git diff --cached --name-only` lọc non-`src/` = rỗng). HEAD mới = `bf95b79` ← `945266b` ← `ae9bb76`. Sau commit: `git status --porcelain -- src/` = **rỗng** (không staged, không untracked). **CHƯA push.**
+
+## Current Status E3 (lint-typefix — E3 DONE 18/10/2026, chờ review)
+- **E3 (mypy) XONG**: 142 → **0**, gate `ruff`/`black`/`pytest unit` (794/0) đều xanh trên working tree. Diff **33 file, 100% dưới `src/`**.
+- Đã **commit E3 = `bf95b79`** (chỉ stage file `src/` explicit, KHÔNG `git add -A`). **CHƯA push** (E4 chưa thuộc nhịp này).
+- Một fix là **bug thật** (`AlertManager()` TypeError do `AlertRule` thiếu `for_duration_seconds`) + 1 phát hiện runtime nhờ ruff TC004 (revert `_MemCacheAdapter(CachePort)`) — ghi rõ trong Notes E3.
+- Working tree ngoài `src/` vẫn dirty như trước (không do round này): `M WORKFLOW_STATE.md`, `M data/lessons/curriculum_tai_chinh_ca_nhan.json`, `M frontend/trau-video/public/lessons/index.json` + nhóm untracked `frontend/...`, `evals/dashboard/v1/report-gpt41.json`.
+- AC lint-typefix sau E3: **AC1 ✅, AC2 ✅, AC3 ✅, AC4 ✅, AC6 ✅ (E3 ghi đủ); AC5 (push+CI xanh) chưa** — đúng nhịp (E4 chưa mở).
+
+## Review Findings (lint-typefix E3 — reviewer 18/10/2026, độc lập trên `bf95b79`)
+**Verdict tổng: APPROVE** (E3 `bf95b79`). 4 gate tự chạy lại xanh; scope sạch; behavior-preserving; **1 bug thật được fix** (`AlertManager()`); 1 finding nhỏ non-blocking (tài liệu).
+
+### 1. Scope sạch — APPROVE
+- `git show --numstat bf95b79`: **33 file**, `--name-only` không có file ngoài `src/` (non-`src/` rỗng) → KHÔNG chạm `pyproject.toml`/`.github/workflows/ci.yml`/frontend/data/docker-compose. Không A/D/rename.
+- `git status --porcelain -- src/` = **rỗng** (tree `src/` sạch tại HEAD `bf95b79`; head base `945266b`).
+- **Secret scan** trên toàn bộ dòng `+` của diff (`api_key|secret|token|password|sk-|nvapi-|Bearer|BEGIN … KEY`): **0 match**.
+
+### 2. Gates (khớp lệnh CI) — APPROVE (tự chạy lại)
+- `mypy src/ --ignore-missing-imports --no-strict-optional` = **0** (`Success: no issues found in 295 source files`).
+- `ruff check src/` = **0** (`All checks passed!`).
+- `black --check src/` = **0** (`295 files would be left unchanged`).
+- `pytest src/tests/unit -q` = **794 passed / 0 failed** (68.41s).
+
+### 3. 6 `# type: ignore` mới — APPROVE (code đúng; 2 thiếu lý do — xem F1)
+Tất cả 6 dùng **error-code cụ thể** (không blanket). `mypy` cấu hình `warn_unused_ignores=true` + mypy=0 ⇒ mọi ignore đều còn hiệu lực (không sót); `ruff` `select` có `RUF100` + ruff=0 ⇒ noqa/ignore đúng dòng diagnostic thật. **P**GH không nằm trong `select` nên việc 2 ignore thiếu lý do KHÔNG làm đỏ gate.
+1. `price_service.py:109` `[override]` — có lý do "subclass widens the base signature by design". ✓
+2. `indicator_service.py:63` `[override]  # noqa: PLR0917 - keep public signature` — có comment kèm (lý do mượn từ noqa). △
+3. `financial_ratio_service.py:52` `[override]` — **KHÔNG có lý do**. ✗ (F1)
+4. `company_service.py:21` `[override]` — **KHÔNG có lý do**. ✗ (F1)
+5. `dependencies.py:314` `[assignment]  # duck-typed CachePort`. ✓
+6. `vector_store.py:137` `[attr-defined]  # older qdrant clients`. ✓
+- **4 `[override]` không che bug:** base `BaseService._fetch_single(self, ticker, start_date, end_date)` (3 param) khác hẳn chữ ký subclass (`company`/`financial_ratio`: `field`; `price`: `field|dict, parsed`). Đây là **smell pre-existing** (base method giá bị dùng làm generic hook), nhưng grep xác nhận **không có call polymorphic qua type base** (mỗi service gọi `self._fetch_single`/lambda với chữ ký riêng) ⇒ ignore đúng bản chất, không giấu lỗi runtime.
+
+### 4. Spot rủi ro behavior — APPROVE (chi tiết)
+- **(a) `AlertRule` + `for_duration_seconds` + `_last_eval_time` — BUG THẬT ĐÃ FIX (verify):** `AlertRule` là `@dataclass` thuần (không pydantic); thêm `for_duration_seconds: float | None = None` (đặt SAU các field có default → hợp lệ) + `_last_eval_time: float = field(default=0.0, init=False, repr=False)`. 5 caller default-rule truyền `for_duration_seconds` (300/300/600/300/120) — trước fix sẽ `TypeError`. **Smoke độc lập:** `AlertManager()` tạo **5 rule OK**, `_last_eval_time=0.0`; đọc/ghi `_last_eval_time` qua `getattr`/assignment hoạt động. Default an toàn khi field không truyền.
+- **(b) `ChatGroq(model_name=)` — ĐÚNG:** verify thật `ChatGroq.model_fields`: có field **`model_name`** (alias `model`, không có field `model`); cả `model_name=` lẫn `model=` đều construct OK và resolve `llama-3.1-8b-instant` → runtime tương đương, không đổi hành vi.
+- **(c) TTL `int→float` — không phá cache strategy:** thuần annotation (`BaseService._cached_fetch ttl_hours`, `MemoryCache.__init__ default_ttl_hours`, `MemoryCache.set ttl_hours`). Runtime không đổi (`ttl_hours or default` + `*3600`); sửa đúng root-cause mypy cho `l1_ttl_hours=0.5` (tránh truncate). ✓
+- **(d) `logger` `None→0.0` — không đổi nghĩa:** `PerformanceTimer.start_time/end_time` chỉ được **ghi** trong `__enter__`/`__exit__` và **đọc** trong `__exit__` sau khi ghi ⇒ default 0.0 không bao giờ bị đọc trước khi gán trong dùng thực tế; chỉ khác là misuse (gọi `__exit__` không qua `__enter__`) không còn `None-None` TypeError. Không semantic change. ✓
+- **(e) `search_memory` return annotation — ĐÚNG:** thân hàm build `results["short_term"] = {…}` / `results["episodic"] = {…}` rồi `return results` ⇒ dict-of-dict ⇒ `dict[str, Any]` đúng (annotation cũ `dict[str, list[Any]]` SAI). ✓
+- **(f) `cast(str, content)` ×6 agent.py — chỉ khai báo:** `cast` là no-op runtime (không chuyển đổi). **Latent (pre-existing, không do commit này):** `.content` có thể là `list` (multimodal) — code vẫn không xử lý list; cast không tạo/Triệt tiêu runtime issue. Note lại, không đòi sửa.
+- **(g) TC004 revert `_MemCacheAdapter` — ĐÚNG, sạch, không hack:** verify `CachePort` chỉ import trong `if TYPE_CHECKING:` ⇒ `class _MemCacheAdapter(CachePort)` sẽ **NameError runtime** ⇒ revert về class thường + `# type: ignore[assignment]  # duck-typed CachePort`. Chính xác.
+
+### 5. Thay đổi logic phi-annotation khác — đã kiểm, an toàn
+- `fact_verifier.py` guard `raw=msg.content; if not isinstance(raw, str): continue` trước `json.loads(raw)`: **behavior-preserving** — trước đây non-str → `json.loads` raise `TypeError` bị `except (json.JSONDecodeError, TypeError)` bắt → `continue` (cùng kết quả). Guard chỉ làm rõ sớm hơn. (Khác biệt duy nhất: `bytes` trước được `json.loads` parse, giờ skip — không thực tế với `ToolMessage.content`.)
+- `redis_cache.get`: nhánh else đổi `data`→`raw` **nhất quán** (nhánh `hgetall` vẫn giữ `data`) → không có biến undefined.
+- `set_members() -> AbstractSet[Any]`: method `set` shadow builtin `set` trong class body ⇒ workaround đúng.
+- Còn lại (embedder/pipeline/serialization/vn_stock_client/financial_adapter/collector/engines/mcp_server/service_helpers/…) thuần annotation + bỏ ignore không dùng → không đổi hành vi.
+
+### 6. AC lint-typefix (phần thuộc nhịp E3)
+| AC | Verdict |
+|----|---------|
+| AC1 `ruff check src/` = 0 | **PASS** (tự chạy lại) |
+| AC2 `black --check src/` = 0 | **PASS** (295 unchanged) |
+| AC3 `mypy src/ --ignore-missing-imports --no-strict-optional` = 0 | **PASS** (295 files, 0 issue) |
+| AC4 unit 794/0 | **PASS** (794/0, tự chạy lại) |
+| AC5 push 3 commit + CI xanh | **n/a nhịp này** — E4 chưa mở (đúng nhịp) |
+| AC6 WORKFLOW_STATE trung thực | **PASS-with-minor** (F1) |
+
+### 7. Findings (non-blocking)
+- **F1 (nhỏ — tài liệu/noqa chưa đủ):** Notes E3 ghi *"Số `# type: ignore` THÊM bởi E3 = 6, **tất cả kèm lý do trên dòng**: 4 `[override]` …"* — **không chính xác**: chỉ 2/4 `[override]` có lý do; `financial_ratio_service.py:52` và `company_service.py:21` là ignore **trần-có-code** không kèm lý do. Cả 2 là override hợp lệ (chữ ký chuyên biệt hoá có chủ ý) nên **không phải bug**, nhưng nên thêm lý do (vd `# subclass widens the base signature by design`) cho nhất quán với POLICY `noqa kèm lý do`, và sửa lại câu Notes cho khớp AC6. **Không chặn E4** (không ảnh hưởng gate/behavior).
+- **F2 (awareness, pre-existing, ghi trong Notes):** `for_duration_seconds` hiện **chỉ được truyền, không được đọc** ⇒ nghiệp vụ "duy trì N giây mới báo" chưa cài; `redis_cache.set_members/delete_multi` param chưa khai type. Ngoài scope lint, để lại backlog.
+- **F3 (awareness):** `cast(str, content)` + `.content` dạng list (multimodal) chưa xử lý runtime — pre-existing, không do E3.
+
+### 8. Kết luận
+Không có vấn đề blocking. Code đúng, gates xanh độc lập, scope sạch, behavior-preserving, 1 bug thật (`AlertManager()`) được fix đúng. **E4 (push `ae9bb76`→`945266b`→`bf95b79` + verify CI run mới 4 job) SẴN SÀNG về mặt code** — chỉ còn chờ user/planner cho phép chạy (và tuỳ chọn vá F1 trước push).
+
+## Current Status E3 (lint-typefix — E3 DONE + REVIEWED 18/10/2026, APPROVE)
+- **E3** `bf95b79`: 142 → **0** mypy; gate `ruff`/`black`/`mypy`/`pytest unit` (794/0) xanh (reviewer tự chạy lại). Diff **33 file, 100% dưới `src/`**, không secret.
+- Reviewer verdict: **APPROVE** (1 bug thật `AlertManager()` fix verify độc lập; 6 ignore đúng code; 1 finding nhỏ F1 về lý do ignore — non-blocking).
+- **E4 sẵn sàng** (push + CI verify) — chờ user/planner cấp nhịp; KHÔNG tự push. F1 có thể vá kèm trước push (không bắt buộc).
+
+## Next Agent (lint-typefix E3)
+- **tester** — xác nhận không regression cho E3 (round thuần typing; unit suite đã 794/0, chạy lại `src/tests/unit` là đủ; không cần test mới). Đối chiếu các finding ở mục 4 (behavior spots) đã verify độc lập.
+- **Tuỳ chọn trước E4:** implementor vá **F1** (thêm lý do cho 2 `# type: ignore[override]` ở `financial_ratio_service.py:52` + `company_service.py:21`; sửa câu Notes "tất cả kèm lý do" → đúng thực tế) — docs/noqa-only, không đổi hành vi.
+- **Sau đó:** chờ **user/planner** quyết mở **E4** (push 3 commit `ae9bb76`→`945266b`→`bf95b79` lên `origin/main` + verify run CI mới xanh 4 job lint/typecheck/test/build) — **KHÔNG tự push**.
