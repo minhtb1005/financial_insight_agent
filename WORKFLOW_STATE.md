@@ -2319,3 +2319,14 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - **Files đổi (6):** `docker-compose.yml`, `docker-compose.dev.yml`, `.env.example`, `src/infrastructure/rates_store/scheduler.py`, `src/interfaces/api/app.py` (wiring), `WORKFLOW_STATE.md`.
 - **Untracked cố ý để nguyên (ngoài scope, không stage):** `evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`.
 
+## Current Status (rates-refresh-enable — IMPLEMENT DONE + PUSHED + CI GREEN 18/10/2026)
+- Bật rates crawl-time refresh: `ENABLE_RATES_SCHEDULER` default **true** (2 compose + `.env.example`) + job gọi `purge_expired()` sau ingest + `next_run_time=now` (chạy ngay khi boot, giữ interval 7 ngày).
+- **Root-cause gap vá:** `start_rates_scheduler()`/`stop_rates_scheduler()` **chưa hề được gọi** → đã nối vào `app.py` lifespan (mirror market scheduler). Không có wiring này thì R1-R3 vô hiệu (dead code).
+- Gates xanh: rates unit **14 passed**; full suite **716 passed / 17 skipped / 0 failed** (=baseline); ruff/black/mypy gate **0**; `docker compose config` ×2 **exit 0** (qua WSL) render `ENABLE_RATES_SCHEDULER: "true"`.
+- Commit **`43606ba`** (6 file: `docker-compose.yml` + `docker-compose.dev.yml` + `.env.example` + `scheduler.py` + `app.py` + `WORKFLOW_STATE.md`); push `1eadd66..43606ba main -> main`; HEAD==origin/main **0/0**. CI run **`39101833823`** = **success** (typecheck/lint/test).
+
+## Next Agent (rates-refresh-enable)
+- **@reviewer** (tùy chọn — planner F1 chốt bỏ nhịp reviewer riêng, gates + CI là bằng chứng theo tiền lệ dep-removal): nếu soi, review commit `43606ba` (env default true + purge + boot-now + `app.py` wiring). Lưu ý **deviation**: thêm `app.py` (ngoài danh sách file R5) là **bắt buộc** để scheduler thực sự chạy — xác nhận trước đó 0 caller.
+- Đóng vòng F1: "crawl-time tự refresh" giờ tồn tại (Docker: scheduler bật mặc định, chạy ngay khi boot + purge weekly).
+- Gap còn lại (ngoài nhịp, đã ghi trong plan F1): deposit/VNIBOR daily ingester là follow-up; market scheduler vẫn `false` (thuộc R4c).
+
