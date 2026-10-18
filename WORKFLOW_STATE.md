@@ -2444,6 +2444,7 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - AC đối chiếu: (1) DELETE từ UI thật → OPTIONS **200** + DELETE **200** + row mất + **0 CORS error** → **PASS**; (2) PATCH meta → OPTIONS **200** + PATCH **200** + meta persist trong DB → **PASS** (qua fetch trong page context vì frontend không có UI PATCH — không sửa frontend); (3) `get_rates` **6/6** hai lần độc lập → **PASS**; (4) RAM đỉnh ~**13.4GB available** (thừa xa ngưỡng 1GB) → **PASS**; (5) `down` sạch: `docker ps -a` rỗng, image giữ **729/729/189MB**, volumes `app_data` không xoá → **PASS**.
 - Findings (KHÔNG chặn): frontend thiếu UI PATCH meta; `React #418` hydration warn pre-existing; frontend container healthcheck IPv6 pre-existing; `deposit`/`lending`/`vnibor` rỗng do R5 purge (daily ingester là follow-up).
 - PENDING USER (KHÔNG tự đụng `.env`): `.env:49` `SENTIMENT_ENGINE=hf` → `llm` nếu muốn docker local chạy LLM (image đã bỏ transformers → hiện rơi keyword degrade).
+- **UV7 DONE:** commit state **`cdcfd43`** `docs(workflow): record C2 resume verify UV2-UV6 (CORS DELETE+PATCH via real UI, down clean)` → push `77a9a78..cdcfd43 main -> main`; HEAD==origin/main **0/0**; CI run **`39135815094`** = **success** (lint / test / typecheck **3/3 xanh**).
 
 ## Next Agent (C2 RESUME)
 - **reviewer** — soi báo cáo verify UV2→UV6 ở trên (bằng chứng network từng request, 404 + meta persist, down sạch). **Không có code diff** để review (chỉ state doc) → kỳ vọng: xác nhận **đóng Ship C** (AC cors-fix end-to-end PASS), rồi bàn giao tester/CI watch.
