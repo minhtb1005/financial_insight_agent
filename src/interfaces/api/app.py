@@ -223,12 +223,26 @@ async def lifespan(_app: FastAPI):
     except Exception as e:
         _request_logger.warning("Market scheduler init failed: %s", e)
 
+    # Rates policy refresh scheduler (opt-in via ENABLE_RATES_SCHEDULER)
+    try:
+        from infrastructure.rates_store.scheduler import start_rates_scheduler
+
+        start_rates_scheduler()
+    except Exception as e:
+        _request_logger.warning("Rates scheduler init failed: %s", e)
+
     yield
 
     try:
         from infrastructure.market_store.scheduler import stop_market_scheduler
 
         stop_market_scheduler()
+    except Exception:
+        pass
+    try:
+        from infrastructure.rates_store.scheduler import stop_rates_scheduler
+
+        stop_rates_scheduler()
     except Exception:
         pass
     try:

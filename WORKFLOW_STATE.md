@@ -2289,4 +2289,33 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 
 ## Next Agent (dep-removal → reviewer)
 - **@reviewer**: soi commit dep-removal (diff `pyproject.toml` 5 dòng + xác nhận 0 usage + gate). Chạy lại gate bằng `.venv\Scripts\python.exe`; lưu ý mypy phải dùng cờ gate (`--ignore-missing-imports --no-strict-optional`) — mypy trần có 27 lỗi pre-existing, không phải regression.
-- Sau review → khép vòng dep-audit; không còn điểm chặn.
+- [BỎ NHỊP reviewer theo planner 18/10: xoá 5 dòng pyproject thuần cơ chế, gates full-suite + CI xanh trên đúng sha là bằng chứng đủ — nhất quán tiền lệ. Không còn điểm chặn dep-audit.]
+
+## F1 quyết user (18/10): "để crawl-time tự refresh" — plan rates-refresh-enable
+- Bối cảnh: rates scheduler là OPT-IN (`ENABLE_RATES_SCHEDULER`, default false) và KHÔNG được set ở compose/.env.example → "crawl-time tự refresh" hiện không tồn tại; `purge_expired` cũng 0 caller production (chỉ test). Market scheduler vẫn `false` (thuộc R4c, không đụng nhịp này).
+- R1 compose ×2 + `.env.example`: thêm `ENABLE_RATES_SCHEDULER=${ENABLE_RATES_SCHEDULER:-true}` (default true theo quyết user).
+- R2 `rates_store/scheduler.py`: job sau `ingest_policy_rates` gọi thêm `RatesStore().purge_expired()` (log counts) — purge có caller thật, seed cũ tự dọn khi data mới về (đúng tinh thần quyết user: không re-date, không exempt).
+- R3 job chạy NGAY khi boot: `next_run_time=now` (IntervalTrigger mặc định chạy sau 7 ngày — user sẽ chờ vô nghĩa); giữ interval 7 ngày.
+- R4 Gates: unit rates + full `pytest src/tests -q` 0 failed; ruff/black/mypy 0; `docker compose config` ×2 (KHÔNG build/up — RAM constraint).
+- R5 Commit `feat(rates): enable crawl-time refresh (scheduler on by default + purge after ingest)` + push + CI watch (3 job xanh). Bỏ reviewer riêng (nhịp ~5 dòng, gates + CI làm bằng chứng — tiền lệ dep-removal).
+- Gap ghi rõ (không làm nhịp này): scheduler chỉ refresh POLICY weekly; deposit/VNIBOR daily ingester là follow-up (comment code); market scheduler enable thuộc R4c.
+
+## Implementation Notes (rates-refresh-enable — implementor 18/10/2026) — DONE
+- **R1** `docker-compose.yml` + `docker-compose.dev.yml` (cạnh `ENABLE_RAG_SCHEDULER`) + `.env.example`: thêm `ENABLE_RATES_SCHEDULER` default **true** (`${ENABLE_RATES_SCHEDULER:-true}` compose / `=true` .env.example).
+- **R2** `rates_store/scheduler.py` job: sau `ingest_policy_rates` gọi `RatesStore().purge_expired()` + log `Rates purge done: <dict counts>` (giữ nguyên style/try hiện có; default `today=None` là đủ).
+- **R3** `sched.add_job(..., next_run_time=datetime.now(tz))` (tz = `ZoneInfo("Asia/Ho_Chi_Minh")`, import `datetime` mới thêm); interval giữ **7 ngày**; chỉ job `rates_policy`.
+- **ROOT-CAUSE GAP phát hiện & vá (DEV — app.py, ngoài danh sách R5):** `start_rates_scheduler()` **chưa từng được gọi ở đâu** (grep toàn repo chỉ có def, không caller) → chỉ bật env + sửa scheduler là **dead code, refresh vẫn không chạy**. Đã wire trong `src/interfaces/api/app.py` lifespan (mirror market scheduler: start sau market scheduler trước `yield`, stop trong finally). **Không có dòng app.py này thì toàn bộ R1-R3 vô hiệu.** Không đụng market scheduler/R4c.
+- **Gates (`.venv\Scripts\python.exe`):**
+  | Gate | Lệnh | KQ |
+  |---|---|---|
+  | rates unit | `pytest src/tests/unit/infrastructure/rates_store -q` | **14 passed** |
+  | full suite | `pytest src/tests -q` | **716 passed / 17 skipped / 0 failed** (69.26s) = baseline |
+  | ruff | `ruff check src` | **All checks passed** (0) |
+  | black | `black --check src` | **282 files unchanged** (0) |
+  | mypy gate | `mypy src --ignore-missing-imports --no-strict-optional` | **Success: 282 files** (0) |
+  | compose prod | `docker compose config` | **exit 0**, render `ENABLE_RATES_SCHEDULER: "true"` |
+  | compose dev | `docker compose -f docker-compose.dev.yml config` | **exit 0**, render `ENABLE_RATES_SCHEDULER: "true"` |
+- **Note gate (d):** Windows shell **không có `docker` binary** → chạy `docker compose config` qua WSL `Ubuntu-22.04` (client-side parse/interpolation, KHÔNG `build`/`up` — đúng constraint). Kết quả `PROD_RC=0` / `DEV_RC=0`.
+- **Files đổi (6):** `docker-compose.yml`, `docker-compose.dev.yml`, `.env.example`, `src/infrastructure/rates_store/scheduler.py`, `src/interfaces/api/app.py` (wiring), `WORKFLOW_STATE.md`.
+- **Untracked cố ý để nguyên (ngoài scope, không stage):** `evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`.
+

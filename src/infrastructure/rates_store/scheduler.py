@@ -7,6 +7,7 @@ Policy SBV đổi hiếm → check mỗi 7 ngày. Deposit/VNIBOR daily là follo
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from infrastructure.observability import get_logger
@@ -35,11 +36,20 @@ def start_rates_scheduler() -> None:
             try:
                 res = ingest_policy_rates(RatesStore())
                 logger.info("Rates policy refresh done: skipped=%s", res.get("skipped"))
+                purged = RatesStore().purge_expired()
+                logger.info("Rates purge done: %s", purged)
             except Exception as e:
                 logger.exception("Rates policy refresh failed: %s", e)
 
-        sched = BackgroundScheduler(timezone=ZoneInfo("Asia/Ho_Chi_Minh"))
-        sched.add_job(job, IntervalTrigger(days=7), id="rates_policy", replace_existing=True)
+        tz = ZoneInfo("Asia/Ho_Chi_Minh")
+        sched = BackgroundScheduler(timezone=tz)
+        sched.add_job(
+            job,
+            IntervalTrigger(days=7),
+            id="rates_policy",
+            replace_existing=True,
+            next_run_time=datetime.now(tz),
+        )
         sched.start()
         _scheduler = sched
         logger.info("Rates scheduler started — weekly Asia/Ho_Chi_Minh")

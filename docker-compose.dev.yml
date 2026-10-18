@@ -88,6 +88,7 @@ services:
       - NVIDIA_BASE_URL=${NVIDIA_BASE_URL:-https://integrate.api.nvidia.com/v1}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:3001}
       - ENABLE_RAG_SCHEDULER=${ENABLE_RAG_SCHEDULER:-true}
+      - ENABLE_RATES_SCHEDULER=${ENABLE_RATES_SCHEDULER:-true}
       - ADMIN_API_KEY=${ADMIN_API_KEY:-}
       - OPENAI_EMBEDDING_MODEL=${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
       - MCP_URL=http://mcp_server:8001/mcp

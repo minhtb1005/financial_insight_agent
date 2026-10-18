@@ -87,6 +87,8 @@ services:
       - NVIDIA_BASE_URL=${NVIDIA_BASE_URL:-https://integrate.api.nvidia.com/v1}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000,http://frontend:3000}
       - ENABLE_RAG_SCHEDULER=${ENABLE_RAG_SCHEDULER:-true}
+      # Rates policy refresh (weekly crawl + purge expired snapshots).
+      - ENABLE_RATES_SCHEDULER=${ENABLE_RATES_SCHEDULER:-true}
       # Market snapshot refresh (15m prices + quarterly ratios). Single
       # writer by design — enable on ONE replica only (see 4b outline).
       - ENABLE_MARKET_SCHEDULER=${ENABLE_MARKET_SCHEDULER:-false}
