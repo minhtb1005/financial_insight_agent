@@ -89,7 +89,7 @@ class SectorService(BaseService):
             cache_key = make_cache_key("sector", sector, metric, timeframe)
             cached = self._cache.get(cache_key)
             if cached is not None:
-                return cached  # type: ignore
+                return cached
             tickers = self._get_tickers_in_sector(sector)
             if not tickers:
                 return {

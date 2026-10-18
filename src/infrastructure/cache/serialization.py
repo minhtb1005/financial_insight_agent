@@ -122,7 +122,7 @@ class SerializationManager:
             logger.error(f"JSON serialization failed: {e}")
             raise
 
-    def _deserialize_json(self, data: str) -> Any:
+    def _deserialize_json(self, data: Any) -> Any:
         """Deserialize JSON string to Python object."""
         try:
             return json.loads(data)
@@ -143,7 +143,7 @@ class SerializationManager:
             # Fallback to JSON
             return self._serialize_json(data)
 
-    def _deserialize_msgpack(self, data: str) -> Any:
+    def _deserialize_msgpack(self, data: Any) -> Any:
         if not _MSGPACK_AVAILABLE:
             return self._deserialize_json(data)
         try:
@@ -173,7 +173,7 @@ class SerializationManager:
 
         return hash_data
 
-    def _deserialize_redis_hash(self, data: dict[str, str]) -> Any:
+    def _deserialize_redis_hash(self, data: Any) -> Any:
         """Deserialize Redis Hash to Python object."""
         if not isinstance(data, dict):
             return data

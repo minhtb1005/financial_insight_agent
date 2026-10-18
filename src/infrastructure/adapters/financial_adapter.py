@@ -51,7 +51,7 @@ class FinancialAdapter(FinancialPort):
             )
             if df is None or getattr(df, "empty", False):
                 return {}
-            closes = df["close"].dropna() if "close" in df.columns else []
+            closes: Any = df["close"].dropna() if "close" in df.columns else []
             if len(closes) == 0:
                 return {}
             return {"current_price": float(closes.iloc[-1])}

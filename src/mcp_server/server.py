@@ -33,9 +33,9 @@ def main() -> None:
 
     # Override host/port if provided
     if args.host:
-        mcp.settings.host = args.host  # type: ignore
+        mcp.settings.host = args.host
     if args.port:
-        mcp.settings.port = args.port  # type: ignore
+        mcp.settings.port = args.port
 
     # stdio: no host/port
     if args.transport == "stdio":

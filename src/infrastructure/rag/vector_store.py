@@ -122,7 +122,7 @@ def swap_alias(new_collection: str) -> None:
     # strategy: delete old alias then create new one using update_collection_aliases
     from qdrant_client.http.models import CreateAliasOperation, DeleteAliasOperation
 
-    ops = []
+    ops: list[Any] = []
     current = alias_target()
     if current:
         ops.append(DeleteAliasOperation(delete_alias={"alias_name": ALIAS}))
@@ -134,7 +134,7 @@ def swap_alias(new_collection: str) -> None:
     except Exception:
         # fallback: simple create
         with contextlib.suppress(Exception):
-            c.create_alias(alias_name=ALIAS, collection_name=new_collection)
+            c.create_alias(alias_name=ALIAS, collection_name=new_collection)  # type: ignore[attr-defined]  # older qdrant clients
 
 
 def upsert_points(collection: str, points: list[dict[str, Any]], batch_size: int = 100) -> int:
@@ -155,7 +155,7 @@ def upsert_points(collection: str, points: list[dict[str, Any]], batch_size: int
                 )
             else:
                 struct_batch.append(p)
-        c.upsert(collection_name=collection, points=struct_batch)  # type: ignore
+        c.upsert(collection_name=collection, points=struct_batch)
         total += len(struct_batch)
     return total
 

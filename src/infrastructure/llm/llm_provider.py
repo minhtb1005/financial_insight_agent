@@ -1,5 +1,6 @@
 import os
 import time
+from typing import Any
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
@@ -95,7 +96,7 @@ class NVIDIARotatingChat:
         self._model = model or NVIDIA_CHAT_MODEL
         self._base_url = base_url or NVIDIA_BASE_URL
         self._schema = schema
-        self._method = method
+        self._method: Any = method
         self._tools = tools
 
     @property
@@ -123,7 +124,7 @@ class NVIDIARotatingChat:
         )
 
     def _build(self, api_key: str):
-        llm = ChatOpenAI(
+        llm: Any = ChatOpenAI(
             base_url=self._base_url,
             api_key=api_key,
             model=self._model,
@@ -297,6 +298,9 @@ class LLMProvider:
         openai_api_key = os.getenv("OPENAI_API_KEY")
         groq_api_key = os.getenv("GROQ_API_KEY")
 
+        self._primary: Any = None
+        self._fallback: Any = None
+
         from infrastructure.llm.nvidia_key_pool import NvidiaKeyPool
 
         self._pool = NvidiaKeyPool()
@@ -316,7 +320,7 @@ class LLMProvider:
 
         if groq_api_key:
             self._fallback = ChatGroq(
-                model="llama-3.1-8b-instant",
+                model_name="llama-3.1-8b-instant",
                 temperature=0,
                 api_key=groq_api_key,
                 max_retries=3,
@@ -361,7 +365,7 @@ class LLMProvider:
     def with_structured_output(
         self,
         pydantic_object,
-        method: str = "json_mode",
+        method: Any = "json_mode",
         fallback: bool = False,
     ):
         if self._primary is None and self._fallback is None:

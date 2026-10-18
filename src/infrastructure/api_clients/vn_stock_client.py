@@ -1,4 +1,5 @@
 import logging
+from typing import Any, cast
 import pandas as pd
 from vnstock import Company, Quote
 
@@ -57,8 +58,8 @@ class VNStockClient:
         if isinstance(end, str):
             end = pd.to_datetime(end)
 
-        start_str = start.strftime("%Y-%m-%d")
-        end_str = end.strftime("%Y-%m-%d")
+        start_str = cast("Any", start).strftime("%Y-%m-%d")
+        end_str = cast("Any", end).strftime("%Y-%m-%d")
 
         # --- 2. Fetch raw data (circuit-breaker protected) ---
         if not _vnstock_breaker.acquire_permit():

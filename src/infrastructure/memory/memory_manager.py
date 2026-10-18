@@ -50,10 +50,10 @@ class MemoryManager:
         self._cleanup_lock = threading.Lock()
         self._last_cleanup = datetime.now(timezone.utc)
         self._stop_event = threading.Event()
-        self._cleanup_task = None
+        self._cleanup_task: threading.Thread | None = None
         logger.info("Initialized MemoryManager with short-term memory")
 
-    def _init_episodic(self):  # type: ignore[no-untyped-def]
+    def _init_episodic(self):
         """Lazily build the episodic store; None when disabled/unavailable."""
         if not self.config.episodic_enabled:
             return None
@@ -105,7 +105,7 @@ class MemoryManager:
         memory_tiers: list[str] | None = None,
         top_k: int = 10,
         user_id: str | None = None,
-    ) -> dict[str, list[Any]]:
+    ) -> dict[str, Any]:
         tiers = memory_tiers or ["short_term"]
         results: dict[str, Any] = {}
         uid = self._validated_user_id(user_id)
@@ -231,7 +231,7 @@ class MemoryManager:
                 logger.error(f"Failed to cleanup short-term memory: {e}")
 
     def get_stats(self, user_id: str | None = None) -> dict[str, Any]:
-        stats = {
+        stats: dict[str, Any] = {
             "config": {
                 "auto_cleanup_enabled": self.config.auto_cleanup_enabled,
                 "cleanup_interval_hours": self.config.cleanup_interval_hours,

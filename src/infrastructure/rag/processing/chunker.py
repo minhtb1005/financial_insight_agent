@@ -40,6 +40,6 @@ def dedupe_chunks(chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
         h = c.get("chunk_hash")
         if h in seen:
             continue
-        seen.add(h)  # type: ignore
+        seen.add(h)
         out.append(c)
     return out

@@ -14,7 +14,7 @@ def _search_knowledge_impl(query: str, top_k: int = 5) -> dict:
     from infrastructure.adapters.knowledge_adapter import QdrantKnowledgeAdapter
 
     adapter = QdrantKnowledgeAdapter()
-    return adapter.search(query, top_k=top_k)  # type: ignore[return-value]
+    return adapter.search(query, top_k=top_k)
 
 
 @mcp.tool(

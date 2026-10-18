@@ -18,7 +18,7 @@ class MemoryCache:
     """In-memory cache implementation with LRU eviction and TTL."""
 
     def __init__(
-        self, max_size: int = 1000, default_ttl_hours: int = 1, cleanup_interval_minutes: int = 10
+        self, max_size: int = 1000, default_ttl_hours: float = 1, cleanup_interval_minutes: int = 10
     ):
         """
         Initialize in-memory cache.
@@ -129,7 +129,7 @@ class MemoryCache:
             return item["value"]
 
     def set(
-        self, key: str, value: Any, ttl_hours: int | None = None, namespace: str = "cache"
+        self, key: str, value: Any, ttl_hours: float | None = None, namespace: str = "cache"
     ) -> bool:
         """
         Set value in cache.

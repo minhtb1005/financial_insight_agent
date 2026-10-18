@@ -47,8 +47,11 @@ class DataExtractor:
         for msg in messages:
             if not isinstance(msg, ToolMessage):
                 continue
+            raw = msg.content
+            if not isinstance(raw, str):
+                continue
             try:
-                content = json.loads(msg.content)
+                content = json.loads(raw)
             except (json.JSONDecodeError, TypeError):
                 continue
             tool_name = getattr(msg, "name", "unknown") or "unknown"
@@ -196,7 +199,7 @@ class FactVerifier:
         _original_query: str = "",
     ) -> dict[str, Any]:
         issues = []
-        numbers_found = []
+        numbers_found: list[dict[str, Any]] = []
         for match in re.finditer(r"(?<!\d)([\d,]+\.?\d*)\s*(VND|đ|%)?", response):
             raw = match.group(1).replace(",", "")
             try:

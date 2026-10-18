@@ -71,12 +71,12 @@ class Dependencies:
         self.alert_manager: AlertManager | None = None
 
         # Strict port bindings
-        self.cache_port: CachePort | None = None  # type: ignore
-        self.market_data_port: MarketDataPort | None = None  # type: ignore
-        self.company_port: CompanyPort | None = None  # type: ignore
-        self.financial_port: FinancialPort | None = None  # type: ignore
-        self.news_port: NewsPort | None = None  # type: ignore
-        self.knowledge_port: KnowledgePort | None = None  # type: ignore
+        self.cache_port: CachePort | None = None
+        self.market_data_port: MarketDataPort | None = None
+        self.company_port: CompanyPort | None = None
+        self.financial_port: FinancialPort | None = None
+        self.news_port: NewsPort | None = None
+        self.knowledge_port: KnowledgePort | None = None
 
     # ------------------------------------------------------------------
     # Initialisation – ordered by dependency, each tier is optional
@@ -295,42 +295,40 @@ class Dependencies:
 
             # CachePort — always available (fallback to MemoryCache if cache_manager is None)
             if self.cache_manager is not None:
-                self.cache_port = CacheAdapter(self.cache_manager)  # type: ignore
+                self.cache_port = CacheAdapter(self.cache_manager)
             elif self.memory_cache is not None:
                 # Fallback: wrap MemoryCache directly in a minimal adapter
                 class _MemCacheAdapter:  # minimal CachePort-like
-                    def __init__(self, mem):  # type: ignore
+                    def __init__(self, mem):
                         self._mem = mem
 
-                    def get(self, key: str):  # type: ignore
+                    def get(self, key: str):
                         return self._mem.get(key)
 
-                    def set(self, key: str, value, ttl_hours: float = 1.0):  # type: ignore
+                    def set(self, key: str, value, ttl_hours: float = 1.0):
                         self._mem.set(key, value, ttl_hours=ttl_hours)
 
-                    def delete(self, key: str):  # type: ignore
+                    def delete(self, key: str):
                         self._mem.delete(key) if hasattr(self._mem, "delete") else None
 
-                self.cache_port = _MemCacheAdapter(self.memory_cache)  # type: ignore
+                self.cache_port = _MemCacheAdapter(self.memory_cache)  # type: ignore[assignment]  # duck-typed CachePort
             else:
                 logger.warning("CachePort unavailable — no cache_manager/memory_cache")
 
-            self.market_data_port = VNStockAdapter()  # type: ignore
+            self.market_data_port = VNStockAdapter()
             try:
                 # Phase 4a: sqlite snapshot read-through (never worse than live).
                 from infrastructure.market_store.cached_adapter import (
                     CachedMarketDataAdapter,
                 )
 
-                self.market_data_port = CachedMarketDataAdapter(  # type: ignore
-                    inner=self.market_data_port  # type: ignore
-                )
+                self.market_data_port = CachedMarketDataAdapter(inner=self.market_data_port)
                 logger.debug("MarketDataPort wrapped with sqlite snapshot cache")
             except Exception as e:
                 logger.warning("Market snapshot cache unavailable, using live port: %s", e)
-            self.company_port = CompanyAdapter()  # type: ignore
-            self.financial_port = FinancialAdapter()  # type: ignore
-            self.news_port = NewsAdapter()  # type: ignore
+            self.company_port = CompanyAdapter()
+            self.financial_port = FinancialAdapter()
+            self.news_port = NewsAdapter()
             try:
                 # Phase 3: fixed VCI source (coverage) + pure-RSS excerpts.
                 from infrastructure.adapters.rss_news_adapter import (
@@ -338,14 +336,14 @@ class Dependencies:
                     RssNewsAdapter,
                 )
 
-                self.news_port = CombinedNewsAdapter(  # type: ignore
-                    primary=self.news_port,  # type: ignore
+                self.news_port = CombinedNewsAdapter(
+                    primary=self.news_port,
                     secondary=RssNewsAdapter(),
                 )
                 logger.debug("NewsPort combined VCI+RSS initialised")
             except Exception as e:
                 logger.warning("Combined news adapter unavailable, using legacy port: %s", e)
-            self.knowledge_port = QdrantKnowledgeAdapter()  # type: ignore
+            self.knowledge_port = QdrantKnowledgeAdapter()
             logger.debug("Ports initialised (strict)")
         except Exception as e:
             logger.warning("Failed to init ports: %s", e)
@@ -376,24 +374,68 @@ class Dependencies:
                 and self.financial_port
                 and self.news_port
             ):
-                set_service("price", PriceService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("compare", CompareService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("indicator", IndicatorService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("forecast", ForecastService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("alert", AlertService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("sector", SectorService(cache=self.cache_port, company_port=self.company_port, market_data=self.market_data_port))  # type: ignore
-                set_service("ranking", RankingService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("aggregate", AggregateService(cache=self.cache_port, market_data=self.market_data_port))  # type: ignore
-                set_service("company", CompanyService(cache=self.cache_port, company_port=self.company_port))  # type: ignore
+                set_service(
+                    "price", PriceService(cache=self.cache_port, market_data=self.market_data_port)
+                )
+                set_service(
+                    "compare",
+                    CompareService(cache=self.cache_port, market_data=self.market_data_port),
+                )
+                set_service(
+                    "indicator",
+                    IndicatorService(cache=self.cache_port, market_data=self.market_data_port),
+                )
+                set_service(
+                    "forecast",
+                    ForecastService(cache=self.cache_port, market_data=self.market_data_port),
+                )
+                set_service(
+                    "alert", AlertService(cache=self.cache_port, market_data=self.market_data_port)
+                )
+                set_service(
+                    "sector",
+                    SectorService(
+                        cache=self.cache_port,
+                        company_port=self.company_port,
+                        market_data=self.market_data_port,
+                    ),
+                )
+                set_service(
+                    "ranking",
+                    RankingService(cache=self.cache_port, market_data=self.market_data_port),
+                )
+                set_service(
+                    "aggregate",
+                    AggregateService(cache=self.cache_port, market_data=self.market_data_port),
+                )
+                set_service(
+                    "company", CompanyService(cache=self.cache_port, company_port=self.company_port)
+                )
                 try:
                     from infrastructure.market_store.store import MarketStore
 
                     _ratio_store = MarketStore()
                 except Exception:
                     _ratio_store = None
-                set_service("financial_ratio", FinancialRatioService(cache=self.cache_port, financial_port=self.financial_port, store=_ratio_store))  # type: ignore
-                set_service("portfolio", PortfolioService(cache=self.cache_port, market_data=self.market_data_port, company_port=self.company_port))  # type: ignore
-                set_service("news", NewsSentimentService(cache=self.cache_port, news_port=self.news_port))  # type: ignore
+                set_service(
+                    "financial_ratio",
+                    FinancialRatioService(
+                        cache=self.cache_port,
+                        financial_port=self.financial_port,
+                        store=_ratio_store,
+                    ),
+                )
+                set_service(
+                    "portfolio",
+                    PortfolioService(
+                        cache=self.cache_port,
+                        market_data=self.market_data_port,
+                        company_port=self.company_port,
+                    ),
+                )
+                set_service(
+                    "news", NewsSentimentService(cache=self.cache_port, news_port=self.news_port)
+                )
                 logger.debug("Services initialised (strict)")
             else:
                 logger.warning("Services not init — ports missing")

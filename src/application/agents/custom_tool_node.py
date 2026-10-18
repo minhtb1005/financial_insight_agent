@@ -79,7 +79,7 @@ class CustomToolNode:
 
     def execute_one(
         self,
-        tool_call: dict,
+        tool_call: Any,
         history: set[str],
         cache: dict[str, str],
         retries: dict[str, int],

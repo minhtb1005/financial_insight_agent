@@ -25,7 +25,7 @@ HF_MODEL_ID = "Marky12345/BigData_2026"
 HF_LABELS = ("Bullish", "Bearish", "Uncertainty")
 HF2GOLD: dict[str, Label] = {"Bullish": "pos", "Bearish": "neg", "Uncertainty": "neu"}
 
-_hf_pipe = None
+_hf_pipe: Any = None
 
 
 def classify_keyword(score: float) -> dict[str, Any]:

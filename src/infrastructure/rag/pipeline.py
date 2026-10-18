@@ -141,17 +141,17 @@ def run_full_refresh(
         vector_ok = True
         embed_error = None
         vectors: list[list[float]] = []
-        embedder = None  # type: ignore
+        embedder = None
         try:
             embedder = Embedder(model=embed_model)
             texts = [c["text"] for c in chunks]
-            vectors = embedder.embed(texts)  # type: ignore
-            dim = len(vectors[0]) if vectors else embedder.dim  # type: ignore
+            vectors = embedder.embed(texts)
+            dim = len(vectors[0]) if vectors else embedder.dim
         except Exception as ee:
             logger.warning("Embedding failed, will save filesystem only: %s", ee)
             vector_ok = False
             embed_error = str(ee)
-            dim = 0  # type: ignore
+            dim = 0
 
         # ensure we have manifest even in degraded mode
         manifest = {
@@ -159,8 +159,8 @@ def run_full_refresh(
             "run_id": run_id,
             "collection": collection,
             "embed_model": embed_model,
-            "embed_dim": dim if vector_ok else 0,  # type: ignore
-            "provider": embedder.provider if embedder else "none",  # type: ignore
+            "embed_dim": dim if vector_ok else 0,
+            "provider": embedder.provider if embedder else "none",
             "sources": source_stats,
             "chunks_total": len(chunks),
             "docs_total": len(all_docs),
@@ -182,7 +182,7 @@ def run_full_refresh(
         deleted: list[str] = []
         if vector_ok and vectors:
             try:
-                ensure_collection(collection, dim=dim, recreate=True)  # type: ignore
+                ensure_collection(collection, dim=dim, recreate=True)
                 # 4. Upsert
                 points = []
                 for ch, vec in zip(chunks, vectors, strict=False):

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+from typing import Any
 
 from infrastructure.observability import get_logger
 
@@ -24,10 +25,10 @@ class Embedder:
     def __init__(self, model: str | None = None, dim: int | None = None):
         self.model = model or NVIDIA_EMBEDDING_MODEL
         self.dim = dim or (2048 if self.model.startswith("nvidia/") else 1536)
-        self._nvidia_client = None
-        self._openai_client = None
-        self._st_model = None
-        self._pool = None
+        self._nvidia_client: Any = None
+        self._openai_client: Any = None
+        self._st_model: Any = None
+        self._pool: Any = None
         self._init_clients()
 
     def _init_clients(self) -> None:
@@ -154,10 +155,10 @@ class Embedder:
             except Exception as e:
                 logger.warning("OpenAI embed failed, trying fallback: %s", e)
                 if self._st_model:
-                    return self._st_model.encode(texts, normalize_embeddings=True).tolist()  # type: ignore
+                    return self._st_model.encode(texts, normalize_embeddings=True).tolist()
                 raise
         if self._st_model:
-            return self._st_model.encode(texts, normalize_embeddings=True).tolist()  # type: ignore
+            return self._st_model.encode(texts, normalize_embeddings=True).tolist()
         raise RuntimeError(
             "No embedding provider available — set NVIDIA_API_KEY or OPENAI_API_KEY or install sentence-transformers"
         )

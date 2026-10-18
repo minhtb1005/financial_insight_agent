@@ -30,7 +30,7 @@ class BaseService:
     def for_each_ticker(
         self,
         tickers: list[str],
-        fetch_fn: Callable[[str], dict[str, Any]],
+        fetch_fn: Callable[[str], Any],
         max_workers: int = _DEFAULT_MAX_WORKERS,
     ) -> dict[str, Any]:
         if not tickers:
@@ -103,13 +103,13 @@ class BaseService:
         namespace: str,
         ticker: str,
         fetch_fn: Callable[[], _FetchResult],
-        ttl_hours: int = 24,
+        ttl_hours: float = 24,
         **extra_key_parts: Any,
     ) -> _FetchResult:
         cache_key = make_cache_key(namespace, ticker, **extra_key_parts)
         cached = self._cache.get(cache_key)
         if cached is not None:
-            return cached  # type: ignore
+            return cached
         result = fetch_fn()
         if isinstance(result, dict) and "error" not in result:
             self._cache.set(cache_key, result, ttl_hours=ttl_hours)

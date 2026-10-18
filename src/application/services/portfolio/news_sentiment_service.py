@@ -208,7 +208,7 @@ class NewsSentimentService(BaseService):
         cache_key = make_cache_key("news", ticker)
         cached = self._cache.get(cache_key)
         if cached is not None:
-            return cached  # type: ignore
+            return cached
         articles = self._news.fetch_news(ticker)
         if not articles:
             self.logger.warning("No news found for %s", ticker)
@@ -220,7 +220,7 @@ class NewsSentimentService(BaseService):
         if not tickers:
             return {"news": {}, "note": "No tickers provided"}
         raw = self.for_each_ticker(tickers, self._fetch_single_news)
-        result = {}
+        result: dict[str, Any] = {}
         for ticker in tickers:
             articles = raw.get(ticker, [])
             if isinstance(articles, dict) and "error" in articles:
@@ -312,7 +312,7 @@ class NewsSentimentService(BaseService):
                 time_kw["weeks"] = weeks
             if months is not None:
                 time_kw["months"] = months
-            query = {"tickers": tickers}
+            query: dict[str, Any] = {"tickers": tickers}
             if field != "all":
                 query["requested_field"] = field
             query.update(time_kw)

@@ -443,7 +443,7 @@ async def ask_stock_agent_stream(
             try:
                 full_response = ""
                 loop = asyncio.get_running_loop()
-                async_queue = asyncio.Queue(maxsize=64)
+                async_queue: asyncio.Queue[str | None] = asyncio.Queue(maxsize=64)
                 cancel_event = threading.Event()
 
                 def _produce():

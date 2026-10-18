@@ -11,7 +11,7 @@ Features:
 
 import logging
 import time
-from typing import Any
+from typing import Any, cast
 from datetime import datetime, timezone
 from redis.exceptions import RedisError
 
@@ -108,7 +108,7 @@ class ShortTermMemory:
             "access_count": 0,
             "last_accessed": time.time(),
         }
-        return self._redis._serialize(memory_item)
+        return cast("str", self._redis._serialize(memory_item))
 
     def _deserialize_memory_item(self, data: str) -> dict[str, Any] | None:
         try:
@@ -305,9 +305,9 @@ class ShortTermMemory:
                         if item:
                             facts[fact_type] = item["content"]
             else:
-                facts_data = self._redis.hash_get_all(facts_key)
+                facts_map = self._redis.hash_get_all(facts_key)
                 facts = {}
-                for fact_type, fact_data in facts_data.items():
+                for fact_type, fact_data in facts_map.items():
                     item = self._deserialize_memory_item(fact_data)
                     if item:
                         facts[fact_type] = item["content"]
@@ -332,7 +332,7 @@ class ShortTermMemory:
                         if full:
                             full["access_count"] = full.get("access_count", 0) + 1
                             full["last_accessed"] = time.time()
-                            updated = self._redis._serialize(full)
+                            updated = cast("str", self._redis._serialize(full))
                             self._redis.hash_set(facts_key, keys[i], updated)
         except RedisError as e:
             logger.error(f"Failed to update access counts: {e}")

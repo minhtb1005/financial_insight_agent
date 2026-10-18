@@ -244,7 +244,7 @@ class PortfolioService(BaseService):
                 return self._fetch_sector_and_price(ticker, holdings[ticker], today_str)
 
             results = self.for_each_ticker(list(holdings.keys()), fetch_sector_and_price)
-            allocation = {}
+            allocation: dict[str, Any] = {}
             total_value = 0
 
             for ticker, result in results.items():

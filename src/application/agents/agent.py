@@ -15,7 +15,7 @@ import uuid
 import json
 from datetime import datetime, timezone
 from dotenv import load_dotenv
-from typing import TypedDict, Annotated, Literal, Optional
+from typing import TYPE_CHECKING, TypedDict, Annotated, Literal, Optional, cast
 from collections.abc import Sequence
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -28,6 +28,9 @@ from langchain_core.messages import (
     ToolMessage,
     SystemMessage,
 )
+
+if TYPE_CHECKING:
+    from langchain_core.runnables import RunnableConfig
 from langgraph.graph.message import add_messages
 from infrastructure.llm.llm_provider import LLMProvider, LLMUnavailableError
 from infrastructure.observability import get_logger
@@ -447,7 +450,7 @@ class StockAgent:
             return {"messages": [response]}
 
         validation_result = self._output_guardrails.validate_response(
-            response.content, original_query
+            cast("str", response.content), original_query
         )
 
         if validation_result.status == "FAIL":
@@ -475,7 +478,7 @@ class StockAgent:
         try:
             from infrastructure.rag.safety import check_and_sanitize
 
-            sanitized_text, blocked = check_and_sanitize(response.content)
+            sanitized_text, blocked = check_and_sanitize(cast("str", response.content))
             if blocked or sanitized_text != response.content:
                 node_logger.warning(
                     "RAG safety sanitized", extra={"request_id": rid, "blocked": blocked}
@@ -502,7 +505,7 @@ class StockAgent:
             return {"messages": []}
 
         result = self._fact_verifier.verify(
-            response=last_ai.content,
+            response=cast("str", last_ai.content),
             messages=messages,
             original_query=original_query,
         )
@@ -527,12 +530,12 @@ class StockAgent:
             if issues:
                 summary = "\n".join(i["message"] for i in issues[:3])
                 warning = f"\n\n⚠️ Cảnh báo: Một số số liệu cần kiểm tra lại:\n{summary}"
-                return {"messages": [AIMessage(content=last_ai.content + warning)]}
-            return {"messages": [AIMessage(content=last_ai.content)]}
+                return {"messages": [AIMessage(content=cast("str", last_ai.content) + warning)]}
+            return {"messages": [AIMessage(content=cast("str", last_ai.content))]}
 
         if total_citations > 0 and confidence < 1.0:
             score = f"\n\n📊 Độ tin cậy: {int(confidence * 100)}% ({result.get('verified_count')}/{total_citations} số liệu đã xác thực)"
-            return {"messages": [AIMessage(content=last_ai.content + score)]}
+            return {"messages": [AIMessage(content=cast("str", last_ai.content) + score)]}
 
         return {"messages": []}
 
@@ -572,7 +575,9 @@ class StockAgent:
         splitter and the ReAct loop.
         """
         memory_context = self._build_memory_context(query, user_id=user_id)
-        reformulated, entities, topics = query, [], []
+        reformulated: str = query
+        entities: list[str] = []
+        topics: list[str] = []
         if self.reformulator:
             try:
                 from infrastructure.memory.memory_manager import get_memory_manager
@@ -660,7 +665,7 @@ class StockAgent:
             request_id_var.set(rid)
         tracer = get_tracer()
         handler = TracingCallbackHandler(tracer) if tracer.enabled else None
-        stream_config = (
+        stream_config: RunnableConfig | None = (
             {"callbacks": [handler], "configurable": {"thread_id": rid}} if handler else None
         )
         try:
@@ -698,7 +703,7 @@ class StockAgent:
                                 },
                             )
                     if msgs and isinstance(msgs[-1], AIMessage):
-                        final_response = msgs[-1].content
+                        final_response = cast("str", msgs[-1].content)
             return final_response
         finally:
             with suppress(Exception):
@@ -859,7 +864,7 @@ class StockAgent:
             )
         tracer = get_tracer()
         handler = TracingCallbackHandler(tracer) if tracer.enabled else None
-        stream_config = (
+        stream_config: RunnableConfig | None = (
             {"callbacks": [handler], "configurable": {"thread_id": rid}} if handler else None
         )
         init_state: AgentState = {

@@ -49,7 +49,9 @@ def crawl(
         try:
             soup = BeautifulSoup(html, "html.parser")
             for a in soup.find_all("a", href=True):
-                href = a["href"]  # type: ignore
+                href = a["href"]
+                if not isinstance(href, str):
+                    continue
                 nxt = urljoin(url, href)
                 if urlparse(nxt).netloc != base_netloc:
                     continue

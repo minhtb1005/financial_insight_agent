@@ -7,7 +7,8 @@ Provides distributed caching with persistence and TTL management.
 import logging
 import threading
 import time
-from typing import Any
+from typing import Any, cast
+from collections.abc import Set as AbstractSet
 import redis
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
 
@@ -49,7 +50,7 @@ class RedisCache:
         self.max_connections = max_connections
         self.serialization_format = serialization_format
 
-        self._client = None
+        self._client: redis.Redis | None = None
         self._last_reconnect_attempt: float = 0.0
         self._reconnect_interval: float = 30.0
         self._reconnect_lock = threading.Lock()
@@ -118,9 +119,7 @@ class RedisCache:
         """Serialize data using configured format."""
         return self._serialization_manager.serialize(data, format)
 
-    def _deserialize(
-        self, data: str | dict[str, str], format: SerializationFormat | None = None
-    ) -> Any:
+    def _deserialize(self, data: Any, format: SerializationFormat | None = None) -> Any:
         """Deserialize data using configured format."""
         return self._serialization_manager.deserialize(data, format)
 
@@ -159,10 +158,10 @@ class RedisCache:
                     return None
                 return self._deserialize(data, SerializationFormat.REDIS_HASH)
             else:
-                data = client.get(full_key)
-                if data is None:
+                raw = client.get(full_key)
+                if raw is None:
                     return None
-                return self._deserialize(data, format)
+                return self._deserialize(raw, format)
 
         except RedisError as e:
             logger.error(f"Redis GET error for key {key}: {e}")
@@ -201,14 +200,14 @@ class RedisCache:
             ttl_seconds = (ttl_hours or self.ttl_hours) * 3600
 
             if target_format == SerializationFormat.REDIS_HASH:
-                client.hset(full_key, mapping=serialized_value)
+                client.hset(full_key, mapping=cast("dict[Any, Any]", serialized_value))
                 client.expire(full_key, ttl_seconds)
                 logger.debug(
                     f"Cached key {key} with TTL {ttl_hours or self.ttl_hours}h using format REDIS_HASH"
                 )
                 return True
             else:
-                client.setex(full_key, ttl_seconds, serialized_value)
+                client.setex(full_key, ttl_seconds, cast("str", serialized_value))
                 logger.debug(
                     f"Cached key {key} with TTL {ttl_hours or self.ttl_hours}h using format {target_format.value}"
                 )
@@ -309,7 +308,7 @@ class RedisCache:
             logger.error(f"Redis SADD error for key {key}: {e}")
             return False
 
-    def set_members(self, key: str, namespace: str = "cache") -> set:
+    def set_members(self, key: str, namespace: str = "cache") -> AbstractSet[Any]:
         client = self.get_raw_client()
         if client is None:
             return set()

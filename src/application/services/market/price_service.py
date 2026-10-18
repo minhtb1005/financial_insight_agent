@@ -106,7 +106,7 @@ class PriceService(BaseService):
             return {"error": str(e)}
 
     # Backward compat alias — old code called _fetch_single(ticker, field, parsed)
-    def _fetch_single(
+    def _fetch_single(  # type: ignore[override]  # subclass widens the base signature by design
         self, ticker: str, field: str | dict[str, Any], parsed: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         if isinstance(field, dict) and parsed is None:

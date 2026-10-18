@@ -60,7 +60,7 @@ class IndicatorService(BaseService):
         )
         return results
 
-    def _fetch_single(  # noqa: PLR0917 - keep public signature
+    def _fetch_single(  # type: ignore[override]  # noqa: PLR0917 - keep public signature
         self,
         ticker: str,
         indicator_params: dict[str, Any] | None = None,

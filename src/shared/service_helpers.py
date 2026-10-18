@@ -25,7 +25,7 @@ def call_service(service_name: str, **kwargs: Any) -> dict[str, Any]:
     if svc is None:
         raise RuntimeError(f"Service '{service_name}' not initialized — call init_deps()")
     # All services expose handle_query; method dispatch is uniform.
-    return svc.handle_query(**kwargs)  # type: ignore[operator]
+    return svc.handle_query(**kwargs)
 
 
 def make_handler(service_name: str):

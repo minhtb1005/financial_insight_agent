@@ -118,8 +118,8 @@ class PerformanceTimer:
     def __init__(self, operation_name: str, logger: logging.Logger):
         self.operation_name = operation_name
         self.logger = logger
-        self.start_time = None
-        self.end_time = None
+        self.start_time: float = 0.0
+        self.end_time: float = 0.0
 
     def __enter__(self):
         self.start_time = time.time()
@@ -249,7 +249,7 @@ def setup_logging(
     formatter = JSONFormatter(service_name)
 
     # Create handlers
-    handlers = []
+    handlers: list[logging.Handler] = []
 
     if enable_console:
         console_handler = logging.StreamHandler()

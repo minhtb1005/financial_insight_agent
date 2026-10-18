@@ -271,7 +271,7 @@ class MetricsCollector:
     def get_all_metrics(self) -> dict[str, Any]:
         """Get all metrics with their current values and metadata."""
         with self._lock:
-            result = {
+            result: dict[str, Any] = {
                 "timestamp": time.time(),
                 "retention_hours": self.retention_hours,
                 "metrics": {},

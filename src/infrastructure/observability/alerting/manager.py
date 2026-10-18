@@ -12,7 +12,7 @@ import threading
 import json
 from typing import Any
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 import logging
@@ -66,6 +66,8 @@ class AlertRule:
     annotations: dict[str, str]
     evaluate_interval_seconds: int = 60
     enabled: bool = True
+    for_duration_seconds: float | None = None
+    _last_eval_time: float = field(default=0.0, init=False, repr=False)
 
 
 class NotificationChannel:
