@@ -16,7 +16,7 @@ Cấu hình: `src/infrastructure/rag/config/sources.yaml`
 
 ## Kiến trúc
 
-`ingestion (rate-limit 0.5s, respect robots, no login)` → `cleaner → chunker (700/80)` → `embedder (OpenAI text-embedding-3-small primary, sentence-transformers fallback)` → Qdrant `finsight_knowledge` alias blue/green → `search_knowledge` tool → Agent + TT135 safety.
+`ingestion (rate-limit 0.5s, respect robots, no login)` → `cleaner → chunker (700/80)` → `embedder (NVIDIA nvidia/nemotron-3-embed-1b, dim 2048)` → Qdrant `finsight_knowledge` alias blue/green → `search_knowledge` tool → Agent + TT135 safety.
 
 ## Qdrant 3 mode — cấu hình trong `src/infrastructure/rag/vector_store.py:_client()`
 

@@ -10,8 +10,9 @@ from shared.ports.news_port import NewsPort
 from shared.utils.cache_keys import make_cache_key
 
 # Default sentiment engine: "hf" (PhoBERT, free/CPU/offline, F1 0.907 within
-# ~7% of LLM 0.978 on the 45-label golden set) — override via env for evals.
-# Keyword lexicon is the ultimate fallback (no model/key needed).
+# ~7% of LLM 0.978 on the 45-label golden set). NOTE: "hf" needs transformers
+# (+ torch), which is no longer in base deps — Docker sets SENTIMENT_ENGINE=llm
+# via compose instead. Keyword lexicon is the ultimate fallback (no model/key).
 SENTIMENT_ENGINE = os.getenv("SENTIMENT_ENGINE", "hf")
 
 

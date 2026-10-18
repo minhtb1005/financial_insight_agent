@@ -13,7 +13,7 @@
 | **Name** | `financial_insight_agent` (`pyproject.toml:6`) |
 | **Version** | `0.1.1` (`pyproject.toml:7`) |
 | **Python** | `3.13` (ruff `pyproject.toml:105`, mypy `pyproject.toml:166`) |
-| **Core stacks** | `langgraph>=0.5`, `langchain>=0.3.27`, `fastapi>=0.121.1`, `pydantic>=2`, `vnstock>=3.0.0`, `qdrant-client>=1.11.0`, `sentence-transformers`, `mcp>=1.9`, `sqlalchemy[asyncio]`, `redis>=5` (`pyproject.toml:13-50`) |
+| **Core stacks** | `langgraph>=0.5`, `langchain>=0.3.27`, `fastapi>=0.121.1`, `pydantic>=2`, `vnstock>=3.0.0`, `qdrant-client>=1.11.0`, `mcp>=1.9`, `sqlalchemy[asyncio]` (`pyproject.toml:13-50`) |
 | **Entry points** | `src/interfaces/api/app.py:217` (FastAPI lifespan), `src/interfaces/cli/console.py`, `langgraph.json:6` (`build_graph`) |
 | **Purpose** | Vietnamese stock Q&A ReAct agent — 12 query types (price, indicator SMA/RSI, company, compare, ranking, aggregate, financial ratio, news sentiment, portfolio, alert, forecast, sector) with input/output guardrails, circuit breaker, Redis caching, structured logging, metrics and rate limiting (`README.md:12-14`). Shift from demo to cited educational finance gateway (citation_rate / RAGAS eval harness `evals/`, 36 golden cases). |
 
@@ -114,7 +114,7 @@ pytest src/tests -v
 
 **Defense in depth:** Input `GuardrailPipeline` 5 guards `pipeline.py:16-22` fail-closed exception `pipeline.py:30-41`; global IP limiter for non-guardrail paths `app.py:304-306` de-duped via `_GUARDRAIL_PATHS` `app.py:242`; output guardrails `output_guardrails.py`, TT135 `rag/safety.py`, `FactVerifier` `fact_verifier.py:13` (confidence 0.8, warning `⚠️` + `📊 Độ tin cậy` `agent.py:436-444`). PII redaction, injection/XSS filters `content_filter.py`, `query_validator.py`.
 
-**RAG weekly full replace:** `sources.yaml` priorities 1-5 (VBPL 24/VBHN-VPQH pdf, TT96/135 pdf/html, HNX/HOSE html_crawl, SSI, CFA/SEC disabled) → ingestion `connectors.py`/`crawler.py` (1.5s delay, robots.txt) → `cleaner → chunker 700/80` → `embedder.py` (OpenAI `text-embedding-3-small` primary, `sentence-transformers` fallback) → Qdrant `finsight_knowledge_YYYYwWW` alias `swap_alias` `rag/pipeline.py:124` + `cleanup_old_backups(7)` `pipeline.py:127`; alias `finsight_knowledge` → `search_knowledge` tool `mcp_server/tools/knowledge.py`.
+**RAG weekly full replace:** `sources.yaml` priorities 1-5 (VBPL 24/VBHN-VPQH pdf, TT96/135 pdf/html, HNX/HOSE html_crawl, SSI, CFA/SEC disabled) → ingestion `connectors.py`/`crawler.py` (1.5s delay, robots.txt) → `cleaner → chunker 700/80` → `embedder.py` (NVIDIA `nvidia/nemotron-3-embed-1b`, dim 2048) → Qdrant `finsight_knowledge_YYYYwWW` alias `swap_alias` `rag/pipeline.py:124` + `cleanup_old_backups(7)` `pipeline.py:127`; alias `finsight_knowledge` → `search_knowledge` tool `mcp_server/tools/knowledge.py`.
 
 **Observability first:** `request_id_var` ContextVar threaded through all nodes `agent.py:504`, `TracingCallbackHandler` `agent.py:507`, `get_logger("agent.*")` structured JSON, `get_metrics_collector().record_request_metrics` `app.py:310-314`.
 

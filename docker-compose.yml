@@ -24,6 +24,8 @@ services:
       - QDRANT_PATH=
       - QDRANT_URL=
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      # Sentiment runs here too (tools/portfolio.py) — keep in sync with backend.
+      - SENTIMENT_ENGINE=${SENTIMENT_ENGINE:-llm}
     volumes:
       - app_data:/app/data
     depends_on:
@@ -93,7 +95,8 @@ services:
       # writer by design — enable on ONE replica only (see 4b outline).
       - ENABLE_MARKET_SCHEDULER=${ENABLE_MARKET_SCHEDULER:-false}
       - ADMIN_API_KEY=${ADMIN_API_KEY:-}
-      - OPENAI_EMBEDDING_MODEL=${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
+      # "hf" needs transformers (not in base deps) — use llm in Docker.
+      - SENTIMENT_ENGINE=${SENTIMENT_ENGINE:-llm}
       - MCP_URL=http://mcp_server:8001/mcp
       - MCP_TRANSPORT=streamable-http
       - QDRANT_HOST=${QDRANT_HOST:-qdrant}
@@ -130,7 +133,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      # Cold boot imports torch/sentence-transformers — can exceed 2 minutes.
+      # Cold boot imports the app stack (NVIDIA-only, no torch) — first start
+      # can still exceed 2 minutes.
       start_period: 240s
 
   frontend:

@@ -30,7 +30,6 @@ dependencies = [
     "pydantic>=2.0.0",
     "python-dotenv>=1.0.0",
     "vnstock>=4.0.6",
-    "sentence-transformers>=2.2.0",
     "PyYAML>=6.0.1",
     "mcp>=1.9.0,<2",
     # NOTE: 0.2+ requires langchain-core>=1.0 which clashes with langchain 0.3.x;
@@ -63,7 +62,7 @@ dev = [
 ]
 
 memory = [
-    # NOTE: sentence-transformers is already in main dependencies; psycopg2/psutil were unused probes
+    # NOTE: psycopg2/psutil were unused probes; no extra deps are needed here.
 ]
 
 eval = [
@@ -72,6 +71,9 @@ eval = [
     "langchain-community>=0.3.24,<0.4",
     "openai>=1.50.0",
     "pyyaml>=6.0.1",
+    # news sentiment eval needs the HF stack; kept out of base deps for a light Docker image
+    "transformers>=4.40",
+    "torch>=2.2",
 ]
 
 [tool.hatch.build.targets.wheel]

@@ -2330,3 +2330,63 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - Đóng vòng F1: "crawl-time tự refresh" giờ tồn tại (Docker: scheduler bật mặc định, chạy ngay khi boot + purge weekly).
 - Gap còn lại (ngoài nhịp, đã ghi trong plan F1): deposit/VNIBOR daily ingester là follow-up; market scheduler vẫn `false` (thuộc R4c).
 
+## C2 RESUME (user 18/10 mở lại — docker UI-writes re-verify CORS end-to-end)
+- Bối cảnh: bị pause vì RAM (lần trước WSL docker full 16GB, user tắt máy). User chủ động mở lại → chấp nhận chi phí docker. Stack giờ NHẸ HƠN: redis đã bỏ (5 container: postgres/backend/mcp_server/frontend + —), images cũ còn giữ (volumes/images không bị xoá ở các down trước) → build chỉ layer sau COPY src.
+- UV1 keep-alive trước: `wsl -d Ubuntu-22.04 sh -c "setsid nohup sleep 5400 >/dev/null 2>&1 &"`; 1 lệnh `wsl -d`/bash-call; NEVER kill sleep; sau đó polling `docker info`/`docker ps` tới active (VM có thể cần ~5 phút buildkit init).
+- UV2 build tuần tự: `docker compose build backend mcp_server` (timeout 900000; KHÔNG `--parallel`). Frontend KHÔNG build (dùng image cũ — scenes không cần cho verify traces).
+- UV3 `up -d` → poll healthy bounded (~3-4 phút) → CHECK RAM giữa chừng: `wsl -d ... "free -m"` — nếu mem gần cạn (available < 1GB) → down + báo pause.
+- UV4 API sanity (như C5): login admin (creds .env) → `get_rates` 6/6 groups → tạo 2 trace disposable qua API (mọi request authed tạo trace qua trace_middleware) đang ghi count trước/sau.
+- UV5 BROWSER verify (chrome-devtools): mở `http://localhost:3000/traces` (login UI nếu cần): (1) DELETE trace disposable #1: dialog confirm → network OPTIONS preflight **200** + DELETE 2xx + row biến mất + console 0 CORS error; (2) PATCH meta trace #2 qua edit form: PATCH 2xx + UI cập nhật + console sạch; chụp evidence status từng request.
+- UV6 `get_rates` 6/6 lần nữa → `docker compose down` (KHÔNG -v/--rmi, giữ app_data) → `docker ps` trống.
+- UV7 Ghi state (evidence UV4-UV6 + commit state) → push → CI watch (3 job xanh) → close Ship C.
+- Acceptance: DELETE + PATCH từ UI thật KHÔNG bị CORS (AC3 của cors-fix đóng trọn); data còn nguyên; down sạch; push 0/0.
+
+## R4d (embed-slim) — plan DRAFT 18/10 (user: "xoá fallback + deps không cần thiết, docker nhẹ hơn")
+- Quyết user: bỏ fallback embedding (Option A). Hệ quả ĐÃ xác nhận qua đọc code: dim-mismatch guards R1/R2 cũ **không cần nữa** — không còn nhánh sinh dim khác 2048 → xoá fallback tự giải bài toán mismatch.
+- FACT tìm được: fallback e5 = `intfloat/multilingual-e5-base` (embedder.py:59); `purge`/tests: `test_nvidia_key_pool.py:106-120` (xvẫn pass sau xoá), integration `test_memory_reformulation_prep.py` skip khi provider none (có thể +1 skip trong suite), `test_sentiment_engines.py` mock pipe → không cần transformers thật. mcp_server: 0 import transformers/embedder trực tiếp. `OPENAI_EMBEDDING_MODEL` env (compose:96) thành dead sau xoá. Sentiment HF engine (`engines.py:79`) dựa transformers+torch; default hiện `SENTIMENT_ENGINE="hf"` (news_sentiment_service.py:15) — **cần user chốt** (a) default "llm" mọi nơi (khuyến nghị — F1 0.978, cần OPENAI key, keyword vẫn là ultimate fallback), (b) default "keyword" (miễn phí, thô), (c) giữ "hf" code-default + compose set `SENTIMENT_ENGINE=llm`.
+- G1 `embedder.py`: chỉ NVIDIA key-pool; xoá `_openai_client`/`_st_model`/2 nhánh fallback; `provider` → "nvidia"|"none"; no-client → RuntimeError rõ (message xoá "or install sentence-transformers"); giữ nguyên rotation + input_type retry; cập nhật docstring.
+- G2 `pyproject.toml`: xoá `sentence-transformers>=2.2.0`; sửa NOTE stale extra `memory` (line 66); thêm vào `eval` extra `transformers>=4.40` + `torch>=2.2` (evals/run_news_sentiment_eval.py cần; giữ khỏi base để image nhẹ).
+- G3 sentiment theo chốt user (a/b/c) — nhỏ: 1 dòng default hoặc 1 dòng compose ×2 + .env.example.
+- G4 compose ×2 + `.env.example`: xoá `OPENAI_EMBEDDING_MODEL` (dead); sửa comment stale "Cold boot imports torch/sentence-transformers" (~compose.yml:133, dev:121) — KHÔNG đụng số healthcheck.
+- G5 docs 1-liners: `rag_pipeline.md:19`, `UA_ONBOARDING.md:16,117`, `README.md:470` (torch note).
+- G6 venv: `pip uninstall -y sentence-transformers` (torch/transformers GIỮ lại venv — local hf + evals dùng).
+- G7 tests: focused (key_pool + sentiment) → full suite; chú ý possible skip-shift; thêm 1 unit nhỏ vào `test_nvidia_key_pool.py`: no keys → provider "none" + embed raise RuntimeError.
+- G8 gates: ruff/black/mypy(cờ gate) + `docker compose config` ×2.
+- G9 commit `refactor(rag): drop embedding fallbacks — NVIDIA-only (slim docker, no torch)` + push + CI watch 3 jobs.
+- G10 nhịp SAU (không gộp): C2 resume UV1-UV7 — lúc đó `docker compose build` nhẹ hơn nhiều (no torch).
+- Mở: **ĐÃ chốt** (user 18/10) — giữ code default `hf`, compose ×2 (backend + mcp_server) + `.env.example` set `llm`.
+
+## Implementation Notes (R4d embed-slim — implementor 18/10/2026) — DONE
+- **G1** `src/infrastructure/rag/embedder.py` NVIDIA-only: xoá `_openai_client`/`_st_model`, khối init OpenAI/st (cũ 45-63), nhánh OpenAI fallback (cũ 143-159) + nhánh st cuối (cũ 160-161); `embed()` chỉ còn NVIDIA pool path (rotation/retry/input_type giữ NGUYÊN); không client/key → `RuntimeError("No NVIDIA embedding key — set NVIDIA_API_KEY* (embedding is NVIDIA-only)")`; `provider` → `"nvidia"|"none"`; `__init__` default `dim=2048` (bỏ nhánh 1536, vẫn nhận `dim` param); module docstring cập nhật.
+- **G2** `pyproject.toml`: xoá `"sentence-transformers>=2.2.0"` (main deps); extra `memory` NOTE bỏ tham chiếu st; extra `eval` thêm `"transformers>=4.40"` + `"torch>=2.2"` (comment "news sentiment eval needs the HF stack; kept out of base deps for a light Docker image").
+- **G3** sentiment theo chốt user option (c): **giữ code default `SENTIMENT_ENGINE="hf"`** (`news_sentiment_service.py:16`); `docker-compose.yml` + `docker-compose.dev.yml` thêm `SENTIMENT_ENGINE=${SENTIMENT_ENGINE:-llm}` cho **cả backend VÀ mcp_server** (sentiment chạy trong mcp_server qua `tools/portfolio.py` — bỏ sót là degrade âm thầm); `.env.example` thêm `SENTIMENT_ENGINE=llm` cạnh `ENABLE_RAG_SCHEDULER`; comment dòng 12-16 cập nhật (hf cần transformers, không còn base deps; docker chạy llm qua env; keyword vẫn ultimate fallback).
+- **G4** compose ×2 + `.env.example`: xoá `OPENAI_EMBEDDING_MODEL` khỏi 2 block `environment:` (backend + mcp_server); sửa comment stale "Cold boot imports torch/sentence-transformers" → "the app stack (NVIDIA-only, no torch)"; **KHÔNG đụng** số `start_period`/healthcheck.
+- **G5** docs (text-only): `rag_pipeline.md:19` + `UA_ONBOARDING.md:117` → embedder NVIDIA `nvidia/nemotron-3-embed-1b` dim 2048; `UA_ONBOARDING.md:16` core stacks bỏ `sentence-transformers` + `redis>=5` (stale từ redis-removal); `README.md:470` bỏ "do torch".
+- **G6** venv: `pip uninstall -y sentence-transformers` — **before: 6.1.0 → after: not found**; GIỮ `torch 2.14.1` + `transformers 5.20.1` (local hf + evals dùng).
+- **G7** tests: (a) thêm `test_embedder_no_keys_provider_none_and_raises` vào `test_nvidia_key_pool.py` (mock pool `len()==0` → `provider=="none"` + `embed(["x"])` raise `RuntimeError`); (b) focused `test_nvidia_key_pool.py` + `sentiment/` = **22 passed**; (c) full `pytest src/tests -q` = **717 passed / 17 skipped / 0 failed** — baseline 716/0/17 → **+1** (test mới); **`test_memory_reformulation_prep` vẫn PASS** (không chuyển skip — provider "none" chỉ khi pool rỗng, còn `.env` có NVIDIA key).
+- **G8** gates: ruff **0**, black **0** (282 files), mypy cờ gate `--ignore-missing-imports --no-strict-optional` **0** (282 files); `docker compose config` ×2 qua WSL **RC 0** (PROD_RC=0 / DEV_RC=0).
+
+**Note R4d (đọc kỹ — không tự đổi, chỉ ghi):**
+- **`.env` local override:** `.env` (untracked) hiện pin `SENTIMENT_ENGINE=hf` (line 49) + `OPENAI_EMBEDDING_MODEL=text-embedding-3-small` (line 34). Compose interpolate `${SENTIMENT_ENGINE:-llm}` **từ `.env`** → render `docker compose config` cho **`SENTIMENT_ENGINE: hf`**, KHÔNG phải `llm` → **docker local vẫn chạy `hf`** (thiếu transformers → keyword degrade âm thầm — đúng thứ user muốn tránh). `.env.example` + compose cho env mới thì đúng `llm`. Muốn docker local chạy llm: user sửa `.env` line 49 → `SENTIMENT_ENGINE=llm` (hoặc xoá dòng). KHÔNG tự đổi theo luật "không đụng `.env`".
+- `OPENAI_EMBEDDING_MODEL` vẫn còn ở `shared/config.py:64` (hằng dead — ngoài file list G4) + `.env` line 34 (qua `env_file` vẫn inject vào container, vô hại). Không xử lý nhịp này.
+- Test mock: `embedder` import `NvidiaKeyPool` **bên trong** `_init_clients` từ `infrastructure.llm.nvidia_key_pool` → test patch đúng location đó (KHÔNG phải `infrastructure.rag.embedder.NvidiaKeyPool` như draft G7 ghi; patch attribute không tồn tại sẽ `AttributeError`).
+
+## Current Status (R4d embed-slim — IMPLEMENT DONE 18/10/2026)
+- Embedding **NVIDIA-only**: bỏ OpenAI legacy + sentence-transformers fallback; `sentence-transformers` gỡ khỏi base deps + venv; `torch`/`transformers` giữ local + dời vào extra `eval`.
+- Sentiment: code default giữ `hf`; compose ×2 (backend + mcp_server) + `.env.example` set `llm`.
+- Gates xanh: focused **22 passed**; full suite **717/0/17** (= baseline 716 + 1 test mới); ruff/black/mypy = **0**; `docker compose config` ×2 **RC 0**.
+- Note: `.env` local pin `SENTIMENT_ENGINE=hf` → docker local vẫn hf (xem Note R4d); user chỉnh `.env` nếu muốn llm.
+- Commit + push + CI: **<pending — điền sau commit>**.
+- **C2 RESUME (docker UI-writes) chạy SAU nhịp này** — lúc đó `docker compose build` nhẹ hơn nhiều (no torch/sentence-transformers).
+
+## Next Agent (R4d embed-slim)
+- **reviewer** — soi commit R4d: embedder NVIDIA-only (bỏ 2 fallback + raise rõ), pyproject (bỏ st, eval += transformers/torch), sentiment compose ×2 (backend + mcp_server) + `.env.example`, docs 1-liner, test mới; gates + full suite + `docker compose config` bên trên. Lưu ý **note `.env` override**.
+- C2 RESUME UV1-UV7 vẫn treo, chạy sau (build nhẹ hơn).
+
+## Implementation Notes (C2-RESUME — implementor 18/10/2026) — ĐANG CHẠY
+
+### UV1 DONE (keep-alive + docker active)
+- Keep-alive: `setsid nohup sleep 5400` launched (warning `systemd user session for root` — pre-existing, vô hại như C2). VM **đã active sẵn** (poll đầu `docker info` = **READY** ngay, không cần chờ 5 phút buildkit).
+- `docker ps -a` = **rỗng** (không container cũ, không stack người khác). RAM baseline free: **14140 MB available** / 14988 total (thừa so ngưỡng 1GB).
+- Điều kiện đầu: HEAD `704a808` == origin/main (**0/0**); `WORKFLOW_STATE.md` M (chính section C2 RESUME này, commit ở UV7). Untracked cố ý để nguyên: `evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`.
+

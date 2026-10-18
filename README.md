@@ -467,7 +467,7 @@ docker compose ps      # chờ backend/mcp/frontend đều healthy (cold boot 2-
   `docker cp data/market_store.db finsight-backend:/app/data/market_store.db` (hoặc chạy backfill trong container).
 - RAG collection trong qdrant service khởi đầu rỗng — chạy ingest 1 lần (`python -m infrastructure.rag.cli run --force` trong backend) trước khi dùng search.
 - Dev: `docker compose -f docker-compose.dev.yml up -d` (hot-reload src, scheduler tắt mặc định).
-- Lưu ý: `NEXT_PUBLIC_API_URL` bake lúc build image frontend (đổi phải rebuild); cold boot lần đầu lâu do torch; WSL cần dockerd chạy (`sudo service docker start`).
+- Lưu ý: `NEXT_PUBLIC_API_URL` bake lúc build image frontend (đổi phải rebuild); cold boot lần đầu có thể lâu (import app stack); WSL cần dockerd chạy (`sudo service docker start`).
 
 ### Usage
 

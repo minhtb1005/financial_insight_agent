@@ -103,6 +103,21 @@ def test_rotating_chat_no_keys_raises():
         chat.invoke("hi")
 
 
+@patch("infrastructure.llm.nvidia_key_pool.NvidiaKeyPool")
+def test_embedder_no_keys_provider_none_and_raises(mock_pool_cls):
+    """Empty key pool -> provider "none" and embed raises (NVIDIA-only)."""
+    from infrastructure.rag.embedder import Embedder
+
+    empty_pool = MagicMock()
+    empty_pool.__len__ = lambda _self: 0
+    mock_pool_cls.return_value = empty_pool
+
+    emb = Embedder()
+    assert emb.provider == "none"
+    with pytest.raises(RuntimeError, match="No NVIDIA embedding key"):
+        emb.embed(["x"])
+
+
 @patch("openai.OpenAI")
 def test_embedder_nvidia_primary_mocked(mock_openai):
     from infrastructure.rag.embedder import Embedder
