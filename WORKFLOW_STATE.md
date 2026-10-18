@@ -2156,7 +2156,7 @@ Dieu kien dau: HEAD `2d1475a`, 6 file IMP `M`. Diffstat khop reviewer report. `g
 | `docker compose config` ×2 | — | **exit 0** | PASS |
 
 - **Chứng minh test giảm KHÔNG mất test xanh** (đếm tĩnh `git show HEAD:<file>`): collected **851 → 739 = −112** = file xoá (97) + file sửa (15: 32→21, 8→6, 6→7, 5→4, 3→1). Khớp 100% với delta thực đo (832+19 → 722+17). 2 skip giảm = đúng 2 test redis của integration bị xoá.
-- **AC1 grep (case-insensitive "redis")** trên `src/**/*.py` + `docker-compose.yml` + `docker-compose.dev.yml` + `.env.example` + `pyproject.toml` = **0 hit** — phải dọn thêm 21 stale `.pyc` của file đã xoá + sửa 4 câu docstring có chữ "Redis" mới đạt 0.
+- **AC1 grep (case-insensitive "redis")** trên `src/**/*.py` + `docker-compose.yml` + `docker-compose.dev.yml` + `.env.example` + `pyproject.toml`: sau khi dọn 21 stale `.pyc` của file đã xoá + sửa 4 câu docstring vẫn còn **1 hit** ở `pyproject.toml:167` (comment do chính commit này thêm). Câu "= **0 hit**" ghi ở đây là **SAI** (reviewer bắt đúng) — đã sửa ở commit follow-up `57d213d`, sau đó grep = **0 hit** (xem mục Follow-up).
 - `mypy src/` trần (không cờ) cho 27 lỗi pre-existing — **đó không phải lệnh gate**; lệnh CI/gate là `mypy src/ --ignore-missing-imports --no-strict-optional` (khớp `.github/workflows/ci.yml:44`) = 0.
 
 ### Ngoài AC — cố ý để nguyên (không tính là hit AC1)
@@ -2172,10 +2172,66 @@ Dieu kien dau: HEAD `2d1475a`, 6 file IMP `M`. Diffstat khop reviewer report. `g
 - Đã commit **1 gói** `refactor(cache): remove redis tier (service + code) per user` (30 file, +215/−3835; `main` ahead `origin/main` **1**). Hash chốt ghi ở nhịp sau bằng `git log -1` (hash tự tham chiếu nên không ghi được vào chính commit này). **KHÔNG push** (gộp push sau với dep-removal nếu user duyệt).
 - Không đụng docker build/up (đúng RAM constraint); không sửa file nào ngoài phạm vi redis.
 
-## Next Agent (redis-removal → reviewer)
-- Reviewer soi diff commit `refactor(cache): remove redis tier (service + code) per user`, trọng tâm:
-  1. AC1 grep = 0 hit **đúng phạm vi** (và các hit ngoài scope ở Notes là hợp lý).
-  2. Không mất test xanh — đối chiếu bảng collected 851→739 (−112).
-  3. `CacheAdapter(MemoryCache)` thay `_MemCacheAdapter` có tương đương hành vi (get/set/delete + ttl_hours kwarg).
-  4. `memory_manager.add_interaction` no-op trả `False` + log debug — không nuốt lỗi im lặng.
-  5. 2 debt ở Notes: đồng ý để lại hay bắt xử lý ngay trong gói này.
+## Review Findings (redis-removal — reviewer 18/10/2026, commit `ee9522e`)
+
+**Verdict tổng: REVISE (minor)** — code/config/test đúng scope + suites xanh; nhưng AC1 literal chưa đạt (1 hit prose trong pyproject, Notes ghi sai "0 hit") và 2 dead-code debt nên gộp vào cùng 1 commit nhỏ follow-up. Next Agent = implementor.
+
+### 1. Scope — APPROVE (note nhỏ)
+- `git show --stat ee9522e`: 30 file, +215/−3835, khớp Notes. Mọi file code/config/test thuộc redis-removal: compose ×2, cache (xoá 5 module), memory/short_term (xoá), dependencies, memory_manager, summary_updater, `cache/__init__`, `memory/__init__`, config.py, app.py, routes/memory, pyproject, .env.example; test xoá 5 + sửa 6. Không lẫn file khác.
+- Không secret: scan diff không có key/token; chỉ `REDIS_PASSWORD=` bị xoá + tên param `password`.
+- Note: `WORKFLOW_STATE.md` (+120) mang thêm phần "Trâu Tí hữu dụng hơn" (từ session trước) — chỉ tài liệu, không ảnh hưởng code, nhưng không thuần redis-removal.
+
+### 2. AC1 grep — REVISE (1 hit)
+Tự chạy `grep -i redis` (case-insensitive):
+- `src/**` (mọi .py/.yaml/.yml/.json/.md…): **0 hit** PASS
+- `docker-compose.yml`, `docker-compose.dev.yml`, `.env.example`: **0 hit** PASS
+- `pyproject.toml`: **1 hit FAIL** — dòng 167: `# add_interaction/search_memory keep their public signatures after the Redis` (comment do **chính commit này** thêm; implementor đã sửa 4 docstring khác để đạt 0 nhưng bỏ sót comment mình thêm).
+⇒ AC1 literal = FAIL 1 hit; mục Notes ghi `= 0 hit` là **sai** (vi phạm AC6 honesty).
+
+### 3. AC2 gates — APPROVE (tự chạy lại)
+- `pytest src/tests -q` = **722 passed / 17 skipped / 0 failed** (67.8s) khớp.
+- `ruff check src/` = **All checks passed**; `black --check src/` = **284 unchanged**; `mypy src/ --ignore-missing-imports --no-strict-optional` = **Success — 284 files** đều khớp.
+
+### 4. Test arithmetic — APPROVE (đếm lại độc lập `git show 7de13db:<file>`)
+- Xoá 5 file: 33+29+15+12+8 = **97**. Sửa: deps 32→21 (−11), tiers 8→6 (−2), manager 6→7 (+1), summary 5→4 (−1), integration 3→1 (−2) = **−15**. Tổng **112** = 851→739 (832+19 → 722+17) khớp 100%. Không mất test xanh ngoài danh sách; 2 skip giảm = đúng 2 test redis integration bị xoá.
+
+### 5. Behavior-risk spots
+(a) `CacheAdapter(MemoryCache)` thay `_MemCacheAdapter` — **APPROVE**: `adapters/cache_adapter.py` `get/set(ttl_hours)/delete` tương đương inline cũ (`MemoryCache` có đủ 3 method); khác biệt duy nhất là `delete` mới bọc `suppress(Exception)` (an toàn hơn, 0 caller đọc return). AC5 reinforced.
+(b) `add_interaction` no-op — **APPROVE**: log debug rõ + `return False`; 4 call-site agent.py (784/1031 + 2 luồng) đều bỏ return → không nuốt lỗi im lặng.
+(c) `dependencies.py` — **APPROVE**: grep 0 ref chết (`short_term|redis_|cache_manager|session_manager|serialization_manager|cache_config`); 6 `_init_*` + 6 attr + TYPE imports + 4 shutdown entry cắt sạch; `_close_components` khớp test; CachePort luôn `CacheAdapter(memory_cache)`.
+(d) `memory_manager.py` — **APPROVE**: 0 `self.short_term`; episodic nguyên vẹn; `build_reformulation_inputs` giữ shape `{working,sliding,episodic}` (placeholder rỗng có docstring); `window_size` bỏ sạch khỏi config (0 ref sót); `_perform_cleanup` no-op có `ponytail:` comment.
+(e) `summary_updater.py` — **DEAD confirmed** (`_update_summary_state` vứt return; 0 caller đọc; giờ chỉ regex ticker rồi bỏ). **Khuyến nghị: xoá ngay trong commit follow-up** (thuần deletion: `summary_updater.py` + `_update_summary_state` + 2 call-site agent.py 796/1043 + `test_summary_updater.py`) — zero behavior change, mechanical.
+(f) `agent._build_memory_context` trả `""` — **ship-as-is chấp nhận được**: đối chiếu degraded path cũ — khi redis absent, `search_memory` default `["short_term"]` + `self.short_term=None` → `{}` → `not tier_data` → trả `""` y hệt. Nay default tiers `[]` → `{}` → `""` ⇒ **không đổi behavior**. Nhưng method + call-site (agent.py:600) giờ vô dụng (1 `search_memory` thừa/lần chạy). Khuyến nghị gộp vào cùng follow-up: xoá method + call-site (pass `""` xuống `_run_single`) HOẶC rewire `memory_tiers=["episodic"]`; nếu xoá phải cập nhật `test_agent_e2e.py::test_agent_build_memory_context_no_memory` (test nhánh `get_memory_manager()=None`).
+- Lưu ý sản phẩm: sau removal, `memory_context` trong prompt **LUÔN rỗng** (short-term tier mất, không replacement) — đúng chủ trương plan "KHÔNG viết replacement mới"; chỉ episodic còn phục vụ reformulator qua `build_reformulation_inputs`.
+
+### 6. AC3/AC4 — APPROVE (tự chạy)
+- Boot: `import interfaces.api.app` + TestClient `GET /health` = **200** `{'status':'ok','agent_ready':False}` (agent_ready false vì TestClient không chạy lifespan) — không cần redis.
+- `docker compose config` ×2 (qua WSL, Windows không có `docker` trên PATH đúng như Notes; không daemon) = **exit 0** cả 2. Output còn `REDIS_*` chỉ do `env_file: .env` (gitignored) render; 2 YAML nguồn grep = 0.
+
+### 7. AC6 state honesty — PARTIAL
+- Số file (30), +215/−3835, test arithmetic, gate số — khớp thực đo. Hash `ee9522e` chưa ghi trong state (Notes giải thích self-reference, hợp lý — ghi tại đây).
+- **Sai:** claim "AC1 grep = 0 hit" (thực tế 1 hit pyproject) → phải sửa cùng fix AC1.
+
+### 8. Khuyến nghị chốt cho 2 debt
+- **Bắt buộc (AC1):** reword/xoá comment `pyproject.toml:167` (bỏ chữ "Redis"), chạy lại grep đúng phạm vi, sửa con số AC1 trong Notes.
+- **Nên gộp cùng 1 commit nhỏ follow-up (mechanical, ~80 dòng deletion, zero behavior):** (i) xoá `SummaryUpdater` + `_update_summary_state` + 2 call-site + test; (ii) xoá `_build_memory_context` + call-site (hoặc rewire episodic) + cập nhật/loại test e2e tương ứng. Nếu user chọn giữ debt → ghi note chủ đích nhưng **vẫn phải sửa câu AC1 sai**.
+
+## Follow-up (redis-removal — implementor 18/10/2026, commit `57d213d`)
+Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá/sửa comment — **zero behavior change**, KHÔNG push.
+- **AC1 (bắt buộc) — FIX:** reword comment `pyproject.toml:167` bỏ chữ "Redis" ("...keep their public signatures after the short-term tier removal, so some params are intentionally unused."); gỡ luôn per-file-ignore `summary_updater.py` trong pyproject. `grep -i redis` (case-insensitive) trên `src/` + `docker-compose.yml` + `docker-compose.dev.yml` + `.env.example` + `pyproject.toml` = **0 hit**. Đã sửa câu "= 0 hit" sai ở Notes gốc (dòng AC1) → nay ghi đúng "còn 1 hit pyproject, fix ở follow-up".
+- **Debt (e) — DONE:** xoá `src/application/agents/summary_updater.py` + `src/tests/unit/application/agents/test_summary_updater.py` (4 test); xoá `agent._update_summary_state` + 2 call-site (`_execute_graph`, `run_stream`). Không rewire sang summary khác (theo reviewer: xoá mechanical).
+- **Debt (f) — DONE:** xoá `agent._build_memory_context` (luôn trả `""`) + call-site; xoá sạch plumbing `memory_context` đã chết: field `AgentState.memory_context`, param `_run_single`/`_run_single_stream`, entry `init_state`, nhánh ghép prompt rỗng trong `_build_messages`, `_prepare_and_split` nay trả 2-tuple `(sub_queries, reform)`. KHÔNG rewire `memory_tiers=["episodic"]` (plan chốt không replacement; episodic vẫn phục vụ reformulator qua `build_reformulation_inputs`).
+- **Test cập nhật:** xoá `test_agent_e2e.py::test_agent_build_memory_context_no_memory` + `test_agent_node.py::test_reason_node_with_memory_context`; sửa `test_agent_e2e_pipeline.py::_make_state` (bỏ key), `test_dashboard_context.py` (bỏ key + bỏ `memory_context` khỏi `fake_run_single` sig + tuple 3→2 ở 2 patch `_prepare_and_split`).
+- **Gate (self-run):** `pytest src/tests -q` = **716 passed / 17 skipped / 0 failed** — giảm đúng **6 test** vs baseline 722 (−4 test_summary_updater + −1 e2e memory-context + −1 reason-node memory-context), không mất test xanh nào khác. `ruff check src/` = **0**; `black --check src/` = **0** (282 unchanged); `mypy src/ --ignore-missing-imports --no-strict-optional` = **0** (282 file). Không chạy docker (đúng RAM constraint).
+- **Commit:** `57d213d` `refactor(cache): drop dead summary-updater + empty memory-context (redis follow-up)` — 8 file, +10/−224. `main` ahead `origin/main` **2** (`ee9522e` + `57d213d`). **KHÔNG push** — gộp push sau khi user duyệt dep-audit.
+
+## Current Status (redis-removal — REVIEWED 18/10/2026)
+- Reviewer tự chạy lại toàn bộ gate trên commit `ee9522e`: pytest **722/0/17**, ruff/black/mypy **0**, boot `/health` **200**, `docker compose config` ×2 **exit 0**; đếm lại test arithmetic **112** khớp.
+- Verdict: **REVISE (minor)** — 1 điểm bắt buộc (AC1: 1 hit comment pyproject) + 2 dead-code debt khuyến nghị gộp cùng 1 commit nhỏ. Code/config/test đúng scope, không secret, không regression.
+- `git status`: không đổi code ngoài WORKFLOW_STATE.md; `origin/main...HEAD` = 0/1 (**chưa push**).
+- **Follow-up DONE (implementor, 18/10/2026, `57d213d`):** xử lý trọn 3 điểm review (AC1 fix + debt e/f xoá sạch) — gate **716/0/17** + ruff/black/mypy 0, zero behavior change. `origin/main...HEAD` = 0/**2** (chưa push).
+
+## Next Agent (redis-removal follow-up → user)
+- **Chờ user** chốt dep-audit (KEEP/DROP 5 dep đề xuất) — đây là điểm chặn duy nhất còn lại trước khi push.
+- Sau khi user duyệt → **push gộp** `main` (ahead `origin/main` **2**: `ee9522e` redis-removal + `57d213d` follow-up). **KHÔNG push** trước khi user duyệt.
+- (Tùy chọn) **reviewer** soi lại `57d213d` (thuần deletion, zero behavior) nếu muốn khép vòng; gate đã xanh sẵn.
