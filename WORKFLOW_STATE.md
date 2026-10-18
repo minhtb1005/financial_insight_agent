@@ -854,9 +854,9 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 - L4 Ghi WORKFLOW_STATE: bảng pass/fail + PID/log + lệnh restart (cho lần sau). KHÔNG commit/push (merge v1.2 vẫn chờ user; không file code nào đổi). Note: `.env QDRANT_PATH=./data/qdrant_local` (không phải `_v117`); RAG/`search_knowledge` không thuộc smoke.
 
 ## Files To Change (local-smoke)
-- Create: `.venv/` (recreate, gitignored), `%LOCALAPPDATA%\redis\8.10.2\` + `%LOCALAPPDATA%\redis\data\` (ngoài repo).
-- Update: `WORKFLOW_STATE.md`.
-- Không đụng: code `src/`, `frontend/`, `.env`, docker files, 26 scenes untracked (merge v1.2), `frontend/node_modules`, lockfiles.
+- Create: ~~`.venv/` (recreate)~~ **DELTA 18/10: SKIP recreate** (venv 17/10 còn tốt — chỉ verify); `%LOCALAPPDATA%\redis\8.10.2\` + `...\redis\data\` đã có sẵn (**chỉ start**). Thực tế: **không tạo file repo nào**.
+- Update: `WORKFLOW_STATE.md` (thực tế: **chỉ file này** bị sửa).
+- Không đụng: code `src/`, `frontend/`, `.env`, docker files, scenes untracked (merge v1.2), `frontend/node_modules`. **Side-effect:** `pnpm dev` sinh `frontend/pnpm-lock.yaml` + `frontend/pnpm-workspace.yaml` (untracked, CHƯA track — xem Implementation Notes).
 
 ## Acceptance Criteria (local-smoke)
 1. `.venv` mới tạo; `pip install -e ".[dev]"` (extra-index) thành công; import app/mcp/vnstock từ `.venv` OK.
@@ -872,13 +872,19 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 - Không commit secrets/DB/audio/out/log/node_modules (+ pnpm-lock mới nếu sinh ra thì hỏi user trước khi track); không force-push.
 - Kết quả smoke + việc làm nốt ghi WORKFLOW_STATE.
 
-## Current Status (local-smoke — implement INTERRUPTED 18/10; env re-check xong; deltas chốt — re-dispatch)
-- Task implementor dispatch 18/10 bị tool interrupt — **không chạy gì** (không notes, ports free, `.venv`/git nguyên trạng).
-- Env re-check xong (section "## Env re-check trước implement"): venv đã OK từ 17/10 (**SKIP recreate** — chỉ verify), **PYTHONPATH=src bắt buộc** cho mọi lệnh python, redis zip+extract+hash sẵn (**chỉ start + PING**), **E3 lint-typefix đang chạy song song** (36 file src dirty + 2 mypy proc) → smoke = advisory, không đụng E3.
-- DELTAS đã ghi; Next Agent = implementor (re-dispatch với deltas).
+## Current Status (local-smoke — REVIEW DONE 18/10/2026: **ACCEPT**; smoke PASS, không có code diff)
+- **SMOKE DONE 18/10 (re-dispatch sau interrupt):** L1→L4 **all PASS** — venv verify (SKIP recreate), redis PONG, MCP 8001 + backend 8000 + frontend 3000 up, API smoke + MCP `get_rates` 6/6 nhóm, trace cô lập WRITE+DELETE, UI best-effort, kill sạch 4 port. Chi tiết bảng + số liệu: "## Implementation Notes (local-smoke — implementor 18/10/2026, re-run sau interrupt)".
+- **Interrupt/blocker trước đã hết:** E3 lint-typefix (36 file src dirty + mypy) **tự hoàn tất & commit trong lúc smoke** → HEAD `945266b → bf95b79 → 9e45ea1`; KHÔNG file E3 nào bị đụng (kill chỉ đúng PID của mình + 4 port-owner).
+- **CI 18/10 (planner check qua `gh`):** run `39084306394` trên `9e45ea1` = **SUCCESS (4m21s)** — 4 commit E1–E4 đã push, CI xanh (mục honest-green lint-typefix đạt; run trước `39073578256` từng đỏ).
+- **Deviation (cần user quyết):** `pnpm dev` tự chạy install (node_modules do npm tạo, chưa có pnpm-lock) rồi fail `ERR_PNPM_IGNORED_BUILDS` → chạy lại với `--config.verify-deps-before-run=false` (config CLI, không sửa file) → OK. Sinh untracked `frontend/pnpm-lock.yaml` + `frontend/pnpm-workspace.yaml` (**CHƯA track**). Không file code nào bị sửa.
+- DELTAS đã áp đủ. **Reviewer 18/10: ACCEPT** — AC1–AC5 all PASS; bằng chứng tự kiểm chứng lại độc lập (xem "## Review Findings (local-smoke — reviewer 18/10/2026)"). Findings: F1 pnpm files (LOW, cần user chốt) + F2 residue 18 middleware-trace (LOW, vô hại) + F3 lệch tài liệu nhỏ (INFO). Không lỗi chặn. Next Agent = tester.
+- **Tester 18/10 (E3 tree `9e45ea1`): PASS, không regression.** Unit **794/794** (109.88s); e2e **3/3**; integration 24 passed/7 failed/19 skipped — 7 fail là **stale test path** (`/ask-stream` vs `/api/v1/ask-stream`, pre-existing, KHÔNG do E3). Chi tiết: "## Test Report (local-smoke + E3 tree — tester 18/10/2026)".
+- **User chốt 18/10 (sau review):** xoá 2 file pnpm (**đã xoá** — lần `pnpm dev` sau dùng `--config.verify-deps-before-run=false`); commit & push merge v1.2 + state → commit `7254731` (feat lessons, 28 file: +26 scene, index 30→56, curriculum v1.2) + commit docs này.
 
 ## Next Agent (local-smoke)
-- implementor (RE-DISPATCH 18/10 theo DELTAS): L1 verify venv (`pip show financial_insight_agent vnstock redis` + find_spec với `$env:PYTHONPATH="F:\financial_insight_agent\src"`) + start redis (`%LOCALAPPDATA%\redis\8.10.2\redis-server.exe` + `redis-cli ping`=PONG) → L2 MCP 8001/backend 8000/frontend 3000 (Start-Process detached 2 log `.out`/`.err`, env PYTHONPATH=src) → API smoke `/api/v1` + trace cô lập `smoke-test-*` → UI best-effort → kill PID+port-owner (KHÔNG kill 2 mypy proc của E3) → ghi pass/fail + PID/log vào WORKFLOW_STATE (advisory vì E3 in-flight). KHÔNG đụng merge v1.2 (26 scene untracked + 3 M) / file-proc E3, không commit/push, không lẫn docker-fix.
+- **planner** — nhịp local-smoke **ĐÓNG 18/10**: smoke PASS + reviewer ACCEPT + tester PASS (E3 không regression: unit 794/794, e2e 3/3, integration 7 fail = stale test path pre-existing); pnpm đã xoá; merge v1.2 + state đã commit/push (`7254731` + docs commit này). Chờ **user quyết nhịp tiếp**:
+  1. **Reviewer các batch treo** (**shadcn A→B3**, **R1R2R4/R5**) + **lặt vặt** (M3L2 điền số, **stale test `/ask-stream`→`/api/v1/ask-stream`**, purge approx) — HAY **docker-fix r2** trước (thứ tự user từng chốt: local smoke xong → docker-fix).
+  2. **R5 V3**: user xem `frontend/trau-video/out/M1L1.mp4` để duyệt.
 
 ## Debate Notes (local-smoke — debater, 17/10/2026)
 **VERDICT: REVISE** (hướng đúng — KHÔNG viết lại; 4 điểm bắt buộc + 4 optional). Đã tự verify rẻ: đọc `.venv`/`pyproject.toml`/`routes/auth.py`/`routes/traces.py`/`app.py`/`agent.py`/`storage.py`/`tracer.py`/`vector_store.py`/`.env`(tên key)/`frontend/package.json` + đếm row sqlite + test thật background-process + websearch redis-windows.
@@ -917,6 +923,95 @@ B3. Verify `search_knowledge` 1 query/nhóm nguồn mới; ghi docs/chunks vào 
 - **F4 — redis sẵn sàng:** zip `Redis-8.10.2-Windows-x64-msys2.zip` đã tải (hash **verified khớp `7C8CEBD5…EE85`** hôm nay 18/10 bằng Get-FileHash), đã giải nén `C:\Users\DELL\AppData\Local\redis\8.10.2\` (redis-server.exe + redis-cli.exe + DLLs msys2), từng chạy OK 17/10 9:36 (redis.out "Ready to accept connections tcp"; warning maxclients vô hại). → **DELTA: L1c = chỉ start + `redis-cli ping` → PONG.**
 - **F5 — data traces.db nguyên vẹn: 514 traces / 3412 spans** (tăng từ 489/3387 do trace_middleware trace mọi HTTP request khi session cors-fix chạy UI tests 18/10 — đúng cơ chế D5). Bảng: traces/spans/feedback/comments. Synthetic trace mới = +1 trace.
 - Precheck sẵn: `%TEMP%\opencode\smoke_precheck.py` (py version, find_spec, đếm traces/spans).
+
+## Implementation Notes (local-smoke — implementor 18/10/2026, re-run sau interrupt)
+Thực thi Plan r2 + đủ DELTAS. Local Windows (uvicorn + `pnpm dev`), KHÔNG WSL/docker, KHÔNG commit/push. Mọi lệnh python đặt `$env:PYTHONPATH="F:\financial_insight_agent\src"` (kể cả `Start-Process` — child kế thừa).
+
+| Bước | Kết quả | Số liệu thật |
+|---|---|---|
+| L1a precheck | PASS | ports 3000/8000/8001/6379 free; `frontend/trau-video/out/M1L1.mp4` có (không render lại) |
+| L1b venv (SKIP recreate) | PASS | editable `financial_insight_agent 0.1.1` + vnstock 4.0.9 + redis 8.1.0 + mcp 1.30.0; `find_spec` interfaces/mcp_server/vnstock/redis/fastapi/uvicorn = True |
+| L1c redis | PASS | start `%LOCALAPPDATA%\redis\8.10.2\redis-server.exe` (`--port 6379 --bind 127.0.0.1 --appendonly no`), PID 1480; `redis-cli ping` = **PONG** (log `%TEMP%\opencode\redis.out`: "Ready to accept connections tcp") |
+| L2a MCP 8001 | PASS | `-m mcp_server.server --transport streamable-http`; PID 8776 (parent) + 13560 (child owns 8001); up ~40s; **19 tools**; log `mcp.out`/`mcp.err` |
+| L2b backend 8000 | PASS | `-m uvicorn interfaces.api.app:app --port 8000`; PID 3252 + 9160 (owns 8000); `/health` **200** `{"status":"ok","agent_ready":true}`; cold ~55s |
+| L2c frontend 3000 | PASS* | `pnpm dev`; chain cmd 4304→node 8732→…→7216 (owns 3000); `http://localhost:3000/api/health` **200** `{"status":"ok","agent_ready":true}` (37.8s cold compile); log `frontend.out`/`frontend.err` |
+| L2d API smoke | PASS | login `/api/v1/auth/login` **200** bearer (admin@finsight.vn); traces list **200** (count 5/total 517); sort+pagination **200**; detail **200**; MCP `get_rates` **6/6 nhóm ok** (policy 3 / deposit 16 / lending 6 / avg / vnibor / banks — data thật) |
+| L2e trace cô lập | PASS | `TraceStore('data/traces/traces.db')` + `Tracer.begin_span(trace_id='smoke-test-<ts>')`; tạo+xoá `smoke-test-1792284190`: search thấy nó; comment POST/GET **200** (count 1); feedback POST/GET **200** (count 1); meta PATCH **200**; DELETE **200** `deleted:true` → verify **404** |
+| L2f UI best-effort | PASS | chrome-devtools `http://localhost:3000`: login admin **200** → Traces list (search/status/date filters, column toggles, pagination "Tổng 540 · trang 1/11") → detail (tabs Tổng quan/Chunks/Memory/Đánh giá/Raw, Summary, "DAG spans") → **Đánh giá** tab feedback+comments UI **write** trên trace cô lập `smoke-test-1792284835` ("Đã ghi nhận đánh giá" + comment listed) → delete-confirm dialog "Xóa trace?" mở rồi **HUỶ** (không xoá trace thật) |
+| L3 kill | PASS | redis `redis-cli shutdown nosave` rc=0; `taskkill /T /F` PIDs 8776/3252/4304 (cả cây). Sau kill: **4 port free**, 0 python, 0 redis-server, 0 pnpm/cmd-next; chỉ còn node procs của chrome-devtools-mcp (harness) |
+| L4 state | PASS | section này + Current Status + Next Agent→reviewer |
+
+**Deviations / notes:**
+- **E3 in-flight (advisory) đã hết:** 2 proc mypy 07:26 **đã biến mất trước khi run bắt đầu** (~07:33: 0 python proc) — E3 **tự hoàn tất & commit trong lúc smoke** → HEAD `945266b → bf95b79 (142 mypy fixes) → 9e45ea1`. Smoke thực chất chạy trên code E3-fixed; không file E3 nào bị sửa/đụng; kill chỉ trúng PID của mình + 4 port-owner.
+- **`pnpm dev` auto-install (deviation):** pnpm tự chạy install (node_modules do npm tạo, chưa có `pnpm-lock.yaml`) → fail `ERR_PNPM_IGNORED_BUILDS` (unrs-resolver) exit 1 → chạy lại `pnpm dev` với `--config.verify-deps-before-run=false` (CLI config, KHÔNG sửa file) → OK. Tác dụng phụ **KHÔNG track** (đúng constraint): `frontend/pnpm-lock.yaml`, `frontend/pnpm-workspace.yaml` mới untracked; `frontend/node_modules` giờ do pnpm quản lý. → cần user quyết giữ/xoá.
+- Trace count 515→581: `trace_middleware` trace mọi HTTP request (mỗi call smoke/UI +1 trace). Cả 2 trace cô lập đã xoá (`smoke_left=0`); feedback=0, comments=0 sau cascade. 0 trace thật bị xoá.
+- Tool mechanics: `Start-Process` bị harness `ChildProcess.kill` ở shell cha nhưng child detached **vẫn sống**; PID ghi ra file trước khi return; poll readiness bằng call ngắn riêng. Script tạm (ngoài repo): `%TEMP%\opencode\{make_test_trace,api_smoke,count_traces}.py`. Logs: `mcp.out/.err`, `backend.out/.err`, `frontend.out/.err`, `redis.out`.
+- **Không file code nào bị sửa** (chỉ `WORKFLOW_STATE.md`). Không commit/push. Không lẫn merge v1.2 / docker-fix.
+
+## Review Findings (local-smoke — reviewer 18/10/2026)
+
+**VERDICT: ACCEPT.** Bằng chứng smoke đầy đủ + reviewer **tự kiểm chứng lại độc lập** (không chỉ tin notes). Không có lỗi chặn. 1 quyết định housekeeping (pnpm files) cần user + 2 ghi chú LOW.
+- Nguyên tắc: chỉ soi **bằng chứng smoke** (state + process + data). Nhịp này **KHÔNG có code diff** (chỉ `WORKFLOW_STATE.md`).
+
+**Tự kiểm chứng độc lập (reproduced):**
+- ports 3000/8000/8001/6379 free; 0 python, 0 redis-server, 0 pnpm/cmd-next; chỉ 4 node proc (chrome-devtools-mcp harness, start 04:36 — KHÔNG phải smoke) → khớp L3. ✔
+- HEAD == origin/main == `9e45ea1`; `git log 9e45ea1..HEAD` rỗng → không commit/push mới → khớp L4/AC5. ✔
+- `.venv` re-run: `find_spec` interfaces / interfaces.api.app / mcp_server.server / vnstock / redis / fastapi / uvicorn = **ALL_OK**; versions vnstock 4.0.9 / redis 8.1.0 / mcp 1.30.0 → khớp L1b. ✔
+- `redis.out`: 8.10.2 start 07:33:30 "Ready to accept connections tcp" + graceful "User requested shutdown" 07:55:34 → AC2. ✔
+- `backend.out`: `GET /health 200`, `POST /api/v1/auth/login 200`, traces list/sort/detail 200, `POST/GET comments`, `POST/GET feedback`, `PATCH meta`, `DELETE smoke-test-1792284190 200` → AC3 + L2d/L2e. ✔
+- `frontend.out`: "Ready in 29.6s" + `GET /api/health 200` (nhiều lần) → AC3. ✔
+- `traces.db`: traces=581, spans=3479, feedback=0, comments=0; `trace_id LIKE '%smoke-test%'`=0 (cả 2 trace cô lập đã xoá); oldest trace `agent.run` 2026-08-25 còn nguyên → 0 data thật bị xoá → khớp AC4. ✔
+- M1L1.mp4 tồn tại (27530184 B, 15/10) → không render lại → L1a. ✔
+
+**Acceptance Criteria — verdict:**
+| AC | Verdict | Bằng chứng |
+|---|---|---|
+| AC1 venv | **PASS** | theo DELTA đã duyệt "SKIP recreate" (venv 17/10 còn tốt); re-verify `find_spec`=ALL_OK + versions |
+| AC2 redis PONG + SHA256 | **PASS** | `redis.out` 8.10.2 ready + PONG (notes); SHA256 zip verify bởi planner F4 (`7C8CEBD5…EE85`) |
+| AC3 health 200 (both) | **PASS** | backend.out `/health` 200; frontend.out `/api/health` 200; body `agent_ready:true` (notes) |
+| AC4 checklist pass/fail | **PASS** | bảng L1a–L4 đủ bước + số liệu thật; mọi WRITE+DELETE **chỉ** trên trace `smoke-test-*` (đúng biện pháp an toàn debater #1) |
+| AC5 kill sạch + state + no push | **PASS** | 4 port free; 0 proc sót; WORKFLOW_STATE cập nhật; HEAD==origin, không commit/push |
+
+**Findings:**
+- **F1 (LOW — cần user quyết):** `frontend/pnpm-lock.yaml` (230655 B, `lockfileVersion 9.0`) + `frontend/pnpm-workspace.yaml` (56 B) do `pnpm dev` auto-install sinh, **untracked + KHÔNG gitignored**. Đã verify đây là output THẬT của pnpm 11 (docs pnpm `allowBuilds` + issue pnpm#13845: giá trị placeholder `"set this to true or false"` y hệt pnpm tự ghi). Repo convention = **npm** (`frontend/package-lock.json` còn nguyên + `frontend/Dockerfile` dùng `npm ci`); `git grep` cho thấy KHÔNG config nào tham chiếu pnpm. → **KHUYẾN NGHỊ: XOÁ cả 2** (khớp ràng buộc user "chỉ pnpm dev, KHÔNG sinh/track lock"; tránh dual-lockfile npm+pnpm gây nhầm; untracked không ignore = rủi ro lỡ `git add`). **Lưu ý:** lần `pnpm dev` sau **sẽ sinh lại** (node_modules giờ pnpm-managed + không có pnpm-lock → auto-install lại) **trừ khi** chạy lại với `--config.verify-deps-before-run=false`. Reviewer KHÔNG tự xoá (ngoài scope nhịp này; xoá là 1 lệnh khi user chốt). *Side-effect phụ:* `frontend/node_modules` giờ do pnpm quản lý (`.modules.yaml` có) → nếu repo tiếp tục dùng npm nên cân nhắc dọn.
+- **F2 (LOW — residue, không chặn):** còn **18 trace** mà `root_name` chứa id smoke (`... DELETE /api/v1/traces/smoke-test-1792284190` …) do `trace_middleware` trace MỌI HTTP request. Câu "0 trace smoke-test còn sót" chỉ đúng ở miền **trace_id** (verified `trace_id LIKE '%smoke-test%'`=0); KHÔNG đúng literal cho mọi row. Vô hại (không phải data thật; không feedback/comment). Không cần xử lý — chỉ nên diễn đạt chính xác.
+- **F3 (INFO — lệch tài liệu nhỏ):** (a) notes ghi redis PID **1480**, `redis.out` tự báo `pid=1188` (nguồn chính xác hơn); (b) F5 ghi "514 pre-smoke" vs notes "515→581" (lệch 1, vô nghĩa); (c) `frontend.err` có React hydration-mismatch warning (`TraceWaterfall.tsx:170`) — dev-mode, UI best-effort, không chặn; (d) `backend.err` có ERROR không-chặn (vnstock VNM 400, market_store refresh failed) — ngoài scope smoke.
+
+**Không phát hiện vấn đề:** không file code nào bị sửa bởi smoke (chỉ `WORKFLOW_STATE.md`) ✔; không lẫn merge v1.2 (26 scene untracked + 3 file M vẫn nguyên trạng) ✔; không đụng docker-fix ✔; safety DELETE đúng bài học debater #1 (tạo trace tổng hợp rồi mới DELETE, đã bỏ hẳn fallback "mượn trace thật") ✔.
+
+**Việc mở (ngoài nhịp smoke):** (1) user chốt giữ/xoá pnpm files (F1); (2) các batch treo — shadcn A→B3, R1R2R4/R5, lặt vặt (M3L2 điền số, test stale name, purge approx); (3) E3 (142 mypy fixes) đã commit trong lúc smoke nhưng **chưa chạy full pytest** trên HEAD mới → tester xác nhận.
+
+## Test Report (local-smoke + E3 tree — tester 18/10/2026)
+
+**VERDICT: PASS (no E3 regression).** Nhịp smoke không có code diff; E3 lint/typefix (`ae9bb76` black + `945266b` ruff + `bf95b79` mypy + `9e45ea1`) **không gây regression** — unit suite 794/794 và e2e 3/3 xanh; 7 failure ở integration là **stale test path pre-existing**, không liên quan E3 (bằng chứng bên dưới).
+
+**Commands run** (workdir `F:\financial_insight_agent`; python `.venv\Scripts\python.exe`; pytest 9.1.1; config `pyproject.toml` `pythonpath=["src"]` → chạy từ repo root không cần set PYTHONPATH):
+1. `.venv\Scripts\python.exe -m pytest src/tests/unit -q` (CI gate, timeout 900s)
+2. `.venv\Scripts\python.exe -m pytest src/tests/integration -q` (bounded)
+3. `.venv\Scripts\python.exe -m pytest src/tests/e2e -q` (bounded)
+
+**Results:**
+
+| Phần | Lệnh | Kết quả | Thời gian | Verdict |
+|---|---|---|---|---|
+| **Unit (CI gate)** | `pytest src/tests/unit -q` | **794 passed / 0 failed / 0 skipped** (1 warning: langgraph `allowed_objects` deprecation) | **109.88s** | **PASS** — khớp baseline 794 (Current Status 8 gate) |
+| Integration | `pytest src/tests/integration -q` | **24 passed / 7 failed / 19 skipped** | 132.55s | FAIL (pre-existing stale path — không do E3) |
+| e2e | `pytest src/tests/e2e -q` | **3 passed / 0 failed** | 2.17s | **PASS** |
+| contract | `src/tests/contract` | **KHÔNG tồn tại** — contract test ở `integration/test_vnstock_contract.py` (opt-in `RUN_LIVE_CONTRACT=1` → 10 skip) | — | SKIPPED (by-design) |
+
+**Failures phân loại (7/7 đều ở `src/tests/integration/test_api_mocked.py`):**
+- Cả 7 đều POST `/ask-stream` → nhận **404** (expect 200/422).
+- **Root cause (route prefix mismatch, không phải logic code):** route thật nằm dưới prefix — `api_router = APIRouter(prefix="/api/v1")` (app.py:270) + `@api_router.post("/ask-stream")` (app.py:405) ⇒ đường thật = **`/api/v1/ask-stream`**. Test POST bare `/ask-stream` (test_api_mocked.py:35,49,53,57,66,73,83) ⇒ 404.
+- **Phân loại: REAL assert failure NHƯNG PRE-EXISTING (stale test), KHÔNG do E3.** Bằng chứng prefix predates E3: WORKFLOW_STATE verify local-smoke 17/10 (pre-E3) đã ghi "prefix `/api/v1` ở app.py:552"; guardrail set dùng path đã prefix `/api/v1/ask-stream` (app.py:273) → route ở dưới prefix từ trước E3. E3 chỉ lint/format/type, không thể chuyển route sang prefix mới. Sibling `test_api_endpoints.py` cũng dùng path stale `/ask-stream` nhưng các test ask-stream bị `skipif` (thiếu OPENAI key) → skip nên không lộ lỗi.
+- Fix (follow-up, KHÔNG trong nhịp này): sửa path → `/api/v1/ask-stream` — chính là mục "stale test" trong backlog "lặt vặt".
+- Không xếp là infra: đây là assert-level; nhưng cũng KHÔNG phải regression.
+
+**Regression verdict vs baseline:** unit **794 passed = baseline 794** → **0 regression** từ E3. Không có failure E3 nào trong unit/e2e. Integration 19 skips đều by-design (OPENAI-key LLM tests, live contract opt-in, memory-reformulation service).
+
+**Evidence / giới hạn:**
+- **git/`gh` KHÔNG chạy được trong session này** (bash tool permission chỉ cho pattern pytest) → tester KHÔNG tự re-verify `HEAD`/`origin` và KHÔNG chạy được `gh run list` (**SKIPPED — gh not runnable**); tree coi như `9e45ea1` theo dispatch + reviewer đã verify `HEAD==origin/main==9e45ea1` độc lập.
+- Không sửa code, không commit/push (đúng luật).
+- Baseline so sánh: 794 (Current Status 8 / R5 gate) — khớp chính xác.
 
 ## Fix GLM max_steps (17/10/2026 — DONE, ngoài scope project)
 - User báo OpenCode + GLM 5.3 Flash lỗi `unknown_parameter: json: unknown field "max_steps"`.
@@ -1518,3 +1613,37 @@ Không có vấn đề blocking. Code đúng, gates xanh độc lập, scope s�
 - **tester** — xác nhận không regression cho E3 (round thuần typing; unit suite đã 794/0, chạy lại `src/tests/unit` là đủ; không cần test mới). Đối chiếu các finding ở mục 4 (behavior spots) đã verify độc lập.
 - **Tuỳ chọn trước E4:** implementor vá **F1** (thêm lý do cho 2 `# type: ignore[override]` ở `financial_ratio_service.py:52` + `company_service.py:21`; sửa câu Notes "tất cả kèm lý do" → đúng thực tế) — docs/noqa-only, không đổi hành vi.
 - **Sau đó:** chờ **user/planner** quyết mở **E4** (push 3 commit `ae9bb76`→`945266b`→`bf95b79` lên `origin/main` + verify run CI mới xanh 4 job lint/typecheck/test/build) — **KHÔNG tự push**.
+
+## Implementation Notes E4 (lint-typefix — implementor 18/10/2026 — SHIP)
+- **F1 touch-up DONE:** thêm lý do inline "subclass specialises the base signature by design" cho 2 `# type: ignore[override]` trần: `src/application/services/financial/financial_ratio_service.py:52` + `src/application/services/company/company_service.py:21`; đính chính câu "6 type: ignore all with inline reasons" trong Implementation Notes E3 (thực tế ban đầu 4/6 có lý do, 2 thiếu → đã vá).
+- **Gate nhanh sau F1 (khớp lệnh CI):** `mypy src/ --ignore-missing-imports --no-strict-optional` = **0** (`Success: no issues found in 295 source files`, exit 0); `ruff check src/` = **0** (`All checks passed!`, exit 0); `black --check src/` = **0** (295 unchanged, exit 0).
+- **Commit F1 = `9e45ea1`** `docs(typing): add reasons to 2 [override] type-ignores (review F1)` — 3 file: 2 file code (mỗi file ±1 dòng) + `WORKFLOW_STATE.md`. Stage chọn lọc (KHÔNG `git add -A`).
+- **GAP CHECK = PASS:** `git log origin/main..HEAD --oneline` = **đúng 4 commit** `ae9bb76`, `945266b`, `bf95b79`, `9e45ea1`. `git diff --name-only origin/main..HEAD` file ngoài `src/` = **chỉ `WORKFLOW_STATE.md`** → KHÔNG có curriculum/index.json/scenes/audio/evals/logs trong bất kỳ commit nào. `git status`: các file ngoài scope vẫn untracked/unstaged (`M data/lessons/curriculum_tai_chinh_ca_nhan.json`, `M frontend/trau-video/public/lessons/index.json`, `?? evals/dashboard/v1/report-gpt41.json`, `?? frontend/frontend.dev.log`, `?? frontend/pnpm-lock.yaml`, `?? frontend/pnpm-workspace.yaml`, `?? frontend/trau-video/public/audio/`, 26 `?? ..._scenes.json`).
+- **FINAL GATE:** `pytest src/tests/unit -q` = **794 passed / 0 failed** (268.69s, 1 warning langgraph cache).
+- **PUSH = OK:** `git push` → **`216e9f5..9e45ea1  main -> main`** (exit 0, fast-forward, KHÔNG force). Verify: `rev-parse origin/main` = `rev-parse HEAD` = **`9e45ea1`**; `git log origin/main --oneline -5` = `9e45ea1`, `bf95b79`, `945266b`, `ae9bb76`, `216e9f5`; `git status -sb` = `## main...origin/main` (in sync).
+- **CL CHECK (CI run mới trên main) = XANH:** run id **`39084306394`** (commit `9e45ea1`, workflow `CI`, trigger `push`, total **4m21s**) → **`completed / success`**. Từng job: `typecheck` ✓ 4m5s, `lint` ✓ 4m19s, `test` ✓ 4m15s (workflow có **3 job**; không có job `build` riêng). Annotations duy nhất là deprecation warnings của runner (Node 20→24, ubuntu-latest migrate) — KHÔNG phải lỗi, không cần xử lý. Không có log-failed cần chụp.
+
+## Review Findings (lint-typefix E4 — reviewer 18/10/2026, độc lập trên `9e45ea1`)
+**VERDICT: APPROVE** — ship E4 trung thực; commit/push/CI verify độc lập khớp 100% báo cáo. Không cần sửa. Next Agent = tester.
+
+- **V1 Commit `9e45ea1` scope — APPROVE.** `git show --name-status` = **đúng 3 file**: `WORKFLOW_STATE.md` + `src/application/services/company/company_service.py` + `src/application/services/financial/financial_ratio_service.py`; modify-only, không A/D/rename. Diff 2 file code = **mỗi file ±1 dòng**, chỉ nối lý do `# subclass specialises the base signature by design` vào sau `# type: ignore[override]` (không đổi logic/chữ ký). Secret scan 2 diff: sạch (thuần comment).
+- **V2 Push/ancestry — APPROVE.** `git rev-parse origin/main HEAD` = **`9e45ea1` = `9e45ea1`** (in sync). `git log origin/main --oneline -6` = `9e45ea1, bf95b79, 945266b, ae9bb76, 216e9f5, 8343418`. `git merge-base --is-ancestor` **0/0 cả 2 chiều**; `git log --merges 216e9f5..HEAD` = **rỗng** (linear) + `216e9f5` là ancestor của HEAD ⇒ **fast-forward, KHÔNG force**. Non-`src/` trong cả 4 commit: `ae9bb76`/`945266b`/`bf95b79` = ∅, `9e45ea1` = **chỉ `WORKFLOW_STATE.md`** (khớp claim). `git status --porcelain -- src/` = **rỗng** (tree `src/` sạch tại HEAD).
+- **V3 CI run `39084306394` (AC5) — APPROVE.** `gh run view --json` → **status=`completed`, conclusion=`success`, headSha=`9e45ea1…b002` (khớp HEAD), branch=`main`, event=`push`, workflow=`CI`**. 3 job xanh: `typecheck` 4m5s ✓, `lint` 4m19s ✓, `test` 4m15s ✓. Annotations **chỉ là deprecation runner** (Node20→24, ubuntu-latest migrate) — không phải lỗi. Workflow có **3 job, không có job `build`** — state E4 ghi đúng (lệch kỳ vọng "4 job" của Plan, đã document trung thực).
+- **V4 AC1-6 tổng — PASS đủ.** AC1 (`ruff src/`=0), AC2 (`black --check src/`=0), AC3 (`mypy src/ --ignore-missing-imports --no-strict-optional`=0): đã re-verify độc lập ở E3 + **CI job `lint`/`typecheck` xanh trên đúng sha `9e45ea1`** (bằng chứng mạnh hơn local) ⇒ không cần chạy lại lần 3. AC4 (unit **794/0**): implementor final + CI job `test` xanh. AC5 (push 4 commit + CI xanh) ✅. AC6 (state trung thực) ✅.
+- **V5 F1 đính chính — APPROVE.** `9e45ea1` nối lý do vào đúng 2 dòng `[override]` từng thiếu (`company_service.py:21`, `financial_ratio_service.py:52`); Notes E3 đã amend ("6 type: ignore" → thực tế ban đầu 4/6 có lý do, 2 vá ở E4). AC6 đạt.
+- **Findings non-blocking:**
+  - **F1′ (minor — tài liệu):** list known-leftover ở Current Status E4 thiếu latent E2 #3 `shared/price_data.py` shim no-op params (vẫn có trong Review Findings E1/E2 P7 + Notes E2). Chỉ là tổng hợp doc, không ảnh hưởng gate/behavior.
+  - **F2′ (awareness, pre-existing):** CI có 3 job (không `build`) — state đã ghi đúng; kỳ vọng "4 job" ở Plan là sai, không cần hành động.
+- **Known-leftover backlog (KHÔNG thuộc round — gộp):**
+  - **Latent E2:** `run_full_refresh(force=…)` unused; `routes/market.get_indicators years` không forward; `shared/price_data` shim params no-op.
+  - **Latent E3:** `cast(str, content)` + `.content` dạng list (multimodal) chưa xử lý runtime; `AlertRule.for_duration_seconds` chỉ truyền chưa đọc; `redis_cache.set_members/delete_multi` param chưa khai type.
+  - **Tester/khác:** re-verify UI-writes trên docker (CORS đã fix); merge v1.2 (scenes/curriculum) commit riêng; test stale `test_api_mocked.py` (7 fail pre-existing full-suite); `_to_sync_url` plain URL; `trace_middleware` làm bẩn trace DB.
+
+## Current Status E4 (lint-typefix — 18/10/2026 — SHIP DONE, GREEN, REVIEWED APPROVE)
+- F1 vá xong + commit `9e45ea1`; gate nhanh 3/3 = 0; full unit **794/0**; push `216e9f5..9e45ea1` OK (không force; origin/main = HEAD = `9e45ea1`).
+- **CI run `39084306394` = XANH cả 3 job** (lint/typecheck/test) → AC1-AC6 lint-typefix đạt đủ: `ruff src/`=0, `black --check src/`=0, `mypy src/ --ignore-missing-imports --no-strict-optional`=0, unit 794/0, push 4 commit (0/0), state trung thực.
+- Reviewer E4 verdict: **APPROVE** (commit/push/CI verify độc lập khớp báo cáo; xem Review Findings E4). Chỉ 1 nit doc non-blocking (F1′ list leftover thiếu `price_data` shim).
+- E1→E4 hoàn tất. Còn lại ngoài scope (không block): merge v1.2 commit riêng; test stale `test_api_mocked.py` (7 fail pre-existing full-suite); re-verify UI-writes trên docker (CORS đã fix); latent backlog (E2: `run_full_refresh(force)` unused, `get_indicators years` không forward, `shared/price_data` shim no-op; E3: `.content`-list, `for_duration_seconds` chưa đọc, `redis_cache` param chưa type; `_to_sync_url` plain URL, `trace_middleware` làm bẩn trace DB).
+
+## Next Agent (lint-typefix E4)
+- **tester** — xác nhận ship E4 không regression (round docs/noqa: 4 commit `ae9bb76→945266b→bf95b79→9e45ea1`; unit suite đã 794/0 + CI test job xanh trên `9e45ea1`; không cần test mới — thuần format/lint/typing, behavior-preserving). Chạy lại `src/tests/unit` là đủ.
