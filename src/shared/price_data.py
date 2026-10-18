@@ -21,9 +21,19 @@ def get_price_data(  # noqa: PLR0917 - keep public signature
     start_date: str | None = None,
     end_date: str | None = None,
     days: int | None = None,
-    cache_namespace: str = "price",  # noqa: ARG001 - shim giữ tên param legacy
-    ttl_hours: float = 0.5,  # noqa: ARG001 - shim giữ tên param legacy
+    cache_namespace: str = "price",
+    ttl_hours: float = 0.5,
 ) -> dict[str, Any]:
+    # Params kept for legacy signature only — MarketDataPort has no cache knobs,
+    # so caching is handled by the market data service. Warn (loud) if a caller
+    # actually relies on them instead of silently dropping the values.
+    if cache_namespace != "price" or ttl_hours != 0.5:
+        warnings.warn(
+            "cache_namespace/ttl_hours are ignored by this deprecated shim — "
+            "caching is handled by the market data service",
+            DeprecationWarning,
+            stacklevel=2,
+        )
     # Try to use market_data port via registry if available
     svc = get_service("price")
     if svc is not None:

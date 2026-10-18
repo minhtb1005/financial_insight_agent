@@ -141,7 +141,7 @@ async def get_indicators(  # noqa: PLR0917 - keep public signature
     days: int | None = Query(None, ge=1),
     weeks: int | None = Query(None, ge=1),
     months: int | None = Query(None, ge=1),
-    years: int | None = Query(None, ge=1),  # noqa: ARG001 - tên query param (API contract)
+    years: int | None = Query(None, ge=1),
     start_date: str | None = Query(None),
     end_date: str | None = Query(None),
 ) -> dict[str, Any]:
@@ -155,6 +155,7 @@ async def get_indicators(  # noqa: PLR0917 - keep public signature
         days=days,
         weeks=weeks,
         months=months,
+        years=years,
         start_date=start_date,
         end_date=end_date,
     )

@@ -39,6 +39,7 @@ class IndicatorService(BaseService):
         days: int | None = None,
         weeks: int | None = None,
         months: int | None = None,
+        years: int | None = None,
         start_date: str | None = None,
         end_date: str | None = None,
     ) -> dict[str, Any]:
@@ -54,6 +55,7 @@ class IndicatorService(BaseService):
                 days=days,
                 weeks=weeks,
                 months=months,
+                years=years,
                 start_date=start_date,
                 end_date=end_date,
             ),
@@ -68,6 +70,7 @@ class IndicatorService(BaseService):
         days: int | None = None,
         weeks: int | None = None,
         months: int | None = None,
+        years: int | None = None,
         start_date: str | None = None,
         end_date: str | None = None,
     ) -> dict[str, Any]:
@@ -78,6 +81,7 @@ class IndicatorService(BaseService):
                 days=days,
                 weeks=weeks,
                 months=months,
+                years=years,
                 start_date=start_date,
                 end_date=end_date,
             )
@@ -243,6 +247,7 @@ def handle_indicator_query(  # noqa: PLR0917 - keep public signature
     days: int | None = None,
     weeks: int | None = None,
     months: int | None = None,
+    years: int | None = None,
     start_date: str | None = None,
     end_date: str | None = None,
 ) -> dict[str, Any]:
@@ -266,6 +271,7 @@ def handle_indicator_query(  # noqa: PLR0917 - keep public signature
         days=days,
         weeks=weeks,
         months=months,
+        years=years,
         start_date=start_date,
         end_date=end_date,
     )

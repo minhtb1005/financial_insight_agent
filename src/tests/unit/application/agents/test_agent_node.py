@@ -3,7 +3,7 @@
 from unittest.mock import MagicMock, patch
 from langchain_core.messages import AIMessage, ToolMessage, HumanMessage
 
-from application.agents.agent import StockAgent, AgentState
+from application.agents.agent import StockAgent, AgentState, _content_to_text
 from infrastructure.llm.llm_provider import LLMUnavailableError
 
 
@@ -311,3 +311,22 @@ def test_final_answer_empty_messages(mock_get_gr):
     agent = _make_agent(llm_available=True)
     result = agent._final_answer_node(_state([]))
     assert "Không thể tạo câu trả lời" in result["messages"][0].content
+
+
+def test_content_to_text_str_passthrough():
+    assert _content_to_text("plain answer") == "plain answer"
+
+
+def test_content_to_text_list_of_parts():
+    content = [
+        "phần đầu ",
+        {"type": "text", "text": "phần giữa "},
+        {"type": "image_url", "image_url": {"url": "http://x"}},
+        {"text": "phần cuối"},
+    ]
+    assert _content_to_text(content) == "phần đầu phần giữa phần cuối"
+
+
+def test_content_to_text_empty():
+    assert _content_to_text([]) == ""
+    assert _content_to_text(None) == ""  # type: ignore[arg-type]

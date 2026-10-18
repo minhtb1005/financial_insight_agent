@@ -15,7 +15,7 @@ import uuid
 import json
 from datetime import datetime, timezone
 from dotenv import load_dotenv
-from typing import TYPE_CHECKING, TypedDict, Annotated, Literal, Optional, cast
+from typing import TYPE_CHECKING, Any, TypedDict, Annotated, Literal, Optional
 from collections.abc import Sequence
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -50,6 +50,27 @@ logger = get_logger("agent.StockAgent")
 
 MAX_ITERATIONS = parse_int_env("AGENT_MAX_ITERATIONS", 10)
 AGENT_TIMEOUT_SECONDS = parse_int_env("AGENT_TIMEOUT_SECONDS", 120)
+
+
+def _content_to_text(content: str | list[Any]) -> str:
+    """Coerce ``AIMessage.content`` to plain text.
+
+    LangChain message content is a ``str`` for text-only responses but a list of
+    parts (``str`` or ``{"type": "text", "text": ...}`` dicts) for multimodal /
+    tool-augmented responses. Guardrails + verifiers expect ``str``.
+    """
+    if isinstance(content, str):
+        return content
+    parts: list[str] = []
+    for part in content or []:
+        if isinstance(part, str):
+            parts.append(part)
+        elif isinstance(part, dict):
+            text = part.get("text")
+            if isinstance(text, str):
+                parts.append(text)
+    return "".join(parts)
+
 
 # Tutor allowlist — 4 education tools + knowledge + chart (pie/donut ngân sách).
 # NOTE: UX-mode only, not a security boundary (client could still call MCP directly).
@@ -450,7 +471,7 @@ class StockAgent:
             return {"messages": [response]}
 
         validation_result = self._output_guardrails.validate_response(
-            cast("str", response.content), original_query
+            _content_to_text(response.content), original_query
         )
 
         if validation_result.status == "FAIL":
@@ -462,7 +483,7 @@ class StockAgent:
                 },
             )
             sanitized = validation_result.processed_query.get(
-                "sanitized_response", response.content
+                "sanitized_response", _content_to_text(response.content)
             )
             response = AIMessage(content=sanitized)
         elif validation_result.status == "WARNING":
@@ -478,8 +499,9 @@ class StockAgent:
         try:
             from infrastructure.rag.safety import check_and_sanitize
 
-            sanitized_text, blocked = check_and_sanitize(cast("str", response.content))
-            if blocked or sanitized_text != response.content:
+            current_text = _content_to_text(response.content)
+            sanitized_text, blocked = check_and_sanitize(current_text)
+            if blocked or sanitized_text != current_text:
                 node_logger.warning(
                     "RAG safety sanitized", extra={"request_id": rid, "blocked": blocked}
                 )
@@ -504,8 +526,9 @@ class StockAgent:
         if not last_ai:
             return {"messages": []}
 
+        last_ai_text = _content_to_text(last_ai.content)
         result = self._fact_verifier.verify(
-            response=cast("str", last_ai.content),
+            response=last_ai_text,
             messages=messages,
             original_query=original_query,
         )
@@ -530,12 +553,12 @@ class StockAgent:
             if issues:
                 summary = "\n".join(i["message"] for i in issues[:3])
                 warning = f"\n\n⚠️ Cảnh báo: Một số số liệu cần kiểm tra lại:\n{summary}"
-                return {"messages": [AIMessage(content=cast("str", last_ai.content) + warning)]}
-            return {"messages": [AIMessage(content=cast("str", last_ai.content))]}
+                return {"messages": [AIMessage(content=last_ai_text + warning)]}
+            return {"messages": [AIMessage(content=last_ai_text)]}
 
         if total_citations > 0 and confidence < 1.0:
             score = f"\n\n📊 Độ tin cậy: {int(confidence * 100)}% ({result.get('verified_count')}/{total_citations} số liệu đã xác thực)"
-            return {"messages": [AIMessage(content=cast("str", last_ai.content) + score)]}
+            return {"messages": [AIMessage(content=last_ai_text + score)]}
 
         return {"messages": []}
 
@@ -703,7 +726,7 @@ class StockAgent:
                                 },
                             )
                     if msgs and isinstance(msgs[-1], AIMessage):
-                        final_response = cast("str", msgs[-1].content)
+                        final_response = _content_to_text(msgs[-1].content)
             return final_response
         finally:
             with suppress(Exception):
