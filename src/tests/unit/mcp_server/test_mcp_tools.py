@@ -7,7 +7,7 @@ from mcp_server.instance import mcp
 import mcp_server.tools  # noqa: F401 — ensure registration
 
 
-def test_mcp_has_13_tools():
+def test_mcp_has_19_tools():
     assert len(mcp._tool_manager._tools) == 19
 
 

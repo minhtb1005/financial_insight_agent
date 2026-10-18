@@ -148,11 +148,11 @@
       "lesson_id": "M3L2",
       "title": "Snowball hay Avalanche?",
       "file": "M3L2_scenes.json",
-      "status": "draft_blocked_pending_verification",
+      "status": "draft_ready_for_review",
       "scenes": 9,
       "claimed_sec": 125,
       "estimate_sec": 126.2,
-      "open_placeholders": 1,
+      "open_placeholders": 0,
       "hand_tuned": false
     },
     {

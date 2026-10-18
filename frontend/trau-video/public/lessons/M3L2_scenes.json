@@ -5,7 +5,7 @@
   "module_title": "Quản lý nợ & tín dụng",
   "title": "Snowball hay Avalanche?",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L2",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -212,10 +212,9 @@
       },
       "on_screen_text": [
         {
-          "text": "Tổng lãi hai cách: [[TÍNH BẰNG CÔNG CỤ]]",
+          "text": "Tổng lãi hai cách: Snowball ~1,69tr · Avalanche ~1,63tr",
           "position": "auto",
-          "appear": "scene_start",
-          "blocked_by": "V1"
+          "appear": "scene_start"
         }
       ],
       "transition_out": "cut"
@@ -292,17 +291,61 @@
     "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
     "chatbot_prompt": null
   },
-  "illustrative_numbers": null,
-  "verify_note_from_script": "số tiền lãi tiết kiệm được phải lấy từ công cụ mô phỏng đã kiểm tra, không ước bằng miệng. Phần [[TÍNH BẰNG CÔNG CỤ]] phải điền trước khi dựng.",
+  "illustrative_numbers": {
+    "assumptions": {
+      "min_payment": "5% dư nợ mỗi tháng",
+      "monthly_budget_vnd": 3000000
+    },
+    "debts": [
+      {
+        "name": "A",
+        "balance": 5000000,
+        "annual_rate_pct": 30,
+        "min_payment": 250000
+      },
+      {
+        "name": "B",
+        "balance": 20000000,
+        "annual_rate_pct": 12,
+        "min_payment": 1000000
+      },
+      {
+        "name": "C",
+        "balance": 2000000,
+        "annual_rate_pct": 18,
+        "min_payment": 100000
+      }
+    ],
+    "monthly_budget": 3000000,
+    "snowball_total_interest": 1686294,
+    "avalanche_total_interest": 1633573,
+    "interest_saved": 52721,
+    "months_to_payoff": 10,
+    "payoff_order": {
+      "snowball": [
+        "C",
+        "A",
+        "B"
+      ],
+      "avalanche": [
+        "A",
+        "C",
+        "B"
+      ]
+    },
+    "tool": "compare_repayment",
+    "method": "education calculator run 18/10/2026"
+  },
+  "verify_note_from_script": "số tiền lãi tiết kiệm được phải lấy từ công cụ mô phỏng đã kiểm tra, không ước bằng miệng. Đã tính bằng compare_repayment (education calculator) ngày 18/10/2026 với giả định min = 5% dư nợ và ngân sách 3.000.000đ/tháng; kết quả ghi trong illustrative_numbers và hiển thị ở S7.",
   "verification": [
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "confirmed",
       "blocks": [
         "S7"
       ],
-      "text": "Điền hoặc xác nhận: [[TÍNH BẰNG CÔNG CỤ]]"
+      "text": "Đã điền số bằng công cụ compare_repayment (education calculator) ngày 18/10/2026; giả định min = 5% dư nợ, ngân sách 3.000.000đ/tháng — xem illustrative_numbers."
     },
     {
       "id": "V2",
