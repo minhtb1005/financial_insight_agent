@@ -2695,6 +2695,8 @@ Ngoài 10 stills mới còn stills cũ từ session trước: `still-end.png`, `
   3. Footer → "…không phải lời khuyên **tài chính**." (đổi từ "đầu tư" cho khớp phạm vi curriculum).
 - **Gate:** `npx tsc --noEmit` → **0 lỗi (exit 0)**; `npm run lint` → **1 error pre-existing** `theme-toggle.tsx:12` (`react-hooks/set-state-in-effect`) — **0 lỗi mới**; `npm run build` (Next 16.3.4, Turbopack) → **PASS** (compiled 10.0s, 9/9 static pages, 19 route, exit 0).
 - **Scope:** không sửa `page.tsx`, không đụng `frontend/trau-video/**` (6 file WIP giữ nguyên), không `git add -A`.
+- **Git:** commit `4d96385` `fix(landing): update page metadata + footer to match curriculum pitch` (đúng 2 file: `frontend/src/app/layout.tsx` + `WORKFLOW_STATE.md`); push `7b87843..4d96385`; verify `git rev-list --left-right --count origin/main...main` = **0 0**.
+- **CI:** run `39364824802` (main, push) → **3/3 success** (test 2m39s · lint 2m11s · typecheck 2m22s), conclusion `success`.
 
 ### Current Status (P1 — 20/10/2026)
 - **P1 VERIFY DONE:** preview 3100 + 2 ảnh full-page đã soi; (a)(b)(c)(d) **PASS**, không lỗi layout/chữ tràn. Finding LOW metadata đã đóng ở **P1-METADATA** (title/description/footer khớp pitch mới, 3 gate xanh). Badge/console health **EXPECTED** khi backend down. Preview đã dừng, port free.
