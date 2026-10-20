@@ -2670,4 +2670,7 @@ Ngoài 10 stills mới còn stills cũ từ session trước: `still-end.png`, `
 - **R8 scope:** `git status --short` cho thấy `M frontend/src/app/page.tsx` + `M WORKFLOW_STATE.md`; 6 file WIP `frontend/trau-video/**` (5 M + `?? src/Board.tsx`) giữ nguyên, KHÔNG stage. Không dùng `git add -A`.
 - **Overlay "Failed to fetch" (ảnh user chụp):** nguyên nhân là `header.tsx` gọi `fetch("/api/health")` khi backend docker đang `down` (sau UV6), KHÔNG phải lỗi trang pitch. Bật lại docker là hết. PATCH-meta UI vẫn là backlog (không thuộc P1).
 
-**Next Agent:** reviewer — review `frontend/src/app/page.tsx` (nội dung khớp curriculum v1.2 + số liệu chỉ lấy từ nguồn đã verify; scope chỉ 1 file + state; gate tsc/lint/build).
+- **Git (R9):** commit `bb89217` `feat(landing): rewrite pitch page around personal-finance curriculum v1.2` (đúng 2 file: `frontend/src/app/page.tsx` 249+/…, `WORKFLOW_STATE.md`; không `add -A`); `git push origin main` `d5ee662..bb89217`; verify `git rev-list --left-right --count origin/main...main` = **0 0**.
+- **CI (R9):** run `39361639628` (main, push) → **3/3 success** (lint 1m51s · typecheck 2m10s · test 2m20s), conclusion `success`.
+
+**Next Agent:** reviewer — review `frontend/src/app/page.tsx` (nội dung khớp curriculum v1.2 + số liệu chỉ lấy từ nguồn đã verify; scope chỉ 1 file + state; gate tsc/lint/build + CI 39361639628).
