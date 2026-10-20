@@ -2673,4 +2673,30 @@ Ngoài 10 stills mới còn stills cũ từ session trước: `still-end.png`, `
 - **Git (R9):** commit `bb89217` `feat(landing): rewrite pitch page around personal-finance curriculum v1.2` (đúng 2 file: `frontend/src/app/page.tsx` 249+/…, `WORKFLOW_STATE.md`; không `add -A`); `git push origin main` `d5ee662..bb89217`; verify `git rev-list --left-right --count origin/main...main` = **0 0**.
 - **CI (R9):** run `39361639628` (main, push) → **3/3 success** (lint 1m51s · typecheck 2m10s · test 2m20s), conclusion `success`.
 
-**Next Agent:** reviewer — review `frontend/src/app/page.tsx` (nội dung khớp curriculum v1.2 + số liệu chỉ lấy từ nguồn đã verify; scope chỉ 1 file + state; gate tsc/lint/build + CI 39361639628).
+### P1-VERIFY — visual verification (implementor 20/10/2026)
+- **Build:** dùng lại `.next` từ P1 (`BUILD_ID` 20/10 09:54, mới hơn `page.tsx` 09:44) → KHÔNG build lại. Preview `npx next start -p 3100` (Next 16.3.4): `http://localhost:3100` = **200**, PID port-owner **6092** (node, parent cmd **10448**); log có warning `next start does not work with output: standalone` nhưng trang serve đúng. Dừng bằng `taskkill /T /F /PID 10448`; **port 3100 free** sau khi dừng. KHÔNG đụng docker.
+- **Ảnh:** `C:\Users\DELL\AppData\Local\Temp\opencode\pitch-desktop.png` (full-page, viewport 1440×900) · `C:\Users\DELL\AppData\Local\Temp\opencode\pitch-mobile.png` (full-page, viewport 390×844).
+- **Console/page errors thực tế:** 1 console error `GET http://localhost:3100/api/health` → **503**, kéo theo badge header **“Agent lỗi”** (đỏ) — **ĐÚNG như user thấy khi backend down, không phải lỗi trang pitch**; hết khi backend lên. **0 pageerror**. Request `ERR_ABORTED` chỉ là RSC prefetch `/login` + `/?_rsc=...` của Next (bị abort sau load, không chặn).
+- **Kết quả soi ảnh (đọc trực tiếp 2 ảnh full-page + crop từng vùng):**
+  - (a) Hero 2 cột **PASS**: desktop trái x96–837 / phải x877–1344, gap 40px, không chồng; mobile cột phải xuống dưới (y867 sau đáy trái y835). Không tràn ngang (`scrollWidth` = `innerWidth` = 1440 desktop / 390 mobile).
+  - (b) Panel “10 module trong giáo trình” **PASS**: đủ **10 dòng**, tất cả nằm trong card (desktop 467×478, mobile 358×518), số bài **7/5/7/5/3/4/4/10/5/6 = 56**, badge “56 bài” + footer v1.2 hiển thị đủ, không cắt/overflow.
+  - (c) Section dưới **PASS**: 3 bước, 2 Q&A (PIT 415.000đ + snowball/avalanche 52.721đ), trust strip (36/36 · 8/8 · 86,8% · `rag-20260910-064148`), 3 card ranh giới, CTA cuối đều hiển thị đủ; quét JS các node `overflow:hidden` = **0 node bị clip**, ảnh không thấy chữ tràn.
+  - (d) Mobile 390px **PASS**: mọi section xếp dọc, panel 10 dòng wrap đúng, Q&A/trust/boundary/CTA không tràn ngang (`docScrollWidth` 390).
+- **Vấn đề phát hiện:**
+  1. **LOW — metadata/tab title còn cũ** (`frontend/src/app/layout.tsx:15-16`): title “Financial Insight Agent — Trợ lý chứng khoán Việt Nam”, description “LLM Agent phân tích chứng khoán Việt Nam với ReAct, 12 tools…”. Không thuộc `page.tsx`/P1, không thấy trong nội dung trang nhưng lệch định vị pitch mới; nên sửa metadata ở nhịp sau.
+  2. **EXPECTED —** badge “Agent lỗi” + console 503 `/api/health` do backend đang down (đúng ghi chú user; “Failed to fetch” user từng thấy là cùng nguyên nhân).
+  3. **INFO —** warning `next start` với `output: standalone` khi preview; trang vẫn 200 và render đúng, không ảnh hưởng kết quả soi.
+- **Scope:** không sửa code, không commit; chỉ ghi `WORKFLOW_STATE.md`. Không chạm `frontend/trau-video/**` (5 file WIP + `Board.tsx` giữ nguyên), không `git add -A`.
+
+### P1-METADATA — fix metadata + footer (20/10/2026, implementor)
+- **File sửa duy nhất:** `frontend/src/app/layout.tsx` (3 dòng nội dung, không đổi structure/import):
+  1. `metadata.title` → **"Financial Insight Agent — Tài chính cá nhân, có số có nguồn"** (bỏ "Trợ lý chứng khoán Việt Nam").
+  2. `metadata.description` → **"Giáo trình tài chính cá nhân 10 module / 56 bài, 4 máy tính (thuế TNCN, trả nợ snowball–avalanche, lãi kép, ngân sách 50/30/20) và tra cứu RAG trên văn bản luật hiện hành — mọi con số kèm nguồn. Chỉ giáo dục, không khuyến nghị mua/bán."** (10 module / 56 bài / 4 máy tính lấy từ P1 state, không thêm số mới).
+  3. Footer → "…không phải lời khuyên **tài chính**." (đổi từ "đầu tư" cho khớp phạm vi curriculum).
+- **Gate:** `npx tsc --noEmit` → **0 lỗi (exit 0)**; `npm run lint` → **1 error pre-existing** `theme-toggle.tsx:12` (`react-hooks/set-state-in-effect`) — **0 lỗi mới**; `npm run build` (Next 16.3.4, Turbopack) → **PASS** (compiled 10.0s, 9/9 static pages, 19 route, exit 0).
+- **Scope:** không sửa `page.tsx`, không đụng `frontend/trau-video/**` (6 file WIP giữ nguyên), không `git add -A`.
+
+### Current Status (P1 — 20/10/2026)
+- **P1 VERIFY DONE:** preview 3100 + 2 ảnh full-page đã soi; (a)(b)(c)(d) **PASS**, không lỗi layout/chữ tràn. Finding LOW metadata đã đóng ở **P1-METADATA** (title/description/footer khớp pitch mới, 3 gate xanh). Badge/console health **EXPECTED** khi backend down. Preview đã dừng, port free.
+
+**Next Agent:** reviewer — review P1-METADATA (diff 3 dòng `layout.tsx` + gate tsc/lint/build + commit/CI bên dưới).

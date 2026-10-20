@@ -12,8 +12,9 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Financial Insight Agent — Trợ lý chứng khoán Việt Nam",
-  description: "LLM Agent phân tích chứng khoán Việt Nam với ReAct, 12 tools, streaming và trích dẫn.",
+  title: "Financial Insight Agent — Tài chính cá nhân, có số có nguồn",
+  description:
+    "Giáo trình tài chính cá nhân 10 module / 56 bài, 4 máy tính (thuế TNCN, trả nợ snowball–avalanche, lãi kép, ngân sách 50/30/20) và tra cứu RAG trên văn bản luật hiện hành — mọi con số kèm nguồn. Chỉ giáo dục, không khuyến nghị mua/bán.",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -27,7 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Toaster />
           <Separator />
           <footer className="py-4 text-center text-xs text-muted-foreground">
-            Financial Insight Agent — Chỉ phục vụ giáo dục & thông tin, không phải lời khuyên đầu tư.
+            Financial Insight Agent — Chỉ phục vụ giáo dục & thông tin, không phải lời khuyên tài chính.
           </footer>
         </Providers>
       </body>
