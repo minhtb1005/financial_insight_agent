@@ -12,12 +12,23 @@ import {
   Quote,
   ShieldCheck,
   TrendingUp,
-  Table2,
-  LineChart,
   ArrowRight,
   Check,
   Scale,
 } from "lucide-react"
+
+const MODULES = [
+  { id: "M1", title: "Quản lý ngân sách & theo dõi chi tiêu", lessons: 7 },
+  { id: "M2", title: "Quỹ khẩn cấp & thói quen tiết kiệm", lessons: 5 },
+  { id: "M3", title: "Quản lý nợ & tín dụng", lessons: 7 },
+  { id: "M4", title: "Ngân hàng & sản phẩm tài chính cơ bản", lessons: 5 },
+  { id: "M5", title: "Bảo hiểm", lessons: 3 },
+  { id: "M6", title: "Thuế TNCN & nghĩa vụ tài chính", lessons: 4 },
+  { id: "M7", title: "Tâm lý học tiền bạc & hành vi tiêu dùng", lessons: 4 },
+  { id: "M8", title: "Kế hoạch tài chính cá nhân dài hạn (không đầu tư)", lessons: 10 },
+  { id: "M9", title: "An ninh tài chính số & phòng chống lừa đảo", lessons: 5 },
+  { id: "M10", title: "Tài chính gia đình & quan hệ tiền bạc", lessons: 6 },
+]
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions)
@@ -31,18 +42,19 @@ export default async function HomePage() {
             {/* Left */}
             <div className="min-w-0">
               <h1 className="text-[2.05rem] font-bold tracking-[-0.03em] leading-[1.08] sm:text-5xl lg:text-[3.25rem]">
-                Hiểu chứng khoán
+                Tài chính cá nhân
                 <span className="block text-foreground/90">
-                  trước khi quyết định.
+                  có số, có nguồn.
                 </span>
                 <span className="block text-muted-foreground text-[0.62em] font-semibold tracking-tight mt-1">
-                  Mọi câu trả lời đều có nguồn để bạn tự kiểm chứng.
+                  Học từ ngân sách đến thuế — mọi con số đều kiểm chứng được.
                 </span>
               </h1>
               <p className="mt-4 max-w-[60ch] text-[15px] leading-7 text-muted-foreground sm:text-[17px]">
-                Financial Insight Agent giải thích khái niệm, chỉ báo SMA/RSI và cách đọc dữ
-                liệu vnstock bằng tiếng Việt — với trích dẫn rõ nguồn. Chỉ giáo dục, không
-                khuyến nghị mua/bán, không quản lý tiền hộ.
+                Financial Insight Agent là trợ giảng tài chính cá nhân bằng tiếng Việt:
+                giáo trình 10 module / 56 bài, 4 máy tính tài chính (thuế TNCN, trả nợ,
+                lãi kép, ngân sách) và tra cứu RAG trên văn bản luật đang có hiệu lực.
+                Chỉ giáo dục, không khuyến nghị mua/bán (TT 135/2025), không quản lý tiền hộ.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
@@ -82,14 +94,14 @@ export default async function HomePage() {
               <p className="mt-3 text-xs leading-5 text-muted-foreground">
                 demo@finsight.vn / demo123 — Chỉ phục vụ giáo dục &amp; thông tin.
                 <span className="mx-1.5 opacity-40">·</span>
-                Ranh giới UBCKNN: không khuyến nghị cá nhân khi chưa được cấp phép.
+                Không khuyến nghị mua/bán hay sản phẩm cụ thể (TT 135/2025).
               </p>
 
               {/* Proof strip — inline, not cards */}
               <div className="mt-8 grid grid-cols-3 gap-0 overflow-hidden rounded-xl border bg-card sm:mt-10">
                 <div className="px-3 py-4 text-center sm:px-4 sm:py-5">
                   <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-                    Tài khoản cá nhân
+                    Tài khoản chứng khoán cá nhân
                   </div>
                   <div className="mt-1 font-mono text-lg font-semibold tabular-nums tracking-tight sm:text-xl">
                     13,0 tr
@@ -127,107 +139,40 @@ export default async function HomePage() {
               </p>
             </div>
 
-            {/* Right — dashboard teaser as single card, offset shadow blur, no halo */}
+            {/* Right — curriculum panel as single card, offset shadow blur, no halo */}
             <div className="min-w-0 lg:sticky lg:top-20">
               <div className="overflow-hidden rounded-xl border bg-card shadow-[0_1px_2px_rgba(0,0,0,0.06),0_12px_32px_rgba(0,0,0,0.08)]">
                 <div className="flex items-center justify-between border-b bg-muted/40 px-4 py-3">
                   <div className="flex items-center gap-2 text-xs font-medium">
-                    <Table2 className="h-3.5 w-3.5 text-muted-foreground" />
-                    Dashboard minh họa
-                    <span className="hidden sm:inline font-normal text-muted-foreground">
-                      · vnstock · chỉ để giải thích công thức
-                    </span>
+                    <BookOpen className="h-3.5 w-3.5 text-muted-foreground" />
+                    10 module trong giáo trình
                   </div>
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-500/20">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    Dữ liệu mẫu
+                    56 bài
                   </span>
                 </div>
 
-                {/* Mini price table */}
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b bg-muted/30 text-left text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-                        <th className="px-4 py-2 font-medium">Mã</th>
-                        <th className="px-3 py-2 text-right font-medium">Giá</th>
-                        <th className="px-3 py-2 text-right font-medium">SMA9</th>
-                        <th className="px-3 py-2 text-right font-medium">RSI14</th>
-                      </tr>
-                    </thead>
-                    <tbody className="font-mono text-[13px] tabular-nums">
-                      <tr className="border-b">
-                        <td className="px-4 py-2.5 font-sans font-medium">VCB</td>
-                        <td className="px-3 py-2.5 text-right">92,40</td>
-                        <td className="px-3 py-2.5 text-right text-muted-foreground">91,80</td>
-                        <td className="px-3 py-2.5 text-right">
-                          <span className="rounded bg-amber-500/10 px-1.5 py-0.5 text-amber-700 ring-1 ring-amber-500/20">58,2</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="px-4 py-2.5 font-sans font-medium">HPG</td>
-                        <td className="px-3 py-2.5 text-right">28,15</td>
-                        <td className="px-3 py-2.5 text-right text-muted-foreground">27,90</td>
-                        <td className="px-3 py-2.5 text-right">
-                          <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 text-emerald-700 ring-1 ring-emerald-500/20">62,4</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="px-4 py-2.5 font-sans font-medium">VIC</td>
-                        <td className="px-3 py-2.5 text-right">45,80</td>
-                        <td className="px-3 py-2.5 text-right text-muted-foreground">46,10</td>
-                        <td className="px-3 py-2.5 text-right">
-                          <span className="rounded bg-sky-500/10 px-1.5 py-0.5 text-sky-700 ring-1 ring-sky-500/20">47,9</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-4 py-2.5 font-sans font-medium">FPT</td>
-                        <td className="px-3 py-2.5 text-right">138,20</td>
-                        <td className="px-3 py-2.5 text-right text-muted-foreground">137,40</td>
-                        <td className="px-3 py-2.5 text-right">
-                          <span className="rounded bg-amber-500/10 px-1.5 py-0.5 text-amber-700 ring-1 ring-amber-500/20">55,1</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                {/* Module list — plain rows, no chart */}
+                <ul className="divide-y">
+                  {MODULES.map((m) => (
+                    <li key={m.id} className="flex items-center gap-3 px-4 py-2">
+                      <span className="w-7 shrink-0 font-mono text-[11px] font-semibold text-muted-foreground">
+                        {m.id}
+                      </span>
+                      <span className="min-w-0 flex-1 text-[13px] leading-5">{m.title}</span>
+                      <span className="shrink-0 font-mono text-[11px] tabular-nums text-muted-foreground">
+                        {m.lessons} bài
+                      </span>
+                    </li>
+                  ))}
+                </ul>
 
-                {/* Mini sparkline — pure SVG, no library, proves content not chrome */}
                 <Separator />
                 <div className="bg-muted/20 px-4 py-3">
-                  <div className="mb-2 flex items-center gap-2 text-xs">
-                    <LineChart className="h-3.5 w-3.5 text-muted-foreground" />
-                    <span className="font-medium">SMA9 minh họa</span>
-                    <span className="text-muted-foreground">· VCB 9 phiên · công thức trung bình trượt</span>
-                  </div>
-                  <svg viewBox="0 0 320 64" className="h-16 w-full" role="img" aria-label="Biểu đồ SMA9 minh họa cho VCB">
-                    <rect x="0" y="0" width="320" height="64" rx="8" className="fill-background" />
-                    <path
-                      d="M8 44 L48 38 L88 42 L128 30 L168 34 L208 22 L248 28 L288 18 L312 20"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.75"
-                      className="text-primary"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M8 44 L48 38 L88 42 L128 30 L168 34 L208 22 L248 28 L288 18 L312 20 L312 48 L8 48 Z"
-                      className="fill-primary/10"
-                    />
-                    <g className="fill-primary">
-                      <circle cx="312" cy="20" r="3" />
-                      <circle cx="312" cy="20" r="7" className="fill-primary/20" />
-                    </g>
-                    <text x="8" y="62" className="fill-muted-foreground text-[7px]">T-8</text>
-                    <text x="304" y="62" className="fill-muted-foreground text-[7px]">T</text>
-                  </svg>
-                  <p className="mt-2 text-[11px] leading-4 text-muted-foreground">
-                    Minh họa công thức, không phải tín hiệu mua/bán. Mở
-                    <Link href="/dashboard" className="mx-1 underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-foreground">
-                      Dashboard
-                    </Link>
-                    để xem bảng giá &amp; biểu đồ đầy đủ.
+                  <p className="text-[11px] leading-4 text-muted-foreground">
+                    Giáo trình tài chính cá nhân v1.2 — 56 bài. Bắt đầu từ M1 (ngân sách),
+                    đi dần tới M10 (tài chính gia đình).
                   </p>
                 </div>
               </div>
@@ -259,7 +204,7 @@ export default async function HomePage() {
                 <span className="text-sm font-semibold">Đặt câu hỏi như bạn nghĩ</span>
               </div>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                “SMA là gì?”, “RSI 70 nghĩa là sao?”, “Đọc bảng giá thế nào?”. Không cần đúng thuật ngữ.
+                “50/30/20 là gì?”, “Nợ nào trả trước?”, “Thuế TNCN tính thế nào?”. Không cần đúng thuật ngữ.
               </p>
               <div className="mt-4 rounded-lg border bg-muted/40 p-3">
                 <div className="flex items-center gap-2 text-xs font-medium">
@@ -268,10 +213,10 @@ export default async function HomePage() {
                 </div>
                 <ul className="mt-2 space-y-1.5 text-sm">
                   <li className="flex gap-2">
-                    <span className="text-muted-foreground">·</span> SMA9 tính thế nào cho VCB?
+                    <span className="text-muted-foreground">·</span> 50/30/20 chia thu nhập thế nào?
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-muted-foreground">·</span> RSI khác SMA ở điểm gì?
+                    <span className="text-muted-foreground">·</span> Nợ lãi cao hay nợ nhỏ trả trước?
                   </li>
                 </ul>
               </div>
@@ -286,16 +231,16 @@ export default async function HomePage() {
                 <span className="text-sm font-semibold">Nhận giải thích + công thức</span>
               </div>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Agent diễn giải bằng tiếng Việt sư phạm, kèm công thức và ý nghĩa — ví dụ SMA là trung bình 9 phiên.
+                Agent diễn giải bằng tiếng Việt sư phạm, kèm công thức và ví dụ số — máy tính chạy sẵn để bạn đối chiếu.
               </p>
               <div className="mt-4 flex items-center gap-2 rounded-lg bg-primary/5 px-3 py-2.5 ring-1 ring-primary/10">
                 <BookOpen className="h-4 w-4 text-primary" />
                 <span className="text-sm">
-                  SMA<sub>n</sub> = (P<sub>1</sub> + … + P<sub>n</sub>) / n
+                  FV = PV × (1 + r)<sup>n</sup>
                 </span>
-                <span className="ml-auto text-xs text-muted-foreground">n = 9, 20…</span>
+                <span className="ml-auto text-xs text-muted-foreground">lãi kép</span>
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">Dữ liệu vnstock chỉ để minh họa công thức.</p>
+              <p className="mt-2 text-xs text-muted-foreground">Công thức toán cơ bản, kèm ví dụ từ máy tính lãi kép.</p>
             </div>
 
             {/* Step 03 — citation focus */}
@@ -310,13 +255,13 @@ export default async function HomePage() {
                 Mọi khái niệm/số liệu đều có trích dẫn bấm được. Thiếu nguồn thì không khẳng định.
               </p>
               <div className="mt-4 rounded-lg border bg-card p-3">
-                <div className="text-xs font-medium">RSI &gt; 70 thường được mô tả là “quá mua” trong nhiều giáo trình</div>
+                <div className="text-xs font-medium">Lương 30 triệu, 1 người phụ thuộc → thuế TNCN 415.000đ/tháng</div>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   <span className="inline-flex items-center gap-1 rounded-full border bg-muted/50 px-2 py-1 text-[11px]">
-                    <Quote className="h-3 w-3" /> Investopedia — RSI
+                    <Quote className="h-3 w-3" /> Luật 109/2025
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-full border bg-muted/50 px-2 py-1 text-[11px]">
-                    Sách PTS — Phân tích kỹ thuật
+                    NĐ 253/2026
                   </span>
                 </div>
               </div>
@@ -341,39 +286,52 @@ export default async function HomePage() {
               <Card className="shadow-sm">
                 <CardContent className="p-5">
                   <div className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Câu hỏi</div>
-                  <div className="mt-1 text-sm font-medium">“SMA9 cho VCB tuần này nghĩa là gì?”</div>
+                  <div className="mt-1 text-sm font-medium">“Lương 30 triệu, 1 người phụ thuộc — thuế TNCN bao nhiêu?”</div>
                   <div className="mt-4 rounded-lg border bg-muted/40 p-3 text-sm leading-6">
-                    SMA9 là trung bình giá đóng cửa 9 phiên gần nhất. Với VCB, SMA9 quanh 91,8 cho thấy xu hướng ngắn hạn — dùng để học cách làm mịn nhiễu, không phải tín hiệu mua/bán.
+                    Giảm trừ bản thân 15,5 triệu + 6,2 triệu/người phụ thuộc → thu nhập tính thuế 8,3 triệu
+                    → thuế TNCN <span className="font-semibold">415.000đ/tháng</span> (net 29.585.000đ), áp dụng kỳ 2026.
                     <span className="ml-1 inline-flex translate-y-0.5 gap-1">
                       <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-primary/15">
-                        [vnstock · VCB]
+                        [Luật 109/2025/QH15]
                       </span>
                       <span className="inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 text-xs font-medium ring-1 ring-border">
-                        [Giáo trình · SMA]
+                        [NĐ 253/2026/NĐ-CP]
                       </span>
                     </span>
+                    <div className="mt-2 rounded bg-amber-500/10 px-2.5 py-1.5 text-xs leading-5 text-amber-900 ring-1 ring-amber-500/20">
+                      Đối chiếu văn bản hiện hành trước khi quyết toán.
+                    </div>
                   </div>
                   <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
                     <Check className="h-3.5 w-3.5 text-emerald-600" />
-                    Kèm công thức + bảng giá minh họa
+                    Kèm giảm trừ, bậc thuế và ngày hiệu lực
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="shadow-sm">
                 <CardContent className="p-5">
-                  <div className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Câu hỏi</div>
-                  <div className="mt-1 text-sm font-medium">“RSI 62 có phải là mua không?”</div>
-                  <div className="mt-4 rounded-lg border bg-muted/40 p-3 text-sm leading-6">
-                    RSI đo động lượng 0–100. 62 là vùng trung tính hơi mạnh — giáo trình thường lấy 70/30 làm mốc “quá mua/quá bán” để học, không phải lệnh.
-                    <span className="ml-1 inline-flex translate-y-0.5">
-                      <span className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary ring-1 ring-primary/15">
-                        [Investopedia · RSI]
-                      </span>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Câu hỏi</div>
+                    <span className="inline-flex shrink-0 items-center rounded bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-800 ring-1 ring-amber-500/20">
+                      Số liệu minh họa
                     </span>
+                  </div>
+                  <div className="mt-1 text-sm font-medium">“3 khoản nợ nên trả theo thứ tự nào?”</div>
+                  <div className="mt-4 rounded-lg border bg-muted/40 p-3 text-sm leading-6">
+                    Snowball (trả khoản nhỏ trước) tổng lãi <span className="font-semibold">1.686.294đ</span>;
+                    avalanche (lãi cao trước) <span className="font-semibold">1.633.573đ</span> — tiết kiệm
+                    <span className="font-semibold"> 52.721đ</span>, cùng trả xong trong 10 tháng.
+                    <p className="mt-2 text-[11px] leading-4 text-muted-foreground">
+                      Giả định: 5 triệu @30%/năm + 20 triệu @12%/năm + 2 triệu @18%/năm, ngân sách trả nợ 3 triệu/tháng.
+                    </p>
                     <div className="mt-2 rounded bg-amber-500/10 px-2.5 py-1.5 text-xs leading-5 text-amber-900 ring-1 ring-amber-500/20">
-                      Lưu ý: Đây là kiến thức chung, không phải khuyến nghị cho danh mục của bạn. Tự đánh giá rủi ro trước khi quyết định.
+                      Đây là so sánh chiến lược, không phải lời khuyên.
                     </div>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                    <Check className="h-3.5 w-3.5 text-emerald-600" />
+                    Cùng một ngân sách, hai thứ tự trả khác nhau
                   </div>
                 </CardContent>
               </Card>
@@ -406,44 +364,44 @@ export default async function HomePage() {
                   Độ tin cậy đo được — không nói miệng
                 </h2>
                 <p className="mt-1 max-w-[60ch] text-sm leading-6 text-muted-foreground">
-                  Mọi thay đổi nội dung đều được kiểm bằng eval harness sẵn có. Không bịa benchmark khi chưa đo lại sau khi thu hẹp scope giáo dục.
+                  Số đo từ lần chạy RAG eval gần nhất trên bộ 46 cases: trả lời có nguồn,
+                  từ chối khi ngoài phạm vi, và tỷ lệ tìm đúng tài liệu.
                 </p>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                evals/ · 36 cases
+                <div className="text-right leading-5">
+                  <div>evals/ · rag-20260910-064148</div>
+                  <div className="text-muted-foreground">46 cases (38 in-scope + 8 out-of-scope)</div>
+                </div>
               </div>
             </div>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <div className="rounded-lg border bg-muted/30 px-4 py-3">
-                <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">citation_rate</div>
+                <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">citation</div>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="font-mono text-lg font-semibold tabular-nums">—</span>
-                  <span className="text-xs text-muted-foreground">mục tiêu &gt; 0,95</span>
+                  <span className="font-mono text-lg font-semibold tabular-nums">36/36</span>
+                  <span className="text-xs text-muted-foreground">100%</span>
                 </div>
-                <div className="mt-1 text-xs leading-4 text-muted-foreground">Mọi khẳng định có số liệu đều kèm nguồn</div>
+                <div className="mt-1 text-xs leading-4 text-muted-foreground">Mọi khẳng định có số liệu đều kèm nguồn đúng</div>
               </div>
               <div className="rounded-lg border bg-muted/30 px-4 py-3">
-                <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">faithfulness (RAGAS)</div>
+                <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">từ chối out-of-scope</div>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="font-mono text-lg font-semibold tabular-nums">—</span>
-                  <span className="text-xs text-muted-foreground">thang 0–5</span>
+                  <span className="font-mono text-lg font-semibold tabular-nums">8/8</span>
+                  <span className="text-xs text-muted-foreground">100%</span>
                 </div>
-                <div className="mt-1 text-xs leading-4 text-muted-foreground">Trả lời bám nguồn, không suy diễn</div>
+                <div className="mt-1 text-xs leading-4 text-muted-foreground">Câu hỏi ngoài phạm vi giáo dục được từ chối</div>
               </div>
               <div className="rounded-lg border bg-muted/30 px-4 py-3">
-                <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">numeric_match_rate</div>
+                <div className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">retrieval hit-rate</div>
                 <div className="mt-1 flex items-baseline gap-2">
-                  <span className="font-mono text-lg font-semibold tabular-nums">—</span>
-                  <span className="text-xs text-muted-foreground">so với vnstock</span>
+                  <span className="font-mono text-lg font-semibold tabular-nums">86,8%</span>
                 </div>
-                <div className="mt-1 text-xs leading-4 text-muted-foreground">Số liệu minh họa khớp nguồn</div>
+                <div className="mt-1 text-xs leading-4 text-muted-foreground">Tài liệu đúng được tìm thấy trong top-k</div>
               </div>
             </div>
-            <p className="mt-3 text-xs leading-4 text-muted-foreground">
-              Dấu “—” nghĩa là chưa đo lại sau khi đổi spec sang chỉ giáo dục — sẽ cập nhật sau khi chạy lại golden dataset.
-            </p>
           </div>
         </div>
       </section>
@@ -461,16 +419,19 @@ export default async function HomePage() {
                 </div>
                 <div className="mt-3 text-sm font-semibold">Có khuyến nghị mua/bán không?</div>
                 <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
-                  Không. Chỉ giải thích khái niệm &amp; cách đọc dữ liệu. Hỏi theo hướng “nên mua VCB không?” sẽ được chuyển thành kiến thức chung + disclaimer.
+                  Không. Chỉ giáo dục theo TT 135/2025. Hỏi theo hướng tư vấn cá nhân sẽ được
+                  chuyển thành kiến thức chung kèm disclaimer.
                 </p>
               </div>
               <div className="rounded-xl border bg-card p-5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
                   <TrendingUp className="h-4 w-4" />
                 </div>
-                <div className="mt-3 text-sm font-semibold">Dữ liệu từ đâu?</div>
+                <div className="mt-3 text-sm font-semibold">Số liệu lấy từ đâu?</div>
                 <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
-                  Giá/khối lượng lấy qua vnstock theo thời gian thực để minh họa công thức SMA/RSI. Mỗi số trong Chat đều gắn nguồn bấm được.
+                  Giá và chỉ báo qua vnstock; quy định qua văn bản luật hiện hành — VBPL 24/2025,
+                  Thông tư 96/2020, Thông tư 135/2025, Luật TNCN 109/2025, NĐ 253/2026,
+                  BHXH 2026, CIC. Mỗi con số gắn nguồn bấm được.
                 </p>
               </div>
               <div className="rounded-xl border bg-card p-5">
@@ -490,7 +451,7 @@ export default async function HomePage() {
       {/* Close CTA */}
       <section className="container mx-auto px-4 py-10">
         <div className="mx-auto max-w-3xl rounded-xl border bg-foreground px-6 py-8 text-center text-background sm:px-8">
-          <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Sẵn sàng hiểu đúng trước khi quyết?</h2>
+          <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">Hiểu tiền của mình, có số và có nguồn.</h2>
           <p className="mx-auto mt-2 max-w-[55ch] text-sm leading-6 text-background/70">
             Bắt đầu với một câu hỏi tiếng Việt. Mọi câu trả lời đều kèm nguồn — bạn kiểm chứng được ngay.
           </p>
@@ -507,7 +468,7 @@ export default async function HomePage() {
               </Button>
             </Link>
           </div>
-          <p className="mt-3 text-xs text-background/60">Chỉ giáo dục &amp; thông tin — không phải lời khuyên đầu tư.</p>
+          <p className="mt-3 text-xs text-background/60">Chỉ giáo dục &amp; thông tin — không khuyến nghị mua/bán (TT 135/2025).</p>
         </div>
       </section>
     </div>

@@ -2090,7 +2090,42 @@ Dieu kien dau: HEAD `2d1475a`, 6 file IMP `M`. Diffstat khop reviewer report. `g
 2. Phạm vi duyệt: chỉ re-render M1L1, hay M1L1 + M3L2?
 3. Giữ khung 9:16 dọc cho mọi bài? (giả định: giữ)
 
-**Current Status (mascot):** Phase-1 clarify (brainstorming skill) — chưa viết spec/plan, chưa code. Next: user chốt hướng.
+**Current Status (mascot):** User đã chốt hướng. **Debate DONE — APPROVE_WITH_CHANGES**; **Planner adjudication DONE** (xem `## Planner adjudication — mascot A+C` cuối file) → **Next Agent: implementor**.
+
+**User chốt (18/10):** Làm **A+C trước** (bảng đen + micro-interactions) → re-render M1L1 → user duyệt → **mới làm B+D** (B: sơ đồ dạy học; D: intro/outro + giọng riêng). Style mặc định = bảng đen (A) per ví dụ user; A' (vở ô ly) = biến thể cosmetic, ngoài scope đợt này.
+
+## Plan (mascot A+C) — 18/10
+**Mục tiêu:** M1L1 thành "Trâu Tí thầy giáo bảng đen" + micro-interactions. SVG/Remotion thuần; **không đổi schema scenes JSON, không đổi audio, 0 dep mới**.
+
+**Thiết kế chi tiết (implementor được phép tinh chỉnh số; giữ tinh thần):**
+- D1 Sân khấu: nền cream giữ; bảng đen (xanh đậm ~#22392E) x≈70..1010, y≈200..1250, khung gỗ + khay phấn/khn lau (SVG); `on_screen_text` = **chữ phấn** (bỏ thẻ trắng), left-align trong khung bảng; hiện tuần tự bằng mask wipe; dòng đang "active" đậm + gạch chân phấn, dòng khác mờ ~0.75.
+- D2 Mascot: đứng **dưới-trái, trước bảng** (left≈30, feet≈y1600, size≈460; đầu che góc dưới-trái bảng) — bỏ vị trí top:120. Pose nền = `visual.mascot_pose` ?? idle; `celebrate` giữ suốt cảnh.
+- D3 Chỉ trỏ: activeIdx = floor(progress×0.8 × n) clamp (n = số dòng sau filter "Số liệu minh họa"); mỗi cửa sổ pulse pose `point` ~24 frame đầu (spring vào/ra), hết cửa sổ về pose nền; góc tay xoay quanh vai (66,40) theo y dòng: prop `pointDeg` (default 0 → không phá TrauSheet/TrauPose).
+- D4 Walk-in: cảnh đầu lesson (prop `isFirst` từ Lesson) mascot trượt vào từ trái (~40 frame) + wave; `end_card` thêm mascot `celebrate` (giữ nền ink + text pháp lý).
+- D5 Phụ đề giữ nguyên (bottom:150, chunk 9 từ); footnote "Số liệu minh họa" dời bottom-right tránh đè mascot; lip-sync/energy giữ nguyên.
+
+**Files To Change (frontend/trau-video):**
+1. `src/theme.ts` — thêm palette board/chalk/mat/go (giữ key cũ).
+2. `src/Board.tsx` (MỚI) — khung bảng + render dòng phấn (wipe, dim/active).
+3. `src/SceneView.tsx` — layout mới, activeIdx + pulse, isFirst walk-in, footnote.
+4. `src/Mascot.tsx` — nhận `pointDeg` + pose pulse; giữ bob/tilt/lip-sync.
+5. `src/trau/Trau.tsx` — nhóm tay point xoay theo `pointDeg` (pivot 66,40; default 0).
+6. `src/Lesson.tsx` — `isFirst={i===0}`; end_card mascot celebrate.
+Không đụng: types.ts, scenes JSON, audio, scripts, package.json, Root.tsx, TrauStill.tsx.
+
+**Acceptance Criteria (A+C v1):**
+- AC1 `node scripts/render.mjs M1L1` pass → `out/M1L1.mp4` mới (withAudio, durations.json sẵn có; không bị chặn placeholder — V2/V3 type review/recompute không phải placeholder).
+- AC2 Bảng đen + chữ phấn (không còn thẻ trắng); dòng hiện tuần tự; dòng active nổi bật; footnote S8 + phụ đề đúng vị trí/chức năng.
+- AC3 Mascot dưới-trái; walk-in+wave đầu lesson; pulse chỉ đúng dòng theo y; celebrate/think/idle theo JSON; lip-sync giữ.
+- AC4 End card có mascot celebrate + text pháp lý.
+- AC5 `npx tsc --noEmit` sạch; 0 dep mới; TrauSheet/TrauPose still render OK; `npm run studio` chạy.
+- AC6 Bộ stills PNG (S2 point, S7 3 dòng, S8, end card) cho user xem trước; **user là trọng tài hình ảnh cuối**.
+
+**Verify:** tsc → stills (`npx remotion still src/index.ts Lesson out/still-X.png --frame=<f> --props=out/M1L1.props.json`) → full render M1L1 → user xem.
+**Fallback:** render fail/timeout trên máy → dừng ở stills + ghi lệnh cho user chạy nền (render có thể lâu; dùng timeout dài hoặc Background Start-Process, không chặn nhịp).
+**Non-goals:** B (sơ đồ), D (giọng/ intro-outro), SFX, đổi phụ đề, sửa 54 bài khác, A' notebook.
+
+**Next Agent: planner** — hấp thụ các thay đổi bắt buộc trong `## Debate: mascot A+C` (cuối file): bỏ D3 pointDeg/Trau.tsx, active line theo subIdx, guard n=0, sửa vị trí mascot khỏi đè phụ đề, font-wrap board, thay gate `npm run studio`. Sau đó chuyển implementor.
 [CẬP NHẬT planner 18/10 sau ngắt: C3 push ĐÃ xong trước ngắt — origin/main = HEAD = `7de13db`, CI run 39094405141 **success**. C2 docker UI-writes **PAUSED theo user** (WSL docker full 16GB RAM, user phải tắt máy — tạm không build/up docker). Reviewer D ship-verify bỏ nhịp riêng (nội dung push đã review từng phần).]
 
 ## Dep audit + Redis removal (planner 18/10 — request mới)
@@ -2452,3 +2487,187 @@ Xử lý trọn 3 điểm review (1 bắt buộc AC1 + 2 debt e/f). Thuần xoá
 - [Pending USER — không tự đụng: (1) `.env:49` `SENTIMENT_ENGINE=hf` → `llm` (hoặc xoá dòng) nếu muốn docker chạy LLM, không thì sentiment docker rơi keyword degrade; (2) tuỳ chọn: feature UI PATCH meta; (3) follow-up đã biết: daily ingester deposit/vnibor + market scheduler enable (R4c).]
 - [Tổng trạng thái 18/10: dep-audit DONE · rates crawl-time DONE · R4d embed-slim DONE · **C2/Ship C CLOSED** · CORS fix verified end-to-end · image backend/mcp 6.69GB → **729MB**. Không còn nhịp mở nào ngoài pending user.]
 
+## Debate: mascot A+C (debater 19/10/2026)
+
+**VERDICT: APPROVE_WITH_CHANGES** — hướng A+C đúng và rẻ (SVG/Remotion thuần, 0 dep, không đổi schema/audio), nhưng D3 (chỉ trỏ bằng xoay tay) **bất khả thi về hình học** và một số điểm timing/edge-case/verify phải sửa trước khi code. Đã đọc code: `SceneView.tsx`, `Mascot.tsx`, `Lesson.tsx`, `trau/Trau.tsx`, `theme.ts`, `types.ts`, `Root.tsx`, `TrauStill.tsx`, `render.mjs`, `M1L1_scenes.json`, `durations.json`.
+
+### Bằng chứng đã kiểm chứng (không phải suy đoán)
+- **Layout hiện tại:** subtitle `bottom:150`, font 50, padding 24, lineHeight 1.3 → 2 dòng cao ≈178px → top ≈ **y1592**. Footnote `left:40 bottom:60`. Cards `top:560` (sẽ bị board thay). Mascot `top:120` centered.
+- **TrauSvg:** viewBox `-250 -240 520 450`; `width = size*520/450`; feet ellipse `cy=146 ry=20` → đáy feet ≈415px dưới đỉnh SVG (size 460, scale 1.0222). Horn tip ≈ y68px dưới đỉnh.
+- **Hình học chỉ trỏ (D3) — SAI:** vai phải (pivot `M 66 40`) ≈ (353, 1471) khi feet=1600/left=30. Tay dài ≈149px. Ngọn tay khi duỗi thẳng đứng (best case) y ≈ 1471−149 = **1322**; board đáy = **1250** → **hụt 72px, không bao giờ chạm board**. Với tư thế point hiện tại (66,40→204,−6) ngọn tay ở y≈1424, thấp hơn đáy board 174px. Thêm nữa chữ board left-align ở x≈110–140 là **trên-trái vai**, muốn trỏ phải xoay >90° vòng qua thân → dị dạng. Plan viết "đầu che góc dưới-trái bảng" cũng **sai**: horn tip ≈1255 vs board đáy 1250 (không che, chỉ chạm mép).
+- **Đè phụ đề:** feet y1600 → đáy mascot 1600 < top subtitle 1592 → chồng ≈8px ở 2 dòng cuối; x-mascot 30..561 trùng x-subtitle 70..1010. Có thật, cần chỉnh.
+- **Timing lệch (D3):** `activeIdx = floor(progress×0.8×n)` là **clock thứ 2** khác `subIdx` (mẫu số `total − fps*0.4`). Hệ số 0.8 tuỳ ý: dòng đầu dài, dòng cuối chỉ nhận ~16.7% thời lượng. Ví dụ S3 (total 620, n=3, subs=7): activeIdx đổi ở frame 258/517 trong khi sub-chunk đổi ở 0/86/173/260/347/434/521 → lệch nhịp VO.
+- **Tần suất/edge case (số thật, đếm toàn repo 495 scene):** pose null 190 · point 119 · idle 86 · think 64 · happy 26 · celebrate 7 · wave 3. n=1 chiếm 347/495; n=6 (4 scene), n=5 (4), n=4 (15). **M1L1 S8 parts=0** (chỉ còn "Số liệu minh họa" bị filter) + S8/S2 đều pose `point` (pulse = no-op). → n=0 chưa được guard; n=1 chỉ 1 pulse rồi đứng yên; pulse trên pose nền `point` vô nghĩa.
+- **Frame map M1L1 thật:** S1 0–471 · S2 472–890 · S3 891–1510 · S4 1511–2018 · S5 2019–2484 · S6 2485–2948 · S7 2949–3389 · S8 3390–3729 · end card 3730–3819 (end_card 3.0s = 90f) · total **3820** (127.3s).
+- **Patterns cần giữ:** `SceneView` thay `[[...]]` → `— (chờ số liệu) —` — Board **phải** giữ replace này. `Series.Sequence` reset `useCurrentFrame` về scene-local (walk-in frame 0 hoạt động, `isFirst={i===0}` đúng). Mascot pop spring scale 0.6→1 **mỗi cảnh** → walk-in phải bọc div ngoài, **không** đè transform trong Mascot. `celebrate`→`happy` map sẵn trong `Trau.tsx` (happy = 2 tay lên, không sổ).
+- **Verify:** `render.mjs` chỉ chặn `type==='placeholder' && status==='open'`; M1L1 verify = `[label/required, recompute/open, review/open]` → **0 placeholder** → render không bị chặn ✔. `out/M1L1.props.json` (15/10) **còn khớp** scenes hiện tại (M1L1 sửa 15/10 09:15, props 15/10 23:30). `M3L2.props.json` **STALE** (scenes sửa 18/10 commit `6e6b14f`) → không dùng để verify.
+- `npm run studio` = dev server **blocking** → không phải gate pass/fail. `public/audio/` đang **untracked** (asset local; render cần có sẵn).
+
+### Bắt buộc sửa trước khi implement
+1. **Bỏ D3 như đang viết** (prop `pointDeg` + xoay nhóm tay trong `Trau.tsx` + per-window pulse). Thay bằng: board tự đánh dấu dòng active (gạch chân phấn wipe + opacity 1.0; dòng khác ~0.6). **Gỡ `Trau.tsx` khỏi Files To Change** → ít rủi ro, TrauSheet/TrauPose không thể vỡ, và tránh tính năng sai hình học.
+2. **`activeIdx` lấy từ `subIdx`, không dựng clock mới:** `lineIdx = Math.min(Math.max(n-1,0), Math.floor(subIdx * n / subs.length))`. **Guard `n===0`** → không vẽ dòng/không pulse (S8 + 41 scene repo). Nếu muốn pulse pose: chỉ pulse khi pose nền là `null`/`idle`; **skip** khi nền là `celebrate`/`think`/`point` (S2/S8 nền point → vô nghĩa).
+3. **Vị trí mascot khỏi đè phụ đề:** đáy mascot ≤ ~1550 (feet ≈1550, size ≈420–460) để chừa ≥40px lên subtitle (top 1592). Horn tip khi đó ≈1235 → chỉ chạm ~15px đáy board-trái (chấp nhận) — hoặc hạ board đáy xuống ~1200 nếu không muốn chạm. **Không** đặt feet 1600.
+4. **Board font/wrap:** board rộng 940, n tối đa repo = 6 → 58px sẽ tràn. Cần responsive: `n≤3 → 58px`, `n=4 → 52px`, `n≥5 → 44–46px`, gap 24→16; left-align + padding. Verify bằng M1L1 S3 (3 dòng) và S7 (3 dòng). (M3L2 ngoài scope — ghi chú rủi ro, không thêm gate.)
+5. **Giữ replace placeholder trong Board** (`[[...]]` → `— (chờ số liệu) —`), cùng filter `!includes('Số liệu minh họa')` như hiện tại.
+6. **Walk-in:** bọc `<Mascot>` trong div ngoài cho `translateX` (~40f), không đụng transform nội bộ. Wave **tuỳ chọn** và chỉ ~1s rồi trả về pose cảnh (đừng ép wave cả cảnh làm mất pose JSON). `isFirst={i===0}` OK.
+7. **End card:** thêm Mascot `celebrate` (absolute) trong Sequence end card ở `Lesson.tsx`; giữ nền ink + text pháp lý. Pop spring sẽ nảy 1 lần — chấp nhận.
+8. **AC5 sửa:** thay `npm run studio chạy` bằng `npx tsc --noEmit` sạch + 1 lần `remotion still` chạy thành công (studio là server blocking, không đo pass/fail). Stills dùng `out/M1L1.props.json` (còn khớp) — **không** dùng M3L2 stale.
+9. **D5 giữ nguyên** (subtitle/chunk 9 từ, footnote dời bottom-right `right:40 bottom:60`). Lưu ý S8: n=0 → board trống, chỉ còn footnote + subtitle (giữ hành vi cũ; tuỳ chọn đặt "Số liệu minh họa" giữa board).
+
+### Thay đổi tối thiểu Files To Change
+`theme.ts` · `Board.tsx` (MỚI) · `SceneView.tsx` · `Lesson.tsx` — **bỏ `Mascot.tsx`/`Trau.tsx` khỏi danh sách** (chỉ đụng nếu thực sự thêm pulse; khuyến nghị không).
+
+### Verify gate (chốt)
+`npx tsc --noEmit` → stills frame: **478** (S2, nền point) · **921/1191/1391** (S3 active line 0/1/2) · **2969/3149/3299** (S7 3 dòng) · **3400** (S8 n=0, board trống) · **3740** (end card celebrate) → full render `node scripts/render.mjs M1L1` (timeout dài / Background — render có thể lâu). User là trọng tài hình ảnh cuối.
+
+**Không có plan thay thế rẻ hơn đạt cùng giá trị** ngoài việc cắt D3-effort và dùng board-active-line thay vì xoay tay — đó là nội dung các mục 1–9 trên.
+
+## Planner adjudication — mascot A+C (19/10/2026)
+
+**Chấp thuận 1–9 của debater**, riêng mục 1 điều chỉnh một phần (xem Challenge). Số liệu chốt cuối:
+- **Bảng:** x70..1010, y≈180..1210, khung gỗ + khay phấn/khăn lau (SVG); chữ phấn left-align; font theo n (≤3→58, 4→52, ≥5→44–46; gap 24→16); **giữ** replace `[[...]]` → `— (chờ số liệu) —` và filter "Số liệu minh họa" trong Board.
+- **Mascot:** left≈30, feet≈1545 (chừa ~47px lên subtitle top≈1592), size≈460 → đầu/horn phủ đáy bảng trái ~15px (đúng "đứng trước bảng").
+- **activeIdx** = `min(n-1, floor(subIdx·n/subs.length))` (dùng chung clock với phụ đề); **guard n===0** (S8 + 41 scene): không dòng active, không pulse. Pulse pose chỉ khi pose nền ∈ {null, idle, happy}; **skip** khi nền point/think/celebrate (celebrate/think giữ suốt cảnh).
+- **Walk-in:** div ngoài bọc Mascot (~40f, cảnh đầu, `isFirst={i===0}`); wave ≤1s rồi trả pose JSON. **End card:** Mascot celebrate absolute, giữ nền ink + text pháp lý.
+- **Footnote** "Số liệu minh họa": `right:40 bottom:60`. Subtitle/audio/lip-sync giữ nguyên.
+- **Gate:** `npx tsc --noEmit` + `remotion still` (props `out/M1L1.props.json` — còn khớp) + full render M1L1. KHÔNG dùng M3L2 props (stale). `npm run studio` = công cụ tay, không phải gate.
+
+**Challenge (điều 1 của debater — giữ một phần, không bỏ hẳn gesture):**
+- Đồng ý bỏ: tham vọng "ngón tay chạm dòng" (toán học đúng — bất khả thi), clock activeIdx riêng, per-window pulse phức tạp.
+- KHÁC: **giữ `pointDeg` giảm nhẹ** — xoay nhóm tay point (Limb + Hoof + finger) quanh pivot (66,40), biên **−20°..−60°**, default 0 → render **byte-identical** cho TrauSheet/TrauPose; nền pose `point` → tĩnh ≈−35°. Lý do: yêu cầu gốc user = "thầy giáo chỉ trỏ"; nếu chỉ còn underline thì bảng tự dạy, mascot vẫn thụ động → nguy cơ lặp feedback V3. Failure mode = thẩm mỹ thuần → revert 1 dòng nếu stills xấu.
+- Files ledger vẫn gồm `Mascot.tsx` (chỉ pass-through prop `pointDeg`) + `trau/Trau.tsx` (chỉ wrap rotate) — chấp nhận variance nhỏ thay vì gỡ hẳn.
+
+**Next Agent: implementor** — implement Plan + Debate 1–9 + adjudication này; chạy gate; ghi Implementation Notes. Sau implementor: tester verify độc lập; user là trọng tài hình ảnh cuối (xem video mới).
+
+## Implementation Notes (mascot A+C — implementor 19/10/2026)
+
+**Trạng thái: IMPLEMENT DONE + GATE PASS + RENDER OK.** Chỉ đụng `frontend/trau-video`; không commit/push.
+Ghi chú trung thực: khi nhận việc, working tree đã có sẵn bản implement gần đủ từ session trước bị gián đoạn (6 file + Board.tsx). Implementor đối chiếu từng mục Debate 1–9 + Planner adjudication (kể cả `pointDeg` clamp), **không phát hiện lệch cần sửa** → không sửa thêm code; chỉ chạy lại toàn bộ gate/stills/render và ghi notes này.
+
+### Files changed (6 source)
+- **`src/theme.ts`** — thêm key palette bảng: `board '#22392E'`, `chalk '#F3EFE0'`, `chalkDim '#CFC9B4'`, `wood '#8B5A2B'`, `woodDark '#6B431F'`; giữ nguyên các key cũ.
+- **`src/Board.tsx` (MỚI, 57 dòng)** — chrome bảng phấn: khung gỗ + tray + 2 viên phấn + eraser (SVG), board rect `x70 y180 w940 h1030` (đáy y1210). Text lấy từ `parts` do SceneView truyền (giữ filter "Số liệu minh họa" + replace `[[...]]` → `— (chờ số liệu) —`), left-align, padding 64. Font responsive `n≤3→58`, `n=4→52`, `n≥5→44`; gap `n≥4→16` (ngược lại 24). Reveal mask-wipe từng dòng stagger 14f (spring damping 14); dòng active opacity 1 + underline chalk wipe 12f, dòng khác 0.6.
+- **`src/SceneView.tsx`** — bảng đứng sau; mascot `left 30`, `size 460`, feet y≈1545 (`top = 1545 − 460·0.9022 ≈ 1130`), đáy feet thực tế 1545 nên chừa ~47px lên subtitle top≈1592. `lineIdx = min(n−1, floor(subIdx·n/subs.length))` dùng chung clock phụ đề; guard `n=0 → lineIdx=-1` (không underline/pulse). `lineStarts` tính từ cùng clock. Pulse `point` 24f khi dòng mới active, chỉ khi base pose ∈ {null, idle, happy}; skip base point/think/celebrate. `pointDeg`: base point tĩnh `−35`; pulse aim theo y dòng active, clamp `−20..−60` (`−20 − ((boardBottom − lineY)/boardH)·40`). Walk-in chỉ scene đầu (`isFirst`): div ngoài translateX spring 40f (−620→0), wave 30f (≤1s) rồi trả base/pulse; không đụng transform nội bộ Mascot. Giữ audio + `useAudioData` lip-sync, subtitle chunk 9 `bottom:150`; footnote dời `right:40 bottom:60`.
+- **`src/Mascot.tsx`** — thêm prop optional `pointDeg` (default 0), pass-through xuống `TrauSvg`; giữ nguyên bob/tilt/lip-sync.
+- **`src/trau/Trau.tsx`** — chỉ wrap nhóm arm point (`Limb M 66 40 L 150 14` + `Hoof 160,10` + finger path) trong `<g transform={rotate(pointDeg 66 40)}>`; `pointDeg` default 0 → output y hệt trước. Không đổi pose khác.
+- **`src/Lesson.tsx`** — `isFirst={i===0}` cho SceneView; end card thêm `<Mascot pose="celebrate" size={520}/>` absolute (bottom 120 / left 30), giữ nền ink + text pháp lý.
+
+### Gates
+- **`npx tsc --noEmit`: PASS** (không output, exit 0).
+- **Stills (props `out/M1L1.props.json`, còn khớp scenes):** PASS, 10/10 render thành công:
+  `out/still-walkin20.png`, `out/still-s2-point478.png`, `out/still-s3-line0-921.png`, `out/still-s3-line1-1191.png`, `out/still-s3-line2-1391.png`, `out/still-s7-a2969.png`, `out/still-s7-b3149.png`, `out/still-s7-c3299.png`, `out/still-s8-empty3400.png`, `out/still-end3740.png`.
+- **Stills self-review (đã xem từng PNG):** chữ 3 dòng S3/S7 nằm trọn trong board (không tràn/clip); underline đúng dòng active (S3 line 0/1/2, S7 line 1/2); S7 frame 3299 rơi đúng lúc underline line 2 đang wipe (~50%) — đúng chủ ý, không phải lỗi; active line full opacity, dòng khác 0.6 rõ; S2 base point tay nâng `−35` tự nhiên, pulse S3/S7 aim lên dòng trên cùng tới `−60`, không gãy khớp; walk-in frame 20 mascot còn giữa đường vào + wave; feet mascot cách subtitle ~47px, horn chạm mép dưới-trái board ~15px đúng "đứng trước bảng"; S8 n=0 board trống, không underline/pulse (mascot vẫn giữ base pose point tĩnh `−35` theo JSON — quan sát cho reviewer/user, không phải pulse); end card celebrate hiển thị bottom-left, text pháp lý không bị che. Không cần tune thêm ngoài các số đã chốt; mọi giá trị pointDeg nằm trong clamp `−20..−60`.
+- **Render:** `node scripts/render.mjs M1L1` **PASS** — Rendered **3820/3820**, Stitched **3820/3820**, output `out/M1L1.mp4` **30,961,107 bytes** (~31 MB), 3820 frames = 127.3s. Log: `out/render-m1l1.log` (out/ untracked/ignored).
+- **Video cũ bảo toàn:** `out/M1L1-v3-old.mp4` **27,530,184 bytes**, SHA256 `95058E2F…E916A` (trùng bản M1L1.mp4 trước render); bản mới SHA256 `20635416…9E58C` → khác bản cũ, sẵn sàng cho user so sánh.
+- **Scope check `git status --short`:** đúng 6 file source (`theme.ts`, `Board.tsx` mới, `SceneView.tsx`, `Mascot.tsx`, `trau/Trau.tsx`, `Lesson.tsx`) + `WORKFLOW_STATE.md`; untracked còn lại là artifact có sẵn từ trước (`evals/dashboard/v1/report-gpt41.json`, `frontend/frontend.dev.log`, `frontend/trau-video/public/audio/`) và `out/` (ignored). Không đụng docker/backend/.env/package.json/types/JSON/audio.
+
+**Next Agent: tester** — verify độc lập theo gate trên (tsc, stills frame map, render artifact), soi regression: SceneView n=0, pulse skip cho base point/think/celebrate, pointDeg=0 giữ nguyên render các composition khác (TrauStill/TrauSheet), và so sánh video mới `out/M1L1.mp4` với `out/M1L1-v3-old.mp4`. User là trọng tài hình ảnh cuối.
+
+## Test Report (mascot A+C — tester 19/10/2026)
+
+**Verdict: PASS_WITH_UNVERIFIED_AUTOMATED_GATES.** Static code review + stills + render log đạt; **các gate cần shell (`git status/diff`, `npx tsc --noEmit`, stat/ffprobe) KHÔNG chạy lại được** trong session này vì quyền tool chỉ cho phép `pytest*` (mọi lệnh git/npx/node bị deny). Không sửa source nào; chỉ ghi state này.
+
+### Commands run
+- `pytest tests/ -v` (repo root) → **ERROR: file or directory not found: tests/** — repo không có `tests/` ở root, suite Python nằm ở `src/tests/`. Không phải lỗi do change frontend.
+- `python -m pytest src/tests/unit -q --no-header --tb=no` → **timeout 300s, không output** (interpreter `F:\miniconda3\python.exe`; không kết luận regression, chỉ là suite không hoàn tất trong môi trường này).
+- `python -m pytest src/tests/unit/application/services/dashboard -q --no-header` → **10 passed in 0.54s**.
+- **BLOCKED (permission deny)**: `git status --short`, `git diff --stat`, `npx tsc --noEmit`, `Get-Item`/size/hash, `ffprobe`. Không thể tái lập các gate này bằng chứng cụ thể; các mục dưới ghi rõ PASS tĩnh / BLOCKED.
+
+### 1. Scope — BLOCKED (không có git), static observation
+Không thể xác nhận `M`/`??` bằng `git status` hay `git diff --stat`. Đọc trực tiếp:
+- `package.json`: **không thêm dep** — vẫn 5 dependencies (`@remotion/cli`, `@remotion/media-utils`, react, react-dom, remotion) + 2 devDependencies (typescript, @types/react); không có dependency mới.
+- `src/types.ts`, `src/Root.tsx`, `src/TrauStill.tsx`: nội dung không thấy field/import mới liên quan mascot A+C (types vẫn `mascot_pose: string | null`; Root vẫn 3 composition; TrauStill vẫn gọi `TrauSvg` không truyền `pointDeg`).
+- Không đọc được trạng thái git; **không thể khẳng định** scenes JSON / scripts/* / audio không bị đụng. Theo nội dung M1L1 JSON: không thấy field mới.
+
+### 2. `npx tsc --noEmit` — BLOCKED
+Không chạy được. Static type review: props khớp (`Mascot.pointDeg?: number`, `Trau.pointDeg?: number`, `Board` nhận `parts/lineIdx/lineStarts`, `SceneView.isFirst?: boolean`, `Lesson` truyền `isFirst`); không thấy lỗi type hiển nhiên. **Đây không thay thế tsc.**
+
+### 3. Code spot-checks — PASS (static review)
+- **Board.tsx**: replace `[[...]]` → `— (chờ số liệu) —` ở dòng 48; font responsive `n<=3→58 / n===4→52 / n>=5→44` dòng 16; gap `n>=4→16` dòng 17; underline chỉ vẽ cho `i === lineIdx`, dòng khác width 0 + opacity 0.6 dòng 42–50. **Lưu ý:** filter `"Số liệu minh họa"` nằm ở `SceneView.tsx:39` (Board nhận `parts` đã filter) — hành vi đúng, nhưng không literal trong Board.
+- **SceneView.tsx**: `lineIdx` lấy từ `subIdx` dòng 46 (`floor(subIdx*n/subs.length)`, clamp `n-1`); guard `n===0 → -1`; `lineStarts` cùng clock dòng 48. Pulse chỉ khi `basePose ∈ {null, idle, happy}` dòng 50–55, dài 24f. `pointDeg` base point `-35`; aim clamp `-20..-60` dòng 65–66. Walk-in bọc **div ngoài** (translateX) dòng 68–78, `isFirst`; wave 30f. `MASCOT_FEET=1545`, `top=1545-460*0.9022≈1131` → đáy feet ≈1546; subtitle top ≈1592 (bottom 150 + 2 dòng 50px) → **chừa ~46px**. Footnote `right:40 bottom:60` dòng 83. Audio/lip-sync giữ nguyên (dòng 23–37); subtitle chunk 9, `bottom:150` (dòng 9–14, 79–82).
+- **trau/Trau.tsx**: nhóm tay point bọc `<g transform={rotate(pointDeg 66 40)}>`, default `0` (dòng 98). Các pose khác không đổi.
+- **Mascot.tsx**: `pointDeg` optional default 0, pass-through; bob/tilt/lip-sync giữ.
+- **Lesson.tsx**: `isFirst={i===0}` dòng 27; end card có `<Mascot pose="celebrate" size={520}/>` bottom-left dòng 34–36, giữ nền ink + text pháp lý.
+- **Findings (không phải gate fail):**
+  1. Board luôn render `<div height:5 marginTop:2>` cho cả dòng inactive (width 0) → block text thực cao hơn `blockH` dùng để tính `lineY` ~7px/dòng; sai lệch aim ≤ ~35px (<1.5°), clamp hấp thụ — cosmetic.
+  2. Nếu `parts.length > subs.length` (VO ngắn / nhiều split_hint) thì các dòng cuối không bao giờ active và `lineStarts` vượt clock; **không xảy ra ở M1L1** (S3: 3 parts/7 chunks, S7: 3/5) nhưng là edge lý thuyết trên 495 scene.
+  3. S8 giữ base pose `point` tĩnh `-35` → mascot chỉ vào bảng trống (adjudication đã chấp nhận; user có thể muốn `idle`).
+  4. Tại frame 1191 (S3 line 1) pulse 24f đã hết → mascot đứng idle; đúng thiết kế pulse ngắn, nhưng nếu user kỳ vọng "chỉ trỏ liên tục" thì cần tăng thời lượng (không phải regression).
+  5. Claim "`pointDeg=0` render byte-identical": không chính xác tuyệt đối — có thêm `<g transform="rotate(0 66 40)">`, DOM khác nhưng **hình ảnh giống**; TrauSheet/TrauPose không truyền prop nên hiển thị như cũ.
+
+### 4. Artifacts — PARTIAL (log PASS, số đo BLOCKED)
+- `out/M1L1.mp4`: **tồn tại** (directory listing). `out/render-m1l1.log`:
+  - dòng 4718–4729: `Rendered 3810/3820` … `Rendered 3819/3820` (không có literal `Rendered 3820/3820`).
+  - dòng 4734: **`Stitched 3820/3820`**; dòng 4735: **`out/M1L1.mp4  31 MB`**.
+  - dòng 4736–4744: Node **DEP0190 DeprecationWarning** bị PowerShell bắt thành `NativeCommandError` — **vô hại**, không phải render fail.
+- **Chưa verify**: đúng byte `30,961,107`, mtime 19/10, `out/M1L1-v3-old.mp4` = `27,530,184` bytes/SHA, duration ffprobe. `ffprobe` không chạy được. Suy ra duration từ 3820f/30fps = **127.33s** (khớp ~127.3s), nhưng không phải đo file.
+- `out/M1L1-v3-old.mp4`: **tồn tại** (directory listing); byte/hash chưa đo.
+
+### 5. Stills — PASS (preliminary; user là trọng tài cuối)
+10 stills mới tồn tại. Đã mở 6 ảnh:
+- `still-s3-line1-1191.png`: 3 dòng nằm trọn board, **underline đúng dòng 1**, dòng khác mờ 0.6; mascot không đè subtitle.
+- `still-s8-empty3400.png`: board **trống**, không underline/pulse; footnote "Số liệu minh họa" bottom-right; mascot base point (xem finding 3).
+- `still-end3740.png`: mascot **celebrate** bottom-left, text pháp lý hiển thị đầy đủ.
+- `still-s2-point478.png`: 1 dòng + underline, tay point nâng; bố cục sạch.
+- `still-walkin20.png`: mascot giữa đường vào + wave, trong khung; title active underline.
+- `still-s7-c3299.png`: 3 dòng fit board; underline dòng 3 đang wipe ~50% (đúng chủ ý).
+- Không thấy chữ tràn/clip khỏi board ở các ảnh đã xem; khoảng cách mascot–subtitle rõ.
+
+### 6. Leftover junk trong `out/` (KHÔNG xoá)
+Ngoài 10 stills mới còn stills cũ từ session trước: `still-end.png`, `still-s2.png`, `still-s3a.png`, `still-s3b.png`, `still-s3c.png`, `still-s3c2.png`, `still-s4.png`, `still-s5.png`, `still-s6.png`, `still-s7a.png`, `still-s7b.png`, `still-s7c.png`, `still-s8.png`, `still-walkin.png`, `still-walkin8.png`, `still-walkin12b.png`, `still-walkin14.png`, `still-walkin20b.png`, `still-walkin30.png`. Không xoá gì.
+
+### Uncertainties / not verified
+- Không có `git status`/`git diff --stat` → scope "chỉ 6 file + Board.tsx" **chưa được xác nhận độc lập**; các file ngoài scope chỉ được kiểm tra nội dung, không chứng minh untouched.
+- `npx tsc --noEmit` không chạy → chưa có bằng chứng typecheck sạch.
+- Byte size/hash/mtime/duration video chưa đo; chỉ có log "31 MB" + Stitched 3820/3820.
+- `npm run studio` không chạy (server blocking, không phải gate).
+- Không so sánh trực tiếp video mới vs cũ (không có ffprobe/player tool); user xem bằng mắt.
+
+**Test Results:** pytest root `tests/` FAIL (không tồn tại); pytest dashboard **10 passed**; full unit suite BLOCKED/timeout. Code spot-check PASS (static). Stills PASS (preliminary). tsc/scope/artifact bytes BLOCKED. Không có failure nào chứng minh do change mascot A+C gây ra.
+
+**Current Status:** Mascot A+C đã implement + render theo log; tester verify tĩnh PASS, nhưng **automated gates (tsc/git scope/size/duration) chưa tái lập được do quyền shell** — cần user duyệt hình hoặc chạy lại các lệnh gate ở môi trường có quyền.
+
+**Next Agent:** user (duyệt hình — xem `out/M1L1.mp4` so với `out/M1L1-v3-old.mp4`).
+
+### Planner close-out (19/10) — tự chạy lại các mục tester bị BLOCKED
+- **Scope (git):** `git status --short` (repo root) khớp implementor khai: `M` chỉ trên `WORKFLOW_STATE.md` + 5 file src (`Lesson.tsx`, `Mascot.tsx`, `SceneView.tsx`, `theme.ts`, `trau/Trau.tsx`) + `?? src/Board.tsx`; 3 untracked cũ giữ nguyên → `types.ts`/scenes JSON/`scripts/*`/`package.json`/`Root.tsx`/`TrauStill.tsx` **untouched** (không xuất hiện trong status). ✔
+- **tsc:** `npx tsc --noEmit` (node v24.14.0) = **TSC_CLEAN**, exit 0. ✔
+- **Artifact:** `out/M1L1.mp4` = **30,961,107 B**, mtime **19/10 19:58:44**, SHA256 **`20635416…9E58C`** (khớp implementor); `out/M1L1-v3-old.mp4` = **27,530,184 B** bảo toàn. Duration không đo ffprobe (không có tool) — suy ra 3820f/30 = 127.33s. ✔
+- **Kết luận:** AC1 (render) ✔ · AC5 (tsc, 0 dep mới) ✔ · scope ✔; AC2–AC4/AC6 chờ mắt user. Findings tester 1–5 (không chặn, cosmetic/edge lý thuyết): aim lệch ≤35px do underline div chiếm ~7px/dòng; `parts>subs` edge; S8 pose point trên bảng trống; pulse 24f ngắn — **polish theo feedback user sau khi xem**.
+- **Chưa commit** (đúng luật: chỉ commit khi user yêu cầu) — working tree gồm 6 file src + state, chờ duyệt.
+
+## P1 — Viết lại trang pitch (landing page) theo curriculum hiện tại (user 20/10)
+- **Vấn đề user báo:** câu hỏi trong pitch page đã lỗi thời so với curriculum hiện tại. Xác minh: `frontend/src/app/page.tsx` (515 dòng) đang kể **chứng khoán** (SMA9/RSI, VCB/HPG/VIC/FPT, "Hiểu chứng khoán trước khi quyết định", hero bảng giá + sparkline, 3 FAQ card) trong khi curriculum canonical v1.2 (`data/lessons/curriculum_tai_chinh_ca_nhan.json`, version 1.2) là **tài chính cá nhân 10 module / 56 bài**: M1 Quản lý ngân sách & theo dõi chi tiêu (7) · M2 Quỹ khẩn cấp & thói quen tiết kiệm (5) · M3 Quản lý nợ & tín dụng (7) · M4 Ngân hàng & sản phẩm tài chính cơ bản (5) · M5 Bảo hiểm (3) · M6 Thuế TNCN & nghĩa vụ tài chính (4) · M7 Tâm lý học tiền bạc & hành vi tiêu dùng (4) · M8 Kế hoạch tài chính cá nhân dài hạn, **không đầu tư** (10) · M9 An ninh tài chính số & phòng chống lừa đảo (5) · M10 Tài chính gia đình & quan hệ tiền bạc (6).
+- **Nguồn sự thật đã verify (không bịa):**
+  - 4 education tools thật (`src/mcp_server/tools/education.py`): `calculate_loan_schedule` (amortize + snowball vs avalanche), `calculate_future_value` (nominal/real + retirement 3 kịch bản lạm phát), `calculate_pit` (Luật TNCN 109/2025/QH15 Điều 9 + NQ 110/2025 + NĐ 253/2026; kỳ 2026; giảm trừ 15,5tr + 6,2tr/người phụ thuộc), `budget_template` (50/30/20 + zero-based). Chạy THẬT vừa rồi (`.venv\Scripts\python.exe`, PYTHONIOENCODING=utf-8): PIT 30tr/1 NPT → **tax 415.000đ**, taxable 8,3tr, net 29,585tr; FV 100tr@8%/5n → nominal **146.932.808**, real@4% **120.768.058**; debt (5tr@30% + 20tr@12% + 2tr@18%, budget 3tr/tháng) → snowball 1.686.294 vs avalanche **1.633.573** (interest_saved **52.721**, cả 2 đều 10 tháng, cheaper=avalanche); budget net 12tr → 6tr/3,6tr/2,4tr.
+  - RAG sources enabled (sources.yaml): vbpl_24_2025, tt_96_2020, tt_135_2025, pit_law_109, kdbh_law_08, bhxh_2026_rates, cic_debt_groups, scam_tinnhiemmang, sbv_policy_rates, hnx_docs, hose_docs, ssi_knowledge (cfa disabled).
+  - Eval thật (`evals/reports/rag-20260910-064148/report.json`): 46 cases (38 in-scope + 8 out-of-scope) · **citation_macro 1.0 (36/36)** · **refusal_rate 1.0** (8/8 out-of-scope từ chối) · retrieval_hit_rate **0,868** · answer_contains_rate 0,842 · mean latency 353ms · 0 retrieval errors. (Đây là số ĐO ĐƯỢC — thay "—" placeholder ở trust strip.)
+  - `AGENT_MODE=tutor` (mặc định `full`): tutor chỉ expose 4 education tool + `search_knowledge` + `generate_chart_spec`.
+  - Số liệu pain-point giữ nguyên (đã có citation trong README:24-44): 13,0tr TK cá nhân 05/2026 VSDC · 95% chưa dùng tư vấn trả phí (TVS 2026) · 75% đã dùng GenAI cho tài chính (Sun Life 2026) · 59% tự đánh giá kiến thức cơ bản/thấp · 73% chưa có kế hoạch dài hạn.
+- **R1 (chính):** viết lại `frontend/src/app/page.tsx` — bỏ framing chứng khoán, dùng framing **tài chính cá nhân**: hero "Quản lý tài chính cá nhân — có số, có nguồn."; sub nêu 10 module/56 bài + 4 máy tính + RAG nguồn luật; CTA "Hỏi ngay" + "Tài khoản demo" (giữ `demo@finsight.vn / demo123`).
+- **R2:** thay hero panel bảng giá/SMA9 sparkline bằng panel **"10 module trong giáo trình"** (M1..M10 + số bài, từ curriculum) — bỏ bảng VCB/HPG/VIC/FPT + sparkline SVG.
+- **R3:** thay 2 sample Q&A (SMA9/RSI) bằng **2 Q&A thật theo curriculum**: (a) "Lương 30 triệu, 1 người phụ thuộc — thuế TNCN bao nhiêu?" → 415.000đ + citation [Luật 109/2025 · NĐ 253/2026] + disclaimer "đối chiếu văn bản hiện hành"; (b) "3 khoản nợ nên trả theo thứ tự nào?" → snowball vs avalanche, tiết kiệm 52.721đ — gắn nhãn **"Số liệu minh họa"** (đúng convention M3L2).
+- **R4:** trust strip: thay "—" bằng số đo thật ở trên (citation 100% 36/36 · refusal 8/8 · hit-rate 86,8% trên 46 cases) + nguồn "evals/ · rag-20260910-064148".
+- **R5:** 3 card "Ranh giới rõ ràng" viết lại cho đúng phạm vi curriculum: (1) không khuyến nghị mua/bán/sản phẩm cụ thể (TT 135/2025), (2) số liệu từ đâu — vnstock + văn bản luật có hiệu lực, (3) cần chuẩn bị gì — không cần, hỏi tiếng Việt.
+- **R6:** giữ nguyên layout/design system hiện có (Tailwind token, shadcn Card/Button, không thêm lib); **KHÔNG** thêm route/file mới; giữ CTA `/chat`, `/login`, `/dashboard`.
+- **R7 (bắt buộc):** `npx tsc --noEmit` trong `frontend/` = 0 lỗi; `npm run build` (Next 16.3.4) pass; `npm run lint` không lỗi mới. Đọc `frontend/AGENTS.md` (Next 16 breaking changes) trước khi code.
+- **R8:** KHÔNG đụng `frontend/trau-video/**` (đang có work-in-progress của session mascot A+C chưa commit — 6 file M/??) và KHÔNG commit file đó. Chỉ stage `frontend/src/app/page.tsx` + `WORKFLOW_STATE.md`.
+- **R9:** sau khi xong: ghi state (Implementation Notes + số đo + hash) → commit `feat(landing): rewrite pitch page around personal-finance curriculum v1.2` → push → CI watch (3 job) → báo.
+- **Ghi chú lỗi user chụp (ảnh 1):** overlay Next dev "Failed to fetch" ở `frontend/.next/dev` — do `header.tsx:30` `fetch("/api/health")` fail khi backend chưa chạy (docker đã `down` sau UV6), KHÔNG phải lỗi page. Không cần sửa; nếu user thấy thì bật lại docker là hết. Nói rõ trong báo cáo.
+
+
+### P1 — IMPLEMENT DONE (20/10/2026, implementor)
+- **File sửa duy nhất:** `frontend/src/app/page.tsx` (515 → 476 dòng). Không thêm file/route/dependency; bỏ `Table2`/`LineChart` khỏi import (không còn dùng), giữ nguyên phần còn lại của design system (Tailwind token, shadcn Card/CardContent/Button/Separator, lucide icons).
+- **Implementation Notes (R1–R6):**
+  - R1: H1 mới "Tài chính cá nhân / có số, có nguồn."; sub nêu 10 module/56 bài + 4 máy tính (thuế TNCN, trả nợ, lãi kép, ngân sách) + RAG văn bản luật; nhấn "chỉ giáo dục, không khuyến nghị mua/bán (TT 135/2025)"; giữ CTA `/login` + demo `demo@finsight.vn / demo123` + proof strip 3 số pain-point NGUYÊN số/nguồn (13,0tr VSDC 05/2026 · 95% TVS 2026 · 75% Sun Life 2026), chỉ chỉnh nhãn câu chữ.
+  - R2: hero panel phải = "10 module trong giáo trình" (const `MODULES` M1..M10, title khớp curriculum JSON v1.2 + số bài 7/5/7/5/3/4/4/10/5/6); bỏ bảng VCB/HPG/VIC/FPT + sparkline SVG; footer panel ghi "Giáo trình tài chính cá nhân v1.2 — 56 bài".
+  - R3: 2 sample Q&A mới — (a) PIT 30tr/1 NPT → 415.000đ/tháng (thu nhập tính thuế 8,3tr sau 15,5tr + 6,2tr; net 29.585.000đ; kỳ 2026) + chip [Luật 109/2025/QH15] [NĐ 253/2026/NĐ-CP] + disclaimer amber "Đối chiếu văn bản hiện hành trước khi quyết toán"; (b) snowball 1.686.294đ vs avalanche 1.633.573đ → tiết kiệm 52.721đ, cùng 10 tháng, có nhãn "Số liệu minh họa" + giả định (5tr@30% + 20tr@12% + 2tr@18%, ngân sách 3tr/tháng) + note "so sánh chiến lược, không phải lời khuyên".
+  - R4: trust strip thay "—" bằng số đo thật — citation 36/36 (100%) · từ chối out-of-scope 8/8 (100%) · retrieval hit-rate 86,8%; dòng nguồn "evals/ · rag-20260910-064148" + "46 cases (38 in-scope + 8 out-of-scope)"; đã bỏ câu "Dấu '—' nghĩa là chưa đo lại"; giữ tiêu đề "Độ tin cậy đo được — không nói miệng".
+  - R5: 3 card ranh giới viết lại (không khuyến nghị mua/bán theo TT 135/2025 + chuyển hướng tư vấn cá nhân thành kiến thức chung · nguồn số liệu = vnstock + VBPL 24/2025, TT 96/2020, TT 135/2025, Luật TNCN 109/2025, NĐ 253/2026, BHXH 2026, CIC · không cần chuẩn bị gì).
+  - R6: giữ layout 60/40, section 3 bước (ví dụ đổi sang "50/30/20 chia thu nhập thế nào?", "Nợ lãi cao hay nợ nhỏ trả trước?", "Thuế TNCN tính thế nào?"), bước 2 dùng công thức lãi kép FV = PV × (1 + r)^n (nguồn: công thức toán cơ bản + máy tính lãi kép), bước 3 giữ nguyên ý "trích dẫn bấm được / thiếu nguồn thì không khẳng định" + chip Luật 109/2025 · NĐ 253/2026; giữ section CTA cuối + mọi class Tailwind hiện có.
+- **Số đo dùng (chỉ lấy từ block "Nguồn sự thật đã verify"):** 56 bài/10 module · PIT 415.000đ (8,3tr taxable) · snowball 1.686.294 vs avalanche 1.633.573 / saved 52.721 / 10 tháng · citation 36/36 · refusal 8/8 · hit-rate 0,868 · 46 cases · report `rag-20260910-064148`. Không có số mới nào ngoài nguồn.
+- **Gate R7:** `npx tsc --noEmit` → **0 lỗi (exit 0)**; `npm run lint` → **1 error pre-existing** tại `src/components/theme-toggle.tsx:12` (`react-hooks/set-state-in-effect`, file không thuộc P1) — **0 lỗi mới**; `npm run build` (Next 16.3.4, Turbopack) → **PASS** (compiled 4.0min, 9/9 static pages, 19 route, exit 0).
+- **R8 scope:** `git status --short` cho thấy `M frontend/src/app/page.tsx` + `M WORKFLOW_STATE.md`; 6 file WIP `frontend/trau-video/**` (5 M + `?? src/Board.tsx`) giữ nguyên, KHÔNG stage. Không dùng `git add -A`.
+- **Overlay "Failed to fetch" (ảnh user chụp):** nguyên nhân là `header.tsx` gọi `fetch("/api/health")` khi backend docker đang `down` (sau UV6), KHÔNG phải lỗi trang pitch. Bật lại docker là hết. PATCH-meta UI vẫn là backlog (không thuộc P1).
+
+**Next Agent:** reviewer — review `frontend/src/app/page.tsx` (nội dung khớp curriculum v1.2 + số liệu chỉ lấy từ nguồn đã verify; scope chỉ 1 file + state; gate tsc/lint/build).
