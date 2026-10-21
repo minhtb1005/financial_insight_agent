@@ -83,9 +83,9 @@ export function PriceTable() {
       </Table>
       <div className="p-3 flex items-center justify-between text-xs text-muted-foreground">
         <span>
-          {loading ? <Badge variant="secondary">Đang tải dữ liệu thực…</Badge> : isLive ? <Badge variant="default">Dữ liệu thực từ BFF /api/market/prices</Badge> : <Badge variant="outline">Dữ liệu mock — backend chưa sẵn sàng hoặc lỗi mạng</Badge>}
+          {loading ? <Badge variant="secondary">Đang cập nhật…</Badge> : isLive ? <Badge variant="default">Dữ liệu từ dịch vụ thị trường</Badge> : <Badge variant="outline">Dữ liệu minh họa · Chưa kết nối thị trường</Badge>}
         </span>
-        {error && <span className="text-amber-600">Lỗi: {error.slice(0, 80)}</span>}
+        {error && <span className="text-muted-foreground">Chưa thể cập nhật lúc này.</span>}
       </div>
     </div>
   )

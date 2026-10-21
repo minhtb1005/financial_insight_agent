@@ -13,6 +13,7 @@ No deterministic classifier / extractor pipeline is involved.
 import time
 import uuid
 import json
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 from typing import TYPE_CHECKING, Any, TypedDict, Annotated, Literal, Optional
@@ -47,6 +48,39 @@ from shared.utils.env_helpers import parse_int_env
 from contextlib import suppress
 
 logger = get_logger("agent.StockAgent")
+
+
+@dataclass(frozen=True)
+class AgentStreamEvent:
+    event: Literal["chart_spec", "chart_error", "error"]
+    data: str
+
+
+def _chart_event_from_tool(content: str) -> AgentStreamEvent:
+    """Validate a chart tool result before sending it to the dashboard."""
+    try:
+        from domain.entities.chart_spec import ChartSpec
+
+        payload = json.loads(content)
+        if not isinstance(payload, dict) or "spec" not in payload:
+            raise ValueError("Chart tool returned no spec")
+        spec = ChartSpec.model_validate(payload["spec"])
+        return AgentStreamEvent("chart_spec", spec.model_dump_json())
+    except (ValueError, TypeError) as exc:
+        logger.warning("Invalid chart tool result: %s", exc)
+        return AgentStreamEvent("chart_error", "Không thể tạo biểu đồ từ dữ liệu hiện tại.")
+
+
+def _chart_acknowledgement(spec_json: str) -> str:
+    spec = json.loads(spec_json)
+    title = spec["title"]
+    count = len(spec["data"])
+    return f"Đã vẽ biểu đồ {title} từ {count} phiên dữ liệu trong bảng bên cạnh."
+
+
+def _needs_chart_explanation(query: str) -> bool:
+    text = query.casefold()
+    return any(term in text for term in (" và ", "giải thích", "phân tích", "nhận xét", "vì sao", "tại sao"))
 
 MAX_ITERATIONS = parse_int_env("AGENT_MAX_ITERATIONS", 10)
 AGENT_TIMEOUT_SECONDS = parse_int_env("AGENT_TIMEOUT_SECONDS", 120)
@@ -229,7 +263,8 @@ class StockAgent:
             return {
                 "messages": [
                     AIMessage(
-                        content="Hệ thống AI đang không khả dụng do thiếu cấu hình API. Vui lòng kiểm tra OPENAI_API_KEY hoặc GROQ_API_KEY."
+                        content="Trợ giảng AI hiện không khả dụng. Vui lòng thử lại sau.",
+                        additional_kwargs={"agent_error": "llm_unavailable"},
                     )
                 ],
                 "iterations": iterations,
@@ -245,7 +280,8 @@ class StockAgent:
             return {
                 "messages": [
                     AIMessage(
-                        content="Đã đạt giới hạn số lần xử lý. Vui lòng thử lại với câu hỏi đơn giản hơn."
+                        content="Đã đạt giới hạn số lần xử lý. Vui lòng thử lại với câu hỏi đơn giản hơn.",
+                        additional_kwargs={"agent_error": "agent_limit"},
                     )
                 ],
                 "iterations": iterations,
@@ -371,7 +407,8 @@ class StockAgent:
             return {
                 "messages": [
                     AIMessage(
-                        content="Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu. Vui lòng thử lại sau."
+                        content="Trợ giảng AI chưa thể xử lý câu hỏi lúc này. Vui lòng thử lại sau.",
+                        additional_kwargs={"agent_error": "llm_unavailable"},
                     )
                 ],
                 "iterations": iterations,
@@ -837,6 +874,9 @@ class StockAgent:
         }
         _STREAM_EVENT_LIMIT = 5000
         event_count = 0
+        emitted_text = False
+        emitted_chart = False
+        chart_error: AgentStreamEvent | None = None
         deadline = time.time() + AGENT_TIMEOUT_SECONDS
         try:
             for event in self.app.stream(init_state, config=stream_config, stream_mode="messages"):
@@ -845,7 +885,7 @@ class StockAgent:
                         "Stream execution timed out",
                         extra={"request_id": rid, "timeout": AGENT_TIMEOUT_SECONDS},
                     )
-                    yield "Quá trình xử lý đã vượt quá thời gian cho phép. Vui lòng thử lại."
+                    yield AgentStreamEvent("error", "Quá trình xử lý đã vượt quá thời gian cho phép. Vui lòng thử lại.")
                     return
                 event_count += 1
                 if event_count > _STREAM_EVENT_LIMIT:
@@ -853,13 +893,46 @@ class StockAgent:
                         "Stream event limit reached",
                         extra={"request_id": rid, "events": event_count},
                     )
-                    yield "Đã đạt giới hạn xử lý. Vui lòng thử lại."
+                    yield AgentStreamEvent("error", "Đã đạt giới hạn xử lý. Vui lòng thử lại.")
                     return
                 if not isinstance(event, (list, tuple)) or len(event) != 2:
                     continue
-                chunk, _metadata = event
+                chunk, metadata = event
+                if isinstance(chunk, ToolMessage) and chunk.name == "generate_chart_spec":
+                    chart_event = _chart_event_from_tool(_content_to_text(chunk.content))
+                    if chart_event.event == "chart_error":
+                        chart_error = chart_event
+                        continue
+                    emitted_chart = True
+                    chart_error = None
+                    yield chart_event
+                    if not _needs_chart_explanation(query):
+                        yield _chart_acknowledgement(chart_event.data)
+                        return
+                    continue
+                if isinstance(chunk, AIMessage) and chunk.additional_kwargs.get("agent_error"):
+                    yield AgentStreamEvent("error", _content_to_text(chunk.content))
+                    return
                 if isinstance(chunk, AIMessageChunk) and chunk.content:
-                    yield chunk.content
+                    text = _content_to_text(chunk.content)
+                    if text:
+                        emitted_text = True
+                        yield text
+                elif (
+                    isinstance(chunk, AIMessage)
+                    and isinstance(metadata, dict)
+                    and metadata.get("langgraph_node") == "final_answer"
+                    and not emitted_text
+                    and chunk.content
+                ):
+                    emitted_text = True
+                    yield _content_to_text(chunk.content)
+            if chart_error and not emitted_chart:
+                yield chart_error
+            if not emitted_text and not emitted_chart:
+                yield AgentStreamEvent("error", "Trợ giảng AI không trả về nội dung. Vui lòng thử lại.")
+            elif emitted_chart and not emitted_text:
+                yield "Đã tạo biểu đồ trong bảng bên cạnh."
         except Exception as e:
             logger.exception(
                 "Streaming execution failed",
@@ -868,7 +941,7 @@ class StockAgent:
                     "error": str(e),
                 },
             )
-            yield "Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu. Vui lòng thử lại sau."
+            yield AgentStreamEvent("error", "Có lỗi khi xử lý câu hỏi. Vui lòng thử lại sau.")
 
     def run_stream(
         self,
@@ -890,6 +963,7 @@ class StockAgent:
             ) as span:
                 start_time = time.time()
                 collected: list[str] = []
+                stream_failed = False
                 sub_queries, reform = self._prepare_and_split(query, user_id=user_id)
                 effective_query = reform.get("reformulated") or query
                 active_summary = _summarize_chart_spec(active_chart_spec)
@@ -908,7 +982,16 @@ class StockAgent:
                             user_id=user_id,
                             active_chart_summary=active_summary,
                         ):
-                            if token:
+                            if isinstance(token, AgentStreamEvent):
+                                if token.event in ("error", "chart_error") and span is not None:
+                                    span.status = "error"
+                                    span.error = token.data
+                                if token.event == "error":
+                                    stream_failed = True
+                                yield token
+                                if token.event == "error":
+                                    break
+                            elif token:
                                 collected.append(token)
                                 yield token
                     except GeneratorExit:
@@ -923,7 +1006,11 @@ class StockAgent:
                                 "error": str(e),
                             },
                         )
-                        yield "Xin lỗi, đã xảy ra lỗi khi xử lý yêu cầu. Vui lòng thử lại sau."
+                        if span is not None:
+                            span.status = "error"
+                            span.error = f"{type(e).__name__}: {e}"
+                        stream_failed = True
+                        yield AgentStreamEvent("error", "Có lỗi khi xử lý câu hỏi. Vui lòng thử lại sau.")
                 else:
                     result = self._execute_graph(
                         query, rid, user_id=user_id, active_chart_spec=active_chart_spec
@@ -950,7 +1037,7 @@ class StockAgent:
                     },
                 )
                 # Persist interaction for streaming single-query path (multi-query already saved via _execute_graph)
-                if collected and len(sub_queries) <= 1:
+                if collected and not stream_failed and len(sub_queries) <= 1:
                     try:
                         from infrastructure.memory.memory_manager import (
                             get_memory_manager as _get_mm,

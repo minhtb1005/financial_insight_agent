@@ -6,6 +6,9 @@ import { withAuth } from "next-auth/middleware"
 // additionally enforce getServerSession themselves (defense in depth).
 export default withAuth({
   pages: { signIn: "/login" },
+  callbacks: {
+    authorized: ({ req, token }) => ["/", "/learn", "/demo"].includes(req.nextUrl.pathname) || !!token,
+  },
 })
 
 export const config = {

@@ -26,7 +26,6 @@ export function PortfolioCard() {
   }
 
   // Derive holdings from real data if available
-  const isLive = data && typeof data === "object" && (("portfolio_value" in data && (data as Record<string, unknown>).portfolio_value) || ("holdings" in data))
   const holdings = (() => {
     if (data && typeof data === "object") {
       // portfolio_summary shape: { portfolio_value: { holdings: {...}, portfolio_value: number }, ... } or direct holdings
@@ -55,6 +54,7 @@ export function PortfolioCard() {
     return null
   })()
 
+  const isLive = !!holdings?.length
   const display = holdings ?? MOCK_PORTFOLIO
   const totalCost = display.reduce((s, p) => s + p.qty * p.avgPrice, 0)
   const totalValue = display.reduce((s, p) => s + p.qty * p.currentPrice, 0)
@@ -64,10 +64,10 @@ export function PortfolioCard() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{isLive ? "Danh mục" : "Danh mục mock"}</CardTitle>
+        <CardTitle>{isLive ? "Danh mục" : "Danh mục minh họa"}</CardTitle>
         <CardDescription>
           Tổng giá trị: {totalValue.toLocaleString("vi-VN")} ₫ • Lãi/lỗ: <span className={totalPnL >= 0 ? "text-green-600" : "text-red-600"}>{totalPnL.toLocaleString("vi-VN")} ₫ ({totalPct.toFixed(2)}%)</span>{" "}
-          {loading ? <Badge variant="secondary">đang tải…</Badge> : error ? <Badge variant="destructive">lỗi, dùng mock</Badge> : isLive ? <Badge variant="default">dữ liệu thực</Badge> : <Badge variant="outline">mock</Badge>}
+          {loading ? <Badge variant="secondary">Đang cập nhật…</Badge> : error ? <Badge variant="outline">Minh họa · Chưa kết nối</Badge> : isLive ? <Badge variant="default">Dữ liệu danh mục</Badge> : <Badge variant="outline">Dữ liệu minh họa</Badge>}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -98,7 +98,7 @@ export function PortfolioCard() {
           </TableBody>
         </Table>
         <p className="mt-3 text-xs text-muted-foreground">
-          {isLive ? "Dữ liệu thực từ BFF /api/market/portfolio" : "Mock theo user_portfolio_default.json — đã nối BFF, fallback khi backend chưa sẵn sàng."}
+          {isLive ? "Dữ liệu từ dịch vụ danh mục." : "Danh mục minh họa để tìm hiểu cách đọc dữ liệu, không phải danh mục của bạn."}
         </p>
       </CardContent>
     </Card>

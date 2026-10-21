@@ -73,7 +73,8 @@ def test_should_continue_empty_list():
 def test_reason_node_llm_none():
     agent = _make_agent(llm_available=False)
     result = agent._reason_node(_state([HumanMessage(content="test")]))
-    assert "Hệ thống AI đang không khả dụng" in result["messages"][0].content
+    assert "Trợ giảng AI hiện không khả dụng" in result["messages"][0].content
+    assert result["messages"][0].additional_kwargs["agent_error"] == "llm_unavailable"
     assert result["next_tool_call"] is None
 
 
@@ -89,7 +90,8 @@ def test_reason_node_llm_call_fails():
     agent = _make_agent(llm_available=True)
     agent.llm.invoke.side_effect = Exception("API error")
     result = agent._reason_node(_state([HumanMessage(content="test")]))
-    assert "Xin lỗi, đã xảy ra lỗi" in result["messages"][0].content
+    assert "Trợ giảng AI chưa thể xử lý câu hỏi" in result["messages"][0].content
+    assert result["messages"][0].additional_kwargs["agent_error"] == "llm_unavailable"
     assert result["next_tool_call"] is None
 
 

@@ -163,6 +163,10 @@ class NVIDIARotatingChat:
                 return result
             except Exception as e:
                 category = LLMChain._classify_error(e)
+                if type(e).__name__ in ("APIConnectionError", "APITimeoutError"):
+                    # This is an endpoint/network failure shared by all keys.
+                    # Keep the keys usable and let the fallback provider try.
+                    raise
                 if category in ("retryable", "auth"):
                     self._pool.report_failure(key, self._status_of(e))
                     last_error = e
@@ -280,14 +284,14 @@ class LLMChain:
                     return result
                 last_error = err
 
-            if span is not None and last_error is not None:
+            if span is not None:
                 span.attributes["all_providers_failed"] = True
-
-        if last_error:
-            raise last_error
-        raise LLMUnavailableError(
-            "No LLM providers available: both NVIDIA and Groq are unreachable"
-        )
+            # Raise while the span is open so failed calls are recorded as errors.
+            if last_error:
+                raise last_error
+            raise LLMUnavailableError(
+                "No LLM providers available: both NVIDIA and Groq are unreachable"
+            )
 
 
 class LLMProvider:

@@ -27,11 +27,6 @@ ChartHint = Literal[
     "scatter",
 ]
 
-_FALLBACK_ROWS: list[dict[str, Any]] = [
-    {"time": "2026-03-01", "close": 61.8},
-    {"time": "2026-03-02", "close": 62.1},
-]
-
 _CATEGORICAL_TYPES = frozenset({"pie", "donut", "treemap", "heatmap", "bar"})
 _SCATTER_X_CANDIDATES = ("risk", "pe")
 
@@ -64,7 +59,7 @@ def _fetch_rows(
                     row["volume"] = item["volume"]
                 rows.append(row)
     if not rows:
-        rows = [dict(r) for r in _FALLBACK_ROWS]
+        raise ValueError(f"Không có dữ liệu giá cho {', '.join(tickers)} trong khoảng thời gian yêu cầu.")
     source = f"vnstock:{','.join(tickers)}:{metric}:{months or days or ''}"
     return rows, source
 

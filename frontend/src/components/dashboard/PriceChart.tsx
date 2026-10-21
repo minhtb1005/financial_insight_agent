@@ -17,7 +17,7 @@ const TICKER_OPTIONS = ["VCB", "FPT", "VNM", "HPG", "VIC", "MWG"]
 
 function DataSourceBadge({ loading, error, live, liveLabel, mockLabel }: { loading: boolean; error: string | null; live: boolean; liveLabel: string; mockLabel: string }) {
   if (loading) return <Badge variant="secondary">đang tải…</Badge>
-  if (error) return <Badge variant="destructive">lỗi</Badge>
+  if (error) return <Badge variant="outline">Minh họa · Chưa kết nối</Badge>
   if (live) return <Badge variant="default">{liveLabel}</Badge>
   return <Badge variant="outline">{mockLabel}</Badge>
 }
@@ -34,7 +34,7 @@ export function PriceChart({ ticker: initial = "VCB" }: { ticker?: string }) {
           <CardTitle>Biểu đồ giá & SMA9</CardTitle>
           <CardDescription>
             {ticker} — 30 ngày gần nhất{" "}
-            <DataSourceBadge loading={loading} error={error} live={!!data?.candles?.length} liveLabel="dữ liệu thực" mockLabel="mock" />
+            <DataSourceBadge loading={loading} error={error} live={!!data?.candles?.length} liveLabel="Dữ liệu thị trường" mockLabel="Dữ liệu minh họa" />
           </CardDescription>
         </div>
         <Select value={ticker} onValueChange={setTicker}>
@@ -58,7 +58,7 @@ export function PriceChart({ ticker: initial = "VCB" }: { ticker?: string }) {
             <YAxis domain={["auto", "auto"]} tick={{ fontSize: 11 }} />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="price" name="Giá" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="price" name="Giá" stroke="var(--primary)" strokeWidth={2} dot={false} />
             <Line type="monotone" dataKey="sma9" name="SMA9" stroke="#f59e0b" strokeWidth={1.5} dot={false} strokeDasharray="4 4" />
           </LineChart>
         </ResponsiveContainer>
@@ -76,7 +76,7 @@ export function RSIChart({ ticker = "VCB" }: { ticker?: string }) {
         <CardTitle>RSI14</CardTitle>
         <CardDescription>
           {ticker} — Vùng quá mua {">"}70, quá bán {"<"}30{" "}
-          <DataSourceBadge loading={loading} error={error} live={!!data?.candles?.length} liveLabel="thực" mockLabel="mock" />
+          <DataSourceBadge loading={loading} error={error} live={!!data?.candles?.length} liveLabel="Dữ liệu thị trường" mockLabel="Dữ liệu minh họa" />
         </CardDescription>
       </CardHeader>
       <CardContent className="h-[220px]">

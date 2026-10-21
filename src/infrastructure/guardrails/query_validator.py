@@ -247,7 +247,10 @@ class TickerValidator(Guardrail):
         return "ticker_validator"
 
     def validate(self, query: str, _client_ip: str) -> GuardrailResult:
-        matches = re.findall(self.ticker_pattern, query.upper())
+        # Only explicit uppercase tokens are ticker candidates. Uppercasing the
+        # whole sentence turns ordinary Vietnamese words ("tra" -> "TRA") into
+        # unknown symbols and rejects harmless questions.
+        matches = [token for token in re.findall(self.ticker_pattern, query) if token.isupper()]
         if not matches:
             return GuardrailResult(passed=True)
 

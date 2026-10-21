@@ -27,7 +27,7 @@ const Book: React.FC<{x: number; y: number; rot?: number}> = ({x, y, rot = -8}) 
   </g>
 );
 
-export const Trau: React.FC<{pose?: TrauPose; mouthOpen?: number}> = ({pose = 'idle', mouthOpen = 0}) => {
+export const Trau: React.FC<{pose?: TrauPose; mouthOpen?: number; pointDeg?: number}> = ({pose = 'idle', mouthOpen = 0, pointDeg = 0}) => {
   const p: TrauPose = pose === 'celebrate' ? 'happy' : pose === 'shrug' ? 'idle' : pose;
   const open = Math.min(1, Math.max(0, mouthOpen));
   const talk = Math.min(1, open * 2.5); // 0 = pose mouth, 1 = fully talking
@@ -95,7 +95,7 @@ export const Trau: React.FC<{pose?: TrauPose; mouthOpen?: number}> = ({pose = 'i
       {holdBook && (<><Book x={-18} y={92} /><Limb d="M -66 42 Q -86 86 -40 98" /><Hoof x={-34} y={98} /></>)}
       {p === 'idle' && (<><Limb d="M 66 42 Q 98 70 96 112" /><Hoof x={96} y={118} /></>)}
       {p === 'think' && (<><Limb d="M 66 42 Q 112 60 96 6 Q 90 -8 54 -4" /><Hoof x={50} y={-4} /></>)}
-      {p === 'point' && (<><Limb d="M 66 40 L 150 14" /><Hoof x={160} y={10} /><path d="M 176 4 L 204 -6" stroke={T.ink} strokeWidth={10} strokeLinecap="round" /></>)}
+      {p === 'point' && (<g transform={`rotate(${pointDeg} 66 40)`}><Limb d="M 66 40 L 150 14" /><Hoof x={160} y={10} /><path d="M 176 4 L 204 -6" stroke={T.ink} strokeWidth={10} strokeLinecap="round" /></g>)}
       {p === 'wave' && (<><Limb d="M 66 38 Q 126 20 142 -48" /><Hoof x={144} y={-58} />
         <path d="M 176 -98 Q 198 -82 194 -54" fill="none" stroke={T.ink} strokeWidth={7} strokeLinecap="round" />
         <path d="M 192 -116 Q 224 -92 218 -48" fill="none" stroke={T.ink} strokeWidth={7} strokeLinecap="round" /></>)}
@@ -105,8 +105,8 @@ export const Trau: React.FC<{pose?: TrauPose; mouthOpen?: number}> = ({pose = 'i
   );
 };
 
-export const TrauSvg: React.FC<{pose?: TrauPose; size?: number; mouthOpen?: number}> = ({pose = 'idle', size = 400, mouthOpen = 0}) => (
+export const TrauSvg: React.FC<{pose?: TrauPose; size?: number; mouthOpen?: number; pointDeg?: number}> = ({pose = 'idle', size = 400, mouthOpen = 0, pointDeg = 0}) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox={TRAU_VIEWBOX} width={size * (520 / 450)} height={size}>
-    <Trau pose={pose} mouthOpen={mouthOpen} />
+    <Trau pose={pose} mouthOpen={mouthOpen} pointDeg={pointDeg} />
   </svg>
 );

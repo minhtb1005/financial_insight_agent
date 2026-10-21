@@ -7,16 +7,18 @@ import { PriceChart, RSIChart } from "@/components/dashboard/PriceChart"
 import { PortfolioCard } from "@/components/dashboard/PortfolioCard"
 import { SectorView } from "@/components/dashboard/SectorView"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { TrauMascot } from "@/components/brand/TrauMascot"
+import { ChartNoAxesCombined } from "lucide-react"
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
-  if (!session) redirect("/login")
+  if (!session) redirect("/login?callbackUrl=%2Fdashboard")
 
   return (
-    <div className="container mx-auto p-4 md:p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Tổng quan thị trường — dữ liệu thực qua BFF /api/market/* (fallback mock khi offline)</p>
+    <div className="page-shell dashboard-layout">
+      <div className="dashboard-intro">
+        <div className="page-intro"><p className="eyebrow"><ChartNoAxesCombined size={16} /> GÓC KHÁM PHÁ DỮ LIỆU</p><h1>Đọc con số.<br /><span className="serif-accent">Hiểu bức tranh.</span></h1><p>Quan sát thị trường qua bảng giá và biểu đồ. Mỗi khung hiển thị rõ khi đang dùng dữ liệu minh họa.</p></div>
+        <TrauMascot mood="teaching" />
       </div>
 
       <Tabs defaultValue="price" className="w-full">

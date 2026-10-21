@@ -154,17 +154,19 @@ class TraceStore:
                 ),
             )
             self._upsert_trace(span_dict, is_root)
-            self._refresh_trace_aggregates(span_dict["trace_id"])
             if is_root:
                 self._conn.execute(
-                    "UPDATE traces SET status=?, ended_at=?, duration_ms=? WHERE trace_id=?",
+                    """UPDATE traces SET
+                        status=CASE WHEN status='error' OR ?='error' THEN 'error' ELSE ? END,
+                        ended_at=? WHERE trace_id=?""",
                     (
                         span_dict["status"],
+                        span_dict["status"],
                         span_dict["ended_at"],
-                        span_dict["duration_ms"],
                         span_dict["trace_id"],
                     ),
                 )
+            self._refresh_trace_aggregates(span_dict["trace_id"])
             self._conn.commit()
 
     def _upsert_trace(self, span_dict: dict[str, Any], is_root: bool) -> None:
@@ -192,7 +194,22 @@ class TraceStore:
                 num_spans = (SELECT COUNT(*) FROM spans WHERE trace_id=:tid),
                 total_tokens = (SELECT COALESCE(SUM(total_tokens), 0) FROM spans WHERE trace_id=:tid),
                 llm_call_count = (SELECT COUNT(*) FROM spans WHERE trace_id=:tid AND kind='llm'),
-                tool_call_count = (SELECT COUNT(*) FROM spans WHERE trace_id=:tid AND kind='tool')
+                tool_call_count = (SELECT COUNT(*) FROM spans WHERE trace_id=:tid AND kind='tool'),
+                started_at = COALESCE(
+                    (SELECT MIN(started_at) FROM spans WHERE trace_id=:tid), started_at
+                ),
+                ended_at = COALESCE(
+                    (SELECT MAX(ended_at) FROM spans WHERE trace_id=:tid), ended_at
+                ),
+                duration_ms = CASE WHEN (
+                    SELECT MAX(ended_at) FROM spans WHERE trace_id=:tid
+                ) IS NOT NULL THEN ROUND((
+                    (SELECT MAX(ended_at) FROM spans WHERE trace_id=:tid) -
+                    (SELECT MIN(started_at) FROM spans WHERE trace_id=:tid)
+                ) * 1000, 2) ELSE duration_ms END,
+                status = CASE WHEN EXISTS (
+                    SELECT 1 FROM spans WHERE trace_id=:tid AND status='error'
+                ) THEN 'error' ELSE status END
             WHERE trace_id=:tid
             """,
             {"tid": trace_id},

@@ -2,6 +2,7 @@ import os
 import asyncio
 import ipaddress
 import threading
+import json
 from collections import deque
 from contextlib import asynccontextmanager, suppress
 import time
@@ -23,7 +24,8 @@ from infrastructure.dependencies import init_deps, shutdown_deps
 from infrastructure.observability import get_logger
 from infrastructure.observability.metrics.collector import get_metrics_collector
 from infrastructure.observability.tracing import SpanKind, get_tracer
-from application.agents.agent import StockAgent
+from infrastructure.observability.tracing.context import span_stack_var, trace_id_var
+from application.agents.agent import AgentStreamEvent, StockAgent
 from infrastructure.guardrails.pipeline import GuardrailPipeline
 
 _MAX_REQUEST_BODY = 1_048_576  # 1 MB
@@ -343,6 +345,8 @@ async def trace_middleware(request: Request, call_next):
         attributes={"method": request.method, "path": request.url.path},
         inputs={"query": request.url.query[:300] if request.url.query else None},
     ) as span:
+        request.state.trace_id = span.trace_id if span else None
+        request.state.http_span_id = span.span_id if span else None
         try:
             # Global rate limiter covers only non-guardrail paths (/health, /ping, etc.).
             # Guardrail-managed paths (/api/v1/ask-stream) are rate-limited by
@@ -363,14 +367,21 @@ async def trace_middleware(request: Request, call_next):
                 _request_logger.end_request(status=status)
             if span is not None:
                 span.attributes["status_code"] = getattr(response, "status_code", None)
+                if response.status_code >= 400:
+                    span.status = "error"
             return response
         except HTTPException as exc:
             _request_logger.end_request(status="error")
             if span is not None:
+                span.status = "error"
+                span.error = str(exc.detail)[:200]
                 span.attributes["status_code"] = exc.status_code
                 span.attributes["http_exception"] = str(exc.detail)[:200]
             raise
         except Exception as exc:
+            if span is not None:
+                span.status = "error"
+                span.error = f"{type(exc).__name__}: {exc}"
             duration = time.time() - start_time
             metrics_collector = get_metrics_collector()
             if metrics_collector:
@@ -408,7 +419,8 @@ async def check_guardrails(query: str, request: Request, user_id: str | None = N
                 "status_code": result.status_code,
             },
         )
-        raise HTTPException(status_code=result.status_code, detail="Query rejected.")
+        detail = result.reason if result.status_code < 500 else "Validation unavailable."
+        raise HTTPException(status_code=result.status_code, detail=detail)
 
 
 # ---------------------------------------------------------------------------
@@ -454,13 +466,25 @@ async def ask_stock_agent_stream(
 
         async def stream_response():
             end_requested = False
+            stream_failed = False
+            chart_failed = False
+            cancel_event = threading.Event()
+            tracer = get_tracer()
+            stream_span = tracer.begin_span(
+                "http.stream",
+                SpanKind.HTTP,
+                trace_id=getattr(request.state, "trace_id", None),
+                parent_span_id=getattr(request.state, "http_span_id", None),
+                request_id=request_id,
+            )
             try:
                 full_response = ""
                 loop = asyncio.get_running_loop()
-                async_queue: asyncio.Queue[str | None] = asyncio.Queue(maxsize=64)
-                cancel_event = threading.Event()
+                async_queue: asyncio.Queue[str | AgentStreamEvent | None] = asyncio.Queue(maxsize=64)
 
                 def _produce():
+                    trace_token = trace_id_var.set(getattr(request.state, "trace_id", None))
+                    stack_token = span_stack_var.set((stream_span,) if stream_span else ())
                     try:
                         for chunk in agent.run_stream(
                             body.query,
@@ -477,11 +501,20 @@ async def ask_stock_agent_stream(
                             except Exception:
                                 cancel_event.set()
                                 return
-                    except Exception:
-                        pass
+                    except Exception as exc:
+                        _request_logger.error(
+                            "Stream producer failed",
+                            extra={"request_id": request_id, "error": str(exc)},
+                        )
+                        with suppress(Exception):
+                            asyncio.run_coroutine_threadsafe(
+                                async_queue.put(AgentStreamEvent("error", "Có lỗi khi xử lý câu hỏi.")), loop
+                            ).result()
                     finally:
                         with suppress(Exception):
                             asyncio.run_coroutine_threadsafe(async_queue.put(None), loop).result()
+                        span_stack_var.reset(stack_token)
+                        trace_id_var.reset(trace_token)
 
                 loop.run_in_executor(None, _produce)
 
@@ -492,11 +525,26 @@ async def ask_stock_agent_stream(
                     if await request.is_disconnected():
                         cancel_event.set()
                         return
+                    if isinstance(chunk, AgentStreamEvent):
+                        if chunk.event == "chart_spec":
+                            yield _sse_chart_spec_event(chunk.data, request_id)
+                        elif chunk.event == "chart_error":
+                            chart_failed = True
+                            yield _sse_chart_error_event(chunk.data, request_id)
+                        else:
+                            stream_failed = True
+                            yield _sse_error_event(chunk.data, "agent_error", request_id)
+                            break
+                        continue
                     full_response += chunk
-                    yield f"event: chunk\ndata: {chunk}\n\n"
+                    yield f"event: chunk\ndata: {json.dumps(chunk, ensure_ascii=False)}\n\n"
 
-                if not await request.is_disconnected():
-                    latency_ms = round((time.time() - start_time) * 1000, 2)
+                if not stream_failed and not chart_failed and not full_response.strip() and not await request.is_disconnected():
+                    stream_failed = True
+                    yield _sse_error_event("Trợ giảng AI không trả về nội dung.", "empty_response", request_id)
+                stream_failed = stream_failed or chart_failed
+                latency_ms = round((time.time() - start_time) * 1000, 2)
+                if not stream_failed and not await request.is_disconnected():
                     final = QueryResponse(
                         answer=full_response,
                         request_id=request_id,
@@ -505,25 +553,40 @@ async def ask_stock_agent_stream(
                     yield f"event: final\ndata: {final.model_dump_json()}\n\n"
                 end_requested = True
                 _request_logger.end_request(
-                    status="completed" if not await request.is_disconnected() else "disconnected"
+                    status=("disconnected" if await request.is_disconnected() else "error" if stream_failed else "completed")
                 )
                 metrics_collector = get_metrics_collector()
                 if metrics_collector and not await request.is_disconnected():
                     metrics_collector.record_request_metrics(
                         request_type="/ask-stream",
                         duration=latency_ms / 1000,
-                        success=True,
+                        success=not stream_failed,
                     )
+                if stream_span is not None:
+                    stream_span.attributes["chart_failed"] = chart_failed
+                    stream_span.attributes["answer_length"] = len(full_response)
+                    if stream_failed:
+                        stream_span.status = "error"
+                        stream_span.error = "Agent stream failed"
             except GeneratorExit:
                 if not end_requested:
                     cancel_event.set()
                     _request_logger.end_request(status="disconnected")
                 raise
-            except Exception:
+            except Exception as exc:
+                _request_logger.error(
+                    "Stream response failed",
+                    extra={"request_id": request_id, "error": str(exc)},
+                )
+                if stream_span is not None:
+                    stream_span.status = "error"
+                    stream_span.error = f"{type(exc).__name__}: {exc}"
                 if not end_requested:
                     cancel_event.set()
                     _request_logger.end_request(status="error")
                     yield _sse_error_event("Stream processing error", "stream_error", request_id)
+            finally:
+                tracer.finish_span(stream_span)
 
         return StreamingResponse(stream_response(), media_type="text/event-stream")
     except Exception as e:

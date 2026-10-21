@@ -32,7 +32,12 @@ export function useChatStream() {
 
         if (!res.ok || !res.body) {
           const txt = await res.text()
-          appendToLastAssistant(`Lỗi: ${res.status} ${txt.slice(0, 500)}`)
+          let detail = `Máy chủ trả về lỗi ${res.status}. Vui lòng thử lại.`
+          try {
+            const parsed = JSON.parse(txt) as { detail?: unknown }
+            if (typeof parsed.detail === "string") detail = parsed.detail
+          } catch {}
+          appendToLastAssistant(`⚠️ ${detail}`)
           return
         }
 
@@ -81,7 +86,13 @@ export function useChatStream() {
               }
             } catch {}
           } else if (ev.event === "error") {
-            appendToLastAssistant(`\n\n⚠️ Lỗi: ${ev.data}`)
+            try {
+              const error = JSON.parse(ev.data) as { detail?: unknown; request_id?: unknown }
+              const detail = typeof error.detail === "string" ? error.detail : "Có lỗi khi xử lý câu hỏi."
+              appendToLastAssistant(`\n\n⚠️ ${detail}`)
+            } catch {
+              appendToLastAssistant(`\n\n⚠️ ${ev.data.slice(0, 300)}`)
+            }
           }
         }
       } catch (e: unknown) {

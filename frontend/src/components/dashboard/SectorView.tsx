@@ -33,7 +33,7 @@ export function SectorView() {
         <CardTitle>Phân tích ngành</CardTitle>
         <CardDescription>
           Hiệu suất theo ngành{" "}
-          {loading ? <Badge variant="secondary">đang tải…</Badge> : error ? <Badge variant="destructive">lỗi, dùng mock</Badge> : isLive ? <Badge variant="default">dữ liệu thực 1w</Badge> : <Badge variant="outline">mock, đã nối analyze_sector</Badge>}
+          {loading ? <Badge variant="secondary">Đang cập nhật…</Badge> : error ? <Badge variant="outline">Minh họa · Chưa kết nối</Badge> : isLive ? <Badge variant="default">Dữ liệu thị trường · 1 tuần</Badge> : <Badge variant="outline">Dữ liệu minh họa</Badge>}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -59,7 +59,7 @@ export function SectorView() {
             ))}
           </TableBody>
         </Table>
-        {!isLive && !loading && <p className="mt-2 text-xs text-muted-foreground">Đang hiển thị mock — backend chưa sẵn sàng hoặc dữ liệu ngành trống.</p>}
+        {!isLive && !loading && <p className="mt-2 text-xs text-muted-foreground">Dữ liệu minh họa để khám phá cách đọc bảng ngành. Chưa có dữ liệu thị trường để hiển thị.</p>}
       </CardContent>
     </Card>
   )

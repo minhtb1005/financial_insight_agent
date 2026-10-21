@@ -82,6 +82,23 @@ def test_rotating_chat_retries_next_key_per_invoke():
     assert built["n"] == 2
 
 
+def test_connection_failure_does_not_cool_down_every_key():
+    from infrastructure.llm.llm_provider import NVIDIARotatingChat
+
+    pool = _pool3()
+    chat = NVIDIARotatingChat(pool, model="nvidia/x")
+    failing = MagicMock()
+    error_type = type("APIConnectionError", (Exception,), {})
+    failing.invoke.side_effect = error_type("network blocked")
+    chat._build = MagicMock(return_value=failing)
+
+    with pytest.raises(error_type, match="network blocked"):
+        chat.invoke("hello")
+
+    assert chat._build.call_count == 1
+    assert {pool.get_next() for _ in range(3)} == {"k1", "k2", "k3"}
+
+
 def test_rotating_chat_wrappers_keep_rotating():
     from infrastructure.llm.llm_provider import NVIDIARotatingChat
 

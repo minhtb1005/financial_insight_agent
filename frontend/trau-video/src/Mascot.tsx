@@ -5,7 +5,7 @@ import {TrauSvg} from './trau/Trau';
 
 // Scene JSON `mascot_pose` values map to drawn poses (happy|think|point|wave|idle).
 // energy/mouthOpen come from VO amplitude (0 when silent); stills omit them (= calm pose).
-export const Mascot: React.FC<{pose: string | null; size?: number; energy?: number; mouthOpen?: number}> = ({pose, size = 400, energy = 0, mouthOpen = 0}) => {
+export const Mascot: React.FC<{pose: string | null; size?: number; energy?: number; mouthOpen?: number; pointDeg?: number}> = ({pose, size = 400, energy = 0, mouthOpen = 0, pointDeg = 0}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const e = Math.min(1, Math.max(0, energy));
@@ -17,7 +17,7 @@ export const Mascot: React.FC<{pose: string | null; size?: number; energy?: numb
   const S = TrauSvg;
   return (
     <div style={{transform: `translateY(${bob}px) rotate(${tilt}deg) scale(${interpolate(pop, [0, 1], [0.6, 1])})`}}>
-      <S pose={p} size={size} mouthOpen={mouthOpen} />
+      <S pose={p} size={size} mouthOpen={mouthOpen} pointDeg={pointDeg} />
     </div>
   );
 };

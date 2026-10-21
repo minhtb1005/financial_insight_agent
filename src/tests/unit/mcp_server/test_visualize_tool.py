@@ -67,3 +67,12 @@ def test_fetch_rows_normalizes_price_service_shape():
     assert rows[0]["time"] == "2026-03-01"
     assert rows[0]["close"] == 61.8
     assert "VNM" in source
+
+
+def test_fetch_rows_does_not_invent_prices_when_service_has_no_data():
+    from mcp_server.tools import visualize as viz_mod
+    import pytest
+
+    with patch("mcp_server.tools.visualize.handle_price_query", return_value={"VNM": {"error": "unavailable"}}):
+        with pytest.raises(ValueError, match="Không có dữ liệu giá"):
+            viz_mod._fetch_rows(["VNM"], "close", 6, None)

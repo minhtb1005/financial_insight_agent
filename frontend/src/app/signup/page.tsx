@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { z } from "zod"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { AuthShell } from "@/components/layout/AuthShell"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Skeleton } from "@/components/ui/skeleton"
+import { ArrowRight, LoaderCircle } from "lucide-react"
 
 const signupSchema = z.object({
   name: z.string().min(2, "Tên tối thiểu 2 ký tự").max(100),
@@ -62,38 +62,32 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4 bg-muted/30">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Đăng ký</CardTitle>
-          <CardDescription>Tạo tài khoản mới — dữ liệu & bộ nhớ sẽ được lưu riêng theo tài khoản.</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <AuthShell signup>
+          <h2>Bắt đầu hành trình của bạn</h2>
+          <p className="auth-description">Tạo tài khoản để học hỏi cùng trợ giảng AI. Mỗi tài khoản có cuộc hội thoại và bộ nhớ riêng.</p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Tên hiển thị</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Nguyễn Văn A" />
+              <Input id="name" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Tên bạn muốn được gọi" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+              <Input id="email" autoComplete="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="ban@example.com" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Mật khẩu</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Tối thiểu 8 ký tự" />
+              <Input id="password" autoComplete="new-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Tối thiểu 8 ký tự" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirm">Xác nhận mật khẩu</Label>
-              <Input id="confirm" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required placeholder="Nhập lại mật khẩu" />
+              <Input id="confirm" autoComplete="new-password" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required placeholder="Nhập lại mật khẩu" />
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>{loading ? <Skeleton className="h-4 w-28" /> : "Đăng ký"}</Button>
+            {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
+            <Button type="submit" className="w-full" disabled={loading}>{loading ? <><LoaderCircle className="animate-spin" /> Đang tạo tài khoản…</> : <>Tạo tài khoản <ArrowRight /></>}</Button>
           </form>
-          <div className="mt-4 text-center text-sm">
+          <div className="auth-bottom">
             Đã có tài khoản? <Link href="/login" className="text-primary hover:underline">Đăng nhập</Link>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+    </AuthShell>
   )
 }

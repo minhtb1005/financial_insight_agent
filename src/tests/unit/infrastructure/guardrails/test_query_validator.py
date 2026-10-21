@@ -80,6 +80,19 @@ def test_ticker_validator_no_tickers_passes():
     assert result.passed is True
 
 
+def test_ticker_validator_does_not_treat_vietnamese_words_as_symbols():
+    validator = TickerValidator()
+    query = "Những khoản phí ngân hàng nào mình nên kiểm tra?"
+    assert validator.validate(query, "127.0.0.1").passed is True
+
+
+def test_ticker_validator_still_rejects_explicit_unknown_uppercase_symbol():
+    validator = TickerValidator()
+    result = validator.validate("Vẽ giá XXXX 6 tháng", "127.0.0.1")
+    assert result.passed is False
+    assert result.metadata["unknown_tickers"] == ["XXXX"]
+
+
 # -- PatternGuard ---------------------------------------------------------
 
 

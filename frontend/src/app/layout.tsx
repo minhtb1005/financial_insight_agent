@@ -1,34 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/sonner";
-import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Financial Insight Agent — Tài chính cá nhân, có số có nguồn",
+  title: "Financial Insight — Hiểu tiền. Chủ động cuộc sống.",
   description:
-    "Giáo trình tài chính cá nhân 10 module / 56 bài, 4 máy tính (thuế TNCN, trả nợ snowball–avalanche, lãi kép, ngân sách 50/30/20) và tra cứu RAG trên văn bản luật hiện hành — mọi con số kèm nguồn. Chỉ giáo dục, không khuyến nghị mua/bán.",
+    "Cùng Trâu Tí khám phá 56 bài học tài chính cá nhân bằng tiếng Việt. Học từ tình huống, thực hành ngân sách và tìm hiểu cùng trợ giảng AI.",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
   return (
-    <html lang="vi" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="vi" suppressHydrationWarning className="h-full antialiased">
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-background">
         <Providers session={session}>
+          <a href="#main-content" className="skip-link">Chuyển đến nội dung</a>
           <Header />
-          <main className="flex-1 flex flex-col">{children}</main>
+          <main id="main-content" className="flex-1 flex flex-col">{children}</main>
           <Toaster />
-          <Separator />
-          <footer className="py-4 text-center text-xs text-muted-foreground">
-            Financial Insight Agent — Chỉ phục vụ giáo dục & thông tin, không phải lời khuyên tài chính.
+          <footer className="site-footer page-shell">
+            <div><Link href="/" className="footer-brand">financial<span>insight</span></Link><p>Hiểu tiền hôm nay. Vững vàng ngày mai.</p></div>
+            <nav aria-label="Liên kết cuối trang"><Link href="/learn">Lộ trình học</Link><Link href="/demo">Trải nghiệm demo</Link><Link href="/chat">Trợ giảng AI</Link></nav>
+            <p className="footer-note">Nội dung phục vụ giáo dục và thông tin. Không thay thế tư vấn tài chính cá nhân.</p>
           </footer>
         </Providers>
       </body>
