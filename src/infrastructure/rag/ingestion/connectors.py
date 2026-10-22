@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 from typing import Any, TYPE_CHECKING
 
+from application.learning.references import reviewed_seed
 from infrastructure.observability import get_logger
 from .base import fetch_url
 from .crawler import crawl
@@ -27,16 +28,7 @@ def _is_blocked_page(text: str) -> bool:
 
 
 SEED_TEXTS: dict[str, str] = {
-    "vbpl_24_2025": """Văn bản hợp nhất 24/VBHN-VPQH — Luật Chứng khoán 54/2019/QH14 sửa đổi bởi Luật 56/2024/QH15 (hiệu lực tham chiếu 02/2025).
-
-Điều 4. Giải thích từ ngữ:
-1. Chứng khoán là tài sản, bao gồm: a) Cổ phiếu, trái phiếu, chứng chỉ quỹ; b) Chứng quyền, chứng quyền có bảo đảm, quyền mua cổ phần, chứng chỉ lưu ký; c) Chứng khoán phái sinh; d) Các loại chứng khoán khác do Chính phủ quy định.
-4. Cổ phiếu là loại chứng khoán xác nhận quyền và lợi ích hợp pháp của người sở hữu đối với một phần vốn cổ phần của tổ chức phát hành.
-5. Trái phiếu là loại chứng khoán xác nhận quyền và lợi ích hợp pháp của người sở hữu đối với một phần nợ của tổ chức phát hành.
-6. Chứng chỉ quỹ là loại chứng khoán xác nhận quyền sở hữu của nhà đầu tư đối với một phần vốn góp của quỹ đầu tư chứng khoán.
-7. Chứng khoán phái sinh là công cụ tài chính dưới dạng hợp đồng, bao gồm hợp đồng quyền chọn, hợp đồng tương lai, hợp đồng kỳ hạn, trong đó xác nhận quyền, nghĩa vụ của các bên đối với việc thanh toán tiền, chuyển giao số lượng và giá trị chứng khoán cơ sở nhất định theo mức giá đã được xác định trong khoảng thời gian hoặc vào ngày đã xác định trong tương lai.
-Điều 6. Quyền và nghĩa vụ nhà đầu tư: Nhà đầu tư có quyền tiếp cận thông tin công bố, tham gia quản trị công ty theo tỷ lệ sở hữu, nhận cổ tức, và chịu rủi ro tương ứng.
-""",
+    "vbpl_24_2025": reviewed_seed("vbpl_24_2025"),
     "tt_96_2020": """Thông tư 96/2020/TT-BTC hướng dẫn công bố thông tin trên thị trường chứng khoán.
 
 Điều 3. Nguyên tắc công bố thông tin: 1. Việc công bố thông tin phải đầy đủ, chính xác, kịp thời theo quy định pháp luật. 2. Đối tượng công bố thông tin phải chịu trách nhiệm trước pháp luật về tính chính xác, trung thực của thông tin công bố.
@@ -44,12 +36,7 @@ SEED_TEXTS: dict[str, str] = {
 Điều 11. Công bố thông tin bất thường: Trong vòng 24 giờ kể từ khi xảy ra sự kiện: thay đổi nhân sự chủ chốt, quyết định xử phạt, thay đổi vốn điều lệ.
 Giải thích độ tin cậy báo cáo: Báo cáo đã kiểm toán + công bố đúng hạn theo TT96 có độ tin cậy cao hơn báo cáo chưa kiểm toán; đối chiếu nguồn Sở (HNX/HOSE) và UBCKNN.
 """,
-    "tt_135_2025": """Thông tư 135/2025/TT-BTC quy định hoạt động hành nghề chứng khoán (hiệu lực 02/2026) — giới hạn quảng cáo/tư vấn.
-
-Điều 8. Quảng cáo, khuyến nghị: Tổ chức, cá nhân hành nghề chỉ được đưa khuyến nghị đầu tư khi có chứng chỉ hành nghề phù hợp; không được bảo đảm lợi nhuận, không được lôi kéo bằng thông tin sai lệch.
-Điều 12. Tư vấn đầu tư: Khuyến nghị phải nêu rõ cơ sở phân tích, rủi ro, xung đột lợi ích; chatbot/agent không được cấp phép không được đưa khuyến nghị mua/bán cụ thể cho mã cụ thể, chỉ được cung cấp thông tin giáo dục, giải thích khái niệm, đa dạng hóa, quản trị rủi ro.
-Đây là cơ sở pháp lý cho safety layer TT135 trong agent.
-""",
+    "tt_135_2025": reviewed_seed("tt_135_2025"),
     "hose_docs": """HOSE — Sở Giao dịch Chứng khoán TP.HCM (HSX) — Tài liệu hướng dẫn vận hành thị trường.
 
 Cơ chế khớp lệnh định kỳ và liên tục, biên độ giá ±7% đối với cổ phiếu niêm yết HOSE, đơn vị yết giá, đơn vị giao dịch lô chẵn 100 cổ phiếu, thời gian giao dịch 9h-15h.
@@ -68,27 +55,10 @@ Chủ đề: đa dạng hóa danh mục, chứng quyền, đọc BCTC, phân tí
 Nguồn https://www.ssi.com.vn/khach-hang-ca-nhan/trung-tam-kien-thuc — an toàn hơn blog cá nhân, dùng tham khảo giáo dục.
 """,
     # --- Education batch (Phase B, 14/10/2026): mọi số đã verify qua websearch ---
-    "pit_law_109": """Luật Thuế TNCN 2025 số 109/2025/QH15 (Quốc hội thông qua 10/12/2025, hiệu lực 01/07/2026; quy định về tiền lương/tiền công áp dụng từ kỳ tính thuế năm 2026).
-
-Biểu thuế lũy tiến từng phần với thu nhập từ tiền lương, tiền công (Điều 9) — 5 bậc/tháng: đến 10 triệu 5%; trên 10 đến 30 triệu 10%; trên 30 đến 60 triệu 20%; trên 60 đến 100 triệu 30%; trên 100 triệu 35%.
-Giảm trừ gia cảnh (NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP, áp dụng kỳ 2026): bản thân 15,5 triệu/tháng; mỗi người phụ thuộc 6,2 triệu/tháng. Thu nhập tính thuế = thu nhập chịu thuế - giảm trừ - bảo hiểm bắt buộc.
-Hộ/cá nhân kinh doanh: ngưỡng doanh thu không nộp thuế 500 triệu/năm. Đối chiếu NĐ 253/2026 + TT 87/2026/TT-BTC trước khi quyết toán.
-""",
-    "kdbh_law_08": """Luật Kinh doanh bảo hiểm số 08/2022/QH15 (thông qua 16/06/2022, hiệu lực 01/01/2023; sửa đổi bởi Luật 139/2025/QH15 hiệu lực 01/01/2026; VBHN 31/VBHN-VPQH 2026).
-
-Điều 35 — Thời gian cân nhắc: với hợp đồng bảo hiểm thời hạn trên 01 năm, trong 21 ngày kể từ ngày nhận hợp đồng, bên mua được từ chối tiếp tục tham gia.
-Luật quy định 05 loại hợp đồng bảo hiểm; không áp dụng với BHXH, BHYT, bảo hiểm tiền gửi. Văn bản hướng dẫn: NĐ 46/2023/NĐ-CP, NĐ 21/2023/NĐ-CP (bảo hiểm vi mô), TT 67/2023/TT-BTC.
-""",
-    "bhxh_2026_rates": """Mức đóng BHXH, BHYT, BHTN năm 2026 (giữ ổn định, tổng 32% tiền lương làm căn cứ đóng).
-
-Người lao động đóng 10,5%: BHXH 8%, BHYT 1,5%, BHTN 1%. Người sử dụng lao động đóng 21,5%: BHXH 17,5% (hưu trí-tử tuất 14%, ốm đau-thai sản 3%, TNLĐ-BNN 0,5%), BHYT 3%, BHTN 1%.
-Căn cứ: Luật BHXH 2024, NĐ 188/2025/NĐ-CP (BHYT 4,5%), Luật Việc làm 2025 (BHTN). Từ 01/07/2026 lương cơ sở 2.530.000 đồng (NĐ 161/2026/NĐ-CP); trần đóng BHXH/BHYT 20 lần lương cơ sở = 50.600.000 đồng.
-""",
-    "cic_debt_groups": """CIC — Trung tâm Thông tin Tín dụng Quốc gia Việt Nam (thuộc Ngân hàng Nhà nước): thu thập, lưu trữ, cung cấp lịch sử tín dụng cá nhân/tổ chức; ngân hàng tra cứu khi xét duyệt vay, thẻ tín dụng.
-
-Phân loại 5 nhóm nợ theo Điều 10 Thông tư 11/2021/TT-NHNN (phương pháp định lượng): Nhóm 1 nợ đủ tiêu chuẩn (trong hạn hoặc quá hạn dưới 10 ngày); Nhóm 2 nợ cần chú ý (quá hạn đến 90 ngày); Nhóm 3 nợ dưới tiêu chuẩn (quá hạn 91-180 ngày); Nhóm 4 nợ nghi ngờ (quá hạn 181-360 ngày); Nhóm 5 nợ có khả năng mất vốn (quá hạn trên 360 ngày).
-Nợ xấu = nhóm 3, 4, 5 (khoản 8 Điều 3 TT 11/2021; khoản 5 Điều 3 TT 31/2024/TT-NHNN). Rơi vào nợ xấu gây khó vay mới, khó mở thẻ, uy tín tín dụng giảm nhiều năm.
-""",
+    "pit_law_109": reviewed_seed("pit_law_109"),
+    "kdbh_law_08": reviewed_seed("kdbh_law_08"),
+    "bhxh_2026_rates": reviewed_seed("bhxh_2026_rates"),
+    "cic_debt_groups": reviewed_seed("cic_debt_groups"),
     "scam_tinnhiemmang": """Cảnh báo lừa đảo tài chính — dấu hiệu chung (Cục An toàn thông tin, tinnhiemmang.vn).
 
 Dấu hiệu: cam kết lợi nhuận cao/bảo đảm không rủi ro; giả mạo ngân hàng, cơ quan nhà nước, sàn đầu tư; giục chuyển tiền, cung cấp OTP/mã xác thực; app vay yêu cầu phí trước, lãi cắt cổ (tín dụng đen); link lạ, số lạ xưng công an/thuế/ngân hàng.

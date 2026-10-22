@@ -13,11 +13,13 @@ in the result so callers can cite it. PIT figures below verified against:
 
 from __future__ import annotations
 
+import math
+
 # ---------------------------------------------------------------------------
 # PIT 2026 constants (cite + effective date — update here when law changes)
 # ---------------------------------------------------------------------------
 PIT_SOURCE = (
-    "Luật Thuế TNCN 2025 số 109/2025/QH15 (Điều 9) + " "NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP"
+    "Luật Thuế TNCN 2025 số 109/2025/QH15 (Điều 9) + NQ 110/2025/UBTVQH15, NĐ 253/2026/NĐ-CP"
 )
 PIT_EFFECTIVE_DATE = "2026-01-01"  # kỳ tính thuế năm 2026 (Luật hiệu lực 01/07/2026)
 # (upper bound of monthly taxable income in VND, rate)
@@ -38,7 +40,9 @@ PIT_VERIFY_NOTE = (
 
 def amortize_loan(principal: float, annual_rate_pct: float, months: int) -> dict:
     """Fixed-payment loan schedule (dư nợ giảm dần)."""
-    if principal <= 0 or months <= 0:
+    if not all(math.isfinite(x) for x in (principal, annual_rate_pct, months)):
+        raise ValueError("loan inputs must be finite")
+    if principal <= 0 or months <= 0 or int(months) != months:
         raise ValueError("principal and months must be positive")
     if annual_rate_pct < 0:
         raise ValueError("annual_rate_pct must be >= 0")
@@ -66,7 +70,49 @@ def amortize_loan(principal: float, annual_rate_pct: float, months: int) -> dict
         "total_payment": round(payment * months, 0),
         "total_interest": round(total_interest, 0),
         "months": months,
+        "repayment_method": "fixed_total_payment_reducing_balance",
+        "assumptions": "Lãi suất cố định, ghép lãi tháng, trả cuối tháng, chưa có phí/bảo hiểm vay.",
         "schedule": schedule,
+    }
+
+
+def affordable_principal(payment_budget: float, annual_rate_pct: float, months: int) -> dict:
+    """Present value of fixed end-of-month payments, not a lending approval."""
+    if not all(math.isfinite(x) for x in (payment_budget, annual_rate_pct, months)):
+        raise ValueError("loan inputs must be finite")
+    if payment_budget <= 0 or annual_rate_pct < 0 or months <= 0 or int(months) != months:
+        raise ValueError("payment/months must be positive; rate must be nonnegative")
+    rate = annual_rate_pct / 1200
+    principal = (
+        payment_budget * months
+        if rate == 0
+        else (payment_budget * (1 - (1 + rate) ** -months) / rate)
+    )
+    return {
+        "max_principal": round(principal),
+        "monthly_payment": payment_budget,
+        "annual_rate_pct": annual_rate_pct,
+        "months": months,
+        "repayment_method": "fixed_total_payment_reducing_balance",
+        "assumptions": "Lãi suất cố định, trả cuối tháng, chưa có phí; không phải phê duyệt vay.",
+    }
+
+
+def reserve_capacity(
+    cash_available: float, essential_monthly: float, reserve_months: float
+) -> dict:
+    """Preserve a stated emergency reserve before spending risk capital."""
+    if not all(
+        math.isfinite(x) and x >= 0 for x in (cash_available, essential_monthly, reserve_months)
+    ):
+        raise ValueError("reserve inputs must be finite and nonnegative")
+    target = essential_monthly * reserve_months
+    return {
+        "cash_available": cash_available,
+        "reserve_target": target,
+        "reserve_shortfall": max(0, target - cash_available),
+        "uncommitted_surplus_before_other_obligations": max(0, cash_available - target),
+        "note": "Còn phải trừ nghĩa vụ đã cam kết; phần dư không phải khuyến nghị đem đầu tư.",
     }
 
 
@@ -154,6 +200,10 @@ def future_value(
     inflation_pct: float = 0.0,
 ) -> dict:
     """Lãi kép danh nghĩa + giá trị thực sau lạm phát."""
+    if not all(math.isfinite(x) for x in (present_value, annual_rate_pct, years, inflation_pct)):
+        raise ValueError("inputs must be finite")
+    if annual_rate_pct < -100 or inflation_pct <= -100:
+        raise ValueError("return must be >= -100%; inflation must be > -100%")
     if present_value < 0 or years < 0:
         raise ValueError("present_value and years must be >= 0")
     nominal = present_value * (1.0 + annual_rate_pct / 100.0) ** years
@@ -195,11 +245,27 @@ def calculate_pit(
     gross_monthly: float,
     dependents: int = 0,
     insurance: float = 0.0,
+    other_deductions: float = 0.0,
+    tax_year: int = 2026,
 ) -> dict:
     """TNCN từ tiền lương theo biểu 2026 (xem hằng số + cite ở đầu file)."""
-    if gross_monthly < 0 or dependents < 0 or insurance < 0:
+    if tax_year != 2026:
+        raise ValueError(
+            "Only the verified resident salary schedule for tax year 2026 is supported"
+        )
+    if not all(math.isfinite(x) for x in (gross_monthly, dependents, insurance, other_deductions)):
+        raise ValueError("inputs must be finite")
+    if gross_monthly < 0 or dependents < 0 or insurance < 0 or other_deductions < 0:
         raise ValueError("inputs must be >= 0")
-    taxable = gross_monthly - PIT_PERSONAL_RELIEF - PIT_DEPENDENT_RELIEF * dependents - insurance
+    if int(dependents) != dependents or insurance > gross_monthly:
+        raise ValueError("dependents must be an integer; insurance cannot exceed income")
+    taxable = (
+        gross_monthly
+        - PIT_PERSONAL_RELIEF
+        - PIT_DEPENDENT_RELIEF * dependents
+        - insurance
+        - other_deductions
+    )
     taxable = max(taxable, 0.0)
     breakdown: list[dict] = []
     remaining = taxable
@@ -225,6 +291,10 @@ def calculate_pit(
         "gross_monthly": gross_monthly,
         "dependents": dependents,
         "insurance": round(insurance, 0),
+        "other_deductions": round(other_deductions, 0),
+        "tax_year": tax_year,
+        "assumptions": "Cá nhân cư trú; gross_monthly là tiền lương thuộc diện chịu thuế. "
+        "Người phụ thuộc/giảm trừ đã đủ điều kiện, không tính trùng; không tự ước lượng bảo hiểm.",
         "personal_relief": PIT_PERSONAL_RELIEF,
         "dependent_relief_each": PIT_DEPENDENT_RELIEF,
         "taxable_income": round(taxable, 0),

@@ -1,4 +1,4 @@
-"""Safety layer per TT 135/2025 — prevents specific buy/sell advice from unlicensed agent."""
+"""Product policy limiting specific buy/sell recommendations in educational answers."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ BLOCK_PATTERNS = [
 
 COMPILED = [re.compile(p, re.IGNORECASE) for p in BLOCK_PATTERNS]
 
-DISCLAIMER = "\n\n> Lưu ý: Thông tin trên chỉ mang tính giáo dục và tham khảo, không phải lời khuyên đầu tư. Quyết định mua/bán cần dựa trên khẩu vị rủi ro cá nhân và tham khảo tư vấn được cấp phép (TT 135/2025/TT-BTC)."
+DISCLAIMER = "\n\n> Thông tin mang tính giáo dục; trợ giảng không đưa lệnh mua/bán hay cam kết lợi nhuận."
 
 
 def check_and_sanitize(response: str) -> tuple[str, bool]:

@@ -1,6 +1,6 @@
 """MCP rates tool — 1 hàm đọc lãi suất từ SQL store (Layer-2 pilot).
 
-Chỉ giáo dục, không khuyến nghị sản phẩm tiền gửi/vay cụ thể (TT 135/2025).
+Chỉ giáo dục, không khuyến nghị sản phẩm tiền gửi/vay cụ thể theo chính sách sản phẩm.
 Mọi output kèm nguồn + ngày hiệu lực/ngày crawl để đối chiếu văn bản/SBV.
 """
 

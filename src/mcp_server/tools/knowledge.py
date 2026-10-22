@@ -19,7 +19,14 @@ def _search_knowledge_impl(query: str, top_k: int = 5) -> dict:
 
 @mcp.tool(
     name="search_knowledge",
-    description="Search knowledge base for Vietnamese securities law/regulation/education (Luật CK 24/VBHN-VPQH, TT96, TT135, SSI, HNX/HOSE). Returns citations [Nguồn: Tên - Điều - URL] with priority. ALWAYS include citations in answer. NEVER use for live prices/ratios — use market tools there. Priority: VBPL(1) > TT(2) > HNX/HOSE(3) > SSI(4) > intl(5). Safety: educational only, not licensed advice.",
+    description=(
+        "Search Vietnamese financial education/law, including reviewed tax, insurance and OTP references. "
+        "Results labelled editorial_summary are reviewed summaries, NOT verbatim laws or legal advice. "
+        "Cite only returned URLs whose text supports the claim; never invent article numbers, report "
+        "pages or citations. Check reviewed_at, applicable period and source scope. Old vector chunks "
+        "cannot override a reviewed correction. No hit means no evidence; do not fabricate a source. "
+        "Never use this for live stock prices/ratios; use the corresponding data tools."
+    ),
 )
 def search_knowledge(
     query: Annotated[str, Field(description="Vietnamese query about law/concept")],

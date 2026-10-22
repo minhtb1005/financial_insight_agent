@@ -13,6 +13,9 @@ external callers like ``_action_node`` (reads from ``next_tool_call``)
 can reuse the same logic without duplication.
 """
 
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+from contextvars import copy_context
 import json
 import logging
 from typing import Any
@@ -174,7 +177,31 @@ class CustomToolNode:
         if not tool:
             return f"{_TOOL_ERR_PREFIX}UNKNOWN Unknown tool: {tool_name}"
         try:
-            result = tool.invoke(tc.get("args", {}))
+            args = tc.get("args", {})
+            if getattr(tool, "coroutine", None) is not None and getattr(tool, "func", None) is None:
+                # Network MCP adapters expose async-only StructuredTools. The
+                # graph's action node remains synchronous, including when its
+                # caller already owns an event loop (e.g. the HTTP API).
+                def invoke_async():
+                    return asyncio.run(tool.ainvoke(args))
+
+                try:
+                    asyncio.get_running_loop()
+                except RuntimeError:
+                    result = invoke_async()
+                else:
+                    context = copy_context()
+                    with ThreadPoolExecutor(max_workers=1) as pool:
+                        result = pool.submit(context.run, invoke_async).result()
+            else:
+                result = tool.invoke(args)
+            # MCP returns text content blocks, including JSON chart payloads.
+            # Unwrap them so consumers see the same JSON as in-process tools.
+            if isinstance(result, list) and result and all(
+                isinstance(block, dict) and block.get("type") == "text"
+                and isinstance(block.get("text"), str) for block in result
+            ):
+                result = "\n".join(block["text"] for block in result)
             return result if isinstance(result, str) else json.dumps(result, ensure_ascii=False)
         except Exception as e:
             return f"{_TOOL_ERR_PREFIX}UNKNOWN {e}"
