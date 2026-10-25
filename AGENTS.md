@@ -22,13 +22,17 @@ Khi file phình lớn, các phiên lặp lại cùng bối cảnh, hoặc trư�
 ## Bản đồ repo
 
 - `src/application/`: điều phối use case và agent; `src/domain/`: nghiệp vụ; `src/infrastructure/`: nguồn dữ liệu, DB và tích hợp; `src/interfaces/`: API; `src/shared/`: mã dùng chung.
+- `src/application/learning/`: lộ trình giáo dục — `catalog.json` là nguồn chuẩn (core `personal_finance` + track tự chọn `market_literacy`); `policy.py` có `LearningContext` giới hạn tool theo track/bài. Sửa catalog thì chạy `python scripts/sync_learning_catalog.py` để đồng bộ `frontend/src/content/learning-tracks.json`; CI fail nếu lệch.
 - `src/tests/unit/`, `src/tests/integration/`: kiểm thử; cấu hình pytest trong `pyproject.toml`. Integration có thể cần dịch vụ ngoài.
-- `evals/`: golden dataset, benchmark và baseline; đọc `evals/README.md` trước khi sửa prompt, tool, RAG, dashboard hoặc dữ liệu.
+- `src/mcp_server/tools/`: 20 `@mcp.tool` (13 tool chứng khoán cũ + 4 tool education + `generate_learning_chart` + `get_rates` + `generate_chart_spec`). Test đếm số tool ở `src/tests/unit/mcp_server/test_mcp_tools.py` và `test_education_tools.py` — thêm/bớt tool phải cập nhật cả hai.
+- `evals/`: golden dataset, benchmark và baseline; đọc `evals/README.md` trước khi sửa prompt, tool, RAG, dashboard hoặc dữ liệu. `evals/curriculum/v2/` giữ case của từng track, kiểm tra schema bằng `python evals/run_curriculum_eval.py --validate-only`.
 - `frontend/`: Next.js; đọc `frontend/AGENTS.md` khi sửa UI. `docs/` có đặc tả API, RAG và observability. `.github/workflows/ci.yml` là nguồn tham chiếu cho lệnh CI.
 
 ## Môi trường
 
-- CI dùng Python 3.13. Tạo `.venv` riêng cho repo; `python -m pip install -e ".[dev]"` từ `pyproject.toml`. Phiên bản Vnstock trong manifest là `>=3,<4`; không nâng lên 4.x chỉ vì hướng dẫn onboarding cũ nói vậy.
+- CI dùng Python 3.13 và chạy 3 job blocking: `lint` (ruff + black), `test` (unit suite + validate curriculum/catalog), `typecheck` (mypy). Cả ba phải xanh, không dựa vào `continue-on-error`.
+- Tạo `.venv` riêng cho repo; `python -m pip install -e ".[dev]"` từ `pyproject.toml`. Manifest pin `vnstock>=4.0.6`; `Quote`/`Finance` API của v4 khác v3, không hạ về 3.x.
+- Trước khi push, chạy đúng bộ lệnh CI từ `.venv`: `ruff check src/`, `black --check src/`, `pytest src/tests/unit/ -q`, `mypy src/ --ignore-missing-imports --no-strict-optional`, cùng các script validate curriculum trong `ci.yml`.
 - Frontend: chạy `npm ci` trong `frontend/`; `npm run dev` để phát triển. Backend và dịch vụ phụ trợ theo `README.md` / `docker-compose.dev.yml`. Không khởi chạy migration, crawl hoặc benchmark live cho thay đổi tài liệu.
 - Key trong biến môi trường hoặc `.env` được gitignore; không đưa key vào code, URL truy vấn, log hoặc hội thoại. Không tự động phát hiện tier/sync skill của Vnstock. Nếu setup Vnstock là mục tiêu, đọc tài liệu gói và đối chiếu dependency của repo trước khi cài.
 
@@ -47,7 +51,8 @@ Chạy test gần phần sửa trước, sau đó chọn bước tương ứng. 
 | Phạm vi | Kiểm tra |
 |---|---|
 | Backend Python | `pytest src/tests/unit/ -q`, `ruff check src/`, `black --check src/`; thêm integration liên quan khi đổi API/DB/agent. |
-| Type check | `mypy src/ --ignore-missing-imports --no-strict-optional`; CI đang `continue-on-error`, nên báo lỗi nếu có thay vì coi job xanh là đạt. |
+| Type check | `mypy src/ --ignore-missing-imports --no-strict-optional`; job vẫn `continue-on-error: true` trong `ci.yml`, nên job xanh chưa đủ kết luận — đọc log và báo lỗi nếu có. |
+| Learning catalog | Sửa `src/application/learning/catalog.json` thì chạy `python scripts/sync_learning_catalog.py`; kiểm tra `python evals/run_curriculum_eval.py --validate-only` (và thêm `--track market_literacy`). CI fail nếu lệch. |
 | Frontend | Trong `frontend/`: `npm run lint`, `npx tsc --noEmit`, `npm run build`; thử luồng UI liên quan khi có thể. |
 | Golden dataset | `python evals/scripts/validate_golden_dataset.py`. |
 | Agent / prompt / dashboard | Chọn smoke và benchmark theo `evals/README.md`; so report với baseline cùng tập case bằng `evals/compare_reports.py`. Ghi rõ model, dataset, ngày dữ liệu và case bỏ qua. |
