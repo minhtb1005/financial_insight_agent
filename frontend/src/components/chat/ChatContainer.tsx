@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils"
 import { Send, Square, Trash2, BookOpen, ArrowUpRight } from "lucide-react"
 import { TrauMascot } from "@/components/brand/TrauMascot"
 import Link from "next/link"
+import { learningTracks, getLearningTrack, getLearningLesson, chatHref, type LearningContext } from "@/lib/curriculum"
 
 const SUGGESTIONS = [
   "Mình mới đi làm, nên bắt đầu lập ngân sách thế nào?",
@@ -22,36 +23,40 @@ const SUGGESTIONS = [
   "Mình muốn tìm hiểu cách xây quỹ khẩn cấp.",
   "Giải thích hai phương pháp trả nợ snowball và avalanche.",
   "Những khoản phí ngân hàng nào mình nên kiểm tra?",
-  "Vẽ giá VNM 6 tháng.",
+  "Vẽ ngân sách 50/30/20 cho thu nhập 12 triệu đồng và giải thích cách điều chỉnh.",
 ]
 
-export function ChatContainer({ initialPrompt }: { initialPrompt?: string }) {
+export function ChatContainer({ initialPrompt, learningContext }: { initialPrompt?: string; learningContext: LearningContext }) {
+  const track = getLearningTrack(learningContext.track)
+  const lesson = getLearningLesson(learningContext)
+  const suggestions = lesson ? [lesson.question, ...(lesson.chartQuestion ? [lesson.chartQuestion] : [])] : learningContext.track === "market_literacy" ? track.modules.map((module) => module.lessons[0].question) : SUGGESTIONS
   const { messages, isStreaming, input, setInput, clear, chartSpecs, clearCharts } = useChatStore()
-  const { send, stop } = useChatStream()
+  const { send, stop } = useChatStream(learningContext)
   const { data: session } = useSession()
   const bottomRef = useRef<HTMLDivElement>(null)
   const [mobileTab, setMobileTab] = useState("chat")
   useEffect(() => { if (initialPrompt) setInput(initialPrompt) }, [initialPrompt, setInput])
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }) }, [messages])
 
-  // Per-user localStorage key to avoid demo vs admin contamination
-  const storageKey = `finsight-chat:${(session?.user as { email?: string })?.email ?? "default"}`
-
+  // Scope browser history by user, track and lesson. Subscribe after hydration so
+  // the previous scope's render cannot overwrite the newly selected history.
+  const storageKey = `finsight-chat:v2:${session?.user?.email ?? "guest"}:${learningContext.track}:${learningContext.lesson_id ?? "general"}`
   useEffect(() => {
-    const key = storageKey
-    const saved = localStorage.getItem(key)
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved)
-        if (Array.isArray(parsed) && parsed.length > 0 && messages.length === 0) {
-          useChatStore.setState({ messages: parsed.slice(-50) })
-        }
-      } catch {}
-    }
-  }, [storageKey])
-  useEffect(() => {
-    if (messages.length > 0) localStorage.setItem(storageKey, JSON.stringify(messages.slice(-100)))
-  }, [messages.length, storageKey])
+    stop()
+    clearCharts()
+    let restored = []
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) ?? "[]")
+      if (Array.isArray(parsed)) restored = parsed.filter((item) => item && ["user", "assistant"].includes(item.role) && typeof item.content === "string").slice(-50)
+    } catch {}
+    useChatStore.setState({ messages: restored, input: initialPrompt ?? "", isStreaming: false })
+    const unsubscribe = useChatStore.subscribe((state, previous) => {
+      if (state.messages !== previous.messages) {
+        try { localStorage.setItem(storageKey, JSON.stringify(state.messages.slice(-100))) } catch {}
+      }
+    })
+    return () => { unsubscribe(); stop() }
+  }, [storageKey, stop, clearCharts])
 
   // messageId -> chart (để gắn chip "đang hiển thị ở Dashboard")
   const chartByOrigin = new Map(chartSpecs.map((c) => [c.originMessageId, c]))
@@ -64,11 +69,12 @@ export function ChatContainer({ initialPrompt }: { initialPrompt?: string }) {
   }
 
   const handleClear = async () => {
+    stop()
     clear()
     clearCharts()
-    localStorage.removeItem(storageKey)
+    try { localStorage.removeItem(storageKey) } catch {}
     try {
-      const res = await fetch("/api/memory", { method: "DELETE" })
+      const res = await fetch(`/api/memory?track=${learningContext.track}&lesson_id=${learningContext.lesson_id ?? ""}`, { method: "DELETE" })
       if (!res.ok) {
         console.warn("Failed to clear server memory:", res.status, await res.text().catch(() => ""))
       }
@@ -85,10 +91,10 @@ export function ChatContainer({ initialPrompt }: { initialPrompt?: string }) {
             <div className="text-center mb-8">
               <TrauMascot mood="welcome" />
               <h2>Hôm nay, bạn muốn hiểu điều gì?</h2>
-              <p className="chat-subtitle">Một khoản chi chưa rõ, một kế hoạch còn dang dở… Mình cùng tìm hiểu từng bước. Bạn có thể bắt đầu từ một câu hỏi bên dưới.</p>
+              <p className="chat-subtitle">{lesson ? `Đang học: ${lesson.title}. Cùng thử giải thích, làm bài tập và kiểm chứng điều mình hiểu.` : track.description}</p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
-              {SUGGESTIONS.map((s) => (
+              {suggestions.map((s) => (
                 <button key={s} className="chat-suggestion" onClick={() => setInput(s)}>{s}<ArrowUpRight size={15} /></button>
               ))}
             </div>
@@ -157,7 +163,11 @@ export function ChatContainer({ initialPrompt }: { initialPrompt?: string }) {
 
   return (
     <div className="chat-workspace flex flex-col">
-      <div className="chat-topbar"><BookOpen size={15} /><Link href="/learn">Lộ trình học</Link><span>Trợ giảng AI · Học hỏi từ những câu hỏi của bạn</span></div>
+      <div className="flex flex-wrap items-center gap-3 border-b px-4 py-3 text-sm">
+        <BookOpen size={15} /><Link className="underline" href={`/learn?track=${track.id}${lesson ? `&lesson=${lesson.id}` : ""}`}>{lesson ? lesson.title : "Lộ trình học"}</Link>
+        <nav className="flex flex-wrap gap-2" aria-label="Lộ trình trò chuyện">{learningTracks.map((item) => <Link key={item.id} href={chatHref(item.id)} aria-current={item.id === track.id && !lesson ? "page" : undefined} className={`rounded-full border px-3 py-1 focus-visible:outline-2 ${item.id === track.id ? "border-primary bg-primary/10" : ""}`}>{item.title}{item.id === "market_literacy" ? " · Tự chọn" : ""}</Link>)}</nav>
+        {lesson && <span className="text-xs text-muted-foreground">Ngữ cảnh bài {lesson.id} · Chọn tên lộ trình để hỏi rộng hơn</span>}
+      </div>
       <div className="lg:hidden border-b px-4 pt-2">
         <Tabs value={mobileTab} onValueChange={setMobileTab}>
           <TabsList className="grid w-full grid-cols-2">
@@ -184,7 +194,7 @@ export function ChatContainer({ initialPrompt }: { initialPrompt?: string }) {
           )}
           aria-label="Dashboard"
         >
-          <DashboardPanel />
+          <DashboardPanel onRedraw={send} allowMarketRedraw={track.id === "market_literacy" && (!lesson || ["MK2L1", "MK2L2"].includes(lesson.id))} />
         </aside>
       </div>
     </div>

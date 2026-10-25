@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {Lesson, totalFrames} from './Lesson';
 import type {Props} from './types';
 import {TrauPoseStill, TrauSheet} from './TrauStill';
+import {P0Slice} from './P0Slice';
 import demo from '../public/lessons/M3L2_scenes.json';
 
 const defaults: Props = {lesson: demo as unknown as Props['lesson'], durations: null, withAudio: false};
@@ -11,6 +12,7 @@ export const Root: React.FC = () => (
   <>
   <Composition id="TrauSheet" component={TrauSheet} width={2200} height={560} fps={30} durationInFrames={1} />
   <Composition id="TrauPose" component={TrauPoseStill} width={1040} height={820} fps={30} durationInFrames={1} defaultProps={{pose: 'happy' as const}} />
+  <Composition id="P0Slice" component={P0Slice} width={1080} height={1920} fps={30} durationInFrames={360} />
   <Composition
     id="Lesson"
     component={Lesson}

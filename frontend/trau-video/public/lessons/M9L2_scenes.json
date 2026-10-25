@@ -15,7 +15,7 @@
   },
   "duration": {
     "claimed_sec_in_script_doc": null,
-    "estimate_sec": 135.0,
+    "estimate_sec": 135,
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
@@ -302,7 +302,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -334,6 +334,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Vietcombank — Cảnh báo giả mạo",
+      "url": "https://www.vietcombank.com.vn/vi-VN/KHCN/Truy-cap-nhanh/Tin-noi-bat/Articles/2025/10/22/Thu-doan-gia-mao-the-Ngan-hang"
     }
   ]
 }

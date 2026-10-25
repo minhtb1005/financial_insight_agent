@@ -1,6 +1,9 @@
-import source from "@/content/curriculum.json"
+import source from "@/content/learning-tracks.json"
 
-export type Lesson = { id: string; title: string; originalTitle: string; topics: string[]; activity: string; question: string }
+export type Lesson = { id: string; title: string; originalTitle: string; topics: string[]; activity: string; question: string; reading?: string; chartQuestion?: string; sources?: { title: string; url: string }[] }
+export type TrackId = "personal_finance" | "market_literacy"
+export type LearningContext = { track: TrackId; lesson_id?: string }
+export type LearningTrack = { id: TrackId; title: string; description: string; modules: CourseModule[] }
 export type CourseModule = { id: string; title: string; description: string; outcome: string; stage: string; hours: number; lessons: Lesson[] }
 
 export const MODULE_STORIES: Record<string, { title: string; description: string; outcome: string; stage: string }> = {
@@ -29,9 +32,21 @@ export const LESSON_TITLES: Record<string, string> = {
   M10L1: "Tiền chung, tiền riêng, cùng thống nhất", M10L2: "Một cuộc hẹn mỗi tháng để nói về tiền", M10L3: "Nói chuyện tiền trước khi về chung nhà", M10L4: "Dạy con hiểu tiền từ trải nghiệm nhỏ", M10L5: "Cho người thân vay, nói rõ từ đầu", M10L6: "Chăm lo cha mẹ trong khả năng của mình",
 }
 
-export const curriculum: CourseModule[] = source.modules.map((module) => ({
-  id: module.id, hours: module.hours, ...MODULE_STORIES[module.id],
-  lessons: module.lessons.map((lesson) => ({ ...lesson, originalTitle: lesson.title, title: LESSON_TITLES[lesson.id] ?? lesson.title })),
+export const learningTracks: LearningTrack[] = source.tracks.map((track) => ({
+  ...track, id: track.id as TrackId,
+  modules: track.modules.map((module) => ({
+    ...module, ...MODULE_STORIES[module.id],
+    lessons: module.lessons.map((lesson) => ({ ...lesson, originalTitle: lesson.title, title: LESSON_TITLES[lesson.id] ?? lesson.title })),
+  })),
 }))
+export function getLearningTrack(id?: string) { return learningTracks.find((track) => track.id === id) ?? learningTracks[0] }
+export function getLearningLesson(context: LearningContext) { return getLearningTrack(context.track).modules.flatMap((module) => module.lessons).find((lesson) => lesson.id === context.lesson_id) }
+export function chatHref(track: TrackId, lesson?: Lesson, prompt?: string) {
+  const params = new URLSearchParams({ track })
+  if (lesson) params.set("lesson", lesson.id)
+  if (prompt ?? lesson?.question) params.set("prompt", (prompt ?? lesson?.question)!)
+  return `/chat?${params}`
+}
+export const curriculum = learningTracks[0].modules
 export const lessonCount = curriculum.reduce((sum, module) => sum + module.lessons.length, 0)
 export const stages = ["Tất cả", "Làm chủ mỗi ngày", "Bảo vệ nền tảng", "Đi đường dài"]

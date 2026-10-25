@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "MK5L1",
+  "module_id": "MK5",
+  "module_title": "Tự kiểm chứng trước khi tin",
+  "title": "Tách dữ kiện, nhận định và lời quảng cáo",
+  "production_revision": "2026-10-22",
+  "status": "draft_ready_for_review",
+  "source_script": "frontend/src/content/learning-tracks.json",
+  "sources": [],
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "aspect_ratio": "9:16"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Tách dữ kiện, nhận định và lời quảng cáo",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Cùng Trâu Tí tìm hiểu: Tách dữ kiện, nhận định và lời quảng cáo Hôm nay mình bắt đầu từ câu hỏi: Phân biệt dữ kiện, nhận định và quảng cáo qua ba câu: giá tăng 5% tuần qua; công ty sẽ dẫn đầu; cam kết lời 3% mỗi tháng.",
+        "word_count": 50
+      },
+      "on_screen_text": [
+        {
+          "text": "Tách dữ kiện, nhận định và lời quảng cáo",
+          "split_hint": [
+            "Tách dữ kiện, nhận định và lời quảng cáo"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 19.5,
+      "visual": {
+        "description": "Phân loại phát biểu và kiểm chứng · Nhận diện lời hứa lợi nhuận chắc chắn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Một số liệu cần nguồn và khoảng thời gian; một nhận định cần lập luận và giả định. Lời hứa chắc chắn sinh lời cần được chất vấn, không được dùng làm dữ kiện. Hỏi ai đưa thông tin, lợi ích của họ là gì và có tài liệu gốc kiểm chứng không.",
+        "word_count": 53
+      },
+      "on_screen_text": [
+        {
+          "text": "Phân loại phát biểu và kiểm chứng · Nhận diện lời hứa lợi nhuận chắc chắn",
+          "split_hint": [
+            "Phân loại phát biểu và kiểm chứng",
+            "Nhận diện lời hứa lợi nhuận chắc chắn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 21.3,
+      "visual": {
+        "description": "Có thể kiểm chứng ≠ đã xác minh · Nhận định · Quảng cáo · Bằng chứng",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Câu giá tăng năm phần trăm tuần qua là phát biểu có thể kiểm tra, chưa phải dữ kiện được xác minh. Câu doanh nghiệp sẽ dẫn đầu là nhận định. Cam kết lời ba phần trăm mỗi tháng là lời chào cần kiểm chứng pháp nhân, hợp đồng và rủi ro, không phải lợi nhuận chắc chắn.",
+        "word_count": 58
+      },
+      "on_screen_text": [
+        {
+          "text": "Có thể kiểm chứng ≠ đã xác minh · Nhận định · Quảng cáo · Bằng chứng",
+          "split_hint": [
+            "Có thể kiểm chứng ≠ đã xác minh",
+            "Nhận định · Quảng cáo · Bằng chứng"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Hãy ghi rõ phần nào là ví dụ giả định và phần nào có nguồn thật. Kiểm tra kỳ, đơn vị và định nghĩa trước khi so sánh. Khi dữ liệu còn thiếu, đánh dấu chưa biết để tìm tiếp.",
+        "word_count": 40
+      },
+      "on_screen_text": [
+        {
+          "text": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+          "split_hint": [
+            "Kỳ · Đơn vị · Định nghĩa",
+            "Thiếu dữ liệu: ghi chưa biết"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11.7,
+      "visual": {
+        "description": "Thử ngay với bài thực hành bên dưới",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Bài thực hành của bạn: Phân loại: 'giá tăng 5% tuần qua', 'doanh nghiệp sẽ dẫn đầu', 'cam kết lời 3% mỗi tháng'. Với mỗi câu, viết một cách kiểm tra.",
+        "word_count": 31
+      },
+      "on_screen_text": [
+        {
+          "text": "Thử ngay với bài thực hành bên dưới",
+          "split_hint": [
+            "Thử ngay với bài thực hành bên dưới"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16,
+      "visual": {
+        "description": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Sau khi làm xong, ghi lại một điều bạn hiểu rõ hơn và một câu hỏi cần kiểm chứng. Bạn có thể hỏi trợ giảng ngay trong bài học. Nội dung này giúp đọc hiểu dữ liệu, không đưa khuyến nghị mua bán.",
+        "word_count": 43
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+          "split_hint": [
+            "Ghi lại điều học được",
+            "Kiểm chứng trước khi kết luận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3,
+    "on_screen_text": [
+      "Nội dung giáo dục. Ví dụ giả định không phải dữ liệu doanh nghiệp hay khuyến nghị mua bán."
+    ]
+  },
+  "verification": []
+}

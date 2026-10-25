@@ -236,6 +236,41 @@ _COMMON_ENGLISH_WORDS = frozenset(
 )
 
 
+_EDUCATION_ABBREVIATIONS = frozenset(
+    {
+        "TNCN",
+        "BHXH",
+        "BHYT",
+        "BHTN",
+        "BHTG",
+        "CCCD",
+        "CMND",
+        "OTP",
+        "ATM",
+        "CIC",
+        "APR",
+        "APY",
+        "ROE",
+        "ROA",
+        "EPS",
+        "EBIT",
+        "EBITDA",
+        "ETF",
+        "NAV",
+        "VND",
+        "USD",
+        "EUR",
+        "PIT",
+        "PE",
+        "PB",
+        "KYC",
+        "SMS",
+        "SSL",
+        "TLS",
+    }
+)
+
+
 class TickerValidator(Guardrail):
     def __init__(self, config: GuardrailConfig | None = None):
         cfg = config or GuardrailConfig()
@@ -254,7 +289,13 @@ class TickerValidator(Guardrail):
         if not matches:
             return GuardrailResult(passed=True)
 
-        unknown = [t for t in matches if t not in self.whitelist and t not in _COMMON_ENGLISH_WORDS]
+        unknown = [
+            t
+            for t in matches
+            if t not in self.whitelist
+            and t not in _COMMON_ENGLISH_WORDS
+            and t not in _EDUCATION_ABBREVIATIONS
+        ]
         if unknown:
             return GuardrailResult(
                 passed=False,

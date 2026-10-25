@@ -5,7 +5,7 @@
   "module_title": "Bảo hiểm",
   "title": "Cần thật sự hay bán thêm?",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M5L2",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -95,7 +95,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 13.5,
+      "duration_sec_estimate": 19.9,
       "visual": {
         "description": "Trâu Tí đặt hai câu hỏi sau lên bàn",
         "mascot_pose": "think",
@@ -106,19 +106,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Câu ba: có ai sống nhờ thu nhập của mình không? Câu bốn: quyền lợi này có trùng với thứ mình đã có không? Nếu trùng, bạn đang trả tiền hai lần cho cùng một thứ.",
-        "word_count": 36,
+        "text": "Có ai phụ thuộc thu nhập của mình không? Quyền lợi mới có bổ sung cho hợp đồng đang có không? Người độc thân vẫn có thể cần bảo hiểm sức khỏe. Hai hợp đồng có quyền lợi tương tự cũng không tự động vô ích: phải xem cách chi trả và giới hạn.",
+        "word_count": 54,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Có người phụ thuộc? · Có trùng?",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Người phụ thuộc: một yếu tố · Đối chiếu cách chi trả và giới hạn",
           "split_hint": [
-            "Có người phụ thuộc?",
-            "Có trùng?"
-          ]
+            "Người phụ thuộc: một yếu tố",
+            "Đối chiếu cách chi trả và giới hạn"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -244,7 +243,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 22.0,
+      "duration_sec_estimate": 22,
       "visual": {
         "description": "Bốn câu hỏi xếp cạnh ba lá cờ đỏ",
         "mascot_pose": null,
@@ -299,7 +298,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -317,11 +316,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định hiện hành về bán chéo và quyền từ chối]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định hiện hành về bán chéo và quyền từ chối]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -349,6 +349,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Luật Kinh doanh bảo hiểm — Điều 35",
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-luat-kinh-doanh-bao-hiem-119240130070753445.htm"
     }
   ]
 }

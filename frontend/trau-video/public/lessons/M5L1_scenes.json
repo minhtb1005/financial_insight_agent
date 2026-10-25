@@ -5,8 +5,8 @@
   "module_title": "Bảo hiểm",
   "title": "Bản đồ các loại bảo hiểm",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M5L1",
-  "status": "draft_blocked_pending_verification",
-  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung. (2026-10-25: đã chuẩn hóa nhân vật — Mai đổi thành Lan — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,7 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Mai",
+    "Lan",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -39,16 +39,16 @@
       "order": 1,
       "duration_sec_estimate": 14.9,
       "visual": {
-        "description": "Chị Mai ngồi giữa bàn, nhiều tờ rơi bảo hiểm xếp quanh",
+        "description": "Lan ngồi giữa bàn, nhiều tờ rơi bảo hiểm xếp quanh",
         "mascot_pose": null,
         "characters": [
-          "Mai"
+          "Lan"
         ],
         "background": null,
         "animation_notes": null
       },
       "vo": {
-        "text": "Bảo hiểm nào cũng có người bán, tờ rơi nào cũng nói rất hay. Chị Mai hoang mang: vậy mình thật sự cần cái nào? Câu trả lời không bắt đầu từ sản phẩm, mà bắt đầu từ rủi ro.",
+        "text": "Bảo hiểm nào cũng có người bán, tờ rơi nào cũng nói rất hay. Lan hoang mang: vậy mình thật sự cần cái nào? Câu trả lời không bắt đầu từ sản phẩm, mà bắt đầu từ rủi ro.",
         "word_count": 40,
         "tts_numeric_tokens": []
       },
@@ -66,16 +66,16 @@
       "order": 2,
       "duration_sec_estimate": 16.7,
       "visual": {
-        "description": "Chị Mai xếp năm tấm thẻ: ốm đau, tai nạn, mất người kiếm tiền, hỏng xe, cháy nhà",
+        "description": "Lan xếp năm tấm thẻ: ốm đau, tai nạn, mất người kiếm tiền, hỏng xe, cháy nhà",
         "mascot_pose": null,
         "characters": [
-          "Mai"
+          "Lan"
         ],
         "background": null,
         "animation_notes": null
       },
       "vo": {
-        "text": "Chị Mai liệt kê năm rủi ro có thể xảy ra với gia đình mình. Ốm đau. Tai nạn. Người kiếm tiền chính gặp chuyện. Xe hỏng hoặc va chạm. Và nhà gặp sự cố. Mỗi rủi ro đều có thể tốn một khoản lớn.",
+        "text": "Lan liệt kê năm rủi ro có thể xảy ra với gia đình mình. Ốm đau. Tai nạn. Người kiếm tiền chính gặp chuyện. Xe hỏng hoặc va chạm. Và nhà gặp sự cố. Mỗi rủi ro đều có thể tốn một khoản lớn.",
         "word_count": 45,
         "tts_numeric_tokens": []
       },
@@ -279,7 +279,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -297,11 +297,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: văn bản hiện hành]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: văn bản hiện hành]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -329,6 +330,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-25",
+  "sources": [
+    {
+      "title": "Luật Kinh doanh bảo hiểm — Điều 35",
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-luat-kinh-doanh-bao-hiem-119240130070753445.htm"
     }
   ]
 }

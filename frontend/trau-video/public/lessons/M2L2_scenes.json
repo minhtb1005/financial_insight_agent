@@ -36,7 +36,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Lan nhìn một lọ tiền dán ba nhãn: du lịch, cưới, mua nhà; tiền bị lấy dần",
         "mascot_pose": null,
@@ -145,7 +145,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Lan kéo dài một mốc thời gian ra",
         "mascot_pose": null,
@@ -252,7 +252,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -294,5 +294,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

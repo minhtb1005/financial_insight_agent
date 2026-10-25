@@ -3,6 +3,18 @@
 from unittest.mock import patch, MagicMock
 import pytest
 
+
+def test_request_timeout_reaches_both_providers_on_fallback():
+    from infrastructure.llm.llm_provider import LLMChain
+
+    primary, fallback = MagicMock(), MagicMock()
+    primary.invoke.side_effect = TimeoutError("request deadline")
+    chain = LLMChain(primary, fallback, MagicMock(), MagicMock(), "test")
+    chain.invoke([], timeout=45)
+    primary.invoke.assert_called_once_with([], timeout=45)
+    fallback.invoke.assert_called_once_with([], timeout=45)
+
+
 # -- MultiQuery (simple pydantic model) ----------------------------------
 
 

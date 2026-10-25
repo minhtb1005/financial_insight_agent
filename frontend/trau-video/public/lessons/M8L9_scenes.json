@@ -179,7 +179,7 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Bốn nguồn vốn, mỗi nguồn có biển cảnh báo",
         "mascot_pose": "point",
@@ -303,7 +303,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Bài học này không hướng dẫn kinh doanh hay đánh giá tính khả thi của mô hình quán, chỉ tập trung vào việc bảo vệ tài chính cá nhân khi bạn quyết định khởi nghiệp nhỏ.",
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
@@ -365,5 +365,7 @@
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
   ],
-  "required_disclaimer": "Bài học này không hướng dẫn kinh doanh hay đánh giá tính khả thi của mô hình quán, chỉ tập trung vào việc bảo vệ tài chính cá nhân khi bạn quyết định khởi nghiệp nhỏ."
+  "required_disclaimer": "Bài học này không hướng dẫn kinh doanh hay đánh giá tính khả thi của mô hình quán, chỉ tập trung vào việc bảo vệ tài chính cá nhân khi bạn quyết định khởi nghiệp nhỏ.",
+  "production_revision": "2026-10-22",
+  "sources": []
 }

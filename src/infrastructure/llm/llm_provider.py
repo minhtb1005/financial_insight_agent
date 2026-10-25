@@ -35,6 +35,7 @@ NVIDIA_BASE_URL = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com
 NVIDIA_CHAT_MODEL = os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b")
 
 _OPENAI_KNOWN_KWARGS = {
+    "timeout",
     "temperature",
     "max_tokens",
     "top_p",
@@ -51,6 +52,7 @@ _OPENAI_KNOWN_KWARGS = {
 }
 
 _GROQ_KNOWN_KWARGS = {
+    "timeout",
     "temperature",
     "max_tokens",
     "top_p",

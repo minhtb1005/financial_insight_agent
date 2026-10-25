@@ -25,6 +25,7 @@ def _search_knowledge_impl(query: str, top_k: int = 5) -> dict:
         "Cite only returned URLs whose text supports the claim; never invent article numbers, report "
         "pages or citations. Check reviewed_at, applicable period and source scope. Old vector chunks "
         "cannot override a reviewed correction. No hit means no evidence; do not fabricate a source. "
+        "Source priority (lower is more trusted): VBPL(1) > TT(2) > HNX/HOSE(3) > SSI(4) > intl(5). "
         "Never use this for live stock prices/ratios; use the corresponding data tools."
     ),
 )

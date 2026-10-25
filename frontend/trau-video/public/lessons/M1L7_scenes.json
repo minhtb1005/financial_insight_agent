@@ -6,7 +6,7 @@
   "title": "Chia tiền khi ở chung với bạn",
   "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật — \"Ba bạn ở chung\" đổi thành Lan kể lại tình huống của chính mình, Trâu Tí giải thích — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -15,11 +15,11 @@
   },
   "duration": {
     "claimed_sec_in_script_doc": null,
-    "estimate_sec": 138.0,
+    "estimate_sec": 138,
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Ba bạn ở chung",
+    "Lan",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -34,7 +34,7 @@
     "pace": "vừa phải",
     "provider": null
   },
-  "hook": "Ba bạn thuê chung nhà. Đến ngày đóng điện, ai cũng nghĩ người kia đã đóng.",
+  "hook": "Lan thuê nhà chung với hai người bạn. Đến ngày đóng điện, ai cũng nghĩ người kia đã đóng.",
   "scenes": [
     {
       "id": "S1",
@@ -50,7 +50,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Ba bạn thuê chung một căn hộ. Đến ngày đóng tiền điện, ai cũng nghĩ người kia đã đóng. Chuyện tiền với bạn cùng phòng hiếm khi vỡ vì số tiền lớn, mà vì không ai nói rõ từ đầu.",
+        "text": "Lan thuê chung một căn hộ với hai người bạn. Đến ngày đóng tiền điện, ai cũng nghĩ người kia đã đóng. Chuyện tiền với bạn cùng phòng hiếm khi vỡ vì số tiền lớn, mà vì không ai nói rõ từ đầu.",
         "word_count": 40,
         "tts_numeric_tokens": []
       },
@@ -154,7 +154,7 @@
       "order": 5,
       "duration_sec_estimate": 14.2,
       "visual": {
-        "description": "Một người cầm hóa đơn, ba người nhìn",
+        "description": "Lan cầm hóa đơn, các bạn cùng nhìn",
         "mascot_pose": "idle",
         "characters": [
           "Trâu Tí"
@@ -300,7 +300,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -342,5 +342,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

@@ -6,7 +6,7 @@
   "title": "Ba cách chia lương",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M1L1",
   "status": "draft_ready_for_review",
-  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "production_revision": "2026-10-23",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -14,16 +14,17 @@
     "fps": 30
   },
   "duration": {
-    "claimed_sec_in_script_doc": 130,
-    "estimate_sec": 132.5,
-    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
+    "claimed_sec_in_script_doc": 131,
+    "estimate_sec": 130.6,
+    "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; pause_after không tính; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
     "Lan",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
-    "point"
+    "point",
+    "wave"
   ],
   "voice": {
     "language": "vi-VN",
@@ -31,56 +32,138 @@
     "pace": "vừa phải",
     "provider": null
   },
-  "hook": "Lan nhìn số dư: \"Lương về hôm qua, sao hôm nay còn một nửa?\"",
+  "voices": {
+    "narrator": {
+      "voice": "vi-VN-NamMinhNeural",
+      "rate": "-8%",
+      "pitch": "-2Hz"
+    },
+    "lan": {
+      "voice": "vi-VN-HoaiMyNeural",
+      "rate": "-3%",
+      "pitch": "+2Hz"
+    },
+    "trau_ti": {
+      "voice": "vi-VN-NamMinhNeural",
+      "rate": "+5%",
+      "pitch": "+8Hz"
+    }
+  },
+  "hook": "Lan mở app: \"Ủa? Còn có sáu triệu?\" — 12 triệu về hôm qua, một nửa đã biến mất trong 24 giờ.",
+  "illustrative_numbers": {
+    "salary": 12000000,
+    "expenses": {
+      "Tiền nhà": 4000000,
+      "Cà phê": 50000,
+      "Áo sale": 350000,
+      "Đơn online": 800000,
+      "Siêu thị": 500000,
+      "Trà sữa": 50000,
+      "Netflix": 250000
+    },
+    "total_spent": 6000000,
+    "remaining": 6000000,
+    "split_50_30_20": {
+      "needs": 6000000,
+      "wants": 3600000,
+      "savings": 2400000
+    },
+    "currency": "VND",
+    "note": "Số liệu minh họa"
+  },
+  "generation_note": "Kịch bản viết tay 23/10/2026: 12 scene long cut + cuts.short 55s, thoại 3 giọng. Chưa TTS/render; các trường storyboard là hướng dẫn dựng, không phải asset cuối.",
   "scenes": [
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 9.9,
       "visual": {
-        "description": "Lan cầm điện thoại, số dư giảm dần",
+        "description": "Phòng ngủ Lan, sáng. Close-up điện thoại hiện số dư 6.000.000đ, cắt sang mặt Lan.",
         "mascot_pose": null,
         "characters": [
           "Lan"
         ],
-        "background": null,
-        "animation_notes": null
+        "storyboard": {
+          "set": "Phòng ngủ Lan, sáng; ánh sáng cửa sổ và màn hình hắt lên mặt",
+          "camera": "Close-up điện thoại → cắt nhanh sang mặt Lan, máy cầm tay nhẹ",
+          "action": "Lan mở app ngân hàng, thấy số dư; tay che miệng",
+          "expression": "Ngạc nhiên, hơi hoảng",
+          "props": "Điện thoại, giường, đèn ngủ"
+        }
       },
       "vo": {
-        "text": "Lương mười hai triệu về hôm qua. Sáng nay Lan mở ứng dụng và thấy đã bay gần một nửa. Lan đâu có mua gì to tát, chỉ là cà phê, bữa ăn, vài đơn mua mạng. Bạn có từng như Lan chưa?",
-        "word_count": 43,
-        "tts_numeric_tokens": []
+        "text": "Ủa? Còn có sáu triệu? Mười hai triệu về hôm qua. Sáng nay, Lan mở ứng dụng. Không mua gì to tát. Vậy tiền đi đâu?",
+        "word_count": 26,
+        "lines": [
+          {
+            "speaker": "lan",
+            "text": "Ủa? Còn có sáu triệu?",
+            "pause_after": 0.3
+          },
+          {
+            "speaker": "narrator",
+            "text": "Mười hai triệu về hôm qua. Sáng nay, Lan mở ứng dụng."
+          },
+          {
+            "speaker": "lan",
+            "text": "Không mua gì to tát. Vậy tiền đi đâu?"
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "Lương về → tiền đi đâu?",
+          "text": "12.000.000đ → 6.000.000đ",
           "position": "auto",
+          "appear": "scene_start"
+        },
+        {
+          "text": "24 GIỜ TRƯỚC",
+          "position": "bottom",
           "appear": "scene_start"
         }
       ],
-      "transition_out": "cut"
+      "transition_out": "flash_white"
     },
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 14.9,
+      "duration_sec_estimate": 8.1,
       "visual": {
-        "description": "Trâu Tí nhảy vào, tung ba chiếc hộp",
-        "mascot_pose": "point",
+        "description": "Phòng khách/bếp sáng. Notification lương +12.000.000; tiền nhà tự động trừ 4.000.000; Lan vội đi làm.",
+        "mascot_pose": null,
         "characters": [
-          "Trâu Tí"
+          "Lan"
         ],
-        "background": null,
-        "animation_notes": null
+        "storyboard": {
+          "set": "Căn hộ nhỏ, sáng; bếp và cửa ra vào",
+          "camera": "Medium bàn ăn → theo gót Lan ra cửa",
+          "action": "Điện thoại rung báo lương; app tự chuyển tiền nhà; Lan uống vội ly sữa, xách túi đi làm",
+          "expression": "Vội vã nhưng nhẹ nhõm",
+          "props": "Điện thoại, ly sữa, chìa khóa, túi xách"
+        }
       },
       "vo": {
-        "text": "Vấn đề không nằm ở chỗ Lan tiêu quá tay. Vấn đề là tiền chưa được giao việc. Hôm nay mình có ba cách chia tiền. Bạn không cần dùng cả ba, chỉ cần chọn một cách hợp với mình.",
-        "word_count": 40,
-        "tts_numeric_tokens": []
+        "text": "Bảy giờ sáng. Lương vừa về. Tiền nhà tự động rời đi: bốn triệu. Còn tám triệu. Tháng này chắc ổn.",
+        "word_count": 21,
+        "lines": [
+          {
+            "speaker": "narrator",
+            "text": "Bảy giờ sáng. Lương vừa về. Tiền nhà tự động rời đi: bốn triệu."
+          },
+          {
+            "speaker": "lan",
+            "text": "Còn tám triệu. Tháng này chắc ổn."
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "3 cách chia tiền",
+          "text": "+12.000.000 · −4.000.000 · Còn: 8.000.000",
+          "split_hint": [
+            "+12.000.000",
+            "−4.000.000",
+            "Còn: 8.000.000"
+          ],
           "position": "auto",
           "appear": "scene_start"
         }
@@ -90,29 +173,45 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 20.2,
+      "duration_sec_estimate": 7.7,
       "visual": {
-        "description": "Biểu đồ tròn 50/30/20 trên mức 12 triệu",
+        "description": "Quán cà phê rồi trung tâm thương mại. Ly cà phê 50.000; áo sale 350.000; hóa đơn bay vào hũ \"Mong muốn\".",
         "mascot_pose": null,
-        "characters": [],
-        "background": null,
-        "animation_notes": null
+        "characters": [
+          "Lan"
+        ],
+        "storyboard": {
+          "set": "Quán cà phê sáng → sảnh trung tâm thương mại",
+          "camera": "Tracking ngang theo Lan, cắt nhanh hai nhịp",
+          "action": "Order cà phê; thử áo trước gương; quẹt thẻ; hóa đơn bay vào hũ Mong muốn",
+          "expression": "Thoải mái, đang thuyết phục bản thân",
+          "props": "Ly cà phê, áo sale, thẻ, hóa đơn, hũ Mong muốn"
+        }
       },
       "vo": {
-        "text": "Cách một: năm mươi, ba mươi, hai mươi. Năm mươi phần trăm cho nhu cầu như nhà ở, ăn uống, đi lại. Ba mươi phần trăm cho mong muốn. Hai mươi phần trăm để dành hoặc trả nợ. Với mười hai triệu, đó là sáu triệu, ba phẩy sáu triệu và hai phẩy bốn triệu.",
-        "word_count": 55,
-        "tts_numeric_tokens": []
+        "text": "Cà phê sáng: năm mươi nghìn. Chiếc áo sale: ba trăm năm mươi nghìn. Sale mà. Mua một lần thôi.",
+        "word_count": 20,
+        "lines": [
+          {
+            "speaker": "narrator",
+            "text": "Cà phê sáng: năm mươi nghìn. Chiếc áo sale: ba trăm năm mươi nghìn."
+          },
+          {
+            "speaker": "lan",
+            "text": "Sale mà. Mua một lần thôi."
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "50% nhu cầu = 6tr · 30% mong muốn = 3,6tr · 20% để dành/trả nợ = 2,4tr",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "−50.000 · −350.000 · Còn: 7.600.000",
           "split_hint": [
-            "50% nhu cầu = 6tr",
-            "30% mong muốn = 3,6tr",
-            "20% để dành/trả nợ = 2,4tr"
-          ]
+            "−50.000",
+            "−350.000",
+            "Còn: 7.600.000"
+          ],
+          "position": "auto",
+          "appear": "scene_start"
         }
       ],
       "transition_out": "cut"
@@ -120,22 +219,43 @@
     {
       "id": "S4",
       "order": 4,
-      "duration_sec_estimate": 18.5,
+      "duration_sec_estimate": 9.2,
       "visual": {
-        "description": "Bảng giá thuê nhà cao, thanh nhu cầu phình ra lấn sang phần mong muốn",
+        "description": "Phòng khách tối. Lướt Shopee, giỏ 3 món 800.000; bấm đặt; shipper gõ cửa.",
         "mascot_pose": null,
-        "characters": [],
-        "background": null,
-        "animation_notes": null
+        "characters": [
+          "Lan"
+        ],
+        "storyboard": {
+          "set": "Phòng khách, tối; đèn vàng",
+          "camera": "Over-the-shoulder điện thoại → cắt sang cửa",
+          "action": "Lướt giỏ hàng ba món, bấm Đặt hàng; shipper gõ cửa, Lan nhận hộp",
+          "expression": "Hào hứng, thoáng phân vân rồi dứt khoát",
+          "props": "Điện thoại, ba hộp hàng, túi shipper"
+        }
       },
       "vo": {
-        "text": "Nhưng quy tắc này chỉ là ước lượng. Nếu tiền nhà ở thành phố lớn đã chiếm gần nửa lương, thanh nhu cầu sẽ phình ra. Khi đó bạn có thể chỉnh thành sáu mươi, hai mươi lăm, mười lăm. Điều quan trọng là vẫn giữ một phần để dành.",
-        "word_count": 50,
-        "tts_numeric_tokens": []
+        "text": "Tối về, điện thoại rung. Ba món trong giỏ: tám trăm nghìn. Hộp hàng xếp trước cửa. Tai nghe cũ hỏng rồi. Mua thôi.",
+        "word_count": 24,
+        "lines": [
+          {
+            "speaker": "narrator",
+            "text": "Tối về, điện thoại rung. Ba món trong giỏ: tám trăm nghìn. Hộp hàng xếp trước cửa."
+          },
+          {
+            "speaker": "lan",
+            "text": "Tai nghe cũ hỏng rồi. Mua thôi."
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "Chỉnh theo hoàn cảnh, đừng bỏ phần để dành",
+          "text": "−800.000 · 3 món · Còn: 6.800.000",
+          "split_hint": [
+            "−800.000",
+            "3 món",
+            "Còn: 6.800.000"
+          ],
           "position": "auto",
           "appear": "scene_start"
         }
@@ -145,22 +265,43 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 16.7,
+      "duration_sec_estimate": 8.8,
       "visual": {
-        "description": "Bảng các dòng tiền, dòng cuối bằng 0",
+        "description": "Siêu thị. Giỏ sữa, trái cây, nước giặt; checkout 500.000; Lan đi theo danh sách.",
         "mascot_pose": null,
-        "characters": [],
-        "background": null,
-        "animation_notes": null
+        "characters": [
+          "Lan"
+        ],
+        "storyboard": {
+          "set": "Siêu thị, đèn trắng",
+          "camera": "POV đẩy xe → close-up hóa đơn",
+          "action": "Đi theo danh sách, bỏ sữa, trái cây, nước giặt vào xe; quẹt thẻ ở quầy",
+          "expression": "Tập trung, tự tin",
+          "props": "Xe đẩy, sữa, trái cây, nước giặt, danh sách giấy, hóa đơn"
+        }
       },
       "vo": {
-        "text": "Cách hai: ngân sách từ không. Mỗi đồng đều được giao một việc, cho đến khi thu trừ chi bằng không. Nghĩa là tiền để dành cũng là một dòng chi, có tên hẳn hoi. Cách này hợp với người thích kiểm soát chi tiết.",
-        "word_count": 45,
-        "tts_numeric_tokens": []
+        "text": "Siêu thị. Không có gì sang. Sữa, trái cây, nước giặt: năm trăm nghìn. Lan đi theo danh sách. Toàn thứ cần mà.",
+        "word_count": 23,
+        "lines": [
+          {
+            "speaker": "narrator",
+            "text": "Siêu thị. Không có gì sang. Sữa, trái cây, nước giặt: năm trăm nghìn. Lan đi theo danh sách."
+          },
+          {
+            "speaker": "lan",
+            "text": "Toàn thứ cần mà."
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "Thu − chi (kể cả tiết kiệm) = 0",
+          "text": "−500.000 · Toàn thứ cần · Còn: 6.300.000",
+          "split_hint": [
+            "−500.000",
+            "Toàn thứ cần",
+            "Còn: 6.300.000"
+          ],
           "position": "auto",
           "appear": "scene_start"
         }
@@ -170,18 +311,240 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 16.7,
+      "duration_sec_estimate": 9.5,
       "visual": {
-        "description": "Ba phong bì ghi ăn uống, đi lại, giải trí; một phong bì hết sạch",
+        "description": "Phòng khách tối. Trà sữa giao, Netflix auto-renew, Lan mở app; hóa đơn xếp đống.",
         "mascot_pose": null,
-        "characters": [],
-        "background": null,
-        "animation_notes": null
+        "characters": [
+          "Lan"
+        ],
+        "storyboard": {
+          "set": "Phòng khách, tối; TV tắt, điện thoại sáng",
+          "camera": "Top-down hóa đơn xếp chồng → close-up số dư",
+          "action": "Nhận trà sữa; notification Netflix tự gia hạn; mở app thấy tổng chi; hóa đơn rơi khỏi tay",
+          "expression": "Bối rối, chột dạ",
+          "props": "Ly trà sữa, TV, điện thoại, hóa đơn"
+        }
       },
       "vo": {
-        "text": "Cách ba: phong bì. Mỗi khoản chi có một phong bì riêng, có bao nhiêu thì chỉ tiêu bấy nhiêu. Hết phong bì giải trí thì nghỉ giải trí đến tháng sau. Bạn có thể dùng ví ảo hoặc bảng tính thay cho tiền mặt.",
-        "word_count": 45,
-        "tts_numeric_tokens": []
+        "text": "Trà sữa: năm mươi nghìn. Netflix tự gia hạn: hai trăm năm mươi nghìn. Cộng lại: sáu triệu. Mình đâu có tiêu gì to tát...",
+        "word_count": 25,
+        "lines": [
+          {
+            "speaker": "narrator",
+            "text": "Trà sữa: năm mươi nghìn. Netflix tự gia hạn: hai trăm năm mươi nghìn. Cộng lại: sáu triệu."
+          },
+          {
+            "speaker": "lan",
+            "text": "Mình đâu có tiêu gì to tát..."
+          }
+        ]
+      },
+      "on_screen_text": [
+        {
+          "text": "Đã tiêu: 6.000.000 · Còn lại: 6.000.000",
+          "split_hint": [
+            "Đã tiêu: 6.000.000",
+            "Còn lại: 6.000.000"
+          ],
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S7",
+      "order": 7,
+      "duration_sec_estimate": 8.5,
+      "visual": {
+        "description": "Phòng ngủ. Lan ngồi bó gối; Trâu Tí bước vào, mang bảng nhỏ.",
+        "mascot_pose": "point",
+        "characters": [
+          "Lan",
+          "Trâu Tí"
+        ],
+        "storyboard": {
+          "set": "Phòng ngủ Lan, tối; đèn ngủ ấm",
+          "camera": "Wide hai người → medium Trâu Tí",
+          "action": "Lan bó gối trên giường; Trâu Tí đẩy cửa bước vào, dựng bảng nhỏ, chỉ vào dòng việc",
+          "expression": "Lan bế tắc; Trâu Tí điềm tĩnh, tinh nghịch",
+          "props": "Bảng nhỏ, bút, điện thoại"
+        }
+      },
+      "vo": {
+        "text": "Tiền tự bốc hơi? Không. Tiền đi làm việc khác. Nhưng chưa ai giao việc. Trâu Tí mang theo ba cách chia.",
+        "word_count": 22,
+        "lines": [
+          {
+            "speaker": "lan",
+            "text": "Tiền tự bốc hơi?"
+          },
+          {
+            "speaker": "trau_ti",
+            "text": "Không. Tiền đi làm việc khác. Nhưng chưa ai giao việc.",
+            "pause_after": 0.3
+          },
+          {
+            "speaker": "narrator",
+            "text": "Trâu Tí mang theo ba cách chia."
+          }
+        ]
+      },
+      "on_screen_text": [
+        {
+          "text": "Tiền chưa được giao việc",
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S8",
+      "order": 8,
+      "duration_sec_estimate": 15.2,
+      "visual": {
+        "description": "Bàn học, 3 hũ thủy tinh. Trâu Tí rót tiền/hóa đơn vào 3 hũ; hũ Mong muốn đầy, chặn nút \"Mua tiếp\".",
+        "mascot_pose": "point",
+        "characters": [
+          "Lan",
+          "Trâu Tí"
+        ],
+        "storyboard": {
+          "set": "Bàn học, đêm; ba hũ thủy tinh dán nhãn",
+          "camera": "Top-down ba hũ → medium hai người",
+          "action": "Trâu Tí rót tiền vào hũ Nhu cầu, Mong muốn, Tiết kiệm; hũ Mong muốn đầy, nắp chặn nút Mua tiếp trên điện thoại",
+          "expression": "Trâu Tí giảng giải; Lan ngạc nhiên rồi gật",
+          "props": "Ba hũ thủy tinh, tiền giấy, hóa đơn, điện thoại, bảng 50/30/20"
+        }
+      },
+      "vo": {
+        "text": "Cách một: chia trước khi tiêu. Năm mươi phần trăm nhu cầu. Ba mươi phần trăm mong muốn. Hai mươi phần trăm để dành. Vậy chỉ có ba triệu sáu cho linh tinh? Đúng. Hết thì dừng, hoặc lấy phần khác.",
+        "word_count": 41,
+        "lines": [
+          {
+            "speaker": "trau_ti",
+            "text": "Cách một: chia trước khi tiêu. Năm mươi phần trăm nhu cầu. Ba mươi phần trăm mong muốn. Hai mươi phần trăm để dành."
+          },
+          {
+            "speaker": "lan",
+            "text": "Vậy chỉ có ba triệu sáu cho linh tinh?",
+            "pause_after": 0.3
+          },
+          {
+            "speaker": "trau_ti",
+            "text": "Đúng. Hết thì dừng, hoặc lấy phần khác."
+          }
+        ]
+      },
+      "on_screen_text": [
+        {
+          "text": "Nhu cầu 50% · Mong muốn 30% · Tiết kiệm 20%",
+          "split_hint": [
+            "Nhu cầu: nhà, ăn, đi lại",
+            "Mong muốn: cà phê, mua sắm",
+            "50% = 6.000.000",
+            "30% = 3.600.000",
+            "20% = 2.400.000"
+          ],
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S9",
+      "order": 9,
+      "duration_sec_estimate": 13.5,
+      "visual": {
+        "description": "Bàn, sổ/whiteboard. Mỗi đồng gắn nhãn; \"Tiết kiệm\" là dòng chi; cuối cùng Thu − chi = 0.",
+        "mascot_pose": "point",
+        "characters": [
+          "Lan",
+          "Trâu Tí"
+        ],
+        "storyboard": {
+          "set": "Bàn học; whiteboard nhỏ",
+          "camera": "Close-up whiteboard, lia theo bút",
+          "action": "Trâu Tí gắn nhãn từng đồng; viết Tiết kiệm thành một dòng chi; tổng cuối bằng 0",
+          "expression": "Trâu Tí tập trung; Lan nhíu mày",
+          "props": "Whiteboard, bút, tờ tiền, nhãn dán"
+        }
+      },
+      "vo": {
+        "text": "Cách hai: ngân sách từ không. Mỗi đồng có tên. Tiền để dành cũng là một dòng chi. Thu trừ chi bằng không. Không cần đúng tỷ lệ; chia theo số tiền thực. Nghe mất công.",
+        "word_count": 36,
+        "lines": [
+          {
+            "speaker": "trau_ti",
+            "text": "Cách hai: ngân sách từ không. Mỗi đồng có tên. Tiền để dành cũng là một dòng chi. Thu trừ chi bằng không."
+          },
+          {
+            "speaker": "trau_ti",
+            "text": "Không cần đúng tỷ lệ; chia theo số tiền thực."
+          },
+          {
+            "speaker": "lan",
+            "text": "Nghe mất công."
+          }
+        ]
+      },
+      "on_screen_text": [
+        {
+          "text": "Mỗi đồng có tên · Thu − chi = 0",
+          "split_hint": [
+            "Mỗi đồng có tên",
+            "Thu − chi = 0"
+          ],
+          "position": "auto",
+          "appear": "scene_start"
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S10",
+      "order": 10,
+      "duration_sec_estimate": 14.5,
+      "visual": {
+        "description": "Bàn, 3 phong bì. Phong bì \"Giải trí\" trống; Lan định mua trà sữa, dừng lại; Trâu Tí nhún vai.",
+        "mascot_pose": "point",
+        "characters": [
+          "Lan",
+          "Trâu Tí"
+        ],
+        "storyboard": {
+          "set": "Bàn học; ba phong bì dán nhãn",
+          "camera": "Close-up phong bì → medium hai người",
+          "action": "Trâu Tí lật phong bì Giải trí trống; Lan mở app đặt trà sữa rồi dừng, đặt điện thoại xuống",
+          "expression": "Lan tiếc nhưng chấp nhận; Trâu Tí nhún vai",
+          "props": "Ba phong bì, điện thoại, menu trà sữa"
+        }
+      },
+      "vo": {
+        "text": "Cách ba: phong bì. Mỗi khoản một phong bì. Hết thì dừng. Không cần cân cả tháng; chỉ đặt trần khoản hay vượt. Vậy là hết trà sữa? Hết phong bì giải trí. Muốn uống thì đổi khoản khác.",
+        "word_count": 39,
+        "lines": [
+          {
+            "speaker": "trau_ti",
+            "text": "Cách ba: phong bì. Mỗi khoản một phong bì. Hết thì dừng.",
+            "pause_after": 0.3
+          },
+          {
+            "speaker": "trau_ti",
+            "text": "Không cần cân cả tháng; chỉ đặt trần khoản hay vượt."
+          },
+          {
+            "speaker": "lan",
+            "text": "Vậy là hết trà sữa?"
+          },
+          {
+            "speaker": "trau_ti",
+            "text": "Hết phong bì giải trí. Muốn uống thì đổi khoản khác."
+          }
+        ]
       },
       "on_screen_text": [
         {
@@ -193,57 +556,96 @@
       "transition_out": "cut"
     },
     {
-      "id": "S7",
-      "order": 7,
-      "duration_sec_estimate": 15.2,
+      "id": "S11",
+      "order": 11,
+      "duration_sec_estimate": 11.7,
       "visual": {
-        "description": "Ba hộp xếp thành hàng, mỗi hộp một nhãn",
-        "mascot_pose": null,
-        "characters": [],
-        "background": null,
-        "animation_notes": null
+        "description": "Phòng ngủ, điện thoại + 3 thẻ phương pháp. App mô phỏng kỳ lương tới 12 triệu; 3 hũ hiện lên; Lan chốt.",
+        "mascot_pose": "point",
+        "characters": [
+          "Lan",
+          "Trâu Tí"
+        ],
+        "storyboard": {
+          "set": "Phòng ngủ; điện thoại và ba thẻ phương pháp trên giường",
+          "camera": "Close-up màn hình mô phỏng → medium Lan",
+          "action": "Trâu Tí đưa ba thẻ; Lan bấm mô phỏng kỳ lương tới 12.000.000; ba hũ hiện lên; Lan chạm Áp dụng từ kỳ lương tới",
+          "expression": "Lan quyết đoán; Trâu Tí gật đầu",
+          "props": "Điện thoại, ba thẻ phương pháp, ba hũ mini"
+        }
       },
       "vo": {
-        "text": "Vậy chọn cách nào? Mới bắt đầu thì năm mươi, ba mươi, hai mươi là gọn nhất. Muốn kiểm soát từng đồng thì dùng ngân sách từ không. Hay chi quá tay ở vài khoản thì phong bì sẽ giúp bạn.",
-        "word_count": 41,
-        "tts_numeric_tokens": []
+        "text": "Không muốn tính nhiều: năm mươi, ba mươi, hai mươi. Thu nhập thay đổi: từ không. Hay vượt vài khoản: phong bì. Mình chọn 50/30/20. Áp dụng từ kỳ lương tới.",
+        "word_count": 31,
+        "lines": [
+          {
+            "speaker": "trau_ti",
+            "text": "Không muốn tính nhiều: năm mươi, ba mươi, hai mươi. Thu nhập thay đổi: từ không. Hay vượt vài khoản: phong bì."
+          },
+          {
+            "speaker": "lan",
+            "text": "Mình chọn 50/30/20. Áp dụng từ kỳ lương tới."
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "Mới bắt đầu → 50/30/20 · Muốn chi tiết → từ không · Hay chi quá tay → phong bì",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Áp dụng từ kỳ lương tới · 6.000.000 / 3.600.000 / 2.400.000",
           "split_hint": [
-            "Mới bắt đầu → 50/30/20",
-            "Muốn chi tiết → từ không",
-            "Hay chi quá tay → phong bì"
-          ]
+            "Áp dụng từ kỳ lương tới",
+            "6.000.000 / 3.600.000 / 2.400.000"
+          ],
+          "position": "auto",
+          "appear": "scene_start"
         }
       ],
       "transition_out": "cut"
     },
     {
-      "id": "S8",
-      "order": 8,
-      "duration_sec_estimate": 11.3,
+      "id": "S12",
+      "order": 12,
+      "duration_sec_estimate": 11,
       "visual": {
-        "description": "Trâu Tí đứng cạnh Lan, ba hộp đặt thẳng hàng",
-        "mascot_pose": "point",
+        "description": "Một tháng sau, siêu thị và nhà Lan. Lương về → chia ngay; đi chợ có danh sách; notification sale → kiểm hũ Mong muốn → đóng app; hũ tiết kiệm 2.400.000; Trâu Tí giơ tay.",
+        "mascot_pose": "wave",
         "characters": [
-          "Trâu Tí",
-          "Lan"
+          "Lan",
+          "Trâu Tí"
         ],
-        "background": null,
-        "animation_notes": null
+        "storyboard": {
+          "set": "Siêu thị rồi về nhà Lan; ánh sáng ban ngày",
+          "camera": "Montage nhanh: điện thoại → siêu thị → phòng khách → close-up hũ tiết kiệm",
+          "action": "Lương về, Lan chia ngay 6/3,6/2,4; đi chợ theo danh sách; notification sale hiện, Lan mở hũ Mong muốn, đóng app; hũ Tiết kiệm đầy 2.400.000; Trâu Tí giơ tay",
+          "expression": "Lan bình thản, tự tin; Trâu Tí tự hào",
+          "props": "Điện thoại, danh sách đi chợ, hũ tiết kiệm, notification sale"
+        }
       },
       "vo": {
-        "text": "Cách nào cũng được, miễn bạn dùng đều. Tuần này, hãy thử một cách với đúng mức lương của bạn. Một tháng sau, nhìn lại xem tiền đã đi đâu.",
-        "word_count": 30,
-        "tts_numeric_tokens": []
+        "text": "Một tháng sau. Lương về, Lan chia trước. Số dư không còn bốc hơi. Vẫn có cà phê. Nhưng giờ mình biết tiền đi đâu. Ba cách. Làm đều.",
+        "word_count": 29,
+        "lines": [
+          {
+            "speaker": "narrator",
+            "text": "Một tháng sau. Lương về, Lan chia trước. Số dư không còn bốc hơi."
+          },
+          {
+            "speaker": "lan",
+            "text": "Vẫn có cà phê. Nhưng giờ mình biết tiền đi đâu."
+          },
+          {
+            "speaker": "trau_ti",
+            "text": "Ba cách. Làm đều."
+          }
+        ]
       },
       "on_screen_text": [
         {
-          "text": "Số liệu minh họa",
+          "text": "Chia trước. Tiêu sau. · 50/30/20 · Từ không · Phong bì · Số liệu minh họa",
+          "split_hint": [
+            "Chia trước. Tiêu sau.",
+            "50/30/20 · Từ không · Phong bì",
+            "Số liệu minh họa"
+          ],
           "position": "auto",
           "appear": "scene_start"
         }
@@ -251,10 +653,145 @@
       "transition_out": "fade_to_end_card"
     }
   ],
+  "cuts": {
+    "short": {
+      "duration_sec": 55,
+      "beats": [
+        {
+          "id": "B1",
+          "scene_ids": [
+            "S1"
+          ],
+          "duration_sec": 6,
+          "lines": [
+            {
+              "speaker": "lan",
+              "text": "Ủa? Còn có sáu triệu?"
+            },
+            {
+              "speaker": "narrator",
+              "text": "Mười hai triệu về hôm qua. Sáng nay còn sáu."
+            }
+          ],
+          "on_screen_text": [
+            "12.000.000 → 6.000.000"
+          ]
+        },
+        {
+          "id": "B2",
+          "scene_ids": [
+            "S2",
+            "S3",
+            "S4",
+            "S5",
+            "S6"
+          ],
+          "duration_sec": 9,
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Tiền nhà bốn triệu. Cà phê, áo sale, đơn online, siêu thị, trà sữa, Netflix. Cộng lại: sáu triệu."
+            }
+          ],
+          "on_screen_text": [
+            "Đã tiêu: 6.000.000",
+            "Còn: 6.000.000"
+          ]
+        },
+        {
+          "id": "B3",
+          "scene_ids": [
+            "S7"
+          ],
+          "duration_sec": 5,
+          "lines": [
+            {
+              "speaker": "trau_ti",
+              "text": "Tiền chưa được giao việc."
+            }
+          ]
+        },
+        {
+          "id": "B4",
+          "scene_ids": [
+            "S8"
+          ],
+          "duration_sec": 12,
+          "lines": [
+            {
+              "speaker": "trau_ti",
+              "text": "Chia trước: năm mươi phần trăm nhu cầu, ba mươi phần trăm mong muốn, hai mươi phần trăm để dành. Với mười hai triệu: sáu, ba phẩy sáu, hai phẩy bốn."
+            }
+          ],
+          "on_screen_text": [
+            "Nhu cầu 50% = 6.000.000",
+            "Mong muốn 30% = 3.600.000",
+            "Tiết kiệm 20% = 2.400.000"
+          ]
+        },
+        {
+          "id": "B5",
+          "scene_ids": [
+            "S9",
+            "S10"
+          ],
+          "duration_sec": 9,
+          "lines": [
+            {
+              "speaker": "trau_ti",
+              "text": "Cách hai: mỗi đồng một cái tên, thu trừ chi bằng không. Cách ba: mỗi khoản một phong bì, hết thì dừng."
+            }
+          ],
+          "on_screen_text": [
+            "Từ không",
+            "Phong bì"
+          ]
+        },
+        {
+          "id": "B6",
+          "scene_ids": [
+            "S11"
+          ],
+          "duration_sec": 6,
+          "lines": [
+            {
+              "speaker": "trau_ti",
+              "text": "Chọn một cách."
+            },
+            {
+              "speaker": "lan",
+              "text": "50/30/20. Áp dụng từ kỳ lương tới."
+            }
+          ]
+        },
+        {
+          "id": "B7",
+          "scene_ids": [
+            "S12"
+          ],
+          "duration_sec": 8,
+          "lines": [
+            {
+              "speaker": "narrator",
+              "text": "Một tháng sau, số dư không còn bốc hơi."
+            },
+            {
+              "speaker": "lan",
+              "text": "Vẫn có cà phê."
+            }
+          ],
+          "on_screen_text": [
+            "Chia trước. Tiêu sau."
+          ]
+        }
+      ]
+    }
+  },
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
-      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
+      "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm.",
+      "Số liệu minh họa."
     ]
   },
   "cta": {
@@ -264,35 +801,35 @@
     "tool_status": "chưa gán; xem product_mapping.gaps của module trong curriculum",
     "chatbot_prompt": "Lương của mình nên chia 50/30/20 thế nào?"
   },
-  "illustrative_numbers": null,
-  "verify_note_from_script": "không có số pháp lý. Nói rõ 50/30/20 là quy tắc ước lượng, không phải chuẩn bắt buộc, và có thể lệch khi tiền nhà ở cao.",
+  "verify_note_from_script": "Không có số pháp lý. Mọi con số là ví dụ minh họa và khớp một nửa lương: 12.000.000 − 6.000.000 = 6.000.000; 50/30/20 = 6.000.000 / 3.600.000 / 2.400.000. 50/30/20 là quy tắc ước lượng, không phải chuẩn bắt buộc; S11 áp dụng cho kỳ lương tới, không chia lại 6.000.000 hiện có.",
   "verification": [
     {
       "id": "V1",
       "type": "label",
-      "status": "required",
+      "status": "done",
       "blocks": [
-        "S8"
+        "all"
       ],
-      "text": "Mọi số trong video là giả định, giữ chữ 'Số liệu minh họa' trên màn hình."
+      "text": "script/storyboard review: mọi số tiền là ví dụ minh họa; nhãn 'Số liệu minh họa' có ở S12 và thẻ cuối."
     },
     {
       "id": "V2",
       "type": "recompute",
-      "status": "open",
+      "status": "done",
       "blocks": [
         "all"
       ],
-      "text": "Tự tính lại mọi phép tính trong lời đọc bằng công cụ trước khi dựng."
+      "text": "recompute numbers: 12.000.000 − (4.000.000 + 50.000 + 350.000 + 800.000 + 500.000 + 50.000 + 250.000) = 6.000.000; 50/30/20 = 6.000.000 / 3.600.000 / 2.400.000."
     },
     {
       "id": "V3",
       "type": "review",
-      "status": "open",
+      "status": "pending",
       "blocks": [
         "all"
       ],
-      "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+      "text": "user review: người thật đọc và duyệt toàn bộ kịch bản trước khi TTS/render."
     }
-  ]
+  ],
+  "sources": []
 }

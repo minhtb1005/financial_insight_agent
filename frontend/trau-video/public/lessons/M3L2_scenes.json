@@ -97,7 +97,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Cục tuyết lăn: C → A → B",
         "mascot_pose": null,
@@ -197,7 +197,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 12.7,
+      "duration_sec_estimate": 19.5,
       "visual": {
         "description": "Hai cột so sánh: động lực vs tổng lãi",
         "mascot_pose": null,
@@ -206,15 +206,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Snowball cho cảm giác thắng nhanh. Avalanche thường tiết kiệm lãi. Chênh nhau bao nhiêu thì còn tùy số tiền dư mỗi tháng. Con số chính xác thì chạy trên công cụ, đừng đoán.",
-        "word_count": 34,
+        "text": "Quả cầu tuyết ưu tiên cảm giác hoàn thành sớm. Tuyết lở ưu tiên lãi suất cao. Muốn so tổng lãi, còn cần mức trả tối thiểu, ngân sách trả nợ, lịch tính lãi và các khoản phí. Chưa đủ dữ kiện thì không thể đưa một con số tổng lãi đáng tin.",
+        "word_count": 53,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Tổng lãi hai cách: Snowball ~1,69tr · Avalanche ~1,63tr",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "So tổng lãi cần đủ dữ kiện · Ngân sách · Tối thiểu · Lãi · Phí",
+          "split_hint": [
+            "So tổng lãi cần đủ dữ kiện",
+            "Ngân sách · Tối thiểu · Lãi · Phí"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -279,7 +282,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -374,5 +377,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

@@ -197,9 +197,15 @@ class CustomToolNode:
                 result = tool.invoke(args)
             # MCP returns text content blocks, including JSON chart payloads.
             # Unwrap them so consumers see the same JSON as in-process tools.
-            if isinstance(result, list) and result and all(
-                isinstance(block, dict) and block.get("type") == "text"
-                and isinstance(block.get("text"), str) for block in result
+            if (
+                isinstance(result, list)
+                and result
+                and all(
+                    isinstance(block, dict)
+                    and block.get("type") == "text"
+                    and isinstance(block.get("text"), str)
+                    for block in result
+                )
             ):
                 result = "\n".join(block["text"] for block in result)
             return result if isinstance(result, str) else json.dumps(result, ensure_ascii=False)

@@ -43,3 +43,9 @@ next-env.d.ts
 # standalone Remotion package (React 18, not part of Next build)
 trau-video/node_modules/
 trau-video/out/
+# Generated lesson media (recreated with trau-video/scripts/batch-render.mjs)
+/public/lesson-videos/
+# Local eval/verification snapshots (logs, SSE dumps) — not source
+/artifacts/
+trau-video/public/audio/*/cache.json
+trau-video/public/audio/*/*.pending.mp3

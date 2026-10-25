@@ -158,7 +158,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Bốn tấm biển Tưởng là an toàn",
         "mascot_pose": "idle",
@@ -224,7 +224,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 18.1,
       "visual": {
         "description": "Năm viên gạch nền móng",
         "mascot_pose": "idle",
@@ -235,22 +235,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Khi nào mới nên bắt đầu học? Chỉ khi nền tảng đã vững: quỹ khẩn cấp đủ, không còn nợ lãi cao, kiểm soát được dòng tiền hằng tháng, có mục tiêu dài hạn rõ ràng, và chấp nhận được khả năng mất một phần tiền.",
-        "word_count": 46,
+        "text": "Bạn có thể bắt đầu học khái niệm bất cứ lúc nào. Trước khi dùng tiền thật, hãy xem quỹ dự phòng, nợ lãi cao, dòng tiền, thời hạn mục tiêu và khả năng chịu mất vốn. Hiểu biết và quyết định bỏ tiền là hai bước khác nhau.",
+        "word_count": 49,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Quỹ khẩn cấp · Không nợ lãi cao · Dòng tiền · Mục tiêu dài hạn · Chấp nhận rủi ro",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Có thể học bất cứ lúc nào · Dùng tiền thật: kiểm nền tảng và rủi ro",
           "split_hint": [
-            "Quỹ khẩn cấp",
-            "Không nợ lãi cao",
-            "Dòng tiền",
-            "Mục tiêu dài hạn",
-            "Chấp nhận rủi ro"
-          ]
+            "Có thể học bất cứ lúc nào",
+            "Dùng tiền thật: kiểm nền tảng và rủi ro"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -258,7 +254,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Bản vẽ ngôi nhà, phần móng được tô sáng",
         "mascot_pose": "think",
@@ -269,15 +265,17 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Đó mới chỉ là điều kiện nền tảng để học, chưa phải lời khuyên làm. Việc đúng lúc này là hoàn thiện ngân sách, quỹ khẩn cấp, nợ, bảo hiểm và thuế, trước khi tìm hiểu bất kỳ hình thức sinh lời nào.",
+        "text": "Học giúp bạn nhận ra câu hỏi cần đặt ra. Dùng tiền thật đòi hỏi đánh giá thêm hoàn cảnh và rủi ro. Bạn có thể mở lộ trình kiến thức thị trường để thực hành đọc dữ liệu và kiểm chứng nguồn.",
         "word_count": 43,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Nền tảng trước, sinh lời sau",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Học khái niệm → kiểm chứng dữ liệu",
+          "split_hint": [
+            "Học khái niệm → kiểm chứng dữ liệu"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -311,7 +309,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Bài học này chỉ giúp nhận diện ranh giới và rủi ro. Curriculum không hướng dẫn, không khuyến nghị bất kỳ hình thức đầu tư hay sản phẩm sinh lời cụ thể nào.",
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
@@ -373,5 +371,7 @@
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
   ],
-  "required_disclaimer": "Bài học này chỉ giúp nhận diện ranh giới và rủi ro. Curriculum không hướng dẫn, không khuyến nghị bất kỳ hình thức đầu tư hay sản phẩm sinh lời cụ thể nào."
+  "required_disclaimer": "Bài học này chỉ giúp nhận diện ranh giới và rủi ro. Curriculum không hướng dẫn, không khuyến nghị bất kỳ hình thức đầu tư hay sản phẩm sinh lời cụ thể nào.",
+  "production_revision": "2026-10-22",
+  "sources": []
 }

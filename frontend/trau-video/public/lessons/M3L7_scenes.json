@@ -99,7 +99,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Lời mời A: bảng vay mười triệu, ba tháng",
         "mascot_pose": "idle",
@@ -211,7 +211,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 18.8,
+      "duration_sec_estimate": 23.8,
       "visual": {
         "description": "Cuốn luật, thước đo lãi suất",
         "mascot_pose": "point",
@@ -222,15 +222,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Giữa cá nhân với nhau, Bộ luật Dân sự quy định lãi theo thỏa thuận không được vượt hai mươi phần trăm một năm, và cho vay lãi gấp năm lần trở lên có thể bị xử lý hình sự. Hãy tra lại điều khoản và hỏi người có chuyên môn.",
-        "word_count": 51,
+        "text": "Đừng dùng một trần lãi suất để kết luận cho mọi loại khoản vay. Giao dịch dân sự và tín dụng của tổ chức có thể chịu quy định khác nhau. Trách nhiệm hình sự còn phụ thuộc các điều kiện pháp luật. Khi gặp lãi phí bất thường hoặc đe dọa, giữ hợp đồng và chứng cứ để hỏi cơ quan có thẩm quyền.",
+        "word_count": 65,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Lãi thỏa thuận không quá 20%/năm",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Kiểm đúng loại giao dịch · Giữ hợp đồng và chứng cứ",
+          "split_hint": [
+            "Kiểm đúng loại giao dịch",
+            "Giữ hợp đồng và chứng cứ"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -291,7 +294,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -351,5 +354,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

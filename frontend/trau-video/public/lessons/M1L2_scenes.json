@@ -19,7 +19,7 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Hùng",
+    "Lan",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -32,23 +32,23 @@
     "pace": "vừa phải",
     "provider": null
   },
-  "hook": "Hùng ôm hộp giày thứ năm: \"Cần mà! Giày chạy bộ!\" (Hùng chưa chạy lần nào.)",
+  "hook": "Lan ôm hộp giày thứ năm: \"Cần mà! Giày chạy bộ!\" (Lan chưa chạy lần nào.)",
   "scenes": [
     {
       "id": "S1",
       "order": 1,
       "duration_sec_estimate": 17.4,
       "visual": {
-        "description": "Hùng đứng giữa đống hộp giày",
+        "description": "Lan đứng giữa đống hộp giày",
         "mascot_pose": null,
         "characters": [
-          "Hùng"
+          "Lan"
         ],
         "background": null,
         "animation_notes": null
       },
       "vo": {
-        "text": "Hùng ôm hộp giày thứ năm trong năm nay và nói chắc nịch: đây là nhu cầu, giày chạy bộ mà. Nhưng Hùng chưa chạy bộ lần nào. Nghe quen không? Ai trong chúng ta cũng từng gọi một món muốn mua là một món cần mua.",
+        "text": "Lan ôm hộp giày thứ năm trong năm nay và nói chắc nịch: đây là nhu cầu, giày chạy bộ mà. Nhưng Lan chưa chạy bộ lần nào. Nghe quen không? Ai trong chúng ta cũng từng gọi một món muốn mua là một món cần mua.",
         "word_count": 47,
         "tts_numeric_tokens": []
       },
@@ -64,7 +64,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 14.5,
+      "duration_sec_estimate": 14.9,
       "visual": {
         "description": "Trâu Tí hiện lên câu hỏi thứ nhất",
         "mascot_pose": "think",
@@ -76,7 +76,7 @@
       },
       "vo": {
         "text": "Trâu Tí có một cách kiểm tra rất nhanh. Câu một: nếu không có món này, việc ăn, ở, đi làm hoặc sức khỏe của mình có bị ảnh hưởng không? Nếu không, rất có thể đó là mong muốn.",
-        "word_count": 39,
+        "word_count": 40,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
@@ -172,16 +172,16 @@
       "order": 6,
       "duration_sec_estimate": 16.3,
       "visual": {
-        "description": "Hùng nhìn đôi giày cũ, gật đầu",
+        "description": "Lan nhìn đôi giày cũ, gật đầu",
         "mascot_pose": null,
         "characters": [
-          "Hùng"
+          "Lan"
         ],
         "background": null,
         "animation_notes": null
       },
       "vo": {
-        "text": "Quay lại với Hùng. Sau ba câu hỏi, Hùng nhận ra đôi giày cũ vẫn dùng tốt. Hùng không cấm mình mua giày. Hùng chỉ đưa đôi mới vào danh sách mong muốn và xếp nó vào phần ba mươi phần trăm của tháng.",
+        "text": "Quay lại với Lan. Sau ba câu hỏi, Lan nhận ra đôi giày cũ vẫn dùng tốt. Lan không cấm mình mua giày. Lan chỉ đưa đôi mới vào danh sách mong muốn và xếp nó vào phần ba mươi phần trăm của tháng.",
         "word_count": 44,
         "tts_numeric_tokens": []
       },
@@ -222,7 +222,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Trâu Tí giơ ngón tay",
         "mascot_pose": "point",
@@ -248,7 +248,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -281,5 +281,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

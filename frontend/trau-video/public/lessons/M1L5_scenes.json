@@ -66,7 +66,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Định nghĩa hiện dần trên nền ứng dụng giao hàng",
         "mascot_pose": "point",
@@ -286,7 +286,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -328,5 +328,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

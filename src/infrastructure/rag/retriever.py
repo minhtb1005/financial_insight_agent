@@ -43,11 +43,11 @@ def search_knowledge(query: str, top_k: int = 5, min_score: float = 0.3) -> dict
         retrieval_error = str(e)
 
     # filter by score and rerank by priority (lower priority number = higher trust)
-    filtered = [h for h in hits if (h.get("score") or 0) >= min_score]
+    filtered: list[dict[str, Any]] = [h for h in hits if (h.get("score") or 0) >= min_score]
     # sort by priority then score descending
     filtered.sort(key=lambda h: (h.get("payload", {}).get("priority", 99), -(h.get("score") or 0)))
 
-    selected = reviewed[:top_k]
+    selected: list[dict[str, Any]] = list(reviewed[:top_k])
     seen = {hit["payload"]["source_id"] for hit in selected}
     for hit in filtered:
         payload = hit.get("payload", {})

@@ -19,6 +19,7 @@ import {
   YAxis,
 } from "recharts"
 import type { ChartSpec } from "@/lib/chart-spec"
+import { chartRows } from "@/lib/chart-rows"
 
 type Row = Record<string, string | number | null | undefined>
 
@@ -28,6 +29,7 @@ const PALETTE = ["#2563eb", "#f59e0b", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4
 export function RechartsGeneric({ spec }: { spec: ChartSpec }) {
   const rows = spec.data as Row[]
   const { x_field, y_field, series } = spec
+  const plotted = chartRows(rows, x_field, y_field, series.map((item) => item.name))
   if (rows.length === 0) return <p className="text-sm text-muted-foreground">Không có dữ liệu.</p>
 
   if (spec.chart_type === "pie" || spec.chart_type === "donut") {
@@ -71,14 +73,14 @@ export function RechartsGeneric({ spec }: { spec: ChartSpec }) {
   if (spec.chart_type === "bar") {
     return (
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={rows}>
+        <BarChart data={plotted.rows}>
           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
           <XAxis dataKey={String(x_field)} tick={{ fontSize: 11 }} interval="preserveStartEnd" />
           <YAxis tick={{ fontSize: 11 }} />
           <Tooltip />
           <Legend />
           {series.map((s, i) => (
-            <Bar key={s.name} dataKey={String(y_field)} name={s.name} fill={PALETTE[i % PALETTE.length]} />
+            <Bar key={s.name} dataKey={plotted.keys[i]} name={s.name} fill={PALETTE[i % PALETTE.length]} />
           ))}
         </BarChart>
       </ResponsiveContainer>
@@ -88,7 +90,7 @@ export function RechartsGeneric({ spec }: { spec: ChartSpec }) {
   if (spec.chart_type === "area") {
     return (
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={rows}>
+        <AreaChart data={plotted.rows}>
           <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
           <XAxis dataKey={String(x_field)} tick={{ fontSize: 11 }} interval="preserveStartEnd" />
           <YAxis tick={{ fontSize: 11 }} />
@@ -98,7 +100,7 @@ export function RechartsGeneric({ spec }: { spec: ChartSpec }) {
             <Area
               key={s.name}
               type="monotone"
-              dataKey={String(y_field)}
+              dataKey={plotted.keys[i]}
               name={s.name}
               stroke={PALETTE[i % PALETTE.length]}
               fill={PALETTE[i % PALETTE.length]}
@@ -113,7 +115,7 @@ export function RechartsGeneric({ spec }: { spec: ChartSpec }) {
   // default: line
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={rows}>
+      <LineChart data={plotted.rows}>
         <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
         <XAxis dataKey={String(x_field)} tick={{ fontSize: 11 }} interval="preserveStartEnd" />
         <YAxis domain={["auto", "auto"]} tick={{ fontSize: 11 }} />
@@ -123,7 +125,7 @@ export function RechartsGeneric({ spec }: { spec: ChartSpec }) {
           <Line
             key={s.name}
             type="monotone"
-            dataKey={String(y_field)}
+            dataKey={plotted.keys[i]}
             name={s.name}
             stroke={PALETTE[i % PALETTE.length]}
             strokeWidth={2}

@@ -20,7 +20,9 @@ BLOCK_PATTERNS = [
 
 COMPILED = [re.compile(p, re.IGNORECASE) for p in BLOCK_PATTERNS]
 
-DISCLAIMER = "\n\n> Thông tin mang tính giáo dục; trợ giảng không đưa lệnh mua/bán hay cam kết lợi nhuận."
+DISCLAIMER = (
+    "\n\n> Thông tin mang tính giáo dục; trợ giảng không đưa lệnh mua/bán hay cam kết lợi nhuận."
+)
 
 
 def check_and_sanitize(response: str) -> tuple[str, bool]:

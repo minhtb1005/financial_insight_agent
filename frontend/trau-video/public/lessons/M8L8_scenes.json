@@ -66,7 +66,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Hai biển: nhu cầu ở và đầu tư",
         "mascot_pose": "point",
@@ -93,7 +93,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 16.7,
+      "duration_sec_estimate": 22.4,
       "visual": {
         "description": "Thẻ giả định hiện từng dòng",
         "mascot_pose": "idle",
@@ -104,22 +104,19 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Giả sử căn nhà giá hai tỷ, trả trước sáu trăm triệu, vay một tỷ bốn trong hai mươi năm với lãi chín phần trăm một năm. Thu nhập hộ gia đình là bốn mươi triệu mỗi tháng. Tất cả đều là số giả định.",
-        "word_count": 45,
+        "text": "Ví dụ giả định: nhà hai tỷ, trả trước sáu trăm triệu, vay một tỷ bốn trong hai mươi năm. Lãi cố định chín phần trăm một năm, chia mười hai để tính lãi tháng trên dư nợ giảm dần; trả đều cuối tháng. Chưa tính phí vay hay bảo hiểm. Thu nhập hộ gia đình bốn mươi triệu mỗi tháng.",
+        "word_count": 61,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Nhà 2 tỷ · Trả trước 600tr · Vay 1,4 tỷ · 20 năm · 9%/năm",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Vay 1,4 tỷ · 240 tháng · 9%/năm · Trả đều cuối tháng · Lãi cố định · Chưa tính phí vay, bảo hiểm",
           "split_hint": [
-            "Nhà 2 tỷ",
-            "Trả trước 600tr",
-            "Vay 1,4 tỷ",
-            "20 năm",
-            "9%/năm"
-          ]
+            "Vay 1,4 tỷ · 240 tháng · 9%/năm",
+            "Trả đều cuối tháng · Lãi cố định",
+            "Chưa tính phí vay, bảo hiểm"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -208,7 +205,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 17.7,
+      "duration_sec_estimate": 23.8,
       "visual": {
         "description": "Hai cột năm năm: mua và thuê",
         "mascot_pose": "idle",
@@ -219,19 +216,19 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Nhìn năm năm đầu: tiền lãi và phí bảo trì khoảng sáu trăm chín mươi tám triệu, là tiền không lấy lại. Nếu thuê căn tương đương với mười hai triệu mỗi tháng, năm năm là bảy trăm hai mươi triệu. Hai con số này khá gần nhau.",
-        "word_count": 48,
+        "text": "Giả sử bảo trì và các phí sở hữu là hai mươi triệu mỗi năm. Năm năm đầu, tổng lãi vay và phần này khoảng sáu trăm chín mươi tám triệu. Thuê mười hai triệu mỗi tháng trong sáu mươi tháng là bảy trăm hai mươi triệu nếu giá thuê không đổi. Chưa tính chi phí mua bán, cơ hội và biến động giá nhà.",
+        "word_count": 65,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Mua: ≈ 698tr · Thuê: 720tr",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "5 năm, giả định giá thuê không đổi · Lãi + bảo trì ≈ 698tr · Thuê = 720tr · Chưa gồm chi phí mua bán, cơ hội",
           "split_hint": [
-            "Mua: ≈ 698tr",
-            "Thuê: 720tr"
-          ]
+            "5 năm, giả định giá thuê không đổi",
+            "Lãi + bảo trì ≈ 698tr · Thuê = 720tr",
+            "Chưa gồm chi phí mua bán, cơ hội"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -296,7 +293,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Bài học này chỉ phân tích dưới góc độ khả năng chi trả và rủi ro tài chính cá nhân, không đưa ra khuyến nghị mua bán bất động sản.",
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
@@ -367,5 +364,7 @@
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
   ],
-  "required_disclaimer": "Bài học này chỉ phân tích dưới góc độ khả năng chi trả và rủi ro tài chính cá nhân, không đưa ra khuyến nghị mua bán bất động sản."
+  "required_disclaimer": "Bài học này chỉ phân tích dưới góc độ khả năng chi trả và rủi ro tài chính cá nhân, không đưa ra khuyến nghị mua bán bất động sản.",
+  "production_revision": "2026-10-22",
+  "sources": []
 }

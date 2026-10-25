@@ -35,15 +35,23 @@ def _fetch_rows(
     symbols: list[str], metric: str, months: int | None, days: int | None
 ) -> tuple[list[dict[str, Any]], str]:
     """Gọi price service thật, normalize PriceResult thành chart rows."""
-    tickers = [s.upper() for s in symbols] if symbols else ["VNM"]
-    result = handle_price_query(tickers=tickers, field="close", months=months, days=days)
+    if not symbols:
+        raise ValueError("Cần mã chứng khoán cụ thể; không tự chọn mã thay người học.")
+    tickers = [s.upper() for s in symbols]
+    if metric not in {"close", "open", "high", "low", "volume", "ohlc"}:
+        raise ValueError(
+            "Biểu đồ giá chỉ hỗ trợ OHLC/volume; không dùng giá thay cho tỷ số tài chính."
+        )
+    result = handle_price_query(
+        tickers=tickers, field="ohlcv", months=months if days is None else None, days=days
+    )
     rows: list[dict[str, Any]] = []
     if isinstance(result, dict):
         for ticker in tickers:
             entry = result.get(ticker)
             if not isinstance(entry, dict):
                 continue
-            for item in entry.get("data", [])[:180]:
+            for item in entry.get("data", []):
                 if not isinstance(item, dict):
                     continue
                 row: dict[str, Any] = {"time": item.get("date"), "symbol": ticker}
@@ -59,7 +67,9 @@ def _fetch_rows(
                     row["volume"] = item["volume"]
                 rows.append(row)
     if not rows:
-        raise ValueError(f"Không có dữ liệu giá cho {', '.join(tickers)} trong khoảng thời gian yêu cầu.")
+        raise ValueError(
+            f"Không có dữ liệu giá cho {', '.join(tickers)} trong khoảng thời gian yêu cầu."
+        )
     source = f"vnstock:{','.join(tickers)}:{metric}:{months or days or ''}"
     return rows, source
 
@@ -120,12 +130,14 @@ def generate_chart_spec(  # noqa: PLR0917 - keep public signature
         Field(description="Loại chart user nói rõ, None nếu không nói"),
     ] = None,
     symbols: Annotated[list[str] | None, Field(description="Mã VN, ví dụ ['VNM']")] = None,
-    metric: Annotated[str, Field(description="close/open/high/low/volume/pe/roe")] = "close",
+    metric: Annotated[str, Field(description="close/open/high/low/volume/ohlc")] = "close",
     months: Annotated[int | None, Field(description="Số tháng gần nhất")] = 6,
     days: Annotated[int | None, Field(description="Số ngày gần nhất")] = None,
 ) -> str:
     try:
-        tickers = [s.upper() for s in symbols] if symbols else ["VNM"]
+        if not symbols:
+            raise ValueError("Cần mã chứng khoán cụ thể; hãy hỏi người học.")
+        tickers = [s.upper() for s in symbols]
         chart_type = _rule_pick(user_request, chart_type_hint, metric, tickers)
         rows, source = _fetch_rows(tickers, metric, months, days)
         first = rows[0]
@@ -134,9 +146,14 @@ def generate_chart_spec(  # noqa: PLR0917 - keep public signature
             for r in rows:
                 r["time"] = r.pop("date")
             x_field = "time"
-        y_field = metric if metric in first else "close"
-        if y_field not in rows[0]:
-            y_field = next(k for k in rows[0] if k != x_field)
+        y_field = "close" if metric == "ohlc" else metric
+        if any(y_field not in row for row in rows):
+            raise ValueError(f"Thiếu dữ liệu {y_field}; không thay bằng chỉ tiêu khác.")
+        if chart_type == "candlestick" and (
+            len(tickers) != 1
+            or any(not all(k in row for k in ("open", "high", "low", "close")) for row in rows)
+        ):
+            raise ValueError("Biểu đồ nến cần đủ OHLC của đúng một mã.")
         spec: dict[str, Any] = {
             "spec_version": "1.0",
             "chart_type": chart_type,
@@ -147,7 +164,14 @@ def generate_chart_spec(  # noqa: PLR0917 - keep public signature
             "series": [{"name": s, "type": chart_type, "data_ref": "rows"} for s in tickers[:4]],
             "sort": {"field": x_field, "order": "ascending"},
             "legend": True,
-            "annotations": [],
+            "annotations": [
+                {
+                    "text": "Giá trị giữ nguyên theo nguồn; đơn vị giá/khối lượng chưa được xác minh trong dữ liệu trả về. Không tự gắn VND, nghìn VND hoặc quy đổi."
+                },
+                {
+                    "text": "Dữ liệu giá quá khứ; trạng thái điều chỉnh cổ tức/chia tách chưa được xác nhận. Không đại diện tổng lợi nhuận hay dự báo."
+                },
+            ],
             "data": rows,
             "data_source": source,
             "fetched_at": datetime.now(timezone.utc).isoformat(),

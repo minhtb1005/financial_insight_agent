@@ -39,7 +39,7 @@ export function ChartRenderer({ spec: raw }: { spec: unknown }) {
       <CardHeader>
         <CardTitle>{spec.title}</CardTitle>
         <CardDescription>
-          {spec.data_source} • {spec.data.length} điểm • {spec.library}
+          {spec.data_source} • {spec.data.length} điểm
         </CardDescription>
         {warning && (
           <div className="flex flex-wrap gap-1">
@@ -49,7 +49,9 @@ export function ChartRenderer({ spec: raw }: { spec: unknown }) {
           </div>
         )}
       </CardHeader>
-      <CardContent className="h-[420px]">
+      <CardContent>
+        {spec.annotations.map((annotation, index) => typeof annotation.text === "string" ? <p className="mb-3 text-sm text-muted-foreground" key={index}>{annotation.text}</p> : null)}
+        <div className="h-[380px]">
         {kind === "tradingview" ? (
           <CandlestickChart spec={spec} />
         ) : kind === "echarts" ? (
@@ -63,6 +65,7 @@ export function ChartRenderer({ spec: raw }: { spec: unknown }) {
         ) : (
           <RechartsGeneric spec={spec} />
         )}
+        </div>
         <p className="mt-2 text-xs text-muted-foreground">
           Thông tin chỉ mang tính giáo dục, không phải lời khuyên đầu tư.
         </p>

@@ -7,7 +7,6 @@ the reviewed facts. Dates and URLs are explicit; never manufacture an article.
 from dataclasses import dataclass
 import unicodedata
 
-
 REVIEWED_AT = "2026-10-22"
 
 

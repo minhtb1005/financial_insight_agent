@@ -5,7 +5,7 @@
   "module_title": "Quản lý nợ & tín dụng",
   "title": "Hồ sơ tín dụng và CIC",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L5",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -64,7 +64,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 13.1,
+      "duration_sec_estimate": 16.3,
       "visual": {
         "description": "Biểu tượng tổ chức tổng hợp thông tin tín dụng",
         "mascot_pose": null,
@@ -73,16 +73,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Ở Việt Nam, thông tin tín dụng được tổng hợp bởi trung tâm thông tin tín dụng quốc gia, gọi tắt là CIC. Ngân hàng thường tham khảo dữ liệu này khi xét hồ sơ.",
-        "word_count": 35,
+        "text": "Thông tin tín dụng được tổng hợp tại Trung tâm Thông tin tín dụng Quốc gia Việt Nam, thường gọi là CIC. Khi kiểm tra hồ sơ, hãy dùng kênh chính thức và đối chiếu dư nợ, trạng thái khoản vay với ngân hàng.",
+        "word_count": 44,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "CIC: [[TRA NGUỒN: vai trò CIC, cách cá nhân tra cứu]]",
-          "position": "auto",
-          "appear": "scene_start",
-          "blocked_by": "V1"
+          "text": "CIC: thông tin tín dụng · Kiểm tra qua kênh chính thức",
+          "split_hint": [
+            "CIC: thông tin tín dụng",
+            "Kiểm tra qua kênh chính thức"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -90,7 +92,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 13.8,
+      "duration_sec_estimate": 19.5,
       "visual": {
         "description": "Hai ô đầu đổ sáng: trả đúng hạn, dùng ít hạn mức",
         "mascot_pose": null,
@@ -99,19 +101,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Có nhiều thứ ảnh hưởng đến hồ sơ. Đầu tiên là trả đúng hạn. Tiếp theo là bạn dùng bao nhiêu phần hạn mức. Dùng gần hết hạn mức liên tục thường là tín hiệu không tốt.",
-        "word_count": 37,
+        "text": "Đừng áp công thức điểm của nước ngoài vào hồ sơ CIC. Không thể suy ra điểm tăng hay giảm từ một tỷ lệ dùng hạn mức nếu chưa có căn cứ về cách chấm điểm. Việc cần làm là theo dõi nghĩa vụ trả nợ và kiểm tra dữ liệu của mình.",
+        "word_count": 53,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Đúng hạn · Dùng ít hạn mức",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Không suy đoán công thức điểm · Theo dõi nghĩa vụ trả nợ",
           "split_hint": [
-            "Đúng hạn",
-            "Dùng ít hạn mức"
-          ]
+            "Không suy đoán công thức điểm",
+            "Theo dõi nghĩa vụ trả nợ"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -119,7 +120,7 @@
     {
       "id": "S4",
       "order": 4,
-      "duration_sec_estimate": 12.7,
+      "duration_sec_estimate": 14.5,
       "visual": {
         "description": "Hai ô sau đổ sáng: ít nơi xin vay, lịch sử dài",
         "mascot_pose": null,
@@ -128,19 +129,17 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Thứ ba là xin vay bao nhiêu nơi cùng lúc. Thứ tư là bạn có lịch sử vay trả bao lâu. Lịch sử dài và đều đặn giúp ngân hàng dễ đánh giá hơn.",
-        "word_count": 34,
+        "text": "Ngân hàng còn xem khả năng trả nợ và điều kiện cấp tín dụng của họ. Có lịch sử vay lâu không bảo đảm được duyệt. Không nên mở thêm khoản vay chỉ để cố tạo điểm tín dụng.",
+        "word_count": 39,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Ít nơi xin vay · Lịch sử dài",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Khả năng trả nợ · Điều kiện ngân hàng",
           "split_hint": [
-            "Ít nơi xin vay",
-            "Lịch sử dài"
-          ]
+            "Khả năng trả nợ · Điều kiện ngân hàng"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -148,7 +147,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 17.4,
       "visual": {
         "description": "Bảng các nhóm nợ chuyển màu từ xanh đến đỏ",
         "mascot_pose": null,
@@ -157,16 +156,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Trả trễ lâu có thể bị xếp vào nhóm nợ xấu, gây khó khăn khi vay về sau. Cách phân nhóm và thời gian lưu thông tin được quy định cụ thể.",
-        "word_count": 32,
+        "text": "Phân loại nợ có nhiều tiêu chí. Không chỉ dựa vào việc còn dư nợ hay trả tối thiểu để kết luận nợ xấu. Nếu báo cáo có thông tin chưa đúng, hỏi tổ chức cung cấp dữ liệu và CIC về cách kiểm tra, điều chỉnh.",
+        "word_count": 47,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Nhóm nợ: [[TRA NGUỒN: phân loại nhóm nợ, thời gian lưu]]",
-          "position": "auto",
-          "appear": "scene_start",
-          "blocked_by": "V2"
+          "text": "Phân loại nợ: nhiều tiêu chí · Sai dữ liệu → yêu cầu kiểm tra",
+          "split_hint": [
+            "Phân loại nợ: nhiều tiêu chí",
+            "Sai dữ liệu → yêu cầu kiểm tra"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -201,7 +202,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 14.2,
+      "duration_sec_estimate": 15.2,
       "visual": {
         "description": "Trâu Tí đẩy một lịch 6 tháng lên màn hình",
         "mascot_pose": "point",
@@ -212,15 +213,17 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Cách cải thiện: trả đúng hạn mỗi tháng, không xin vay nhiều nơi cùng lúc, dùng ít hơn hạn mức, và thỉnh thoảng kiểm tra hồ sơ của mình. Sáu tháng đều đặn là một khởi đầu tốt.",
-        "word_count": 38,
+        "text": "Lập lịch nhắc hạn, kiểm tra số tiền phải trả và dành ngân sách phù hợp. Nếu khó trả, liên hệ ngân hàng sớm để trao đổi phương án. Không có bảo đảm rằng điểm sẽ phục hồi trong sáu tháng.",
+        "word_count": 41,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Lịch cải thiện 6 tháng",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Nhắc hạn · Kiểm tra · Liên hệ sớm",
+          "split_hint": [
+            "Nhắc hạn · Kiểm tra · Liên hệ sớm"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -228,7 +231,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 22.7,
+      "duration_sec_estimate": 18.1,
       "visual": {
         "description": "Từng viên gạch nhỏ xếp thành bức tường hồ sơ",
         "mascot_pose": null,
@@ -237,15 +240,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Tóm lại, hồ sơ tín dụng được xây từ những thói quen nhỏ lặp lại. Trả đúng hạn, không xin vay dồn dập, dùng vừa phải hạn mức. Một lịch sử chưa tốt cần thời gian để cải thiện, nhưng mỗi tháng đúng hạn là thêm một dòng tốt. Hãy coi đây là việc đường dài, và kiên nhẫn với chính mình.",
-        "word_count": 62,
+        "text": "Hồ sơ tín dụng cần dữ liệu đúng và nghĩa vụ được thực hiện đầy đủ. Trước khi đóng thẻ, hỏi về dư nợ, phí còn lại và xác nhận tất toán. Đừng mặc định giữ thẻ cũ luôn tốt hơn hay đóng thẻ chắc chắn làm giảm điểm.",
+        "word_count": 49,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Thói quen nhỏ, đều đặn",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Dữ liệu đúng · Nghĩa vụ rõ · Đóng thẻ: xác nhận dư nợ và phí",
+          "split_hint": [
+            "Dữ liệu đúng · Nghĩa vụ rõ",
+            "Đóng thẻ: xác nhận dư nợ và phí"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -279,7 +285,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -297,20 +303,22 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "S2"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: vai trò CIC, cách cá nhân tra cứu]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: vai trò CIC, cách cá nhân tra cứu]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "S5"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: phân loại nhóm nợ, thời gian lưu]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: phân loại nhóm nợ, thời gian lưu]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V3",
@@ -339,5 +347,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

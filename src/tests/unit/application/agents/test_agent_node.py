@@ -1,6 +1,7 @@
 """Unit tests for StockAgent graph nodes — Reason / Action pattern."""
 
 from unittest.mock import MagicMock, patch
+from types import SimpleNamespace
 from langchain_core.messages import AIMessage, ToolMessage, HumanMessage
 
 from application.agents.agent import StockAgent, AgentState, _content_to_text
@@ -24,6 +25,7 @@ def _make_agent(llm_available=True):
             mock_provider_cls.side_effect = LLMUnavailableError("No LLM")
 
         agent = StockAgent()
+        agent.tools = [SimpleNamespace(name=name) for name in ("get_price", "tool_a", "tool_b")]
         if llm_available:
             agent.llm = mock_llm
         else:

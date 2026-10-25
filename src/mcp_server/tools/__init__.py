@@ -15,4 +15,5 @@ from . import sector
 from . import knowledge
 from . import visualize
 from . import education
+from . import learning_chart
 from . import rates

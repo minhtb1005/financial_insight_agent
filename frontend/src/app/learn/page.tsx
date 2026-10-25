@@ -3,7 +3,7 @@ import { LearningJourney } from "@/components/learning/LearningJourney"
 
 export const metadata: Metadata = { title: "Lộ trình học cùng Trâu Tí | Financial Insight" }
 
-export default async function LearnPage({ searchParams }: { searchParams: Promise<{ module?: string; lesson?: string }> }) {
+export default async function LearnPage({ searchParams }: { searchParams: Promise<{ track?: string; module?: string; lesson?: string }> }) {
   const query = await searchParams
-  return <LearningJourney key={`${query.module ?? "M1"}:${query.lesson ?? ""}`} initialModule={query.module} initialLesson={query.lesson} />
+  return <LearningJourney key={`${query.track}:${query.module}:${query.lesson}`} initialTrack={query.track} initialModule={query.module} initialLesson={query.lesson} />
 }

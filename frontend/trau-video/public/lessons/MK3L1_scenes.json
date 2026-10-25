@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "MK3L1",
+  "module_id": "MK3",
+  "module_title": "Hiểu lời, lỗ và rủi ro",
+  "title": "Tăng 20%, rồi giảm 20%: có về điểm đầu?",
+  "production_revision": "2026-10-22",
+  "status": "draft_ready_for_review",
+  "source_script": "frontend/src/content/learning-tracks.json",
+  "sources": [],
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "aspect_ratio": "9:16"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Tăng 20%, rồi giảm 20%: có về điểm đầu?",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Cùng Trâu Tí tìm hiểu: Tăng 20%, rồi giảm 20%: có về điểm đầu? Hôm nay mình bắt đầu từ câu hỏi: Với dữ liệu giả định 100 → 120 → 96, tính lợi nhuận toàn kỳ và giải thích vì sao +20% rồi -20% không hòa vốn.",
+        "word_count": 48
+      },
+      "on_screen_text": [
+        {
+          "text": "Tăng 20%, rồi giảm 20%: có về điểm đầu?",
+          "split_hint": [
+            "Tăng 20%, rồi giảm 20%: có về điểm đầu?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Lợi nhuận từng kỳ và lãi kép · Phần trăm phục hồi sau thua lỗ",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Tính thay đổi mỗi kỳ bằng giá cuối chia giá đầu trừ 1. Chuỗi 100 → 120 → 96 có kết quả toàn kỳ -4%, không phải 0%. Để từ 96 lên 100 cần tăng khoảng 4,17%. Đây là bài toán giả định, chưa có phí, thuế hay cổ tức.",
+        "word_count": 50
+      },
+      "on_screen_text": [
+        {
+          "text": "Lợi nhuận từng kỳ và lãi kép · Phần trăm phục hồi sau thua lỗ",
+          "split_hint": [
+            "Lợi nhuận từng kỳ và lãi kép",
+            "Phần trăm phục hồi sau thua lỗ"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 20.2,
+      "visual": {
+        "description": "Giả định: 100 → 120 → 96 · Toàn kỳ: −4% · Hồi về 100: +4,17%",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Một trăm tăng hai mươi phần trăm thành một trăm hai mươi. Sau đó giảm hai mươi phần trăm của một trăm hai mươi, tức giảm hai mươi bốn, còn chín mươi sáu. Muốn từ chín mươi sáu về một trăm, cần tăng bốn chia chín mươi sáu, khoảng bốn phẩy một bảy phần trăm.",
+        "word_count": 55
+      },
+      "on_screen_text": [
+        {
+          "text": "Giả định: 100 → 120 → 96 · Toàn kỳ: −4% · Hồi về 100: +4,17%",
+          "split_hint": [
+            "Giả định: 100 → 120 → 96",
+            "Toàn kỳ: −4% · Hồi về 100: +4,17%"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Hãy ghi rõ phần nào là ví dụ giả định và phần nào có nguồn thật. Kiểm tra kỳ, đơn vị và định nghĩa trước khi so sánh. Khi dữ liệu còn thiếu, đánh dấu chưa biết để tìm tiếp.",
+        "word_count": 40
+      },
+      "on_screen_text": [
+        {
+          "text": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+          "split_hint": [
+            "Kỳ · Đơn vị · Định nghĩa",
+            "Thiếu dữ liệu: ghi chưa biết"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11,
+      "visual": {
+        "description": "Thử ngay với bài thực hành bên dưới",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Bài thực hành của bạn: Dùng chuỗi giả định 100 → 120 → 96. Tính từng kỳ, toàn kỳ và mức tăng cần để từ 96 trở lại 100.",
+        "word_count": 29
+      },
+      "on_screen_text": [
+        {
+          "text": "Thử ngay với bài thực hành bên dưới",
+          "split_hint": [
+            "Thử ngay với bài thực hành bên dưới"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16,
+      "visual": {
+        "description": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Sau khi làm xong, ghi lại một điều bạn hiểu rõ hơn và một câu hỏi cần kiểm chứng. Bạn có thể hỏi trợ giảng ngay trong bài học. Nội dung này giúp đọc hiểu dữ liệu, không đưa khuyến nghị mua bán.",
+        "word_count": 43
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+          "split_hint": [
+            "Ghi lại điều học được",
+            "Kiểm chứng trước khi kết luận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3,
+    "on_screen_text": [
+      "Nội dung giáo dục. Ví dụ giả định không phải dữ liệu doanh nghiệp hay khuyến nghị mua bán."
+    ]
+  },
+  "verification": []
+}

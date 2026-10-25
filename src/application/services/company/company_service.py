@@ -1,5 +1,7 @@
 from collections.abc import Callable
 from typing import Any
+import json
+from datetime import datetime, timezone
 
 from shared.constants import COMPANY_TTL_HOURS
 from shared.ports.cache_port import CachePort
@@ -16,6 +18,8 @@ class CompanyService(BaseService):
         err = self._require_tickers(tickers)
         if err:
             return err
+        if field not in _FIELD_GETTERS:
+            return {"error": f"Unsupported company field: {field}"}
         return self.for_each_ticker(tickers, lambda t: self._fetch_single(t, field))
 
     def _fetch_single(self, ticker: str, field: str) -> dict[str, Any]:  # type: ignore[override]  # subclass specialises the base signature by design
@@ -89,7 +93,22 @@ def _get_company_field(
         return {"error": str(e)}
 
 
+def _get_overview(port: CompanyPort, ticker: str) -> dict[str, Any]:
+    data = port.get_overview(ticker)
+    if data is None or getattr(data, "empty", False):
+        return {"error": "No company overview available"}
+    records = json.loads(data.to_json(orient="records")) if hasattr(data, "to_json") else data
+    return {
+        "ticker": ticker,
+        "company_info": records,
+        "data_source": "vnstock:company:overview",
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "note": "Fetched time is not the report effective date; verify the source period.",
+    }
+
+
 _FIELD_GETTERS: dict[str, Callable[[CompanyPort, str], dict[str, Any]]] = {
+    "overview": _get_overview,
     "executives": lambda p, t: _get_company_field(p, t, "executives", "executives"),
     "subsidiaries": lambda p, t: _get_company_field(p, t, "subsidiaries", "subsidiaries"),
     "shareholders": lambda p, t: _get_company_field(p, t, "shareholders", "shareholders"),

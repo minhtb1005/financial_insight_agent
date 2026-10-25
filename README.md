@@ -131,6 +131,8 @@ Vì vnstock API có rate limit gắt (Guest 20 req/phút) mà cùng 1 query gọ
 
 ## 📊 Benchmark & Đánh giá
 
+**Curriculum v2 là bộ đánh giá chính:** 68 cases cho 56 bài tài chính cá nhân, 14 cases cho 10 bài thị trường tự chọn. Chạy `python evals/run_curriculum_eval.py`; thêm `--track market_literacy` để đánh giá track tự chọn. Hướng dẫn và giới hạn: [curriculum/v2](evals/curriculum/v2/README.md). Không gộp điểm hai track; chất lượng giảng giải cần chấm rubric riêng. Các số liệu stock/RAG/dashboard bên dưới là **benchmark lịch sử**, không đại diện chất lượng curriculum.
+
 > Số liệu dưới đây lấy từ các report thực tế trong repo, không phải số minh họa. Bạn có thể mở file nguồn để kiểm chứng từng case.
 
 ### Metadata & cách tái tạo

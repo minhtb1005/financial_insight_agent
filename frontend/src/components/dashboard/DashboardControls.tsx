@@ -1,8 +1,7 @@
 "use client"
 import { useState } from "react"
-import { CHART_TYPES, suitabilityWarning, type ChartType } from "@/lib/chart-spec"
+import { suitabilityWarning, type ChartType } from "@/lib/chart-spec"
 import { useChatStore } from "@/store/chatStore"
-import { useChatStream } from "@/hooks/useChatStream"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -29,20 +28,22 @@ const CHART_LABELS: Record<ChartType, string> = {
 }
 
 /** Đổi loại biểu đồ local (instant, giữ data) + vẽ lại theo mã/khung mới (qua chat). */
-export function DashboardControls({ chartId }: { chartId: string }) {
+export function DashboardControls({ chartId, onRedraw, allowMarketRedraw }: { chartId: string; onRedraw: (query: string) => Promise<void>; allowMarketRedraw: boolean }) {
   const chart = useChatStore((s) => s.chartSpecs.find((c) => c.id === chartId))
   const overrideChartType = useChatStore((s) => s.overrideChartType)
   const isStreaming = useChatStore((s) => s.isStreaming)
-  const { send } = useChatStream()
   const [ticker, setTicker] = useState("")
   const [range, setRange] = useState("6 tháng")
 
   if (!chart) return null
   const warn = suitabilityWarning(chart.spec.chart_type, chart.spec.data.length, chart.spec.series.length)
+  const categorical = chart.spec.x_field === "category"
+  const hasOHLC = chart.spec.series.length === 1 && chart.spec.data.every((row) => ["open", "high", "low", "close"].every((field) => typeof row[field] === "number"))
+  const allowedTypes: ChartType[] = categorical ? ["pie", "donut", "bar"] : ["line", "area", ...(hasOHLC ? ["candlestick" as const] : [])]
 
   const handleRedraw = () => {
-    const q = `Vẽ biểu đồ ${CHART_LABELS[chart.spec.chart_type].toLowerCase()} ${ticker.trim() || "VNM"} ${range}`.trim()
-    if (!isStreaming) void send(q)
+    const q = `Vẽ biểu đồ ${CHART_LABELS[chart.spec.chart_type].toLowerCase()} ${ticker.trim()} ${range} và giải thích giới hạn của dữ liệu.`
+    if (!isStreaming && ticker.trim() && allowMarketRedraw) void onRedraw(q)
   }
 
   return (
@@ -57,7 +58,7 @@ export function DashboardControls({ chartId }: { chartId: string }) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {CHART_TYPES.map((t) => (
+            {allowedTypes.map((t) => (
               <SelectItem key={t} value={t}>
                 {CHART_LABELS[t]}
                 {t === chart.spec.chart_type ? " ✓" : ""}
@@ -71,7 +72,7 @@ export function DashboardControls({ chartId }: { chartId: string }) {
           </Badge>
         )}
       </div>
-      <div className="flex flex-wrap items-center gap-2">
+      {allowMarketRedraw && <div className="flex flex-wrap items-center gap-2">
         <Input
           value={ticker}
           onChange={(e) => setTicker(e.target.value.toUpperCase())}
@@ -92,10 +93,10 @@ export function DashboardControls({ chartId }: { chartId: string }) {
             ))}
           </SelectContent>
         </Select>
-        <Button size="sm" variant="outline" onClick={handleRedraw} disabled={isStreaming}>
+        <Button size="sm" variant="outline" onClick={handleRedraw} disabled={isStreaming || !ticker.trim()}>
           Vẽ lại
         </Button>
-      </div>
+      </div>}
     </div>
   )
 }

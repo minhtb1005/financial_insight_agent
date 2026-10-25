@@ -93,7 +93,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 14.9,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Điện thoại gọi lại số đã lưu",
         "mascot_pose": "idle",
@@ -104,19 +104,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Cách xử lý đơn giản: gọi điện bằng số bạn đã lưu từ trước, hoặc hỏi một câu chỉ người thật biết. Kiểm tra tên chủ tài khoản nhận tiền có đúng người đó không. Nếu không khớp, đừng chuyển.",
-        "word_count": 40,
+        "text": "Tự gọi số đã lưu hoặc xác minh trực tiếp qua kênh độc lập. Tên tài khoản nhận khớp cũng chưa đủ chứng minh yêu cầu thật. Câu hỏi riêng có thể bị lộ, nên đừng chỉ dựa vào một câu trả lời để chuyển tiền.",
+        "word_count": 46,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Gọi lại số đã lưu · Kiểm tra tên người nhận",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Xác minh qua kênh độc lập · Tên khớp chưa đủ",
           "split_hint": [
-            "Gọi lại số đã lưu",
-            "Kiểm tra tên người nhận"
-          ]
+            "Xác minh qua kênh độc lập",
+            "Tên khớp chưa đủ"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -304,7 +303,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -336,6 +335,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Vietcombank — Cảnh báo giả mạo",
+      "url": "https://www.vietcombank.com.vn/vi-VN/KHCN/Truy-cap-nhanh/Tin-noi-bat/Articles/2025/10/22/Thu-doan-gia-mao-the-Ngan-hang"
     }
   ]
 }

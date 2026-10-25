@@ -5,7 +5,7 @@
   "module_title": "Bảo hiểm",
   "title": "Đọc hợp đồng bảo hiểm trong 5 phút",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M5L3",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -38,7 +38,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Hùng cầm thư từ chối chi trả, ngơ ngác",
         "mascot_pose": null,
@@ -95,7 +95,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Trâu Tí chỉ vào mục quyền lợi",
         "mascot_pose": "point",
@@ -126,7 +126,7 @@
     {
       "id": "S4",
       "order": 4,
-      "duration_sec_estimate": 11.3,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Trâu Tí chỉ vào mục loại trừ",
         "mascot_pose": "point",
@@ -137,15 +137,17 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Mục loại trừ hay bị bỏ qua nhất. Ví dụ bệnh đã có từ trước thường nằm ở đây, hoặc bị áp thời gian chờ. Đọc phần này kỹ nhất.",
-        "word_count": 30,
+        "text": "Loại trừ và thời gian chờ là hai điều khác nhau. Hết thời gian chờ không tự xóa loại trừ bệnh có sẵn. Hãy khai báo trung thực, đọc điều kiện của từng quyền lợi và yêu cầu giải thích bằng văn bản.",
+        "word_count": 43,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Đọc kỹ mục loại trừ",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Hết thời gian chờ ≠ hết loại trừ",
+          "split_hint": [
+            "Hết thời gian chờ ≠ hết loại trừ"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -153,7 +155,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 21.3,
       "visual": {
         "description": "Lịch với một vòng khoanh quanh vài ngày",
         "mascot_pose": null,
@@ -162,16 +164,19 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Nhiều hợp đồng cho thời gian cân nhắc để hủy sau khi ký. Hãy hỏi rõ số ngày và điều kiện, và ghi lại ngày bạn nhận hợp đồng.",
-        "word_count": 29,
+        "text": "Điều ba mươi lăm Luật Kinh doanh bảo hiểm quy định: với hợp đồng thời hạn trên một năm, có hai mươi mốt ngày cân nhắc từ ngày nhận hợp đồng. Khi từ chối tiếp tục, phí hoàn lại trừ chi phí hợp lý nếu có theo thỏa thuận. Không áp thời hạn này cho mọi hợp đồng.",
+        "word_count": 58,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Thời gian cân nhắc: [[TRA NGUỒN: số ngày, điều kiện]]",
-          "position": "auto",
-          "appear": "scene_start",
-          "blocked_by": "V1"
+          "text": "Hợp đồng trên 1 năm · 21 ngày từ khi nhận hợp đồng · Hoàn phí trừ chi phí hợp lý theo thỏa thuận",
+          "split_hint": [
+            "Hợp đồng trên 1 năm",
+            "21 ngày từ khi nhận hợp đồng",
+            "Hoàn phí trừ chi phí hợp lý theo thỏa thuận"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -179,7 +184,7 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Lan ghi câu hỏi vào lề giấy",
         "mascot_pose": null,
@@ -210,7 +215,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 14.2,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Ba bút màu tô ba mục trên hợp đồng mẫu",
         "mascot_pose": null,
@@ -219,19 +224,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Cách làm trong năm phút: tô ba mục này bằng ba màu, đọc từng mục một, và đánh dấu mọi chỗ bạn chưa chắc chắn. Chỉ cần vậy là bạn đã đọc kỹ hơn phần lớn mọi người.",
-        "word_count": 38,
+        "text": "Năm phút đầu dùng để đánh dấu quyền lợi, loại trừ và thời gian chờ. Đây chỉ là bước rà soát, không thay việc đọc toàn bộ hợp đồng. Ghi lại câu hỏi rồi xác nhận bằng văn bản trước khi quyết định.",
+        "word_count": 43,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Tô 3 mục · Đánh dấu chỗ chưa chắc",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "5 phút: bước rà soát đầu · Đọc toàn bộ hợp đồng",
           "split_hint": [
-            "Tô 3 mục",
-            "Đánh dấu chỗ chưa chắc"
-          ]
+            "5 phút: bước rà soát đầu",
+            "Đọc toàn bộ hợp đồng"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -295,7 +299,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -313,20 +317,22 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "S5"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: số ngày, điều kiện]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: số ngày, điều kiện]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: Luật Kinh doanh bảo hiểm và hướng dẫn hiện hành]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: Luật Kinh doanh bảo hiểm và hướng dẫn hiện hành]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V3",
@@ -354,6 +360,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Luật Kinh doanh bảo hiểm — Điều 35",
+      "url": "https://xaydungchinhsach.chinhphu.vn/toan-van-luat-kinh-doanh-bao-hiem-119240130070753445.htm"
     }
   ]
 }

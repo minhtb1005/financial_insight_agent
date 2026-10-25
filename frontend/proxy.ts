@@ -7,7 +7,7 @@ import { withAuth } from "next-auth/middleware"
 export default withAuth({
   pages: { signIn: "/login" },
   callbacks: {
-    authorized: ({ req, token }) => ["/", "/learn", "/demo"].includes(req.nextUrl.pathname) || !!token,
+    authorized: ({ req, token }) => ["/", "/learn", "/demo"].includes(req.nextUrl.pathname) || req.nextUrl.pathname.startsWith("/lesson-videos/") || !!token,
   },
 })
 

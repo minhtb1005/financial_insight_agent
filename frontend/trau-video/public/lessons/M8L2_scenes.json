@@ -5,8 +5,8 @@
   "module_title": "Lập kế hoạch tài chính dài hạn (không đầu tư)",
   "title": "Về hưu cần bao nhiêu mỗi tháng?",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M8L2",
-  "status": "draft_blocked_pending_verification",
-  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
+  "status": "draft_ready_for_review",
+  "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung. (2026-10-25: đã chuẩn hóa nhân vật — Mai đổi thành Hùng, giữ cấu trúc hai nhân vật Lan + Hùng — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -20,7 +20,7 @@
   },
   "characters_detected": [
     "Lan",
-    "Mai",
+    "Hùng",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -40,17 +40,17 @@
       "order": 1,
       "duration_sec_estimate": 14.5,
       "visual": {
-        "description": "Lan 30 tuổi hỏi chị Mai bên tách trà",
+        "description": "Lan 30 tuổi hỏi anh Hùng bên tách trà",
         "mascot_pose": null,
         "characters": [
           "Lan",
-          "Mai"
+          "Hùng"
         ],
         "background": null,
         "animation_notes": null
       },
       "vo": {
-        "text": "Lan hỏi chị Mai: về hưu cần bao nhiêu mỗi tháng? Chị Mai cười: chị cũng chưa tính bao giờ. Hóa ra đa số chúng ta đều chưa thử tính. Hôm nay ta thử, bằng bốn bước đơn giản.",
+        "text": "Lan hỏi anh Hùng: về hưu cần bao nhiêu mỗi tháng? Anh Hùng cười: anh cũng chưa tính bao giờ. Hóa ra đa số chúng ta đều chưa thử tính. Hôm nay ta thử, bằng bốn bước đơn giản.",
         "word_count": 39,
         "tts_numeric_tokens": []
       },
@@ -66,7 +66,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Bước một hiện trên bảng",
         "mascot_pose": null,
@@ -91,7 +91,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Đồng hồ cát chạy ba mươi năm",
         "mascot_pose": null,
@@ -201,7 +201,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Trâu Tí đứng trước ba cột, nói nhẹ",
         "mascot_pose": "idle",
@@ -253,7 +253,7 @@
     {
       "id": "S9",
       "order": 9,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Trâu Tí đưa máy tính cho người xem",
         "mascot_pose": "point",
@@ -279,7 +279,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -297,11 +297,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: điều kiện và cách tính lương hưu hiện hành]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: điều kiện và cách tính lương hưu hiện hành]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -330,5 +331,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

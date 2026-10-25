@@ -39,7 +39,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Điện thoại đổ chuông, màn hình hiện số lạ",
         "mascot_pose": "think",
@@ -174,7 +174,7 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Lời mời có dòng chữ lãi cao chắc chắn",
         "mascot_pose": "point",
@@ -201,7 +201,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Đường link giả, mã QR lạ, ô nhập OTP",
         "mascot_pose": "idle",
@@ -228,7 +228,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Tin nhắn từ tên bạn bè, ảnh đại diện quen",
         "mascot_pose": "think",
@@ -286,7 +286,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -327,6 +327,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Vietcombank — Cảnh báo giả mạo",
+      "url": "https://www.vietcombank.com.vn/vi-VN/KHCN/Truy-cap-nhanh/Tin-noi-bat/Articles/2025/10/22/Thu-doan-gia-mao-the-Ngan-hang"
     }
   ]
 }

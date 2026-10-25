@@ -26,6 +26,7 @@ from infrastructure.observability.metrics.collector import get_metrics_collector
 from infrastructure.observability.tracing import SpanKind, get_tracer
 from infrastructure.observability.tracing.context import span_stack_var, trace_id_var
 from application.agents.agent import AgentStreamEvent, StockAgent
+from application.learning.policy import LearningContext
 from infrastructure.guardrails.pipeline import GuardrailPipeline
 
 _MAX_REQUEST_BODY = 1_048_576  # 1 MB
@@ -91,11 +92,12 @@ async def _check_global_rate_limit(client_ip: str) -> None:
 
 
 class QueryRequest(BaseModel):
+    learning_context: LearningContext = Field(default_factory=LearningContext)
     query: str = Field(
         ...,
         min_length=1,
         max_length=_MAX_QUERY_LENGTH,
-        description="Vietnamese stock market question",
+        description="Câu hỏi học tài chính theo lộ trình đã chọn",
     )
     activeChartSpec: dict | None = Field(
         default=None,
@@ -480,7 +482,9 @@ async def ask_stock_agent_stream(
             try:
                 full_response = ""
                 loop = asyncio.get_running_loop()
-                async_queue: asyncio.Queue[str | AgentStreamEvent | None] = asyncio.Queue(maxsize=64)
+                async_queue: asyncio.Queue[str | AgentStreamEvent | None] = asyncio.Queue(
+                    maxsize=64
+                )
 
                 def _produce():
                     trace_token = trace_id_var.set(getattr(request.state, "trace_id", None))
@@ -491,6 +495,7 @@ async def ask_stock_agent_stream(
                             request_id=request_id,
                             user_id=current_user.id,
                             active_chart_spec=body.activeChartSpec,
+                            learning_context=body.learning_context.model_dump(),
                         ):
                             if cancel_event.is_set():
                                 return
@@ -508,7 +513,10 @@ async def ask_stock_agent_stream(
                         )
                         with suppress(Exception):
                             asyncio.run_coroutine_threadsafe(
-                                async_queue.put(AgentStreamEvent("error", "Có lỗi khi xử lý câu hỏi.")), loop
+                                async_queue.put(
+                                    AgentStreamEvent("error", "Có lỗi khi xử lý câu hỏi.")
+                                ),
+                                loop,
                             ).result()
                     finally:
                         with suppress(Exception):
@@ -539,9 +547,16 @@ async def ask_stock_agent_stream(
                     full_response += chunk
                     yield f"event: chunk\ndata: {json.dumps(chunk, ensure_ascii=False)}\n\n"
 
-                if not stream_failed and not chart_failed and not full_response.strip() and not await request.is_disconnected():
+                if (
+                    not stream_failed
+                    and not chart_failed
+                    and not full_response.strip()
+                    and not await request.is_disconnected()
+                ):
                     stream_failed = True
-                    yield _sse_error_event("Trợ giảng AI không trả về nội dung.", "empty_response", request_id)
+                    yield _sse_error_event(
+                        "Trợ giảng AI không trả về nội dung.", "empty_response", request_id
+                    )
                 stream_failed = stream_failed or chart_failed
                 latency_ms = round((time.time() - start_time) * 1000, 2)
                 if not stream_failed and not await request.is_disconnected():
@@ -553,7 +568,11 @@ async def ask_stock_agent_stream(
                     yield f"event: final\ndata: {final.model_dump_json()}\n\n"
                 end_requested = True
                 _request_logger.end_request(
-                    status=("disconnected" if await request.is_disconnected() else "error" if stream_failed else "completed")
+                    status=(
+                        "disconnected"
+                        if await request.is_disconnected()
+                        else "error" if stream_failed else "completed"
+                    )
                 )
                 metrics_collector = get_metrics_collector()
                 if metrics_collector and not await request.is_disconnected():

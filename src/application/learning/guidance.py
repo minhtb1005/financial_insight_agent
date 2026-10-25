@@ -2,7 +2,6 @@
 
 from application.learning.references import references_for
 
-
 CONTENT_RULES = """
 Quy tắc chất lượng nội dung:
 - Trả lời đúng câu hỏi đang hỏi. Chỉ dùng sự kiện pháp lý/lãi suất/phí từ nguồn có nội dung

@@ -1,0 +1,12 @@
+{
+  "status": "historical_diagnostics_only",
+  "default_runner": "run_curriculum_eval.py",
+  "default_track": "personal_finance",
+  "historical_paths": ["golden/golden_dataset.jsonl", "golden/rag_dataset.jsonl", "dashboard/v1/benchmark.jsonl", "baselines/baseline-v1.json"],
+  "policy": "Preserve legacy data and baseline for reproducibility. Do not pool scores with curriculum-v2. Legacy forecast, indicator, ranking, portfolio and alert tools are not bound in either learning track.",
+  "adaptations": [
+    {"source": "golden/golden_dataset.jsonl", "id": "comp_002", "lesson": "MK1L2", "change": "Company profile becomes an evidence-reading exercise"},
+    {"source": "dashboard/v1/benchmark.jsonl", "id": "candle_001", "lesson": "MK2L1", "change": "Chart generation becomes an axes/source/limitations exercise"},
+    {"source": "golden/golden_dataset.jsonl", "id": "ratio_001", "lesson": "MK4L2", "change": "Ratio lookup becomes interpretation with limits, without buy/sell advice"}
+  ]
+}

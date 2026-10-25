@@ -1,4 +1,8 @@
-# Evals — Golden Dataset, RAGAS & Benchmark
+# Evals — Curriculum first
+
+Benchmark mặc định của sản phẩm: [curriculum/v2](curriculum/v2/README.md), chạy `python evals/run_curriculum_eval.py`. Lộ trình chính có 68 cases; thị trường tự chọn có 14 cases. Báo cáo riêng, không gộp điểm. `--validate-only` chỉ kiểm cấu trúc/coverage, không chứng minh chất lượng trả lời.
+
+Các bộ golden/RAG/dashboard/reformulation/sentiment bên dưới là **chẩn đoán lịch sử hoặc kiểm thử thành phần**, không phải thước đo curriculum. Giữ dữ liệu và baseline để truy vết; chỉ tuyển chọn rồi viết lại các case có mục tiêu học. Xem [legacy-manifest.json](legacy-manifest.json). Các hướng dẫn bên dưới dành cho runner lịch sử.
 
 ## Cấu trúc
 

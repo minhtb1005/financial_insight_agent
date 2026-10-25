@@ -93,7 +93,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Thanh quỹ 30tr, vạch mục tiêu 24tr",
         "mascot_pose": "idle",
@@ -152,7 +152,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Tin nhắn thỏa thuận có số tiền và ngày",
         "mascot_pose": "idle",
@@ -215,7 +215,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Bong bóng thoại từ chối nhẹ nhàng",
         "mascot_pose": "idle",
@@ -247,7 +247,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Lịch trả hẹn bị trễ, tin nhắn nhắc nhẹ",
         "mascot_pose": "think",
@@ -279,7 +279,7 @@
     {
       "id": "S9",
       "order": 9,
-      "duration_sec_estimate": 15.2,
+      "duration_sec_estimate": 19.2,
       "visual": {
         "description": "Trâu Tí cầm máy tính, số 6tr được tô sáng",
         "mascot_pose": "happy",
@@ -290,22 +290,25 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Hôm nay, hãy tính phần dư của bạn so với mục tiêu quỹ khẩn cấp. Đó là mức tối đa bạn nên cân nhắc cho người khác vay. Lưu con số lại để lần sau trả lời nhanh và bình tĩnh.",
-        "word_count": 41,
+        "text": "Tính phần tiền sau khi giữ đủ dự phòng, trừ các nghĩa vụ và khoản chi sắp tới. Phần dư chỉ là giới hạn để cân nhắc, không phải khuyến nghị đem cho vay hết. Chỉ quyết định sau khi xét khả năng chấp nhận mất tiền và thỏa thuận trả nợ.",
+        "word_count": 52,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Số liệu minh họa",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Dư sau dự phòng và nghĩa vụ · Không mặc định cho vay hết phần dư",
+          "split_hint": [
+            "Dư sau dự phòng và nghĩa vụ",
+            "Không mặc định cho vay hết phần dư"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "fade_to_end_card"
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -347,5 +350,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

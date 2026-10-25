@@ -6,7 +6,7 @@
   "title": "Nói chuyện tiền bạc trước hôn nhân và xử lý xung đột",
   "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật sang Lan + Hùng, thay cho Hà và Nam, theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,8 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Hà và Nam",
+    "Lan",
+    "Hùng",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -39,7 +40,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Thiệp cưới đẹp, một dấu hỏi lơ lửng",
         "mascot_pose": "think",
@@ -99,9 +100,9 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
-        "description": "Hai người, hai cách nhìn một đồng tiền",
+        "description": "Lan và Hùng, hai cách nhìn một đồng tiền",
         "mascot_pose": "idle",
         "characters": [
           "Trâu Tí"
@@ -184,9 +185,9 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
-        "description": "Hai người, một câu hỏi lơ lửng",
+        "description": "Lan và Hùng, một câu hỏi lơ lửng",
         "mascot_pose": "think",
         "characters": [
           "Trâu Tí"
@@ -211,7 +212,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Hai hũ: tự do cá nhân và tiết kiệm chung",
         "mascot_pose": "point",
@@ -238,7 +239,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Đồng hồ tạm dừng giữa cuộc nói chuyện nóng",
         "mascot_pose": "idle",
@@ -295,7 +296,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -319,5 +320,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

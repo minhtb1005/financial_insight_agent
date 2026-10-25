@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "MK1L2",
+  "module_id": "MK1",
+  "module_title": "Hiểu mình đang sở hữu gì",
+  "title": "Mã chứng khoán chưa phải câu chuyện doanh nghiệp",
+  "production_revision": "2026-10-22",
+  "status": "draft_ready_for_review",
+  "source_script": "frontend/src/content/learning-tracks.json",
+  "sources": [
+    {
+      "title": "SEC — Beginners’ Guide to Financial Statements",
+      "url": "https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements"
+    }
+  ],
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "aspect_ratio": "9:16"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 16.3,
+      "visual": {
+        "description": "Mã chứng khoán chưa phải câu chuyện doanh nghiệp",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Cùng Trâu Tí tìm hiểu: Mã chứng khoán chưa phải câu chuyện doanh nghiệp Hôm nay mình bắt đầu từ câu hỏi: Tra cứu VNM để minh họa cách đọc hồ sơ doanh nghiệp; thông tin nào chưa đủ để kết luận nên mua?",
+        "word_count": 44
+      },
+      "on_screen_text": [
+        {
+          "text": "Mã chứng khoán chưa phải câu chuyện doanh nghiệp",
+          "split_hint": [
+            "Mã chứng khoán chưa phải câu chuyện doanh nghiệp"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 19.2,
+      "visual": {
+        "description": "Tra cứu đúng doanh nghiệp · Kiểm tra nguồn và thời điểm thông tin",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Một mã là điểm bắt đầu để tìm doanh nghiệp. Hồ sơ giúp biết doanh nghiệp hoạt động trong lĩnh vực nào; muốn hiểu kết quả kinh doanh cần đọc báo cáo đúng kỳ. Không biến tên thương hiệu quen thuộc thành kết luận về mức độ phù hợp của cổ phiếu.",
+        "word_count": 52
+      },
+      "on_screen_text": [
+        {
+          "text": "Tra cứu đúng doanh nghiệp · Kiểm tra nguồn và thời điểm thông tin",
+          "split_hint": [
+            "Tra cứu đúng doanh nghiệp",
+            "Kiểm tra nguồn và thời điểm thông tin"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 15.6,
+      "visual": {
+        "description": "Pháp nhân · Kỳ dữ liệu · Nguồn",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Thử tra cứu một mã rồi ghi tên pháp nhân, ngành, kỳ dữ liệu và nguồn. Nếu chưa có báo cáo thì để trống các chỉ tiêu. Tên thương hiệu quen thuộc không thay thế bằng chứng về hoạt động kinh doanh.",
+        "word_count": 42
+      },
+      "on_screen_text": [
+        {
+          "text": "Pháp nhân · Kỳ dữ liệu · Nguồn",
+          "split_hint": [
+            "Pháp nhân · Kỳ dữ liệu · Nguồn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Hãy ghi rõ phần nào là ví dụ giả định và phần nào có nguồn thật. Kiểm tra kỳ, đơn vị và định nghĩa trước khi so sánh. Khi dữ liệu còn thiếu, đánh dấu chưa biết để tìm tiếp.",
+        "word_count": 40
+      },
+      "on_screen_text": [
+        {
+          "text": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+          "split_hint": [
+            "Kỳ · Đơn vị · Định nghĩa",
+            "Thiếu dữ liệu: ghi chưa biết"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 9.9,
+      "visual": {
+        "description": "Thử ngay với bài thực hành bên dưới",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Bài thực hành của bạn: Tra cứu VNM. Ghi tên doanh nghiệp, hoạt động chính, nguồn và ngày dữ liệu; ghi rõ phần chưa kiểm chứng.",
+        "word_count": 26
+      },
+      "on_screen_text": [
+        {
+          "text": "Thử ngay với bài thực hành bên dưới",
+          "split_hint": [
+            "Thử ngay với bài thực hành bên dưới"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16,
+      "visual": {
+        "description": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Sau khi làm xong, ghi lại một điều bạn hiểu rõ hơn và một câu hỏi cần kiểm chứng. Bạn có thể hỏi trợ giảng ngay trong bài học. Nội dung này giúp đọc hiểu dữ liệu, không đưa khuyến nghị mua bán.",
+        "word_count": 43
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+          "split_hint": [
+            "Ghi lại điều học được",
+            "Kiểm chứng trước khi kết luận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3,
+    "on_screen_text": [
+      "Nội dung giáo dục. Ví dụ giả định không phải dữ liệu doanh nghiệp hay khuyến nghị mua bán."
+    ]
+  },
+  "verification": []
+}

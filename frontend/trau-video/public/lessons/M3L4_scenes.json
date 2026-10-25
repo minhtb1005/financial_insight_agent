@@ -5,7 +5,7 @@
   "module_title": "Quản lý nợ & tín dụng",
   "title": "Thẻ tín dụng không phải tiền miễn phí",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M3L4",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -37,7 +37,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Hùng quẹt thẻ liên tục, mặt tươi",
         "mascot_pose": null,
@@ -64,7 +64,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 12.4,
+      "duration_sec_estimate": 26,
       "visual": {
         "description": "Nhãn kỳ miễn lãi hiện lên cạnh lịch",
         "mascot_pose": null,
@@ -73,15 +73,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Có hai khái niệm cần nhớ. Thứ nhất là kỳ miễn lãi: nếu bạn trả đủ toàn bộ đúng hạn thì không tốn lãi. Điều kiện cụ thể mỗi ngân hàng mỗi khác.",
-        "word_count": 33,
+        "text": "Miễn lãi phụ thuộc loại giao dịch và điều kiện của hợp đồng. Trả đủ đúng hạn có thể đáp ứng điều kiện cho giao dịch mua hàng; rút tiền mặt hoặc khoản khác có thể có cách tính riêng. Trả đủ tối thiểu đúng hạn không tự động là nợ xấu, nhưng dư nợ còn lại có thể phát sinh lãi. Hãy đọc sao kê và điều khoản của thẻ.",
+        "word_count": 71,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Trả đủ đúng hạn → không tốn lãi",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Miễn lãi: kiểm đúng điều kiện · Tối thiểu đúng hạn ≠ tự động nợ xấu",
+          "split_hint": [
+            "Miễn lãi: kiểm đúng điều kiện",
+            "Tối thiểu đúng hạn ≠ tự động nợ xấu"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -139,7 +142,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Lịch chạy qua mười hai tháng, ô lãi cộng dồn",
         "mascot_pose": null,
@@ -227,7 +230,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 23.8,
+      "duration_sec_estimate": 26,
       "visual": {
         "description": "Hùng mở sao kê, tay chỉ vào bốn dòng được khoanh",
         "mascot_pose": null,
@@ -238,20 +241,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Tóm lại: thẻ tín dụng là công cụ tiện, không phải nguồn tiền miễn phí. Trả đủ đúng hạn thì không tốn lãi. Trả tối thiểu thì nợ vẫn còn và lãi vẫn chạy. Mỗi tháng hãy mở sao kê, nhìn bốn dòng quan trọng, và chỉ quẹt những gì bạn chắc chắn trả đủ khi đến hạn. Ba mươi giây mỗi tháng là đủ.",
-        "word_count": 65,
+        "text": "Miễn lãi phụ thuộc loại giao dịch và điều kiện của hợp đồng. Trả đủ đúng hạn có thể đáp ứng điều kiện cho giao dịch mua hàng; rút tiền mặt hoặc khoản khác có thể có cách tính riêng. Trả đủ tối thiểu đúng hạn không tự động là nợ xấu, nhưng dư nợ còn lại có thể phát sinh lãi. Hãy đọc sao kê và điều khoản của thẻ.",
+        "word_count": 71,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Trả đủ · Đúng hạn · Xem sao kê",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Miễn lãi: kiểm đúng điều kiện · Tối thiểu đúng hạn ≠ tự động nợ xấu",
           "split_hint": [
-            "Trả đủ",
-            "Đúng hạn",
-            "Xem sao kê"
-          ]
+            "Miễn lãi: kiểm đúng điều kiện",
+            "Tối thiểu đúng hạn ≠ tự động nợ xấu"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -290,7 +291,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -308,11 +309,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định thẻ tín dụng hiện hành]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: quy định thẻ tín dụng hiện hành]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -332,5 +334,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

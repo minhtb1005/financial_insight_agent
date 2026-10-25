@@ -50,9 +50,9 @@ def test_sync_tool_is_still_invoked_once():
         return {"amount": amount}
 
     tool = StructuredTool.from_function(func=calculate, name="calculate", description="Calculate")
-    assert json.loads(CustomToolNode([tool])._execute(
-        {"name": "calculate", "args": {"amount": 12}}
-    )) == {"amount": 12}
+    assert json.loads(
+        CustomToolNode([tool])._execute({"name": "calculate", "args": {"amount": 12}})
+    ) == {"amount": 12}
 
 
 def test_async_mcp_failure_is_visible_as_tool_error():
@@ -62,6 +62,7 @@ def test_async_mcp_failure_is_visible_as_tool_error():
     tool = StructuredTool.from_function(
         coroutine=unavailable, name="unavailable", description="Unavailable"
     )
-    assert CustomToolNode([tool])._execute(
-        {"name": "unavailable", "args": {}}
-    ) == "TOOL_ERR#UNKNOWN MCP unavailable"
+    assert (
+        CustomToolNode([tool])._execute({"name": "unavailable", "args": {}})
+        == "TOOL_ERR#UNKNOWN MCP unavailable"
+    )

@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "MK4L2",
+  "module_id": "MK4",
+  "module_title": "Đọc những con số của doanh nghiệp",
+  "title": "Một tỷ số đẹp có đủ để kết luận?",
+  "production_revision": "2026-10-22",
+  "status": "draft_ready_for_review",
+  "source_script": "frontend/src/content/learning-tracks.json",
+  "sources": [
+    {
+      "title": "SEC — Beginners’ Guide to Financial Statements",
+      "url": "https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements"
+    }
+  ],
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "aspect_ratio": "9:16"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 17,
+      "visual": {
+        "description": "Một tỷ số đẹp có đủ để kết luận?",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Cùng Trâu Tí tìm hiểu: Một tỷ số đẹp có đủ để kết luận? Hôm nay mình bắt đầu từ câu hỏi: Tra cứu tỷ số tài chính VNM và giải thích ý nghĩa P/E, ROE cùng giới hạn của chúng; không kết luận mua bán.",
+        "word_count": 46
+      },
+      "on_screen_text": [
+        {
+          "text": "Một tỷ số đẹp có đủ để kết luận?",
+          "split_hint": [
+            "Một tỷ số đẹp có đủ để kết luận?"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 19.5,
+      "visual": {
+        "description": "Đọc P/E, ROE cùng kỳ và đơn vị · Giới hạn khi so sánh doanh nghiệp",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "P/E liên hệ giá với lợi nhuận trên mỗi cổ phiếu; ROE liên hệ lợi nhuận với vốn chủ sở hữu. Kiểm tra định nghĩa và kỳ tính của nhà cung cấp. Lợi nhuận bất thường, khác ngành hoặc vốn chủ sở hữu nhỏ có thể làm việc so sánh thiếu ý nghĩa.",
+        "word_count": 53
+      },
+      "on_screen_text": [
+        {
+          "text": "Đọc P/E, ROE cùng kỳ và đơn vị · Giới hạn khi so sánh doanh nghiệp",
+          "split_hint": [
+            "Đọc P/E, ROE cùng kỳ và đơn vị",
+            "Giới hạn khi so sánh doanh nghiệp"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 21.3,
+      "visual": {
+        "description": "Cùng kỳ · Cùng định nghĩa · Cùng đơn vị",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Khi so hai tỷ số, hãy kiểm cùng kỳ, cùng cách tính và đơn vị. Lợi nhuận chỉ phát sinh một lần có thể làm P trên E trông thấp. Vốn chủ sở hữu nhỏ có thể làm R O E cao. Một tỷ số riêng lẻ chưa đủ để kết luận doanh nghiệp tốt hay giá rẻ.",
+        "word_count": 58
+      },
+      "on_screen_text": [
+        {
+          "text": "Cùng kỳ · Cùng định nghĩa · Cùng đơn vị",
+          "split_hint": [
+            "Cùng kỳ · Cùng định nghĩa · Cùng đơn vị"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Hãy ghi rõ phần nào là ví dụ giả định và phần nào có nguồn thật. Kiểm tra kỳ, đơn vị và định nghĩa trước khi so sánh. Khi dữ liệu còn thiếu, đánh dấu chưa biết để tìm tiếp.",
+        "word_count": 40
+      },
+      "on_screen_text": [
+        {
+          "text": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+          "split_hint": [
+            "Kỳ · Đơn vị · Định nghĩa",
+            "Thiếu dữ liệu: ghi chưa biết"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 11,
+      "visual": {
+        "description": "Thử ngay với bài thực hành bên dưới",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Bài thực hành của bạn: Tra cứu tỷ số VNM. Chọn một tỷ số, ghi kỳ, nguồn, ý nghĩa và hai thông tin còn thiếu trước khi diễn giải.",
+        "word_count": 29
+      },
+      "on_screen_text": [
+        {
+          "text": "Thử ngay với bài thực hành bên dưới",
+          "split_hint": [
+            "Thử ngay với bài thực hành bên dưới"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16,
+      "visual": {
+        "description": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Sau khi làm xong, ghi lại một điều bạn hiểu rõ hơn và một câu hỏi cần kiểm chứng. Bạn có thể hỏi trợ giảng ngay trong bài học. Nội dung này giúp đọc hiểu dữ liệu, không đưa khuyến nghị mua bán.",
+        "word_count": 43
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+          "split_hint": [
+            "Ghi lại điều học được",
+            "Kiểm chứng trước khi kết luận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3,
+    "on_screen_text": [
+      "Nội dung giáo dục. Ví dụ giả định không phải dữ liệu doanh nghiệp hay khuyến nghị mua bán."
+    ]
+  },
+  "verification": []
+}

@@ -39,7 +39,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Xấp tiền 100 triệu hôm nay và năm năm sau",
         "mascot_pose": "think",
@@ -255,7 +255,7 @@
     {
       "id": "S9",
       "order": 9,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Trâu Tí chỉ vào công cụ tính với ba nút thấp, vừa, cao",
         "mascot_pose": "happy",
@@ -281,7 +281,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -332,5 +332,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

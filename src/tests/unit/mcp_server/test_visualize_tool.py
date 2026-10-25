@@ -26,8 +26,8 @@ def test_generate_chart_spec_returns_valid_spec_json():
 
 def test_generate_chart_spec_explicit_hint_respected():
     fake_rows = [
-        {"time": "2026-03-01", "close": 61.8},
-        {"time": "2026-03-02", "close": 62.1},
+        {"time": "2026-03-01", "open": 61, "high": 62, "low": 60, "close": 61.8},
+        {"time": "2026-03-02", "open": 61.8, "high": 63, "low": 61, "close": 62.1},
     ]
     with patch.object(viz, "_fetch_rows", return_value=(fake_rows, "vnstock:VNM:close:6m")):
         raw = viz.generate_chart_spec(
@@ -73,6 +73,9 @@ def test_fetch_rows_does_not_invent_prices_when_service_has_no_data():
     from mcp_server.tools import visualize as viz_mod
     import pytest
 
-    with patch("mcp_server.tools.visualize.handle_price_query", return_value={"VNM": {"error": "unavailable"}}):
+    with patch(
+        "mcp_server.tools.visualize.handle_price_query",
+        return_value={"VNM": {"error": "unavailable"}},
+    ):
         with pytest.raises(ValueError, match="Không có dữ liệu giá"):
             viz_mod._fetch_rows(["VNM"], "close", 6, None)

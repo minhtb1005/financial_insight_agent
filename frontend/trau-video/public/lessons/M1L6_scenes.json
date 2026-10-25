@@ -6,7 +6,7 @@
   "title": "Quản lý tiền khi còn là sinh viên",
   "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật — Minh đổi thành Hùng — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,7 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Minh",
+    "Hùng",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -34,14 +34,14 @@
     "pace": "vừa phải",
     "provider": null
   },
-  "hook": "Minh làm thêm cuối tuần, gia đình vẫn gửi tiền, vậy mà cuối tháng vẫn hết sạch.",
+  "hook": "Hùng làm thêm cuối tuần, gia đình vẫn gửi tiền, vậy mà cuối tháng vẫn hết sạch.",
   "scenes": [
     {
       "id": "S1",
       "order": 1,
       "duration_sec_estimate": 13.1,
       "visual": {
-        "description": "Minh nhìn ví gần trống ở cuối tháng",
+        "description": "Hùng nhìn ví gần trống ở cuối tháng",
         "mascot_pose": "think",
         "characters": [
           "Trâu Tí"
@@ -50,7 +50,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Minh là sinh viên năm hai. Gia đình gửi tiền mỗi tháng, cậu làm thêm cuối tuần, vậy mà cuối tháng vẫn hết sạch. Tiền đi đâu, và làm sao để tháng sau khác đi?",
+        "text": "Hùng là sinh viên năm hai. Gia đình gửi tiền mỗi tháng, cậu làm thêm cuối tuần, vậy mà cuối tháng vẫn hết sạch. Tiền đi đâu, và làm sao để tháng sau khác đi?",
         "word_count": 35,
         "tts_numeric_tokens": []
       },
@@ -66,7 +66,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Hai dòng tiền chảy vào một chiếc ví",
         "mascot_pose": "point",
@@ -77,7 +77,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Bước đầu là gom hết nguồn thu. Mỗi tháng Minh nhận ba triệu từ gia đình và hai triệu từ làm thêm, tổng cộng năm triệu đồng. Hãy ghi riêng hai nguồn, vì thu nhập làm thêm có thể đổi theo lịch học.",
+        "text": "Bước đầu là gom hết nguồn thu. Mỗi tháng Hùng nhận ba triệu từ gia đình và hai triệu từ làm thêm, tổng cộng năm triệu đồng. Hãy ghi riêng hai nguồn, vì thu nhập làm thêm có thể đổi theo lịch học.",
         "word_count": 43,
         "tts_numeric_tokens": []
       },
@@ -93,7 +93,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Sáu ô chi tiêu lần lượt hiện",
         "mascot_pose": "idle",
@@ -236,7 +236,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 15.2,
+      "duration_sec_estimate": 18.1,
       "visual": {
         "description": "Hai chiếc hũ: tiền gia đình, tiền tự kiếm",
         "mascot_pose": "idle",
@@ -247,19 +247,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Một cách thử: coi tiền gia đình gửi là phần chi thiết yếu, còn tiền tự kiếm là phần linh hoạt cho mục tiêu riêng của bạn. Nhìn riêng hai nguồn giúp bạn thấy mình đang tự lập được tới đâu.",
-        "word_count": 41,
+        "text": "Khoản thiết yếu trong ví dụ đã vượt ba triệu gia đình hỗ trợ. Vì vậy không thể coi toàn bộ tiền làm thêm là tiền linh hoạt. Hãy cộng các khoản bắt buộc, khoản theo kỳ, rồi mới xác định phần còn lại để chi hoặc để dành.",
+        "word_count": 49,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Tiền gia đình → thiết yếu · Tiền tự kiếm → linh hoạt",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Tổng thu − khoản bắt buộc − khoản theo kỳ · Phần còn lại mới linh hoạt",
           "split_hint": [
-            "Tiền gia đình → thiết yếu",
-            "Tiền tự kiếm → linh hoạt"
-          ]
+            "Tổng thu − khoản bắt buộc − khoản theo kỳ",
+            "Phần còn lại mới linh hoạt"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -293,7 +292,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -335,5 +334,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

@@ -6,7 +6,7 @@
   "title": "Quỹ khẩn cấp khi thu nhập không ổn định",
   "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật — Dũng đổi thành Hùng — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,7 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Dũng",
+    "Hùng",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -50,7 +50,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Tháng này Dũng nhận hai mươi triệu từ khách, tháng sau chỉ sáu triệu. Làm tự do thì chủ động, nhưng chi tiêu thì tháng nào cũng đến. Thu nhập thất thường cần một cách tính quỹ khẩn cấp khác.",
+        "text": "Tháng này Hùng nhận hai mươi triệu từ khách, tháng sau chỉ sáu triệu. Làm tự do thì chủ động, nhưng chi tiêu thì tháng nào cũng đến. Thu nhập thất thường cần một cách tính quỹ khẩn cấp khác.",
         "word_count": 40,
         "tts_numeric_tokens": []
       },
@@ -77,7 +77,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Bước một: nhìn sáu tháng gần nhất. Thu nhập của Dũng lần lượt là tám, mười lăm, sáu, mười hai, hai mươi và chín triệu. Tổng là bảy mươi triệu, trung bình khoảng mười một triệu bảy trăm nghìn mỗi tháng.",
+        "text": "Bước một: nhìn sáu tháng gần nhất. Thu nhập của Hùng lần lượt là tám, mười lăm, sáu, mười hai, hai mươi và chín triệu. Tổng là bảy mươi triệu, trung bình khoảng mười một triệu bảy trăm nghìn mỗi tháng.",
         "word_count": 41,
         "tts_numeric_tokens": []
       },
@@ -112,7 +112,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Trung bình nhìn khá ổn, nhưng không phải tháng nào cũng bằng trung bình. Dũng chi thiết yếu chín triệu mỗi tháng. Có hai tháng thu thấp hơn, tám triệu và sáu triệu, thiếu tổng cộng bốn triệu.",
+        "text": "Trung bình nhìn khá ổn, nhưng không phải tháng nào cũng bằng trung bình. Hùng chi thiết yếu chín triệu mỗi tháng. Có hai tháng thu thấp hơn, tám triệu và sáu triệu, thiếu tổng cộng bốn triệu.",
         "word_count": 38,
         "tts_numeric_tokens": []
       },
@@ -143,7 +143,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Bước hai: dùng một tài khoản làm bể chứa. Mọi khoản thu đều vào bể, và mỗi tháng Dũng chỉ rút chín triệu như một khoản lương cho mình. Tháng nhiều thì bể đầy, tháng ít thì lấy từ bể.",
+        "text": "Bước hai: dùng một tài khoản làm bể chứa. Mọi khoản thu đều vào bể, và mỗi tháng Hùng chỉ rút chín triệu như một khoản lương cho mình. Tháng nhiều thì bể đầy, tháng ít thì lấy từ bể.",
         "word_count": 40,
         "tts_numeric_tokens": []
       },
@@ -159,7 +159,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 14.2,
+      "duration_sec_estimate": 23.1,
       "visual": {
         "description": "Bể còn 16 triệu sau sáu tháng",
         "mascot_pose": "think",
@@ -170,15 +170,19 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Sáu tháng, thu bảy mươi triệu, rút lương cho mình năm mươi bốn triệu, bể còn dư mười sáu triệu. Nhờ bể chứa, các tháng thiếu được bù từ các tháng dư, và Dũng không phải đi vay.",
-        "word_count": 38,
+        "text": "Giả sử thu nhập này đã trừ thuế và chi phí công việc. Sáu tháng thu bảy mươi triệu, chi năm mươi bốn triệu, chênh lệch là mười sáu triệu. Nhưng tháng đầu chỉ thu tám triệu và cần chi chín triệu, nên phải có ít nhất một triệu đệm ban đầu. Tổng cuối kỳ dương chưa bảo đảm từng tháng đủ tiền.",
+        "word_count": 63,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "70tr − 54tr = 16tr dư",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "70tr − 54tr = 16tr · Tháng đầu thiếu 1tr · Cần đệm ban đầu",
+          "split_hint": [
+            "70tr − 54tr = 16tr",
+            "Tháng đầu thiếu 1tr",
+            "Cần đệm ban đầu"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -197,7 +201,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Bước ba: với thu nhập thất thường, bạn có thể cân nhắc quỹ khẩn cấp lớn hơn, ví dụ sáu tháng chi thiết yếu thay vì ba tháng. Với Dũng, đó là năm mươi bốn triệu đồng.",
+        "text": "Bước ba: với thu nhập thất thường, bạn có thể cân nhắc quỹ khẩn cấp lớn hơn, ví dụ sáu tháng chi thiết yếu thay vì ba tháng. Với Hùng, đó là năm mươi bốn triệu đồng.",
         "word_count": 37,
         "tts_numeric_tokens": []
       },
@@ -298,7 +302,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -340,5 +344,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

@@ -66,7 +66,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 15.2,
+      "duration_sec_estimate": 17.4,
       "visual": {
         "description": "Ô mã OTP có biển Không chia sẻ",
         "mascot_pose": "point",
@@ -77,15 +77,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Lớp một: mã OTP và mã PIN. Không chia sẻ cho bất kỳ ai, kể cả người tự xưng nhân viên ngân hàng. Ngân hàng thật không cần hỏi mã của bạn để làm giao dịch mà bạn không yêu cầu.",
-        "word_count": 41,
+        "text": "Không chia sẻ mã xác thực, mã PIN, mật khẩu hay mã bảo mật thẻ cho bất kỳ ai, kể cả khi chính bạn gọi tổng đài. Chỉ nhập mã trong ứng dụng hoặc trang chính thức cho giao dịch bạn chủ động và đã kiểm tra.",
+        "word_count": 47,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "1. OTP, PIN: không chia sẻ",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Không đọc/gửi OTP, PIN, mật khẩu, CVV · Kể cả khi bạn gọi tổng đài",
+          "split_hint": [
+            "Không đọc/gửi OTP, PIN, mật khẩu, CVV",
+            "Kể cả khi bạn gọi tổng đài"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -93,7 +96,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 21.0,
+      "duration_sec_estimate": 16.7,
       "visual": {
         "description": "Khuôn mặt và vân tay gắn với một điện thoại",
         "mascot_pose": "idle",
@@ -104,15 +107,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Lớp hai: sinh trắc học. Theo quy định của Ngân hàng Nhà nước, chuyển tiền giá trị lớn cho người khác thường phải xác thực bằng khuôn mặt hoặc vân tay, với ngưỡng trên mười triệu đồng mỗi giao dịch hoặc trên hai mươi triệu đồng mỗi ngày. Hãy đăng ký trên thiết bị của chính bạn.",
-        "word_count": 57,
+        "text": "Đăng ký sinh trắc học theo hướng dẫn trong ứng dụng chính thức của ngân hàng. Yêu cầu xác thực phụ thuộc loại giao dịch và quy định hiện hành. Sinh trắc học giúp tăng bảo vệ nhưng không bảo đảm tránh mọi gian lận.",
+        "word_count": 45,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "2. Sinh trắc học trên thiết bị của bạn",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Sinh trắc học trên kênh chính thức · Không bảo đảm an toàn tuyệt đối",
+          "split_hint": [
+            "Sinh trắc học trên kênh chính thức",
+            "Không bảo đảm an toàn tuyệt đối"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -120,7 +126,7 @@
     {
       "id": "S4",
       "order": 4,
-      "duration_sec_estimate": 15.6,
+      "duration_sec_estimate": 14.2,
       "visual": {
         "description": "Thanh hạn mức kéo xuống thấp",
         "mascot_pose": "point",
@@ -131,15 +137,17 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Lớp ba: hạn mức giao dịch. Hãy đặt hạn mức chuyển tiền thấp hơn nhu cầu thường ngày và chỉ tăng tạm thời khi cần. Nếu kẻ gian có vào được tài khoản, số tiền họ lấy được cũng bị giới hạn.",
-        "word_count": 42,
+        "text": "Đặt hạn mức phù hợp với nhu cầu và chỉ tăng khi cần. Hạn mức có thể giảm thiệt hại trong một số tình huống, nhưng không thay việc bảo vệ thiết bị và xác minh người nhận.",
+        "word_count": 38,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "3. Hạn mức thấp, tăng khi cần",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Hạn mức phù hợp · Xác minh người nhận",
+          "split_hint": [
+            "Hạn mức phù hợp · Xác minh người nhận"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -147,7 +155,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Điện thoại có ổ khóa, ứng dụng lạ bị gạch",
         "mascot_pose": "idle",
@@ -233,7 +241,7 @@
     {
       "id": "S8",
       "order": 8,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Ví điện tử nhỏ cho chi tiêu hằng ngày",
         "mascot_pose": "point",
@@ -291,7 +299,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -332,6 +340,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Vietcombank — Cảnh báo giả mạo",
+      "url": "https://www.vietcombank.com.vn/vi-VN/KHCN/Truy-cap-nhanh/Tin-noi-bat/Articles/2025/10/22/Thu-doan-gia-mao-the-Ngan-hang"
     }
   ]
 }

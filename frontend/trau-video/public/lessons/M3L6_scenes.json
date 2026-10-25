@@ -152,7 +152,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 14.9,
+      "duration_sec_estimate": 20.6,
       "visual": {
         "description": "Hai triệu mỗi tháng nạp lại thanh quỹ",
         "mascot_pose": "idle",
@@ -163,15 +163,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Nếu dùng quỹ, Lan cần bù lại. Mỗi tháng để dành hai triệu thì sáu tháng sau quỹ đầy trở lại. Trong sáu tháng đó, quỹ mỏng hơn mục tiêu, nên nếu mất thu nhập, cô sẽ khó đỡ hơn.",
-        "word_count": 40,
+        "text": "Sau khi dùng quỹ, Lan còn mười tám triệu. Muốn trở về mục tiêu hai mươi bốn triệu, cần bù sáu triệu: ba tháng nếu để dành hai triệu mỗi tháng. Muốn trở lại số dư ban đầu ba mươi triệu thì cần sáu tháng. Giả sử không có lần rút thêm và chưa tính lãi.",
+        "word_count": 56,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "2tr × 6 tháng = 12tr bù lại",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Về mục tiêu 24tr: 3 tháng · Về số dư 30tr: 6 tháng",
+          "split_hint": [
+            "Về mục tiêu 24tr: 3 tháng",
+            "Về số dư 30tr: 6 tháng"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -290,7 +293,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -341,5 +344,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

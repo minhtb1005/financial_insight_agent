@@ -82,7 +82,8 @@ def extract_numbers(text: str) -> list[float]:
 def numeric_match(response: str, ground_truth: dict) -> bool | None:
     """True if every numeric GT value appears in the response within tolerance."""
     targets = [
-        float(v) for k, v in ground_truth.items()
+        float(v)
+        for k, v in ground_truth.items()
         if isinstance(v, (int, float)) and v is not None and k not in _GT_SKIP_KEYS
     ]
     if not targets:
@@ -97,7 +98,9 @@ def numeric_match(response: str, ground_truth: dict) -> bool | None:
     return True
 
 
-def tool_precision_recall(actual: set[str], expected: set[str]) -> tuple[float | None, float | None]:
+def tool_precision_recall(
+    actual: set[str], expected: set[str]
+) -> tuple[float | None, float | None]:
     if not expected:
         return None, None
     tp = len(actual & expected)
@@ -106,9 +109,7 @@ def tool_precision_recall(actual: set[str], expected: set[str]) -> tuple[float |
     return precision, recall
 
 
-_CITATION_RE = re.compile(
-    r"\[[A-Z]{2,4}\s*:\s*[\d.,]+[^]]*ngu[oôồốổỗộ][^]]*\]", re.IGNORECASE
-)
+_CITATION_RE = re.compile(r"\[[A-Z]{2,4}\s*:\s*[\d.,]+[^]]*ngu[oôồốổỗộ][^]]*\]", re.IGNORECASE)
 
 
 def has_citation(response: str) -> bool:
@@ -144,9 +145,7 @@ def score_case_deterministic(case: dict, sample: dict, trace_detail: dict | None
 
     expected = set(case.get("expected_tools") or [])
     if trace_detail is not None:
-        actual = {
-            s["name"] for s in trace_detail.get("spans", []) if s.get("kind") == "tool"
-        }
+        actual = {s["name"] for s in trace_detail.get("spans", []) if s.get("kind") == "tool"}
     else:
         actual = set()
     precision, recall = tool_precision_recall(actual, expected)
@@ -181,7 +180,9 @@ def aggregate_deterministic(rows: list[dict]) -> dict[str, object]:
         vals = [r[key] for r in rows if isinstance(r.get(key), (int, float))]
         return round(statistics.mean(vals), 4) if vals else None
 
-    latencies = sorted(r["latency_ms"] for r in rows if isinstance(r.get("latency_ms"), (int, float)))
+    latencies = sorted(
+        r["latency_ms"] for r in rows if isinstance(r.get("latency_ms"), (int, float))
+    )
 
     def pct(p: float) -> float | None:
         if not latencies:
@@ -193,9 +194,7 @@ def aggregate_deterministic(rows: list[dict]) -> dict[str, object]:
     edges = [r for r in rows if isinstance(r.get("edge_ok"), bool)]
     numerics = [r for r in rows if isinstance(r.get("numeric_match"), bool)]
 
-    tokens = [
-        r["total_tokens"] for r in rows if isinstance(r.get("total_tokens"), (int, float))
-    ]
+    tokens = [r["total_tokens"] for r in rows if isinstance(r.get("total_tokens"), (int, float))]
     return {
         "tool_precision": mean_of("tool_precision"),
         "tool_recall": mean_of("tool_recall"),
@@ -203,21 +202,20 @@ def aggregate_deterministic(rows: list[dict]) -> dict[str, object]:
         "wasteful_duplicate_rate": mean_of("wasteful_duplicate_rate"),
         "citation_rate": (
             round(sum(1 for r in citations if r["citation"]) / len(citations), 4)
-            if citations else None
+            if citations
+            else None
         ),
         "numeric_match_rate": (
             round(sum(1 for r in numerics if r["numeric_match"]) / len(numerics), 4)
-            if numerics else None
+            if numerics
+            else None
         ),
         "edge_pass_rate": (
-            round(sum(1 for r in edges if r["edge_ok"]) / len(edges), 4)
-            if edges else None
+            round(sum(1 for r in edges if r["edge_ok"]) / len(edges), 4) if edges else None
         ),
         "latency_p50_ms": pct(50),
         "latency_p95_ms": pct(95),
-        "avg_tokens_per_case": (
-            round(statistics.mean(tokens)) if tokens else None
-        ),
+        "avg_tokens_per_case": (round(statistics.mean(tokens)) if tokens else None),
     }
 
 
@@ -227,9 +225,16 @@ def aggregate_deterministic(rows: list[dict]) -> dict[str, object]:
 
 _RAGAS_KEYS = ("faithfulness", "answer_relevancy", "context_precision", "context_recall")
 _DET_KEYS = (
-    "tool_precision", "tool_recall", "retry_rate", "wasteful_duplicate_rate",
-    "citation_rate", "numeric_match_rate",
-    "edge_pass_rate", "latency_p50_ms", "latency_p95_ms", "avg_tokens_per_case",
+    "tool_precision",
+    "tool_recall",
+    "retry_rate",
+    "wasteful_duplicate_rate",
+    "citation_rate",
+    "numeric_match_rate",
+    "edge_pass_rate",
+    "latency_p50_ms",
+    "latency_p95_ms",
+    "avg_tokens_per_case",
 )
 
 
@@ -299,20 +304,40 @@ def _tri(v) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--legacy-stock",
+        action="store_true",
+        help="Explicitly run historical stock diagnostics; not a curriculum score",
+    )
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET))
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--ids", nargs="*", default=None)
-    parser.add_argument("--judge-model", default=os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b"))
+    parser.add_argument(
+        "--judge-model", default=os.getenv("NVIDIA_CHAT_MODEL", "nvidia/nemotron-3-ultra-550b-a55b")
+    )
     parser.add_argument("--skip-ragas", action="store_true")
-    parser.add_argument("--resume-from", default=None,
-                        help="path to partial.json from an interrupted run; "
-                             "already-scored case ids are skipped and reused")
-    parser.add_argument("--samples-from", default=None,
-                        help="path to samples_full.json / report.json containing "
-                             "raw samples + det_rows; skips agent execution entirely")
-    parser.add_argument("--pin-baseline", action="store_true",
-                        help=f"write aggregate to {BASELINES_DIR / BASELINE_NAME}")
+    parser.add_argument(
+        "--resume-from",
+        default=None,
+        help="path to partial.json from an interrupted run; "
+        "already-scored case ids are skipped and reused",
+    )
+    parser.add_argument(
+        "--samples-from",
+        default=None,
+        help="path to samples_full.json / report.json containing "
+        "raw samples + det_rows; skips agent execution entirely",
+    )
+    parser.add_argument(
+        "--pin-baseline",
+        action="store_true",
+        help=f"write aggregate to {BASELINES_DIR / BASELINE_NAME}",
+    )
     args = parser.parse_args()
+    if not args.legacy_stock and not args.samples_from:
+        parser.error(
+            "Product evaluation moved to evals/run_curriculum_eval.py. Add --legacy-stock for historical stock diagnostics."
+        )
 
     from dotenv import load_dotenv
 
@@ -323,13 +348,12 @@ def main() -> int:
     if args.samples_from:
         prior = json.loads(Path(args.samples_from).read_text(encoding="utf-8"))
         samples = prior["samples"]
-        cases_by_id = {
-            c["id"]: c
-            for c in load_cases(Path(args.dataset), None, None)
-        }
-        print(f"[bench] loaded {len(samples)} sample(s) from {args.samples_from} — "
-              f"skipping execution; deterministic metrics will be recomputed "
-              f"against the CURRENT dataset")
+        cases_by_id = {c["id"]: c for c in load_cases(Path(args.dataset), None, None)}
+        print(
+            f"[bench] loaded {len(samples)} sample(s) from {args.samples_from} — "
+            f"skipping execution; deterministic metrics will be recomputed "
+            f"against the CURRENT dataset"
+        )
     else:
         cases = load_cases(Path(args.dataset), args.ids, args.limit)
 
@@ -343,8 +367,7 @@ def main() -> int:
         samples_local = prior.get("samples", [])
         det_rows_local = prior.get("det_rows", [])
         done_ids = {r["id"] for r in det_rows_local}
-        print(f"[bench] resuming: {len(done_ids)} case(s) reused from "
-              f"{args.resume_from}")
+        print(f"[bench] resuming: {len(done_ids)} case(s) reused from " f"{args.resume_from}")
 
     if not args.samples_from:
         pending = [c for c in (cases or []) if c["id"] not in done_ids]
@@ -393,8 +416,12 @@ def main() -> int:
                 "response": f"(agent error: {exc})",
                 "retrieved_contexts": [],
                 "reference": None,
-                "meta": {"id": case["id"], "query_type": case["query_type"],
-                         "trace_id": None, "latency_ms": None},
+                "meta": {
+                    "id": case["id"],
+                    "query_type": case["query_type"],
+                    "trace_id": None,
+                    "latency_ms": None,
+                },
             }
         samples.append(sample)
 
@@ -406,13 +433,18 @@ def main() -> int:
 
         # incremental dump so long runs never lose progress
         (run_dir / "partial.json").write_text(
-            json.dumps({"run_id": run_id, "samples": samples, "det_rows": det_rows},
-                       ensure_ascii=False, default=str),
+            json.dumps(
+                {"run_id": run_id, "samples": samples, "det_rows": det_rows},
+                ensure_ascii=False,
+                default=str,
+            ),
             encoding="utf-8",
         )
 
-    print(f"[bench] execution done in {time.time() - t_start:.0f}s "
-          f"({len(samples)} total cases) — scoring...")
+    print(
+        f"[bench] execution done in {time.time() - t_start:.0f}s "
+        f"({len(samples)} total cases) — scoring..."
+    )
 
     aggregate: dict[str, object] = {}
     n_ragas = 0
@@ -433,10 +465,17 @@ def main() -> int:
     }
 
     (run_dir / "report.json").write_text(
-        json.dumps({**results, "samples": samples,
-                    "samples_meta": [s["meta"] for s in samples],
-                    "det_rows": det_rows},
-                   ensure_ascii=False, indent=2, default=str),
+        json.dumps(
+            {
+                **results,
+                "samples": samples,
+                "samples_meta": [s["meta"] for s in samples],
+                "det_rows": det_rows,
+            },
+            ensure_ascii=False,
+            indent=2,
+            default=str,
+        ),
         encoding="utf-8",
     )
     # keep raw samples for later re-scoring without re-running the agent

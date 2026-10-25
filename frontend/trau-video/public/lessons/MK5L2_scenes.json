@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "lesson_id": "MK5L2",
+  "module_id": "MK5",
+  "module_title": "Tự kiểm chứng trước khi tin",
+  "title": "Tự viết một ghi chú phân tích có giới hạn",
+  "production_revision": "2026-10-22",
+  "status": "draft_ready_for_review",
+  "source_script": "frontend/src/content/learning-tracks.json",
+  "sources": [],
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "aspect_ratio": "9:16"
+  },
+  "scenes": [
+    {
+      "id": "S1",
+      "order": 1,
+      "duration_sec_estimate": 19.5,
+      "visual": {
+        "description": "Tự viết một ghi chú phân tích có giới hạn",
+        "mascot_pose": "wave",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Cùng Trâu Tí tìm hiểu: Tự viết một ghi chú phân tích có giới hạn Hôm nay mình bắt đầu từ câu hỏi: Giúp mình lập mẫu ghi chú học tập về một doanh nghiệp: dữ kiện, giả định, giới hạn và câu hỏi cần kiểm chứng, không cần khuyến nghị mua bán.",
+        "word_count": 53
+      },
+      "on_screen_text": [
+        {
+          "text": "Tự viết một ghi chú phân tích có giới hạn",
+          "split_hint": [
+            "Tự viết một ghi chú phân tích có giới hạn"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S2",
+      "order": 2,
+      "duration_sec_estimate": 18.5,
+      "visual": {
+        "description": "Gắn kết luận với bằng chứng · Nêu điều chưa biết và kiểm tra tiếp",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Một ghi chú tốt giúp người khác kiểm tra lại cách bạn suy nghĩ. Tách rõ điều quan sát được, giả định và suy luận. Khi thiếu dữ liệu, ghi chưa biết và cách tìm tiếp; không điền một con số có vẻ hợp lý để hoàn thiện câu chuyện.",
+        "word_count": 50
+      },
+      "on_screen_text": [
+        {
+          "text": "Gắn kết luận với bằng chứng · Nêu điều chưa biết và kiểm tra tiếp",
+          "split_hint": [
+            "Gắn kết luận với bằng chứng",
+            "Nêu điều chưa biết và kiểm tra tiếp"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S3",
+      "order": 3,
+      "duration_sec_estimate": 17.7,
+      "visual": {
+        "description": "Câu hỏi · Dữ kiện và nguồn · Giả định · Giới hạn · Bước kiểm tra tiếp",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Tạo mẫu với các ô: câu hỏi, dữ kiện, nguồn và ngày, giả định, giới hạn, bước kiểm tra tiếp. Chưa có tài liệu thì ghi chưa biết. Không tự điền số trang báo cáo, ngày công bố hay số lợi nhuận để làm mẫu trông đầy đủ.",
+        "word_count": 48
+      },
+      "on_screen_text": [
+        {
+          "text": "Câu hỏi · Dữ kiện và nguồn · Giả định · Giới hạn · Bước kiểm tra tiếp",
+          "split_hint": [
+            "Câu hỏi · Dữ kiện và nguồn · Giả định",
+            "Giới hạn · Bước kiểm tra tiếp"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S4",
+      "order": 4,
+      "duration_sec_estimate": 14.9,
+      "visual": {
+        "description": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Hãy ghi rõ phần nào là ví dụ giả định và phần nào có nguồn thật. Kiểm tra kỳ, đơn vị và định nghĩa trước khi so sánh. Khi dữ liệu còn thiếu, đánh dấu chưa biết để tìm tiếp.",
+        "word_count": 40
+      },
+      "on_screen_text": [
+        {
+          "text": "Kỳ · Đơn vị · Định nghĩa · Thiếu dữ liệu: ghi chưa biết",
+          "split_hint": [
+            "Kỳ · Đơn vị · Định nghĩa",
+            "Thiếu dữ liệu: ghi chưa biết"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S5",
+      "order": 5,
+      "duration_sec_estimate": 13.8,
+      "visual": {
+        "description": "Thử ngay với bài thực hành bên dưới",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Bài thực hành của bạn: Viết ghi chú gồm: câu hỏi, dữ kiện có nguồn/ngày, cách diễn giải, ba giới hạn và bước kiểm chứng tiếp theo. Không chấm điểm dựa trên chọn đúng mã tăng giá.",
+        "word_count": 37
+      },
+      "on_screen_text": [
+        {
+          "text": "Thử ngay với bài thực hành bên dưới",
+          "split_hint": [
+            "Thử ngay với bài thực hành bên dưới"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    },
+    {
+      "id": "S6",
+      "order": 6,
+      "duration_sec_estimate": 16,
+      "visual": {
+        "description": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+        "mascot_pose": "point",
+        "characters": [
+          "Trâu Tí"
+        ]
+      },
+      "vo": {
+        "text": "Sau khi làm xong, ghi lại một điều bạn hiểu rõ hơn và một câu hỏi cần kiểm chứng. Bạn có thể hỏi trợ giảng ngay trong bài học. Nội dung này giúp đọc hiểu dữ liệu, không đưa khuyến nghị mua bán.",
+        "word_count": 43
+      },
+      "on_screen_text": [
+        {
+          "text": "Ghi lại điều học được · Kiểm chứng trước khi kết luận",
+          "split_hint": [
+            "Ghi lại điều học được",
+            "Kiểm chứng trước khi kết luận"
+          ]
+        }
+      ],
+      "transition_out": "cut"
+    }
+  ],
+  "end_card": {
+    "duration_sec": 3,
+    "on_screen_text": [
+      "Nội dung giáo dục. Ví dụ giả định không phải dữ liệu doanh nghiệp hay khuyến nghị mua bán."
+    ]
+  },
+  "verification": []
+}

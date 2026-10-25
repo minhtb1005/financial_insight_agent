@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 /** Panel ngoài khung chat: auto-render spec mới nhất, giữ lịch sử v1..vn, hỏi tiếp không mất chart. */
-export function DashboardPanel() {
+export function DashboardPanel({ onRedraw, allowMarketRedraw }: { onRedraw: (query: string) => Promise<void>; allowMarketRedraw: boolean }) {
   const chartSpecs = useChatStore((s) => s.chartSpecs)
   const activeChartId = useChatStore((s) => s.activeChartId)
   const setActiveChart = useChatStore((s) => s.setActiveChart)
@@ -21,8 +21,7 @@ export function DashboardPanel() {
         </div>
         <p className="text-sm font-medium">Chưa có biểu đồ</p>
         <p className="max-w-xs text-xs text-muted-foreground">
-          Hãy hỏi, ví dụ “Vẽ giá VNM 6 tháng” — biểu đồ sẽ hiện ở đây, to và tương tác được, trong khi
-          bạn vẫn hỏi tiếp ở khung chat.
+          Chọn bài có thực hành biểu đồ trong lộ trình đang học. Biểu đồ và các giả định sẽ hiện ở đây để bạn đối chiếu với lời giải thích.
         </p>
       </div>
     )
@@ -51,7 +50,7 @@ export function DashboardPanel() {
       {active && (
         <>
           <ChartRenderer spec={active.spec} />
-          <DashboardControls chartId={active.id} />
+          <DashboardControls chartId={active.id} onRedraw={onRedraw} allowMarketRedraw={allowMarketRedraw} />
         </>
       )}
     </div>

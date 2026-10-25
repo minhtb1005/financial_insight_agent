@@ -186,7 +186,7 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Trâu Tí chỉ vào giai đoạn hiện tại của người xem",
         "mascot_pose": "point",
@@ -213,7 +213,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Trâu Tí vẽ một đường kẻ dài mười năm",
         "mascot_pose": "idle",
@@ -295,7 +295,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -337,5 +337,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

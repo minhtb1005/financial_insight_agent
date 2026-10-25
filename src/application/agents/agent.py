@@ -88,8 +88,19 @@ def _needs_chart_explanation(query: str) -> bool:
     text = query.casefold()
     return any(
         term in text
-        for term in (" và ", "giải thích", "phân tích", "nhận xét", "vì sao", "tại sao",
-                     "dự báo", "chắc chắn", "ngày mai", "đơn vị", "giới hạn")
+        for term in (
+            " và ",
+            "giải thích",
+            "phân tích",
+            "nhận xét",
+            "vì sao",
+            "tại sao",
+            "dự báo",
+            "chắc chắn",
+            "ngày mai",
+            "đơn vị",
+            "giới hạn",
+        )
     )
 
 
@@ -336,9 +347,12 @@ class StockAgent:
         learning = state.get("learning_context")
         if learning:
             messages.insert(
-                0, SystemMessage(content=LearningContext.model_validate(learning).prompt(
-                    state.get("original_query", "")
-                ))
+                0,
+                SystemMessage(
+                    content=LearningContext.model_validate(learning).prompt(
+                        state.get("original_query", "")
+                    )
+                ),
             )
             messages.insert(1, SystemMessage(content=f"Current date: {current_date}"))
             has_system = True
@@ -438,7 +452,9 @@ class StockAgent:
             concept = reviewed_concept(state.get("original_query", ""))
             if concept:
                 return {
-                    "messages": [AIMessage(content=concept, additional_kwargs={"editorial_reference": True})],
+                    "messages": [
+                        AIMessage(content=concept, additional_kwargs={"editorial_reference": True})
+                    ],
                     "iterations": iterations,
                     "next_tool_call": None,
                 }
@@ -579,19 +595,24 @@ class StockAgent:
         response = last_ai
 
         if (
-            state.get("learning_context") and self.llm_provider
+            state.get("learning_context")
+            and self.llm_provider
             and not response.additional_kwargs.get("editorial_reference")
         ):
             from application.learning.review import (
-                loan_clarification, review_messages, unsupported_loan_result,
+                loan_clarification,
+                review_messages,
+                unsupported_loan_result,
             )
 
             scope = LearningContext.model_validate(state["learning_context"])
             try:
                 reviewed = self.llm_provider.get_tool_calling_llm([]).invoke(
                     review_messages(
-                        original_query, scope.lesson_id,
-                        _content_to_text(response.content), list(messages),
+                        original_query,
+                        scope.lesson_id,
+                        _content_to_text(response.content),
+                        list(messages),
                     ),
                     timeout=45,
                 )
@@ -604,10 +625,14 @@ class StockAgent:
                 response = AIMessage(content=reviewed_text)
             except Exception as exc:
                 node_logger.warning("Learning content review unavailable: %s", type(exc).__name__)
-                return {"messages": [AIMessage(
-                    content="Chưa thể kiểm chứng câu trả lời lúc này. Vui lòng thử lại.",
-                    additional_kwargs={"agent_error": True},
-                )]}
+                return {
+                    "messages": [
+                        AIMessage(
+                            content="Chưa thể kiểm chứng câu trả lời lúc này. Vui lòng thử lại.",
+                            additional_kwargs={"agent_error": True},
+                        )
+                    ]
+                }
 
         if self._output_guardrails is None:
             if state.get("learning_context"):

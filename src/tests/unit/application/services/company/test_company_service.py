@@ -28,6 +28,19 @@ class FakeCompanyPort(CompanyPort):
         return self._df
 
 
+def test_overview_returns_profile_instead_of_silently_looking_up_shareholders():
+    from application.services.company.company_service import CompanyService
+
+    service = CompanyService(
+        FakeCache(),
+        FakeCompanyPort(pd.DataFrame({"company_name": ["Example"], "industry": ["Food"]})),
+    )
+    result = service.handle_query(["VNM"], "overview")["VNM"]
+    assert result["company_info"][0]["industry"] == "Food"
+    assert result["data_source"] == "vnstock:company:overview"
+    assert "fetched_at" in result
+
+
 # -- module-level handle_company_query ------------------------------------
 
 

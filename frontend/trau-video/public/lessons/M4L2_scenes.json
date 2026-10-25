@@ -5,7 +5,7 @@
   "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
   "title": "Lãi suất thực: tiền có thật sự lớn lên?",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L2",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -113,7 +113,7 @@
     {
       "id": "S4",
       "order": 4,
-      "duration_sec_estimate": 11.3,
+      "duration_sec_estimate": 18.5,
       "visual": {
         "description": "Thanh lãi 3% thấp hơn thanh lạm phát 4%, ra số âm",
         "mascot_pose": null,
@@ -122,15 +122,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Nếu lãi chỉ ba phần trăm mà giá tăng bốn, số tiền của bạn nhiều lên nhưng mua được ít đi. Lãi thực lúc này là âm một phần trăm.",
-        "word_count": 30,
+        "text": "Nếu lãi ba phần trăm mà lạm phát bốn phần trăm, sức mua giảm. Phép trừ nhanh cho kết quả xấp xỉ âm một phần trăm; công thức chính xác là một phẩy không ba chia một phẩy không bốn, trừ một, khoảng âm không phẩy chín sáu phần trăm.",
+        "word_count": 50,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "3% − 4% = −1%",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "Xấp xỉ: 3% − 4% = −1% · Chính xác: 1,03 / 1,04 − 1 ≈ −0,96%",
+          "split_hint": [
+            "Xấp xỉ: 3% − 4% = −1%",
+            "Chính xác: 1,03 / 1,04 − 1 ≈ −0,96%"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -271,7 +274,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -289,11 +292,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: chỉ số giá tiêu dùng gần nhất, Tổng cục Thống kê]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: chỉ số giá tiêu dùng gần nhất, Tổng cục Thống kê]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -322,5 +326,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

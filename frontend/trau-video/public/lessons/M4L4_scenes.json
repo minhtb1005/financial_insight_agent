@@ -5,7 +5,7 @@
   "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
   "title": "Chuyển tiền và ví điện tử an toàn",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L4",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -36,7 +36,7 @@
     {
       "id": "S1",
       "order": 1,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Điện thoại Lan rung, người lạ tự xưng nhân viên ngân hàng",
         "mascot_pose": null,
@@ -90,7 +90,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Đồng hồ đếm ngược xuất hiện sau lưng người gọi",
         "mascot_pose": null,
@@ -145,7 +145,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Ba biểu tượng: khóa, vân tay, hạn mức",
         "mascot_pose": null,
@@ -282,7 +282,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -300,11 +300,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: khuyến cáo của ngân hàng và cơ quan chức năng hiện hành]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: khuyến cáo của ngân hàng và cơ quan chức năng hiện hành]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -323,6 +324,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-22",
+  "sources": [
+    {
+      "title": "Vietcombank — Cảnh báo giả mạo",
+      "url": "https://www.vietcombank.com.vn/vi-VN/KHCN/Truy-cap-nhanh/Tin-noi-bat/Articles/2025/10/22/Thu-doan-gia-mao-the-Ngan-hang"
     }
   ]
 }

@@ -6,7 +6,7 @@
   "title": "Hỗ trợ cha mẹ và sống chung với bố mẹ khi đã đi làm",
   "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật — Minh đổi thành Hùng — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,7 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Minh",
+    "Hùng",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -34,14 +34,14 @@
     "pace": "vừa phải",
     "provider": null
   },
-  "hook": "Minh đi làm, vẫn ở cùng bố mẹ. Cậu muốn đóng góp nhưng không biết bao nhiêu thì đủ.",
+  "hook": "Hùng đi làm, vẫn ở cùng bố mẹ. Cậu muốn đóng góp nhưng không biết bao nhiêu thì đủ.",
   "scenes": [
     {
       "id": "S1",
       "order": 1,
       "duration_sec_estimate": 15.2,
       "visual": {
-        "description": "Bữa cơm gia đình, Minh nhìn phong bì",
+        "description": "Bữa cơm gia đình, Hùng nhìn phong bì",
         "mascot_pose": "think",
         "characters": [
           "Trâu Tí"
@@ -50,7 +50,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Minh đi làm, vẫn ở cùng bố mẹ. Cậu muốn đóng góp nhưng không biết bao nhiêu thì đủ, và vẫn muốn dành tiền cho mục tiêu của mình. Chuyện này cần nói rõ, vì ngại nói thường thành hiểu lầm.",
+        "text": "Hùng đi làm, vẫn ở cùng bố mẹ. Cậu muốn đóng góp nhưng không biết bao nhiêu thì đủ, và vẫn muốn dành tiền cho mục tiêu của mình. Chuyện này cần nói rõ, vì ngại nói thường thành hiểu lầm.",
         "word_count": 41,
         "tts_numeric_tokens": []
       },
@@ -104,7 +104,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Giả sử thu nhập mười lăm triệu. Minh đề xuất ba phần: ba triệu đóng góp cho gia đình, tức hai mươi phần trăm, ba triệu để dành cho mục tiêu riêng, hai mươi phần trăm, và chín triệu cho chi tiêu cá nhân, sáu mươi phần trăm.",
+        "text": "Giả sử thu nhập mười lăm triệu. Hùng đề xuất ba phần: ba triệu đóng góp cho gia đình, tức hai mươi phần trăm, ba triệu để dành cho mục tiêu riêng, hai mươi phần trăm, và chín triệu cho chi tiêu cá nhân, sáu mươi phần trăm.",
         "word_count": 48,
         "tts_numeric_tokens": []
       },
@@ -210,7 +210,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 16.0,
+      "duration_sec_estimate": 16,
       "visual": {
         "description": "Thanh quỹ khẩn cấp được viền khiên",
         "mascot_pose": "think",
@@ -290,7 +290,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -332,5 +332,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

@@ -147,7 +147,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 14.9,
+      "duration_sec_estimate": 19.9,
       "visual": {
         "description": "Tổng phí cộng lại, hiện số lớn",
         "mascot_pose": "think",
@@ -158,15 +158,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Cộng lại là một triệu chín trăm ba mươi hai nghìn đồng mỗi năm. Nếu Hà thực sự không dùng cả bốn thứ này, đó là gần hai triệu đồng đang chảy đi mỗi năm mà không mua được gì.",
-        "word_count": 40,
+        "text": "Tổng phí giả định là một triệu chín trăm ba mươi hai nghìn đồng mỗi năm. Nhưng không yêu cầu bồi thường chưa có nghĩa bảo hiểm không tạo giá trị. Hãy xét nhu cầu bảo vệ và điều kiện hủy trước khi coi toàn bộ số này là tiền có thể tiết kiệm.",
+        "word_count": 54,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "600k + 132k + 1,2tr = 1,932tr/năm",
-          "position": "auto",
-          "appear": "scene_start"
+          "text": "600k + 132k + 1,2tr = 1,932tr · Chưa dùng ≠ không cần bảo vệ",
+          "split_hint": [
+            "600k + 132k + 1,2tr = 1,932tr",
+            "Chưa dùng ≠ không cần bảo vệ"
+          ],
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -206,7 +209,7 @@
     {
       "id": "S7",
       "order": 7,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Danh sách câu hỏi trước khi hủy",
         "mascot_pose": "point",
@@ -265,7 +268,7 @@
     {
       "id": "S9",
       "order": 9,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Trâu Tí cầm bút gạch ba dòng trên sao kê",
         "mascot_pose": "happy",
@@ -291,7 +294,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -333,5 +336,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

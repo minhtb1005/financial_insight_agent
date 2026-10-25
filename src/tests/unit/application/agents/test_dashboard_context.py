@@ -83,7 +83,7 @@ def test_execute_graph_threads_active_spec_to_single():
     agent = _make_agent()
     captured = {}
 
-    def fake_run_single(query, rid, user_id=None, active_chart_summary=None):
+    def fake_run_single(query, rid, user_id=None, active_chart_summary=None, learning_context=None):
         captured["summary"] = active_chart_summary
         return "ok"
 
@@ -109,7 +109,7 @@ def test_execute_graph_without_spec_passes_none():
     agent = _make_agent()
     captured = {}
 
-    def fake_run_single(query, rid, user_id=None, active_chart_summary=None):
+    def fake_run_single(query, rid, user_id=None, active_chart_summary=None, learning_context=None):
         captured["summary"] = active_chart_summary
         return "ok"
 

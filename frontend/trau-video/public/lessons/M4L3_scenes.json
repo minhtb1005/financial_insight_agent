@@ -5,7 +5,7 @@
   "module_title": "Ngân hàng & sản phẩm tài chính cơ bản",
   "title": "Những khoản phí ngân hàng bạn không để ý",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M4L3",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -171,7 +171,7 @@
     {
       "id": "S6",
       "order": 6,
-      "duration_sec_estimate": 11.0,
+      "duration_sec_estimate": 11,
       "visual": {
         "description": "Trâu Tí gạch bỏ hai ô phí sau",
         "mascot_pose": "point",
@@ -288,7 +288,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -306,11 +306,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "see verify_note"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: biểu phí công bố của ngân hàng, nếu muốn lấy ví dụ thật]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: biểu phí công bố của ngân hàng, nếu muốn lấy ví dụ thật]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -339,5 +340,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

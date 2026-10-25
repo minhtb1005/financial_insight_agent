@@ -66,6 +66,11 @@ jobs:
           NVIDIA_CHAT_MODEL: ${{ secrets.NVIDIA_CHAT_MODEL }}
           NVIDIA_EMBEDDING_MODEL: ${{ secrets.NVIDIA_EMBEDDING_MODEL }}
           NVIDIA_BASE_URL: ${{ secrets.NVIDIA_BASE_URL }}
+      - name: Validate curriculum coverage and frontend export
+        run: |
+          python scripts/sync_learning_catalog.py --check
+          python evals/run_curriculum_eval.py --validate-only
+          python evals/run_curriculum_eval.py --track market_literacy --validate-only
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

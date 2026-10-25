@@ -6,7 +6,7 @@
   "title": "Mô hình quản lý tiền trong cặp đôi",
   "source_script": "Bài mới v1.2 theo đề xuất của người dùng (2026-10-15/16); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật sang Lan + Hùng, thay cho Hà và Nam, theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,8 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Hà và Nam",
+    "Lan",
+    "Hùng",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -34,7 +35,7 @@
     "pace": "vừa phải",
     "provider": null
   },
-  "hook": "Hà và Nam sắp sống chung. Câu hỏi đầu tiên không phải mua gì, mà là tiền của ai và quản lý thế nào.",
+  "hook": "Lan và Hùng sắp sống chung. Câu hỏi đầu tiên không phải mua gì, mà là tiền của ai và quản lý thế nào.",
   "scenes": [
     {
       "id": "S1",
@@ -50,7 +51,7 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Hà và Nam sắp sống chung. Hà có thu nhập hai mươi triệu, Nam mười hai triệu. Câu hỏi đầu tiên không phải mua gì, mà là tiền của ai, và hai người quản lý nó thế nào.",
+        "text": "Lan và Hùng sắp sống chung. Lan có thu nhập hai mươi triệu, Hùng mười hai triệu. Câu hỏi đầu tiên không phải mua gì, mà là tiền của ai, và hai người quản lý nó thế nào.",
         "word_count": 38,
         "tts_numeric_tokens": []
       },
@@ -140,18 +141,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Cách một là chia đều, mỗi người tám triệu. Hà còn lại mười hai triệu, Nam còn lại bốn triệu. Nghe công bằng về con số, nhưng phần còn lại của Nam mỏng hơn nhiều.",
+        "text": "Cách một là chia đều, mỗi người tám triệu. Lan còn lại mười hai triệu, Hùng còn lại bốn triệu. Nghe công bằng về con số, nhưng phần còn lại của Hùng mỏng hơn nhiều.",
         "word_count": 35,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "8 + 8 → Hà còn 12tr · Nam còn 4tr",
+          "text": "8 + 8 → Lan còn 12tr · Hùng còn 4tr",
           "position": "auto",
           "appear": "scene_start",
           "split_hint": [
-            "8 + 8 → Hà còn 12tr",
-            "Nam còn 4tr"
+            "8 + 8 → Lan còn 12tr",
+            "Hùng còn 4tr"
           ]
         }
       ],
@@ -171,18 +172,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Cách hai là chia theo tỷ lệ thu nhập. Hà chiếm sáu mươi hai phẩy năm phần trăm nên đóng mười triệu, Nam ba mươi bảy phẩy năm phần trăm nên đóng sáu triệu. Mỗi người còn lại lần lượt mười và sáu triệu.",
+        "text": "Cách hai là chia theo tỷ lệ thu nhập. Lan chiếm sáu mươi hai phẩy năm phần trăm nên đóng mười triệu, Hùng ba mươi bảy phẩy năm phần trăm nên đóng sáu triệu. Mỗi người còn lại lần lượt mười và sáu triệu.",
         "word_count": 44,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Hà 62,5% = 10tr · Nam 37,5% = 6tr",
+          "text": "Lan 62,5% = 10tr · Hùng 37,5% = 6tr",
           "position": "auto",
           "appear": "scene_start",
           "split_hint": [
-            "Hà 62,5% = 10tr",
-            "Nam 37,5% = 6tr"
+            "Lan 62,5% = 10tr",
+            "Hùng 37,5% = 6tr"
           ]
         }
       ],
@@ -302,7 +303,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -344,5 +345,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-25",
+  "sources": []
 }

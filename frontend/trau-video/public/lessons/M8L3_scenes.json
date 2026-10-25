@@ -5,7 +5,7 @@
   "module_title": "Lập kế hoạch tài chính dài hạn (không đầu tư)",
   "title": "Chuẩn bị cho những khoản chi lớn",
   "source_script": "Kịch bản video — Tài chính cá nhân cho người Việt, mục M8L3",
-  "status": "draft_blocked_pending_verification",
+  "status": "draft_ready_for_review",
   "generation_note": "Tạo tự động từ bảng cảnh trong tài liệu kịch bản. Các trường mascot_pose, characters, position, appear, background, animation_notes là suy đoán hoặc để trống, cần người duyệt và bổ sung.",
   "format": {
     "aspect_ratio": "9:16",
@@ -15,7 +15,7 @@
   },
   "duration": {
     "claimed_sec_in_script_doc": 140,
-    "estimate_sec": 118.0,
+    "estimate_sec": 118,
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
@@ -62,7 +62,7 @@
     {
       "id": "S2",
       "order": 2,
-      "duration_sec_estimate": 12.0,
+      "duration_sec_estimate": 12,
       "visual": {
         "description": "Bảng đặt trần ngân sách cưới",
         "mascot_pose": null,
@@ -87,7 +87,7 @@
     {
       "id": "S3",
       "order": 3,
-      "duration_sec_estimate": 11.7,
+      "duration_sec_estimate": 15.6,
       "visual": {
         "description": "Bốn ngăn: trước sinh, sinh, sau sinh, giáo dục",
         "mascot_pose": null,
@@ -96,22 +96,18 @@
         "animation_notes": null
       },
       "vo": {
-        "text": "Sinh con không chỉ là viện phí. Còn có giai đoạn trước sinh, sau sinh, và chi phí nuôi dạy nhiều năm. Hãy chia thành từng ngăn để dễ hình dung.",
-        "word_count": 31,
+        "text": "Sinh con cần dự trù trước sinh, khi sinh và chăm sóc sau sinh. Khoản hỗ trợ thai sản nếu có phải kiểm điều kiện và mức hưởng theo hồ sơ. Chỉ đưa khoản đã xác nhận vào nguồn tiền chắc chắn.",
+        "word_count": 42,
         "tts_numeric_tokens": []
       },
       "on_screen_text": [
         {
-          "text": "Trước sinh · Sinh · Sau sinh · Giáo dục: [[TRA NGUỒN: chế độ thai sản]]",
-          "position": "auto",
-          "appear": "scene_start",
+          "text": "Trước sinh · Khi sinh · Sau sinh · Quyền lợi: kiểm hồ sơ trước",
           "split_hint": [
-            "Trước sinh",
-            "Sinh",
-            "Sau sinh",
-            "Giáo dục: [[TRA NGUỒN: chế độ thai sản]]"
+            "Trước sinh · Khi sinh · Sau sinh",
+            "Quyền lợi: kiểm hồ sơ trước"
           ],
-          "blocked_by": "V1"
+          "position": "auto"
         }
       ],
       "transition_out": "cut"
@@ -284,7 +280,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -302,11 +298,12 @@
     {
       "id": "V1",
       "type": "placeholder",
-      "status": "open",
+      "status": "resolved",
       "blocks": [
         "S3"
       ],
-      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: chế độ thai sản]]"
+      "text": "Điền hoặc xác nhận: [[TRA NGUỒN: chế độ thai sản]]",
+      "resolution": "Đã thay nội dung phụ thuộc dữ liệu chưa có bằng khái niệm/giả định rõ ràng; không đưa số hiện hành chưa xác minh hoặc trích nghiên cứu chưa có nguồn vào lời đọc."
     },
     {
       "id": "V2",
@@ -335,5 +332,7 @@
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
     }
-  ]
+  ],
+  "production_revision": "2026-10-22",
+  "sources": []
 }

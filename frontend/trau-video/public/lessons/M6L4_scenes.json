@@ -6,7 +6,7 @@
   "title": "Lương, hợp đồng và phúc lợi khi đi làm lần đầu",
   "source_script": "Bài mới v1.1 theo đề xuất của người dùng (2026-10-15); chưa có trong tài liệu kịch bản gốc",
   "status": "draft_ready_for_review",
-  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật.",
+  "generation_note": "Kịch bản viết trực tiếp từ đề xuất bổ sung curriculum. mascot_pose đã gán theo nhịp cảnh; cần người duyệt. Chưa kiểm chứng bằng TTS thật. (2026-10-25: đã chuẩn hóa nhân vật — Linh đổi thành Lan — theo quy tắc nhân vật xuyên suốt series.)",
   "format": {
     "aspect_ratio": "9:16",
     "width": 1080,
@@ -19,7 +19,7 @@
     "estimate_method": "2.8 từ/giây + 0.6s nghỉ mỗi cảnh + 3.0s thẻ cuối; thay bằng độ dài file âm thanh thật khi đã tạo giọng"
   },
   "characters_detected": [
-    "Linh",
+    "Lan",
     "Trâu Tí"
   ],
   "mascot_poses_required": [
@@ -153,7 +153,7 @@
     {
       "id": "S5",
       "order": 5,
-      "duration_sec_estimate": 17.0,
+      "duration_sec_estimate": 17,
       "visual": {
         "description": "Lời mời B: ba khoản cộng lại",
         "mascot_pose": "idle",
@@ -297,7 +297,7 @@
     }
   ],
   "end_card": {
-    "duration_sec": 3.0,
+    "duration_sec": 3,
     "on_screen_text": [
       "Nội dung giáo dục, không phải tư vấn tài chính hay khuyến nghị sản phẩm."
     ]
@@ -356,6 +356,13 @@
         "all"
       ],
       "text": "Một người thật đọc và duyệt toàn bộ kịch bản trước khi dựng."
+    }
+  ],
+  "production_revision": "2026-10-25",
+  "sources": [
+    {
+      "title": "Cổng TTĐT Chính phủ — Thuế lương kỳ 2026",
+      "url": "https://chinhsachonline.chinhphu.vn/thoi-diem-ap-dung-bieu-thue-thu-nhap-ca-nhan-moi-84963.htm"
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from infrastructure.auth.dependencies import get_current_user
 from infrastructure.db.models.user import User
 from infrastructure.memory.memory_manager import get_memory_manager
+from application.learning.policy import LearningContext
 
 router = APIRouter(prefix="/memory", tags=["memory"])
 
@@ -45,11 +46,22 @@ async def get_my_memory(
 )
 async def clear_my_memory(
     current_user: User = Depends(get_current_user),
+    track: Literal["personal_finance", "market_literacy"] | None = None,
+    lesson_id: str | None = None,
 ):
     mgr = get_memory_manager()
     if mgr is None:
         return {"cleared": False, "detail": "Memory not available"}
-    ok = mgr.clear_all(user_id=current_user.id)
+    user_id = current_user.id
+    if track:
+        from fastapi import HTTPException
+        from pydantic import ValidationError
+
+        try:
+            user_id = LearningContext(track=track, lesson_id=lesson_id or None).memory_user(user_id)
+        except ValidationError as exc:
+            raise HTTPException(status_code=422, detail="Bài học không thuộc lộ trình.") from exc
+    ok = mgr.clear_all(user_id=user_id)
     return {"cleared": ok, "user_id": current_user.id}
 
 

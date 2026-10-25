@@ -15,11 +15,12 @@ export async function GET(request: Request) {
   return Response.json(data, { status: res.status })
 }
 
-export async function DELETE() {
+export async function DELETE(request: Request) {
   const session = await getServerSession(authOptions)
   const token = (session as unknown as { accessToken?: string })?.accessToken || (session?.user as unknown as { accessToken?: string })?.accessToken
   if (!token) return Response.json({ detail: "Not authenticated" }, { status: 401 })
-  const res = await fetch(`${getBackendUrl()}/api/v1/memory`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } })
+  const qs = new URL(request.url).searchParams.toString()
+  const res = await fetch(`${getBackendUrl()}/api/v1/memory?${qs}`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } })
   const data = await res.json().catch(() => ({}))
   return Response.json(data, { status: res.status })
 }

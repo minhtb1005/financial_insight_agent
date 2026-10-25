@@ -6,11 +6,11 @@
       "title": "Ba cách chia lương",
       "file": "M1L1_scenes.json",
       "status": "draft_ready_for_review",
-      "scenes": 8,
-      "claimed_sec": 130,
-      "estimate_sec": 132.5,
+      "scenes": 12,
+      "claimed_sec": 131,
+      "estimate_sec": 130.6,
       "open_placeholders": 0,
-      "hand_tuned": false
+      "hand_tuned": true
     },
     {
       "lesson_id": "M1L2",

@@ -9,7 +9,7 @@ export const runtime = "nodejs"
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}))
   const query = body.query as string | undefined
-  if (!query || !query.trim()) {
+  if (typeof query !== "string" || !query.trim()) {
     return new Response(JSON.stringify({ detail: "Query rỗng" }), { status: 400, headers: { "Content-Type": "application/json" } })
   }
 
@@ -25,7 +25,8 @@ export async function POST(req: NextRequest) {
   const upstream = await fetch(target, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ query, activeChartSpec: body.activeChartSpec ?? null }),
+    body: JSON.stringify({ query, activeChartSpec: body.activeChartSpec ?? null, learning_context: body.learning_context ?? { track: "personal_finance" } }),
+    signal: req.signal,
   })
 
   if (!upstream.ok || !upstream.body) {
