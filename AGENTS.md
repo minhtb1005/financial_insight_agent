@@ -11,6 +11,10 @@ Repo này là trợ lý phân tích chứng khoán Việt Nam: LangGraph agent, 
 3. Sửa theo quy ước sẵn có, chạy kiểm tra phù hợp, ghi kết quả thực tế. Nếu thiếu API key, dịch vụ ngoài hoặc dữ liệu, ghi rõ **chưa xác minh đầy đủ** và lệnh cần chạy tiếp.
 4. Kết thúc bằng bản bàn giao: mục tiêu, file đổi, bằng chứng kiểm thử, giả định, rủi ro, việc còn mở và trạng thái working tree. Nếu tác vụ kéo dài nhiều phiên, cập nhật `WORKFLOW_STATE.md` local khi có và bàn giao ngắn trong PR.
 
+## Tài liệu đi kèm thay đổi code
+
+Trước khi sửa, đọc tài liệu và ví dụ liên quan trong `docs/`, `README`, hoặc ngay cạnh module. Nếu hành vi, API, kiến trúc, cấu hình hay cách vận hành thay đổi, cập nhật tài liệu trong cùng PR. Nếu không cần sửa tài liệu, ghi ngắn lý do trong phần bàn giao.
+
 ## WORKFLOW_STATE.md và compact
 
 `WORKFLOW_STATE.md` là ghi chú local, dài và không commit lên repo. Nếu file có trong working tree, đọc `AGENTS.md`, yêu cầu mới nhất rồi đọc phần trạng thái hiện hành và các mục liên quan của `WORKFLOW_STATE.md` trước khi tiếp tục việc cũ. Kiểm tra lại bằng code và `git status`; ghi chú lịch sử không thay thế yêu cầu mới. Nếu file không có trong clone, không tự coi tác vụ đã hoàn tất: đọc PR/commit và hỏi phần trạng thái còn thiếu chỉ khi nó thực sự chặn công việc.
