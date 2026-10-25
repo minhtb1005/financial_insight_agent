@@ -43,3 +43,6 @@ user_portfolio_default.json
 # Understand Anything graph artifacts (generated)
 .ua/
 .understand-anything/
+
+# Local agent session state (kept out of Git)
+/WORKFLOW_STATE.md
